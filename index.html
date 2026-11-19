@@ -1,0 +1,2842 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador App Rotas Rurais — Módulo Espírito Santo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rr-green: #186438;
+      --rr-green-dark: #104928;
+      --rr-green-light: #e6f4ec;
+      --rr-green-mid: #27804c;
+      --rr-gold: #e5a91a;
+      --rr-danger: #c62828;
+      --rr-danger-bg: #fdecea;
+      --rr-bg: #f4f7f5;
+      --rr-card: #ffffff;
+      --rr-text: #1a241e;
+      --rr-muted: #5c6b61;
+      --rr-border: #dce5df;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: radial-gradient(circle at 20% 20%, #f3f7f4 0%, #dfe8e2 100%);
+      color: var(--rr-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Studio Bar */
+    .studio-header {
+      background: #102a1b;
+      color: #ffffff;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+      flex-wrap: wrap;
+    }
+    .studio-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .studio-brand h1 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .studio-brand span {
+      font-size: 12px;
+      color: #a5d6b7;
+      display: block;
+    }
+    .studio-badges {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .badge-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      color: #e6f4ec;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    .badge-pill.accent {
+      background: var(--rr-green-mid);
+      border-color: #4caf73;
+      color: #fff;
+    }
+
+    /* Main Workspace Layout */
+    .workspace {
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 22px 20px 36px;
+      display: grid;
+      grid-template-columns: 315px 410px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1180px) {
+      .workspace {
+        grid-template-columns: 410px 1fr;
+      }
+      .panel-left {
+        grid-column: 1 / -1;
+        order: 3;
+      }
+    }
+    @media (max-width: 840px) {
+      .workspace {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+      .panel-left, .panel-right {
+        width: 100%;
+        max-width: 520px;
+      }
+    }
+
+    /* Side Panels */
+    .panel {
+      background: #ffffff;
+      border-radius: 16px;
+      border: 1px solid var(--rr-border);
+      box-shadow: 0 8px 24px rgba(16, 42, 27, 0.06);
+      overflow: hidden;
+    }
+    .panel-header {
+      padding: 14px 18px;
+      background: #f8fbf9;
+      border-bottom: 1px solid var(--rr-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .panel-header h2 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--rr-green-dark);
+    }
+    .panel-body {
+      padding: 16px 18px;
+    }
+
+    /* Proposal Switcher Box */
+    .proposal-box {
+      background: #f0f9f4;
+      border: 1.5px solid #9fd4b4;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    .proposal-box-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--rr-green-dark);
+      margin-bottom: 8px;
+    }
+    .proposal-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .proposal-tab {
+      padding: 8px 6px;
+      border-radius: 8px;
+      border: 1.5px solid #bddbc8;
+      background: #ffffff;
+      color: var(--rr-text);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .proposal-tab.active {
+      background: var(--rr-green);
+      border-color: var(--rr-green);
+      color: #ffffff;
+      box-shadow: 0 3px 8px rgba(24, 100, 56, 0.25);
+    }
+    .proposal-desc {
+      font-size: 11.5px;
+      color: #2c4a38;
+      line-height: 1.4;
+    }
+
+    /* Flow Nav List */
+    .flow-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .flow-btn {
+      width: 100%;
+      text-align: left;
+      background: #f8faf9;
+      border: 1px solid #e3eae5;
+      border-radius: 10px;
+      padding: 8px 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+    .flow-btn:hover {
+      background: var(--rr-green-light);
+      border-color: #a9d5ba;
+    }
+    .flow-btn.active {
+      background: var(--rr-green);
+      border-color: var(--rr-green);
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(24, 100, 56, 0.25);
+    }
+    .flow-num {
+      font-size: 11px;
+      font-weight: 700;
+      min-width: 28px;
+      height: 22px;
+      border-radius: 6px;
+      background: rgba(24, 100, 56, 0.12);
+      color: var(--rr-green-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .flow-btn.active .flow-num {
+      background: rgba(255,255,255,0.22);
+      color: #fff;
+    }
+    .flow-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .flow-sub {
+      font-size: 10.5px;
+      opacity: 0.78;
+      display: block;
+      font-weight: 400;
+    }
+
+    /* Environment Controls */
+    .env-group {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--rr-border);
+    }
+    .env-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--rr-muted);
+      margin-bottom: 8px;
+    }
+    .env-select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #cbd7cf;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--rr-text);
+      background: #fff;
+      margin-bottom: 10px;
+    }
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: #f6f9f7;
+      padding: 9px 11px;
+      border-radius: 9px;
+      border: 1px solid var(--rr-border);
+      margin-bottom: 10px;
+    }
+    .toggle-row label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--rr-text);
+      cursor: pointer;
+    }
+    .toggle-row small {
+      display: block;
+      font-size: 10.5px;
+      color: var(--rr-muted);
+      font-weight: 400;
+    }
+    .switch {
+      position: relative;
+      width: 40px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #c5d1c9;
+      border-radius: 22px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .slider::before {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 3px;
+      bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .switch input:checked + .slider { background: var(--rr-green); }
+    .switch input:checked + .slider::before { transform: translateX(18px); }
+    .btn-reset {
+      width: 100%;
+      padding: 9px;
+      border-radius: 9px;
+      border: 1px solid #cbd7cf;
+      background: #fff;
+      color: var(--rr-text);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .btn-reset:hover {
+      background: #f0f5f2;
+      border-color: var(--rr-green);
+      color: var(--rr-green);
+    }
+
+    /* =============================================
+       SAMSUNG GALAXY A07 DEVICE FRAME
+       ============================================= */
+    .phone-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .device-caption {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--rr-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .device-caption .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+    }
+
+    .galaxy-a07 {
+      position: relative;
+      width: 382px;
+      height: 808px;
+      background: linear-gradient(145deg, #2b2e33 0%, #17191c 50%, #0f1113 100%);
+      border-radius: 44px;
+      padding: 13px 11px 22px 11px;
+      box-shadow:
+        0 28px 60px rgba(10, 24, 16, 0.35),
+        0 6px 18px rgba(0, 0, 0, 0.22),
+        inset 0 0 0 2px #3b4047,
+        inset 0 0 0 4px #121417;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    .hw-btn {
+      position: absolute;
+      right: -4px;
+      width: 4px;
+      background: linear-gradient(180deg, #3c4149, #1d2024);
+      border-radius: 0 3px 3px 0;
+    }
+    .hw-vol { top: 155px; height: 88px; }
+    .hw-power { top: 266px; height: 50px; cursor: pointer; }
+    .hw-power:hover { background: #4e5661; }
+
+    .a07-earpiece {
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 56px;
+      height: 3.5px;
+      background: #2d3138;
+      border-radius: 4px;
+      z-index: 20;
+    }
+
+    .a07-screen {
+      flex: 1;
+      background: var(--rr-bg);
+      border-radius: 30px 30px 26px 26px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4);
+    }
+
+    .a07-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 34px;
+      height: 24px;
+      background: #121417;
+      border-radius: 0 0 18px 18px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 3px;
+    }
+    .a07-camera-lens {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #374a66 0%, #0d131c 65%, #000 100%);
+      box-shadow: inset 0 0 2px rgba(255,255,255,0.25);
+    }
+
+    .android-status {
+      height: 28px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 600;
+      background: var(--rr-green-dark);
+      color: #ffffff;
+      z-index: 40;
+      flex-shrink: 0;
+    }
+    .status-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10.5px;
+    }
+
+    .app-viewport {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+      background: var(--rr-bg);
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: thin;
+    }
+    .app-viewport::-webkit-scrollbar { width: 4px; }
+    .app-viewport::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); border-radius: 4px; }
+
+    .android-navbar {
+      height: 42px;
+      background: #ffffff;
+      border-top: 1px solid #e5ece7;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-shrink: 0;
+      z-index: 40;
+    }
+    .nav-btn {
+      background: none;
+      border: none;
+      width: 56px;
+      height: 36px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #4b5563;
+      transition: background 0.15s;
+    }
+    .nav-btn:hover { background: #edf2ef; color: #111827; }
+    .nav-btn:active { transform: scale(0.92); }
+
+    /* =============================================
+       IN-APP UI COMPONENTS
+       ============================================= */
+    .screen {
+      display: none;
+      flex-direction: column;
+      min-height: 100%;
+      animation: fadeIn 0.2s ease;
+    }
+    .screen.active { display: flex; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .app-topbar {
+      background: var(--rr-green);
+      color: #fff;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .app-topbar h3 { font-size: 15px; font-weight: 700; flex: 1; }
+    .icon-btn {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .icon-btn:hover { background: rgba(255,255,255,0.28); }
+
+    .screen-pad {
+      padding: 16px 16px 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Buttons */
+    .btn {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 12px;
+      border: none;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.15s;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary {
+      background: var(--rr-green);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(24, 100, 56, 0.25);
+    }
+    .btn-primary:hover { background: var(--rr-green-dark); }
+    .btn-secondary {
+      background: var(--rr-green-light);
+      color: var(--rr-green-dark);
+      border: 1px solid #b8dec6;
+    }
+    .btn-secondary:hover { background: #d5ecde; }
+    .btn-outline {
+      background: #fff;
+      color: var(--rr-text);
+      border: 1.5px solid #cbd7cf;
+    }
+    .btn-outline:hover { border-color: var(--rr-green); color: var(--rr-green); }
+    .btn-danger { background: var(--rr-danger); color: #fff; }
+    .btn-danger-outline {
+      background: var(--rr-danger-bg);
+      color: var(--rr-danger);
+      border: 1px solid #f5c2c0;
+    }
+    .btn-link {
+      background: none;
+      border: none;
+      color: var(--rr-green);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px;
+    }
+    .btn-link:hover { text-decoration: underline; }
+
+    /* Form Controls */
+    .form-group { margin-bottom: 12px; }
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 5px;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1.5px solid #cfd9d2;
+      font-family: inherit;
+      font-size: 13.5px;
+      background: #fff;
+      color: var(--rr-text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .form-input:focus, .form-select:focus {
+      border-color: var(--rr-green);
+      box-shadow: 0 0 0 3px rgba(24, 100, 56, 0.12);
+    }
+
+    .check-box-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 10px 0 14px;
+    }
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 12px;
+      color: #2c3a31;
+      line-height: 1.38;
+      cursor: pointer;
+      background: #fff;
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--rr-border);
+    }
+    .check-item input {
+      margin-top: 2px;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--rr-green);
+      flex-shrink: 0;
+    }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border: 1px solid var(--rr-border);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 2px 8px rgba(16, 42, 27, 0.04);
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(160deg, #13522d 0%, #1e7a44 100%);
+      padding: 20px 18px 30px;
+      text-align: center;
+      color: #fff;
+      position: relative;
+    }
+    .hero-logo-circle {
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      background: #fff;
+      margin: 0 auto 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      border: 3px solid #66c289;
+    }
+    .hero-sheet {
+      background: var(--rr-bg);
+      border-radius: 24px 24px 0 0;
+      margin-top: -18px;
+      padding: 20px 16px 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Tutorial Card */
+    .tut-card {
+      background: #fff;
+      border: 1px solid var(--rr-border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .tut-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+    }
+    .tut-step + .tut-step { border-top: 1px solid #eef3f0; }
+    .tut-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      background: var(--rr-green-light);
+      color: var(--rr-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .tut-step h4 { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .tut-step p { font-size: 11.5px; color: var(--rr-muted); line-height: 1.38; }
+
+    /* ES Home Header */
+    .es-header {
+      background: var(--rr-green);
+      color: #fff;
+      padding: 12px 16px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .es-badge-pill {
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.28);
+      color: #fff;
+      border-radius: 12px;
+      padding: 6px 11px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    /* Property List Card */
+    .prop-card {
+      background: #fff;
+      border: 1.5px solid var(--rr-border);
+      border-radius: 14px;
+      padding: 13px 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .prop-card:hover {
+      border-color: var(--rr-green);
+      box-shadow: 0 4px 12px rgba(24, 100, 56, 0.1);
+    }
+    .prop-pin {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--rr-green-light);
+      color: var(--rr-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .prop-info { flex: 1; min-width: 0; }
+    .prop-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--rr-text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .prop-erd {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--rr-green);
+      margin-top: 2px;
+    }
+    .prop-meta {
+      font-size: 11px;
+      color: var(--rr-muted);
+      margin-top: 3px;
+    }
+    .status-chip {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      display: inline-block;
+    }
+    .status-chip.ok { background: #dcfce7; color: #166534; }
+    .status-chip.pending { background: #fef3c7; color: #92400e; }
+
+    /* Interactive Satellite Map Widget */
+    .map-box {
+      position: relative;
+      width: 100%;
+      height: 255px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid #b9cdc0;
+      background: #3d5a3c;
+      cursor: default;
+      box-shadow: inset 0 0 24px rgba(0,0,0,0.25);
+    }
+    .map-box.editing {
+      cursor: crosshair;
+      border-color: var(--rr-gold);
+      box-shadow: 0 0 0 3px rgba(229, 169, 26, 0.3);
+    }
+    .map-overlay-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(16, 42, 27, 0.86);
+      color: #fff;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 5px 9px;
+      border-radius: 8px;
+      backdrop-filter: blur(4px);
+      pointer-events: none;
+    }
+    .map-erd-pill {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.94);
+      padding: 7px 10px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      pointer-events: none;
+    }
+    .map-erd-pill code {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--rr-green-dark);
+      font-size: 12px;
+    }
+
+    /* Camera Capture Box */
+    .camera-box {
+      background: #111827;
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+      height: 205px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      margin-bottom: 12px;
+      border: 2px solid #2d3748;
+    }
+    .camera-frame {
+      position: absolute;
+      inset: 16px;
+      border: 2px dashed rgba(255,255,255,0.45);
+      border-radius: 10px;
+      pointer-events: none;
+    }
+    .shutter-btn {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #fff;
+      border: 4px solid rgba(255,255,255,0.4);
+      cursor: pointer;
+      position: relative;
+      z-index: 3;
+      transition: transform 0.12s;
+    }
+    .shutter-btn:active { transform: scale(0.9); }
+
+    /* Signature Pad */
+    .sig-wrapper {
+      background: #ffffff;
+      border: 1.5px dashed #8eb69e;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 10px;
+    }
+    .sig-canvas {
+      width: 100%;
+      height: 135px;
+      display: block;
+      cursor: crosshair;
+      touch-action: none;
+    }
+    .sig-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #94a3b8;
+      pointer-events: none;
+    }
+    .sig-line {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 24px;
+      border-bottom: 1px solid #cbd5e1;
+      pointer-events: none;
+    }
+    .termo-document {
+      background: #ffffff;
+      border: 1px solid #cfd9d2;
+      border-radius: 12px;
+      padding: 15px 14px;
+      font-size: 12.5px;
+      line-height: 1.58;
+      color: #1f2937;
+      margin-bottom: 14px;
+      box-shadow: inset 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .termo-document p + p {
+      margin-top: 10px;
+    }
+
+    /* Modal Sheet inside Phone */
+    .phone-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.58);
+      z-index: 80;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 12px;
+      backdrop-filter: blur(2px);
+    }
+    .phone-modal-backdrop.open { display: flex; }
+    .phone-modal {
+      background: #fff;
+      width: 100%;
+      border-radius: 20px;
+      padding: 18px 16px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.28);
+      animation: slideUp 0.2s ease;
+      max-height: 85%;
+      overflow-y: auto;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(24px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Toast inside Phone */
+    .phone-toast {
+      position: absolute;
+      bottom: 54px;
+      left: 16px;
+      right: 16px;
+      background: #102a1b;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.28);
+      z-index: 90;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: all 0.22s ease;
+      text-align: center;
+    }
+    .phone-toast.show { opacity: 1; transform: translateY(0); }
+
+    /* Dev Spec Panel (Right Column) */
+    .spec-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--rr-green-light);
+      color: var(--rr-green-dark);
+      margin-bottom: 8px;
+    }
+    .spec-title { font-size: 17px; font-weight: 800; margin-bottom: 6px; color: var(--rr-text); }
+    .spec-desc { font-size: 13px; color: var(--rr-muted); line-height: 1.5; margin-bottom: 14px; }
+    .spec-section-title {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--rr-green-dark);
+      margin: 14px 0 7px;
+    }
+    .spec-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .spec-list li {
+      font-size: 12.5px;
+      line-height: 1.45;
+      padding: 7px 10px;
+      background: #f7faf8;
+      border-left: 3px solid var(--rr-green);
+      border-radius: 0 8px 8px 0;
+      color: #243329;
+    }
+    .spec-list li.warn { background: #fff8eb; border-left-color: var(--rr-gold); }
+    .spec-list li.critical { background: var(--rr-danger-bg); border-left-color: var(--rr-danger); }
+    .code-box {
+      background: #111b15;
+      color: #a7f3d0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1.5;
+      padding: 12px;
+      border-radius: 10px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      margin-top: 6px;
+    }
+
+    .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .mini-chip {
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--rr-green-light);
+      color: var(--rr-green-dark);
+      border: 1px solid #b7dcc4;
+      border-radius: 8px;
+      padding: 5px 8px;
+      cursor: pointer;
+    }
+    .mini-chip:hover { background: #ccebd7; }
+
+    .sp-icon-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+      margin: 22px 0;
+      text-align: center;
+    }
+    .sp-icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      color: #555;
+      cursor: pointer;
+      padding: 6px 2px;
+      border-radius: 8px;
+    }
+    .sp-icon-item:hover { background: #eef3f0; }
+
+    .divider-text {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11.5px;
+      color: var(--rr-muted);
+      margin: 14px 0;
+    }
+    .divider-text::before, .divider-text::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--rr-border);
+    }
+
+    .alert-box {
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      margin-bottom: 12px;
+    }
+    .alert-box.danger { background: var(--rr-danger-bg); border: 1px solid #f5c2c0; color: #8e1c1c; }
+    .alert-box.info { background: #eef6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+    .alert-box.success { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
+  </style>
+</head>
+<body>
+
+  <!-- STUDIO HEADER -->
+  <header class="studio-header">
+    <div class="studio-brand">
+      <svg width="34" height="34" viewBox="0 0 100 100" fill="none" aria-label="Logo Rotas Rurais">
+        <circle cx="50" cy="50" r="48" fill="#ffffff"/>
+        <path d="M50 14C37.8 14 28 23.8 28 36C28 51.5 50 69 50 69C50 69 72 51.5 72 36C72 23.8 62.2 14 50 14ZM50 43.5C45.8 43.5 42.5 40.2 42.5 36C42.5 31.8 45.8 28.5 50 28.5C54.2 28.5 57.5 31.8 57.5 36C57.5 40.2 54.2 43.5 50 43.5Z" fill="#186438"/>
+        <path d="M18 66C29 66 40 71 49 80C39 84 26 80 18 66Z" fill="#186438"/>
+        <path d="M82 66C71 66 59 71 50 82C61 85 74 80 82 66Z" fill="#186438"/>
+      </svg>
+      <div>
+        <h1>Simulador Interativo — Novo App Rotas Rurais</h1>
+        <span>Protótipo funcional para desenvolvedores e coordenação • Foco: Módulo Espírito Santo</span>
+      </div>
+    </div>
+    <div class="studio-badges">
+      <span class="badge-pill">Samsung Galaxy A07 • 6.7" Infinity-U</span>
+      <span class="badge-pill accent" id="headerProposalBadge">Proposta ativa: FORMA 1</span>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="workspace">
+
+    <!-- LEFT PANEL: PROPOSALS, FLOW NAVIGATION & SIMULATOR CONTROLS -->
+    <aside class="panel panel-left">
+      <div class="panel-header">
+        <h2>Controles do Simulador</h2>
+        <span style="font-size:11px; color:var(--rr-muted); font-weight:600;">Apresentação</span>
+      </div>
+      <div class="panel-body">
+
+        <!-- SELETOR DE PROPOSTA PARA A COORDENAÇÃO -->
+        <div class="proposal-box">
+          <div class="proposal-box-title">Registro de Propriedade — Escolha da Coordenação</div>
+          <div class="proposal-tabs">
+            <button class="proposal-tab active" id="tabForma1" onclick="setProposal('forma1')">FORMA 1</button>
+            <button class="proposal-tab" id="tabForma2" onclick="setProposal('forma2')">FORMA 2</button>
+          </div>
+          <div class="proposal-desc" id="proposalDesc">
+            <strong>Forma 1:</strong> Não exige estar dentro da propriedade. Usuário escolhe entre registrar pela localização ou buscar pelo código CAR.
+          </div>
+        </div>
+
+        <div class="flow-list" id="flowList">
+          <button class="flow-btn active" data-screen="onboarding" onclick="goTo('onboarding')">
+            <span class="flow-num">1</span>
+            <span class="flow-label">Abertura inicial<span class="flow-sub">Apresentação e Como Funciona</span></span>
+          </button>
+          <button class="flow-btn" data-screen="login" onclick="goTo('login')">
+            <span class="flow-num">2</span>
+            <span class="flow-label">Login e Cadastro<span class="flow-sub">CPF, senha, município/mapa e aceites</span></span>
+          </button>
+          <button class="flow-btn" data-screen="sp-legacy" onclick="goTo('sp-legacy')">
+            <span class="flow-num">3.1</span>
+            <span class="flow-label">Módulo São Paulo<span class="flow-sub">Mantido como está hoje</span></span>
+          </button>
+          <button class="flow-btn" data-screen="es-home" onclick="goTo('es-home')">
+            <span class="flow-num">3.2</span>
+            <span class="flow-label">Módulo Espírito Santo<span class="flow-sub">Home, propriedades e ajuda</span></span>
+          </button>
+          <button class="flow-btn" data-screen="es-register-entry" onclick="openRegistrarPropriedade()">
+            <span class="flow-num">4</span>
+            <span class="flow-label">Registrar Propriedade<span class="flow-sub" id="navRegSub">Abre fluxo da Forma 1</span></span>
+          </button>
+          <button class="flow-btn" data-screen="es-map-confirm" onclick="goTo('es-map-confirm')">
+            <span class="flow-num">5</span>
+            <span class="flow-label">Mapa e Porteira<span class="flow-sub">Confirmar ou corrigir localização</span></span>
+          </button>
+          <button class="flow-btn" data-screen="es-lgpd" onclick="goTo('es-lgpd')">
+            <span class="flow-num">6</span>
+            <span class="flow-label">Termo LGPD e Assinatura<span class="flow-sub">Página própria com assinatura digital</span></span>
+          </button>
+          <button class="flow-btn" data-screen="es-help" onclick="goTo('es-help')">
+            <span class="flow-num">7</span>
+            <span class="flow-label">Ajuda e Suporte<span class="flow-sub">Dúvidas frequentes e atendimento</span></span>
+          </button>
+        </div>
+
+        <div class="env-group">
+          <div class="env-title">Cenário Simulado</div>
+
+          <label style="font-size:11.5px; font-weight:600; display:block; margin-bottom:4px;">Estado do cadastro no Login</label>
+          <select class="env-select" id="simUserState" onchange="updateEnv()">
+            <option value="ES" selected>Espírito Santo — Domingos Martins</option>
+            <option value="SP">São Paulo — Itu</option>
+            <option value="MG">Minas Gerais — Fora da área atendida</option>
+          </select>
+
+          <div class="toggle-row">
+            <label for="simAtProperty">
+              GPS dentro da propriedade?
+              <small id="simAtPropertyHint">Sim — dentro do perímetro do CAR</small>
+            </label>
+            <label class="switch">
+              <input type="checkbox" id="simAtProperty" checked onchange="updateEnv()">
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <button class="btn-reset" onclick="resetSimulator()">↺ Reiniciar Simulação</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER STAGE: SAMSUNG GALAXY A07 -->
+    <section class="phone-stage">
+      <div class="device-caption">
+        <span class="dot"></span>
+        Samsung Galaxy A07 • Android One UI • 360×780dp
+      </div>
+
+      <div class="galaxy-a07">
+        <div class="a07-earpiece"></div>
+        <div class="hw-btn hw-vol" title="Volume"></div>
+        <div class="hw-btn hw-power" title="Botão Power" onclick="goTo('onboarding')"></div>
+
+        <div class="a07-screen">
+          <!-- Infinity-U Notch -->
+          <div class="a07-notch">
+            <div class="a07-camera-lens"></div>
+          </div>
+
+          <!-- Android Status Bar -->
+          <div class="android-status">
+            <span>12:00</span>
+            <div class="status-right">
+              <span>4G</span>
+              <svg width="13" height="11" viewBox="0 0 16 12" fill="currentColor"><rect x="1" y="8" width="2.5" height="4" rx="0.5"/><rect x="5" y="5.5" width="2.5" height="6.5" rx="0.5"/><rect x="9" y="3" width="2.5" height="9" rx="0.5"/><rect x="13" y="0.5" width="2.5" height="11.5" rx="0.5"/></svg>
+              <span>84%</span>
+              <svg width="16" height="10" viewBox="0 0 22 12" fill="none"><rect x="1" y="1" width="17" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="3" width="12" height="6" rx="1" fill="currentColor"/><rect x="19" y="4" width="2" height="4" rx="0.5" fill="currentColor"/></svg>
+            </div>
+          </div>
+
+          <!-- APP VIEWPORT -->
+          <div class="app-viewport" id="appViewport">
+
+            <!-- ==========================================
+                 SCREEN 1: ABERTURA INICIAL
+                 ========================================== -->
+            <div class="screen active" id="screen-onboarding">
+              <div class="hero-banner">
+                <div class="hero-logo-circle">
+                  <svg width="54" height="54" viewBox="0 0 100 100" fill="none">
+                    <path d="M50 10C36 10 25 21 25 35C25 53 50 72 50 72C50 72 75 53 75 35C75 21 64 10 50 10ZM50 43.5C45.3 43.5 41.5 39.7 41.5 35C41.5 30.3 45.3 26.5 50 26.5C54.7 26.5 58.5 30.3 58.5 35C58.5 39.7 54.7 43.5 50 43.5Z" fill="#186438"/>
+                    <path d="M12 68C25 68 38 74 48 85C36 90 21 85 12 68Z" fill="#186438"/>
+                    <path d="M88 68C75 68 61 74 51 87C64 90 79 85 88 68Z" fill="#186438"/>
+                  </svg>
+                </div>
+                <div style="font-size:19px; font-weight:800; letter-spacing:0.02em;">ROTAS RURAIS</div>
+                <div style="font-size:11.5px; opacity:0.9; margin-top:2px;">Endereço Rural Digital</div>
+              </div>
+
+              <div class="hero-sheet">
+                <p style="font-size:12.5px; color:#223027; line-height:1.5; margin-bottom:9px;">
+                  O <strong>Rotas Rurais</strong> leva endereço a quem vive no campo! Com ele, sua propriedade passa a ter um endereço exclusivo, facilitando o recebimento de encomendas, entregas, correspondências e o acesso a serviços de saúde, segurança e atendimento público.
+                </p>
+                <p style="font-size:12.5px; color:#223027; line-height:1.5; margin-bottom:13px;">
+                  Mais facilidade para encontrar sua casa, mais agilidade nos atendimentos e mais qualidade de vida para você e sua família.
+                </p>
+
+                <div class="tut-card">
+                  <div style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.04em; color:var(--rr-green); margin-bottom:4px;">
+                    COMO FUNCIONA
+                  </div>
+                  <div class="tut-step">
+                    <div class="tut-icon">1</div>
+                    <div>
+                      <h4>Encontre sua propriedade</h4>
+                      <p>Através da sua localização ou do código CAR</p>
+                    </div>
+                  </div>
+                  <div class="tut-step">
+                    <div class="tut-icon">2</div>
+                    <div>
+                      <h4>Confirme sua porteira no mapa</h4>
+                      <p>Verifique se seu endereço está correto e tire uma foto da porteira</p>
+                    </div>
+                  </div>
+                  <div class="tut-step">
+                    <div class="tut-icon">3</div>
+                    <div>
+                      <h4>Receba seu Endereço Rural Digital</h4>
+                      <p>Ele funciona no Google Maps e qualquer pessoa conseguirá chegar na sua casa</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div style="margin-top:auto;">
+                  <button class="btn btn-primary" onclick="goTo('login')">CONTINUAR →</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SCREEN 2: LOGIN
+                 ========================================== -->
+            <div class="screen" id="screen-login">
+              <div class="hero-banner" style="padding:18px 18px 28px;">
+                <div class="hero-logo-circle" style="width:72px; height:72px; margin-bottom:8px;">
+                  <svg width="44" height="44" viewBox="0 0 100 100" fill="none">
+                    <path d="M50 10C36 10 25 21 25 35C25 53 50 72 50 72C50 72 75 53 75 35C75 21 64 10 50 10ZM50 43.5C45.3 43.5 41.5 39.7 41.5 35C41.5 30.3 45.3 26.5 50 26.5C54.7 26.5 58.5 30.3 58.5 35C58.5 39.7 54.7 43.5 50 43.5Z" fill="#186438"/>
+                    <path d="M12 68C25 68 38 74 48 85C36 90 21 85 12 68Z" fill="#186438"/>
+                    <path d="M88 68C75 68 61 74 51 87C64 90 79 85 88 68Z" fill="#186438"/>
+                  </svg>
+                </div>
+                <div style="font-size:16px; font-weight:800;">Acesse sua conta</div>
+              </div>
+
+              <div class="hero-sheet">
+                <div class="form-group">
+                  <label class="form-label">CPF</label>
+                  <input type="text" class="form-input" id="loginCpf" placeholder="000.000.000-00" value="123.456.789-00" oninput="maskCpf(this)">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Senha</label>
+                  <input type="password" class="form-input" id="loginPass" placeholder="Digite sua senha" value="••••••••">
+                </div>
+
+                <button class="btn btn-primary" onclick="doLogin()">ENTRAR</button>
+
+                <div style="text-align:center; margin-top:10px;">
+                  <button class="btn-link" onclick="goTo('forgot-password')">ESQUECI A SENHA</button>
+                </div>
+
+                <div class="divider-text">Ainda não tem conta?</div>
+
+                <button class="btn btn-secondary" onclick="goTo('register')">CRIAR CADASTRO</button>
+
+                <p style="font-size:11px; color:var(--rr-muted); text-align:center; margin-top:auto; padding-top:16px; line-height:1.4;">
+                  O módulo do seu estado será aberto automaticamente conforme o endereço do seu cadastro.
+                </p>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SCREEN 2b: ESQUECI A SENHA
+                 ========================================== -->
+            <div class="screen" id="screen-forgot-password">
+              <div class="app-topbar">
+                <button class="icon-btn" onclick="goBack()">←</button>
+                <h3>Recuperar Senha</h3>
+              </div>
+              <div class="screen-pad">
+                <p style="font-size:13px; color:var(--rr-muted); margin-bottom:16px; line-height:1.5;">
+                  Informe seu CPF cadastrado para enviarmos as instruções de redefinição de senha.
+                </p>
+                <div class="form-group">
+                  <label class="form-label">Informe o CPF *</label>
+                  <input type="text" class="form-input" id="forgotCpf" placeholder="000.000.000-00" value="123.456.789-00" oninput="maskCpf(this)">
+                </div>
+                <button class="btn btn-primary" onclick="sendRecovery()">ENVIAR CONFIRMAÇÃO</button>
+
+                <div id="forgotResult" class="alert-box success" style="display:none; margin-top:16px;">
+                  <strong>✓ E-mail enviado!</strong><br>
+                  Um e-mail de confirmação foi enviado para <strong>rot***ais@gmail.com</strong>. Verifique sua caixa de entrada ou spam.
+                </div>
+
+                <div style="margin-top:auto;">
+                  <button class="btn btn-outline" onclick="goTo('login')">Voltar para Login</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SCREEN 2c: CRIAR CADASTRO
+                 ========================================== -->
+            <div class="screen" id="screen-register">
+              <div class="app-topbar">
+                <button class="icon-btn" onclick="goBack()">←</button>
+                <h3>Criar Cadastro</h3>
+              </div>
+              <div class="screen-pad">
+                <div class="form-group">
+                  <label class="form-label">Nome completo *</label>
+                  <input type="text" class="form-input" id="regName" placeholder="Digite seu nome completo" value="João Carlos da Silva">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">CPF *</label>
+                  <input type="text" class="form-input" id="regCpf" placeholder="000.000.000-00" value="123.456.789-00" oninput="maskCpf(this)">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">E-mail *</label>
+                  <input type="email" class="form-input" id="regEmail" placeholder="seuemail@exemplo.com" value="joao.silva@email.com">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Telefone *</label>
+                  <input type="tel" class="form-input" id="regPhone" placeholder="27 99999-0000" value="27 99812-4450">
+                </div>
+
+                <!-- MORADIA: LISTA SUSPENSA OU MAPA -->
+                <div class="card" style="background:#f8fbf9; margin-bottom:12px; padding:12px;">
+                  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                    <span style="font-size:12px; font-weight:700; color:var(--rr-green-dark);">Moradia *</span>
+                    <button type="button" class="mini-chip" onclick="openRegMapPicker()">📍 Localizar no mapa</button>
+                  </div>
+
+                  <div style="display:grid; grid-template-columns:92px 1fr; gap:8px;">
+                    <div>
+                      <label class="form-label" style="font-size:11px;">Estado</label>
+                      <select class="form-select" id="regState" onchange="populateCitiesForState()" style="padding:9px 8px; font-size:13px;">
+                        <option value="ES" selected>ES</option>
+                        <option value="SP">SP</option>
+                        <option value="MG">MG</option>
+                        <option value="RJ">RJ</option>
+                        <option value="BA">BA</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="form-label" style="font-size:11px;">Município</label>
+                      <select class="form-select" id="regCitySelect" style="padding:9px 8px; font-size:13px;">
+                        <!-- Populated by JS -->
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Senha *</label>
+                  <input type="password" class="form-input" id="regPass" placeholder="Crie uma senha" value="12345678">
+                </div>
+
+                <!-- CHECKBOXES DE PRIVACIDADE E CONTATO -->
+                <div class="check-box-group">
+                  <label class="check-item">
+                    <input type="checkbox" id="chkTerms" checked>
+                    <span>Concordo com a <strong>Política de Privacidade</strong> e os <strong>Termos de Uso</strong> *</span>
+                  </label>
+                  <label class="check-item">
+                    <input type="checkbox" id="chkContactEmail" checked>
+                    <span>Autorizo o Programa Rotas Rurais entrar em contato via <strong>e-mail</strong></span>
+                  </label>
+                  <label class="check-item">
+                    <input type="checkbox" id="chkContactPhone" checked>
+                    <span>Autorizo o Programa Rotas Rurais entrar em contato via <strong>telefone</strong></span>
+                  </label>
+                </div>
+
+                <button class="btn btn-primary" onclick="doRegister()">CONCLUIR CADASTRO</button>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SCREEN: REGIÃO INDISPONÍVEL
+                 ========================================== -->
+            <div class="screen" id="screen-unavailable">
+              <div class="app-topbar" style="background:#991b1b;">
+                <button class="icon-btn" onclick="goTo('login')">←</button>
+                <h3>Região Indisponível</h3>
+              </div>
+              <div class="screen-pad" style="text-align:center;">
+                <div style="width:68px; height:68px; border-radius:50%; background:var(--rr-danger-bg); color:var(--rr-danger); margin:12px auto 14px; display:flex; align-items:center; justify-content:center; font-size:30px;">
+                  🗺️
+                </div>
+                <h2 style="font-size:16px; font-weight:800; color:var(--rr-danger); text-transform:uppercase; line-height:1.35; margin-bottom:10px;">
+                  Infelizmente o Rotas Rurais ainda não está disponível em sua região
+                </h2>
+                <p style="font-size:12.5px; color:var(--rr-muted); line-height:1.5; margin-bottom:18px;">
+                  O endereço informado no seu cadastro está fora dos estados participantes. Você pode registrar seu interesse para levarmos o programa ao seu estado.
+                </p>
+
+                <div id="interestDoneBox" class="alert-box success" style="display:none; text-align:left;">
+                  <strong>✓ Interesse registrado!</strong><br>
+                  Obrigado! Sua solicitação foi enviada à equipe do Programa Rotas Rurais.
+                </div>
+
+                <button class="btn btn-danger" id="btnShowInterest" onclick="submitInterest()">
+                  MANIFESTAR INTERESSE
+                </button>
+
+                <div style="margin-top:auto; padding-top:16px;">
+                  <button class="btn btn-outline" onclick="goTo('login')">Voltar ao Login</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SCREEN 3.1: MÓDULO SÃO PAULO LEGADO
+                 ========================================== -->
+            <div class="screen" id="screen-sp-legacy">
+              <div class="app-topbar" style="background:#00693e; justify-content:center;">
+                <h3 style="text-align:center; flex:none;">Perfil</h3>
+              </div>
+              <div class="screen-pad" style="background:#fff; align-items:center;">
+                <div class="alert-box info" style="width:100%; font-size:11.5px; margin-bottom:16px;">
+                  <strong>Módulo São Paulo:</strong> mantido exatamente como está hoje. Aberto automaticamente porque o cadastro do usuário é de SP.
+                </div>
+
+                <div style="width:108px; height:108px; border-radius:50%; background:#bdbdbd; border:4px solid #f4c430; display:flex; align-items:center; justify-content:center; color:#fff; font-size:38px; margin-top:4px;">
+                  👤
+                </div>
+                <div style="font-size:14px; font-weight:700; margin-top:8px;" id="spUserName">João Carlos da Silva</div>
+
+                <div class="sp-icon-grid" style="width:100%;">
+                  <div class="sp-icon-item" onclick="showToast('Mapa SP')"><span style="font-size:20px;">🗺️</span><span>Mapa</span></div>
+                  <div class="sp-icon-item" onclick="showToast('Editar dados')"><span style="font-size:20px;">✏️</span><span>Editar</span></div>
+                  <div class="sp-icon-item" onclick="showToast('Contato SP')"><span style="font-size:20px;">💬</span><span>Contato</span></div>
+                  <div class="sp-icon-item" onclick="showToast('Notificações SP')"><span style="font-size:20px;">🔔</span><span>Avisos</span></div>
+                  <div class="sp-icon-item" onclick="goTo('login')"><span style="font-size:20px;">🚪</span><span>Sair</span></div>
+                </div>
+
+                <button class="btn btn-primary" style="background:#00693e;" onclick="showToast('Fluxo legado de São Paulo sem alterações nesta etapa')">
+                  Cadastrar Minha Propriedade
+                </button>
+
+                <div style="margin-top:auto; width:100%; padding-top:20px;">
+                  <button class="btn btn-outline" onclick="goTo('es-home')">Visualizar Módulo Espírito Santo →</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SCREEN 3.2: ROTAS ES — HOME
+                 ========================================== -->
+            <div class="screen" id="screen-es-home">
+              <div class="es-header">
+                <div class="es-badge-pill">
+                  <svg width="18" height="22" viewBox="0 0 60 75" fill="none">
+                    <path d="M22 6L38 9L45 19L42 33L36 47L33 61L24 69L14 62L16 49L12 37L17 24L22 6Z" fill="rgba(255,255,255,0.25)" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"/>
+                  </svg>
+                  <span>ES</span>
+                </div>
+                <div style="text-align:center;">
+                  <div style="font-size:13px; font-weight:800; letter-spacing:0.02em;">ROTAS RURAIS</div>
+                  <div style="font-size:10px; opacity:0.85;">Espírito Santo</div>
+                </div>
+                <button class="icon-btn" onclick="openProfileModal()" title="Perfil">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                </button>
+              </div>
+
+              <div class="screen-pad">
+                <button class="btn btn-primary" style="padding:15px; font-size:14.5px; margin-bottom:18px;" onclick="openRegistrarPropriedade()">
+                  <span style="font-size:18px;">＋</span> REGISTRAR PROPRIEDADE
+                </button>
+
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                  <span style="font-size:12px; font-weight:800; letter-spacing:0.05em; color:var(--rr-green-dark);">MINHAS PROPRIEDADES</span>
+                  <span id="propCountBadge" style="font-size:11px; font-weight:700; color:var(--rr-muted);">1 imóvel</span>
+                </div>
+
+                <div id="propertiesList"></div>
+
+                <div style="margin-top:auto; padding-top:14px;">
+                  <button class="btn btn-outline" style="justify-content:flex-start; padding:13px 16px;" onclick="goTo('es-help')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--rr-green)" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+                    <span>AJUDA</span>
+                    <span style="margin-left:auto; font-size:12px; color:var(--rr-muted); font-weight:500;">Dúvidas e suporte →</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SCREEN 4a: BUSCA MANUAL POR CAR — FORMA 1
+                 ========================================== -->
+            <div class="screen" id="screen-es-manual-car">
+              <div class="app-topbar">
+                <button class="icon-btn" onclick="goTo('es-home')">←</button>
+                <h3>Buscar por Código CAR</h3>
+              </div>
+              <div class="screen-pad">
+                <div class="alert-box info" style="font-size:12px;">
+                  Digite o código do Cadastro Ambiental Rural da sua propriedade para visualizar a porteira no mapa.
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Código CAR da propriedade *</label>
+                  <input type="text" class="form-input" id="carInput" placeholder="ES-3201902-XXXXXXXXXXXXXXXXXXXX" style="font-family:'JetBrains Mono', monospace; font-size:12px;">
+                  <div class="chip-row">
+                    <button type="button" class="mini-chip" onclick="fillSampleCar('carInput', 'ES-3201902-7F2A91B4C8E04D12', 'Domingos Martins', '586H 9Q4+QH')">CAR Exemplo 1</button>
+                    <button type="button" class="mini-chip" onclick="fillSampleCar('carInput', 'ES-3205002-3C8B12E9A4F10D55', 'Santa Teresa', '587J 2M8+RF')">CAR Exemplo 2</button>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="searchCarForma1()">BUSCAR NO MAPA</button>
+
+                <div class="divider-text">ou</div>
+
+                <button class="btn btn-secondary" onclick="startGpsFlowForma1()">
+                  📍 Usar minha localização atual
+                </button>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SCREEN 4b: FORMA 2 — PESQUISAR CAR + VALIDAR GPS DENTRO DO CAR
+                 ========================================== -->
+            <div class="screen" id="screen-es-forma2-car">
+              <div class="app-topbar">
+                <button class="icon-btn" onclick="goTo('es-home')">←</button>
+                <h3>Registrar Propriedade</h3>
+              </div>
+              <div class="screen-pad">
+                <p style="font-size:12.5px; color:var(--rr-muted); line-height:1.45; margin-bottom:14px;">
+                  Informe o código CAR do imóvel. Em seguida, validaremos sua localização para confirmar que você está na propriedade.
+                </p>
+
+                <div class="form-group">
+                  <label class="form-label">Pesquisar código CAR *</label>
+                  <input type="text" class="form-input" id="carInputForma2" placeholder="ES-3201902-XXXXXXXXXXXXXXXXXXXX" style="font-family:'JetBrains Mono', monospace; font-size:12px;">
+                  <div class="chip-row">
+                    <button type="button" class="mini-chip" onclick="fillSampleCar('carInputForma2', 'ES-3201902-7F2A91B4C8E04D12', 'Domingos Martins', '586H 9Q4+QH')">CAR Exemplo 1</button>
+                    <button type="button" class="mini-chip" onclick="fillSampleCar('carInputForma2', 'ES-3205002-3C8B12E9A4F10D55', 'Santa Teresa', '587J 2M8+RF')">CAR Exemplo 2</button>
+                  </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="validateForma2CarAndGps()">VALIDAR CAR E LOCALIZAÇÃO</button>
+
+                <!-- Aviso exato solicitado quando GPS NÃO está dentro do CAR -->
+                <div id="forma2GpsAlert" class="alert-box danger" style="display:none; margin-top:16px;">
+                  <strong>⚠ Localização fora da propriedade</strong><br>
+                  Para registrar sua propriedade e retirar seu endereço, você precisa estar na propriedade.
+                </div>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SCREEN 4c: FOTO DA PORTEIRA E CONFIRMAÇÃO DE PRESENÇA
+                 ========================================== -->
+            <div class="screen" id="screen-es-gps-reg">
+              <div class="app-topbar">
+                <button class="icon-btn" onclick="goBack()">←</button>
+                <h3>Foto da Porteira</h3>
+              </div>
+              <div class="screen-pad">
+                <div id="gpsOutOfRangeBox" style="display:none;">
+                  <div class="alert-box danger">
+                    <strong>⚠ Localização fora da propriedade</strong><br>
+                    Para registrar sua propriedade e retirar seu endereço, você precisa estar na propriedade.
+                  </div>
+                  <button class="btn btn-primary" onclick="goTo('es-manual-car')">Buscar manualmente pelo CAR</button>
+                </div>
+
+                <div id="gpsInRangeBox">
+                  <div class="alert-box success" style="font-size:12px;">
+                    <strong>✓ Localização confirmada na propriedade!</strong><br>
+                    <span id="gpsCarSourceLabel">CAR identificado automaticamente:</span>
+                    <div id="gpsDetectedCarText" style="font-family:'JetBrains Mono', monospace; font-size:11px; margin-top:4px; font-weight:700;">
+                      ES-3201902-7F2A91B4C8E04D12
+                    </div>
+                    <div id="gpsDetectedCityText" style="font-size:11px; margin-top:2px;">Domingos Martins - ES</div>
+                  </div>
+
+                  <div style="font-size:12.5px; font-weight:700; margin-bottom:6px; color:var(--rr-text);">
+                    Foto da Porteira <span style="color:var(--rr-danger);">*</span>
+                  </div>
+                  <p style="font-size:11.5px; color:var(--rr-muted); margin-bottom:10px;">
+                    Tire uma foto nítida da entrada principal da propriedade para comprovar a localização.
+                  </p>
+
+                  <div class="camera-box">
+                    <div class="camera-frame"></div>
+                    <div id="cameraPreviewEmpty" style="text-align:center; z-index:2;">
+                      <div style="font-size:12px; opacity:0.85; margin-bottom:12px;">Enquadre a porteira da propriedade</div>
+                      <button class="shutter-btn" onclick="captureGatePhoto()" title="Tirar foto"></button>
+                      <div style="font-size:10.5px; opacity:0.7; margin-top:8px;">Toque para fotografar</div>
+                    </div>
+                    <div id="cameraPreviewTaken" style="display:none; width:100%; height:100%; position:relative;">
+                      <svg width="100%" height="100%" viewBox="0 0 320 210" preserveAspectRatio="xMidYMid slice">
+                        <rect width="320" height="115" fill="#7dd3fc"/>
+                        <circle cx="265" cy="40" r="20" fill="#fde047" opacity="0.9"/>
+                        <path d="M0 115 Q80 85 160 105 T320 95 L320 210 L0 210 Z" fill="#4d7c0f"/>
+                        <path d="M110 210 L145 125 L175 125 L220 210 Z" fill="#a16207"/>
+                        <rect x="85" y="100" width="12" height="72" fill="#78350f"/>
+                        <rect x="223" y="100" width="12" height="72" fill="#78350f"/>
+                        <rect x="92" y="110" width="136" height="9" fill="#92400e"/>
+                        <rect x="92" y="128" width="136" height="9" fill="#92400e"/>
+                        <rect x="92" y="146" width="136" height="9" fill="#92400e"/>
+                        <line x1="95" y1="112" x2="225" y2="152" stroke="#78350f" stroke-width="6"/>
+                        <rect x="8" y="182" width="195" height="20" rx="4" fill="rgba(0,0,0,0.6)"/>
+                        <text x="14" y="196" fill="#fff" font-size="9.5" font-family="monospace">GPS -20.3632, -40.6591 • 19/11</text>
+                      </svg>
+                      <button onclick="retakeGatePhoto()" style="position:absolute; top:10px; right:10px; background:rgba(0,0,0,0.65); color:#fff; border:none; border-radius:8px; padding:5px 9px; font-size:11px; cursor:pointer;">↻ Refazer</button>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-primary" id="btnContinueAfterPhoto" onclick="proceedFromPhotoToMap()" disabled style="opacity:0.5; cursor:not-allowed;">
+                    VERIFICAR PORTEIRA NO MAPA →
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SCREEN 5: MAPA E CONFIRMAÇÃO / CORREÇÃO DA PORTEIRA
+                 ========================================== -->
+            <div class="screen" id="screen-es-map-confirm">
+              <div class="app-topbar">
+                <button class="icon-btn" onclick="goBack()">←</button>
+                <h3>Confirmar Porteira no Mapa</h3>
+              </div>
+              <div class="screen-pad">
+                <div style="font-size:11.5px; color:var(--rr-muted); margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                  <span id="mapCarLabel"><strong>CAR:</strong> ES-3201902-7F2A...</span>
+                  <span id="mapOriginBadge" class="status-chip ok">Foto anexada</span>
+                </div>
+
+                <div class="map-box" id="interactiveMap" onclick="handleMapClick(event)">
+                  <svg width="100%" height="100%" viewBox="0 0 340 270" id="mapSvg">
+                    <rect width="340" height="270" fill="#466842"/>
+                    <path d="M0 0 L150 0 L120 130 L0 110 Z" fill="#3b5937"/>
+                    <path d="M190 0 L340 0 L340 160 L210 140 Z" fill="#527549"/>
+                    <path d="M0 150 L170 175 L150 270 L0 270 Z" fill="#5e7d4f"/>
+                    <g stroke="#345030" stroke-width="1.5" opacity="0.35">
+                      <line x1="205" y1="20" x2="325" y2="35"/>
+                      <line x1="205" y1="32" x2="325" y2="47"/>
+                      <line x1="205" y1="44" x2="325" y2="59"/>
+                      <line x1="205" y1="56" x2="325" y2="71"/>
+                      <line x1="205" y1="68" x2="325" y2="83"/>
+                    </g>
+
+                    <polygon points="88,42 252,55 236,192 76,178" fill="rgba(56, 189, 248, 0.18)" stroke="#38bdf8" stroke-width="2.5" stroke-dasharray="6,4"/>
+                    <text x="165" y="102" fill="#e0f2fe" font-size="10" font-weight="700" text-anchor="middle" opacity="0.9">POLÍGONO CAR</text>
+
+                    <rect x="172" y="112" width="14" height="10" rx="2" fill="#fef08a" stroke="#854d0e" stroke-width="1.5"/>
+                    <text x="179" y="133" fill="#fef9c3" font-size="9" font-weight="700" text-anchor="middle">Sede</text>
+
+                    <path d="M178 122 Q165 155 152 184" fill="none" stroke="#d6b485" stroke-width="3.5" stroke-dasharray="4,3"/>
+
+                    <path d="M-10 185 Q120 182 210 198 T355 215" fill="none" stroke="#b08956" stroke-width="14"/>
+                    <path d="M-10 185 Q120 182 210 198 T355 215" fill="none" stroke="#e2c8a0" stroke-width="10"/>
+                    <path d="M210 198 L195 275" fill="none" stroke="#b08956" stroke-width="11"/>
+                    <path d="M210 198 L195 275" fill="none" stroke="#e2c8a0" stroke-width="7.5"/>
+                    <text x="275" y="195" fill="#fff" font-size="9" font-weight="700" opacity="0.9">Via Principal</text>
+
+                    <g id="gatePin" transform="translate(152, 184)">
+                      <circle cx="0" cy="0" r="16" fill="rgba(34, 197, 94, 0.28)"/>
+                      <path d="M0 -24 C-9 -24 -15 -17 -15 -9 C-15 1 0 11 0 11 C0 11 15 1 15 -9 C15 -17 9 -24 0 -24 Z" fill="#186438" stroke="#ffffff" stroke-width="2.2"/>
+                      <circle cx="0" cy="-9" r="4.5" fill="#ffffff"/>
+                    </g>
+                  </svg>
+
+                  <div class="map-overlay-badge" id="mapInstructionBadge">
+                    📍 Porteira geolocalizada
+                  </div>
+                  <div class="map-erd-pill">
+                    <span>Endereço Digital:</span>
+                    <code id="liveErdCode">586H 9Q4+QH</code>
+                  </div>
+                </div>
+
+                <!-- STEP A: QUESTION -->
+                <div id="mapQuestionBox" style="margin-top:14px;">
+                  <div style="font-size:14.5px; font-weight:800; text-align:center; margin-bottom:10px; color:var(--rr-text);">
+                    Sua porteira está no local correto?
+                  </div>
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <button class="btn btn-danger-outline" onclick="startPinCorrection()">
+                      ✕ NÃO, CORRIGIR
+                    </button>
+                    <button class="btn btn-primary" onclick="confirmPinCorrect()">
+                      ✓ SIM, ESTÁ CORRETA
+                    </button>
+                  </div>
+                </div>
+
+                <!-- STEP B: CORRECTION MODE -->
+                <div id="mapCorrectionBox" style="display:none; margin-top:12px;">
+                  <div class="alert-box" style="background:#fffbeb; border:1px solid #fde68a; color:#92400e; font-size:12px; margin-bottom:10px;">
+                    <strong>Modo de Correção:</strong> toque no mapa acima para mover o pino para o ponto exato da sua porteira.
+                  </div>
+                  <div class="form-group" style="margin-bottom:10px;">
+                    <label class="form-label">Observação</label>
+                    <input type="text" class="form-input" id="corrObs" placeholder="Ex: Porteira nova ao lado da ponte">
+                  </div>
+                  <div style="display:grid; grid-template-columns:1fr 1.4fr; gap:8px;">
+                    <button class="btn btn-outline" onclick="cancelPinCorrection()">Cancelar</button>
+                    <button class="btn btn-primary" onclick="savePinCorrection()">Confirmar Novo Local</button>
+                  </div>
+                </div>
+
+                <!-- STEP C: NAME PROPERTY -->
+                <div id="mapNameBox" style="display:none; margin-top:14px;">
+                  <div class="form-group">
+                    <label class="form-label">NOME DA PROPRIEDADE *</label>
+                    <input type="text" class="form-input" id="propNameInput" placeholder="Ex: Sítio Boa Vista">
+                  </div>
+                  <button class="btn btn-primary" onclick="goToLgpdTerm()">
+                    CONTINUAR PARA O TERMO →
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SCREEN 6: TERMO LGPD — PÁGINA PRÓPRIA + ASSINATURA DIGITAL
+                 ========================================== -->
+            <div class="screen" id="screen-es-lgpd">
+              <div class="app-topbar">
+                <button class="icon-btn" onclick="goBack()">←</button>
+                <h3>Termo de Recebimento</h3>
+              </div>
+              <div class="screen-pad">
+                <div style="font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:var(--rr-green-dark); margin-bottom:8px;">
+                  Declaração e Conformidade LGPD
+                </div>
+
+                <div class="termo-document" id="termoTextContent">
+                  <!-- Preenchido dinamicamente com Nome, CPF e CAR -->
+                </div>
+
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+                  <span style="font-size:12px; font-weight:700; color:var(--rr-text);">Assinatura Digital *</span>
+                  <button type="button" class="btn-link" style="font-size:11.5px; padding:2px 4px;" onclick="clearSignature()">Limpar assinatura</button>
+                </div>
+
+                <div class="sig-wrapper">
+                  <canvas id="sigCanvas" class="sig-canvas" width="320" height="135"></canvas>
+                  <div class="sig-placeholder" id="sigPlaceholder">Assine aqui com o dedo ou mouse</div>
+                  <div class="sig-line"></div>
+                </div>
+
+                <div style="margin-top:auto;">
+                  <button class="btn btn-primary" onclick="finishPropertyWithSignature()">
+                    ✓ ASSINAR E CONCLUIR REGISTRO
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SCREEN: DETALHES DA PROPRIEDADE
+                 ========================================== -->
+            <div class="screen" id="screen-es-detail">
+              <div class="app-topbar">
+                <button class="icon-btn" onclick="goTo('es-home')">←</button>
+                <h3 id="detailTitle">Sítio S. João</h3>
+              </div>
+              <div class="screen-pad">
+                <div class="card" style="text-align:center; background:linear-gradient(180deg, #f3faf6 0%, #fff 100%); border-color:#b8dec6; margin-bottom:14px;">
+                  <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--rr-muted); letter-spacing:0.05em;">
+                    Seu Endereço Rural Digital
+                  </div>
+                  <div id="detailErd" style="font-family:'JetBrains Mono', monospace; font-size:24px; font-weight:800; color:var(--rr-green-dark); margin:6px 0;">
+                    587H P94+QH5
+                  </div>
+                  <div id="detailStatusBadge" class="status-chip ok" style="margin-bottom:12px;">✓ Entregue e Validado</div>
+
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                    <button class="btn btn-secondary" style="padding:10px; font-size:12.5px;" onclick="copyDetailErd()">📋 Copiar Código</button>
+                    <button class="btn btn-primary" style="padding:10px; font-size:12.5px;" onclick="showToast('Abrindo rota no Google Maps...')">🗺️ Abrir Rota</button>
+                  </div>
+                </div>
+
+                <div class="card" style="margin-bottom:14px;">
+                  <div style="font-size:12px; font-weight:700; color:var(--rr-green-dark); margin-bottom:8px;">Dados da Propriedade</div>
+                  <div style="font-size:12px; display:flex; flex-direction:column; gap:6px; color:#374151;">
+                    <div><strong>CAR:</strong> <span id="detailCar" style="font-family:'JetBrains Mono', monospace; font-size:11px;">ES-3201902-4A8F9B2C1D3E</span></div>
+                    <div><strong>Município:</strong> <span id="detailCity">Domingos Martins - ES</span></div>
+                    <div><strong>Termo LGPD:</strong> Assinado digitalmente ✓</div>
+                    <div><strong>Foto da Porteira:</strong> <span id="detailPhoto">Anexada ✓</span></div>
+                  </div>
+                  <div id="detailSigPreview" style="margin-top:10px; display:none; border-top:1px solid #eef3f0; padding-top:8px;">
+                    <div style="font-size:10.5px; color:var(--rr-muted); margin-bottom:4px;">Assinatura registrada:</div>
+                    <img id="detailSigImg" alt="Assinatura digital" style="max-height:56px; border:1px solid #e2e8f0; border-radius:6px; background:#fff; padding:2px;">
+                  </div>
+                </div>
+
+                <button class="btn btn-outline" style="margin-bottom:8px;" onclick="reopenCorrectionFromDetail()">
+                  📍 Solicitar correção da porteira
+                </button>
+                <button class="btn btn-danger-outline" onclick="unlinkCurrentProperty()">
+                  Desvincular imóvel do meu CPF
+                </button>
+              </div>
+            </div>
+
+            <!-- ==========================================
+                 SCREEN 7: AJUDA
+                 ========================================== -->
+            <div class="screen" id="screen-es-help">
+              <div class="app-topbar">
+                <button class="icon-btn" onclick="goTo('es-home')">←</button>
+                <h3>Ajuda — Rotas Rurais ES</h3>
+              </div>
+              <div class="screen-pad">
+                <div class="card" style="margin-bottom:10px;">
+                  <h4 style="font-size:13px; font-weight:700; color:var(--rr-green-dark); margin-bottom:4px;">O que é o Endereço Rural Digital?</h4>
+                  <p style="font-size:12px; color:var(--rr-muted); line-height:1.45;">
+                    É um código exclusivo que identifica exatamente a porteira da sua propriedade no Google Maps, permitindo rotas precisas para entregas, serviços e emergências.
+                  </p>
+                </div>
+                <div class="card" style="margin-bottom:10px;">
+                  <h4 style="font-size:13px; font-weight:700; color:var(--rr-green-dark); margin-bottom:4px;">Como usar meu endereço no Google Maps?</h4>
+                  <p style="font-size:12px; color:var(--rr-muted); line-height:1.45;">
+                    Basta copiar o código na tela da sua propriedade e colar na barra de pesquisa do Google Maps ou compartilhar pelo WhatsApp com quem precisa chegar até você.
+                  </p>
+                </div>
+                <div class="card" style="margin-bottom:14px;">
+                  <h4 style="font-size:13px; font-weight:700; color:var(--rr-green-dark); margin-bottom:4px;">Precisa de atendimento presencial?</h4>
+                  <p style="font-size:12px; color:var(--rr-muted); line-height:1.45;">
+                    Procure a Secretaria de Agricultura da sua Prefeitura ou acione a equipe técnica do Rotas Rurais ES.
+                  </p>
+                </div>
+
+                <button class="btn btn-secondary" style="margin-bottom:8px;" onclick="goTo('onboarding')">Rever Apresentação Inicial</button>
+                <button class="btn btn-primary" onclick="showToast('Canal de suporte ES aberto!')">💬 Falar com Suporte ES</button>
+              </div>
+            </div>
+
+          </div> <!-- /app-viewport -->
+
+          <!-- IN-PHONE MODAL OVERLAY -->
+          <div class="phone-modal-backdrop" id="phoneModalBackdrop" onclick="if(event.target===this) closeModal()">
+            <div class="phone-modal" id="phoneModalContent"></div>
+          </div>
+
+          <!-- IN-PHONE TOAST -->
+          <div class="phone-toast" id="phoneToast"></div>
+
+          <!-- ANDROID 3-BUTTON NAVIGATION BAR -->
+          <div class="android-navbar">
+            <button class="nav-btn" title="Recentes" onclick="showToast('Recentes')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="6" y1="5" x2="6" y2="19"/><line x1="12" y1="5" x2="12" y2="19"/><line x1="18" y1="5" x2="18" y2="19"/></svg>
+            </button>
+            <button class="nav-btn" title="Início ES" onclick="goTo('es-home')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="7"/></svg>
+            </button>
+            <button class="nav-btn" title="Voltar" onclick="goBack()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polygon points="16,5 6,12 16,19"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT PANEL: DEVELOPER SPECIFICATION -->
+    <aside class="panel panel-right">
+      <div class="panel-header">
+        <h2>Especificação para Devs</h2>
+        <span style="font-size:11px; color:var(--rr-green); font-weight:700;" id="specStepCode">ETAPA 1</span>
+      </div>
+      <div class="panel-body" id="devSpecBody"></div>
+    </aside>
+
+  </main>
+
+  <script>
+    // =============================================
+    // CITIES BY STATE
+    // =============================================
+    const citiesByState = {
+      ES: ['Domingos Martins', 'Santa Teresa', 'Venda Nova do Imigrante', 'Afonso Cláudio', 'Linhares', 'Colatina', 'Cachoeiro de Itapemirim'],
+      SP: ['Itu', 'Pardinho', 'Campinas', 'Ribeirão Preto', 'São José dos Campos', 'Santos'],
+      MG: ['Manhuaçu', 'Caratinga', 'Governador Valadares', 'Juiz de Fora'],
+      RJ: ['Campos dos Goytacazes', 'Nova Friburgo', 'Teresópolis'],
+      BA: ['Teixeira de Freitas', 'Eunápolis', 'Barreiras']
+    };
+
+    // =============================================
+    // SIMULATOR STATE
+    // =============================================
+    const state = {
+      currentScreen: 'onboarding',
+      history: [],
+      proposal: 'forma1',   // 'forma1' | 'forma2'
+      user: {
+        name: 'João Carlos da Silva',
+        cpf: '123.456.789-00',
+        email: 'joao.silva@email.com',
+        phone: '27 99812-4450',
+        uf: 'ES',
+        city: 'Domingos Martins'
+      },
+      atProperty: true,
+      photoTaken: false,
+      editingPin: false,
+      pinCorrected: false,
+      regOrigin: 'gps',
+      activeCar: 'ES-3201902-7F2A91B4C8E04D12',
+      activeCity: 'Domingos Martins - ES',
+      activeErd: '586H 9Q4+QH',
+      pendingPropName: 'SÍTIO BOA VISTA',
+      hasSigned: false,
+      pinX: 152,
+      pinY: 184,
+      selectedPropId: null,
+      properties: [
+        {
+          id: 1,
+          name: 'SÍTIO S. JOÃO',
+          erd: '587H P94+QH5',
+          car: 'ES-3201902-4A8F9B2C1D3E',
+          city: 'Domingos Martins - ES',
+          status: 'Entregue e Validado',
+          statusType: 'ok',
+          photo: 'Anexada ✓',
+          sigDataUrl: null
+        }
+      ]
+    };
+
+    // =============================================
+    // PROPOSAL SWITCHER: FORMA 1 vs FORMA 2
+    // =============================================
+    function setProposal(mode) {
+      state.proposal = mode;
+      document.getElementById('tabForma1').classList.toggle('active', mode === 'forma1');
+      document.getElementById('tabForma2').classList.toggle('active', mode === 'forma2');
+      document.getElementById('headerProposalBadge').textContent =
+        mode === 'forma1' ? 'Proposta ativa: FORMA 1' : 'Proposta ativa: FORMA 2';
+      document.getElementById('navRegSub').textContent =
+        mode === 'forma1' ? 'Abre fluxo da Forma 1' : 'Abre fluxo da Forma 2';
+      document.getElementById('proposalDesc').innerHTML = mode === 'forma1'
+        ? '<strong>Forma 1:</strong> Não exige estar dentro da propriedade. Usuário escolhe entre registrar pela localização ou buscar pelo código CAR.'
+        : '<strong>Forma 2:</strong> Usuário pesquisa o CAR e o GPS precisa estar dentro daquele CAR. Se não estiver, bloqueia com aviso; se estiver, segue para foto, mapa e termo.';
+
+      showToast('Simulador alternado para ' + (mode === 'forma1' ? 'FORMA 1' : 'FORMA 2'));
+      renderDevSpec();
+    }
+
+    function openRegistrarPropriedade() {
+      if (state.proposal === 'forma1') {
+        openRegisterModeModalForma1();
+      } else {
+        document.getElementById('forma2GpsAlert').style.display = 'none';
+        goTo('es-forma2-car');
+      }
+    }
+
+    // =============================================
+    // DEVELOPER SPECS PER SCREEN
+    // =============================================
+    const devSpecs = {
+      'onboarding': {
+        code: 'ETAPA 1',
+        tag: 'Primeiro Acesso',
+        title: 'Apresentação e Como Funciona',
+        desc: 'Tela de boas-vindas exibida na primeira abertura do aplicativo, com linguagem simples voltada ao produtor rural.',
+        rules: [
+          { type: 'normal', text: 'Exibir o texto institucional completo e os 3 passos de COMO FUNCIONA.' },
+          { type: 'normal', text: 'Persistir flag local após o clique em CONTINUAR para abrir diretamente no Login nos acessos seguintes.' }
+        ],
+        payload: { local_storage: { hasSeenOnboarding: false }, next_route: '/login' }
+      },
+      'login': {
+        code: 'ETAPA 2',
+        tag: 'Autenticação e Roteamento',
+        title: 'Login por CPF com Roteamento pelo Cadastro',
+        desc: 'Não há tela intermediária de escolha de estado. Ao autenticar, o app lê o estado do cadastro do usuário e abre o módulo correspondente.',
+        rules: [
+          { type: 'normal', text: 'Cadastro de ES → abre Módulo Espírito Santo.' },
+          { type: 'normal', text: 'Cadastro de SP → abre Módulo São Paulo legado.' },
+          { type: 'warn', text: 'Cadastro de outro estado → abre tela Região Indisponível com opção Manifestar Interesse.' }
+        ],
+        payload: { endpoint: 'POST /api/v1/auth/login', routed_by: 'user.uf' }
+      },
+      'forgot-password': {
+        code: 'ETAPA 2b',
+        tag: 'Recuperação',
+        title: 'Esqueci a Senha via CPF',
+        desc: 'Dispara e-mail de redefinição e exibe apenas o endereço mascarado para proteção de dados.',
+        rules: [
+          { type: 'normal', text: 'Retorno visual: "Um e-mail de confirmação foi enviado para rot***ais@gmail.com".' }
+        ],
+        payload: { endpoint: 'POST /api/v1/auth/forgot-password', masked_email: 'rot***ais@gmail.com' }
+      },
+      'register': {
+        code: 'ETAPA 2c',
+        tag: 'Cadastro do Produtor',
+        title: 'Cadastro com Moradia e Consentimentos',
+        desc: 'Coleta dados pessoais, define a Moradia que direciona o módulo do app e registra os aceites de privacidade e contato.',
+        rules: [
+          { type: 'normal', text: 'Moradia: Estado e Município selecionados em lista suspensa ou preenchidos automaticamente pelo botão Localizar no mapa.' },
+          { type: 'critical', text: 'Checkbox obrigatório: Concordo com a Política de Privacidade e os Termos de Uso.' },
+          { type: 'normal', text: 'Checkboxes de autorização: "Autorizo o Programa Rotas Rurais entrar em contato via e-mail" e "...via telefone".' }
+        ],
+        payload: {
+          endpoint: 'POST /api/v1/users',
+          consents: { privacy_and_terms: true, contact_email: true, contact_phone: true }
+        }
+      },
+      'unavailable': {
+        code: 'FORA DA ÁREA',
+        tag: 'Expansão',
+        title: 'Região Ainda Não Disponível',
+        desc: 'Exibida quando o estado informado no cadastro do usuário não é ES nem SP.',
+        rules: [
+          { type: 'warn', text: 'Permite registrar manifestação de interesse para futuras expansões do programa.' }
+        ],
+        payload: { endpoint: 'POST /api/v1/expansion-interest' }
+      },
+      'sp-legacy': {
+        code: 'MÓDULO SP',
+        tag: 'Legado',
+        title: 'Rotas SP Mantido Como Hoje',
+        desc: 'Aberto automaticamente para usuários cadastrados em São Paulo, mantendo o fluxo atual sem alterações nesta etapa.',
+        rules: [
+          { type: 'warn', text: 'Sem modificações nesta versão; foco operacional no Espírito Santo.' }
+        ],
+        payload: { module: 'SP_LEGACY' }
+      },
+      'es-home': {
+        code: 'HOME ES',
+        tag: 'Módulo Espírito Santo',
+        title: 'Tela Principal do Sistema de Entregas ES',
+        desc: 'Layout enxuto com identificação ES, botão principal Registrar Propriedade, lista Minhas Propriedades e botão Ajuda.',
+        rules: [
+          { type: 'normal', text: 'Use o seletor FORMA 1 / FORMA 2 no painel à esquerda para demonstrar à coordenação as duas propostas de registro.' },
+          { type: 'normal', text: 'Cada imóvel concluído aparece na lista Minhas Propriedades com o nome e o Endereço Rural Digital.' }
+        ],
+        payload: { active_proposal: state.proposal, total_properties: state.properties.length }
+      },
+      'es-manual-car': {
+        code: 'FORMA 1 — CAR',
+        tag: 'Proposta Forma 1',
+        title: 'Busca Manual por Código CAR',
+        desc: 'Na Forma 1, o produtor pode buscar o imóvel pelo CAR sem exigência de estar fisicamente no local.',
+        rules: [
+          { type: 'normal', text: 'Consulta o polígono CAR na base ES e direciona para o mapa de confirmação da porteira.' }
+        ],
+        payload: { proposal: 'FORMA_1', method: 'MANUAL_CAR', cod_car: state.activeCar }
+      },
+      'es-forma2-car': {
+        code: 'FORMA 2 — CAR + GPS',
+        tag: 'Proposta Forma 2',
+        title: 'Pesquisa de CAR com Validação Obrigatória de GPS',
+        desc: 'Na Forma 2, o produtor digita o CAR e o app verifica se a coordenada GPS atual está dentro do polígono daquele CAR.',
+        rules: [
+          { type: 'critical', text: 'Se o GPS NÃO estiver dentro do CAR pesquisado, bloquear e exibir: "Para registrar sua propriedade e retirar seu endereço, você precisa estar na propriedade".' },
+          { type: 'normal', text: 'Se o GPS estiver dentro do CAR, avançar para foto da porteira, validação no mapa e página do Termo LGPD.' }
+        ],
+        payload: { proposal: 'FORMA_2', cod_car: state.activeCar, gps_inside_car: state.atProperty }
+      },
+      'es-gps-reg': {
+        code: 'ETAPA 4 — FOTO',
+        tag: 'Comprovação',
+        title: 'Foto Obrigatória da Porteira',
+        desc: 'Exige a captura fotográfica da porteira antes de liberar o mapa. Na Forma 1 não há bloqueio de GPS; na Forma 2 o GPS dentro do CAR já foi exigido na etapa anterior.',
+        rules: [
+          { type: 'normal', text: 'Forma 1: NÃO exige estar fisicamente dentro da propriedade.' },
+          { type: 'critical', text: 'O botão de avançar só é habilitado após a captura da foto da porteira.' }
+        ],
+        payload: { cod_car: state.activeCar, proposal: state.proposal, gate_photo_captured: state.photoTaken }
+      },
+      'es-map-confirm': {
+        code: 'ETAPA 5 — MAPA',
+        tag: 'Validação Espacial',
+        title: 'Confirmar ou Corrigir Porteira no Mapa',
+        desc: 'Mostra o polígono CAR, a via principal e o pino da porteira. Permite confirmar ou tocar no mapa para corrigir.',
+        rules: [
+          { type: 'normal', text: 'Após confirmar ou corrigir o ponto, solicita o Nome da Propriedade e encaminha para a página própria do Termo LGPD.' }
+        ],
+        payload: { cod_car: state.activeCar, erd: state.activeErd, gate_corrected: state.pinCorrected }
+      },
+      'es-lgpd': {
+        code: 'ETAPA 6 — TERMO',
+        tag: 'Conformidade LGPD',
+        title: 'Página Própria do Termo e Assinatura Digital',
+        desc: 'Documento formal preenchido automaticamente com Nome, CPF e número do CAR, exigindo assinatura digital manuscrita na tela.',
+        rules: [
+          { type: 'critical', text: 'Texto jurídico preenchido dinamicamente com os dados do usuário cadastrado e do CAR selecionado.' },
+          { type: 'critical', text: 'Assinatura digital obrigatória em canvas para concluir a entrega do Endereço Rural Digital.' }
+        ],
+        payload: {
+          endpoint: 'POST /api/v1/es/deliveries/sign',
+          signer_name: state.user.name,
+          signer_cpf: state.user.cpf,
+          cod_car: state.activeCar,
+          signature_captured: state.hasSigned
+        }
+      },
+      'es-detail': {
+        code: 'CARTÃO ERD',
+        tag: 'Endereço Entregue',
+        title: 'Detalhes da Propriedade e Assinatura',
+        desc: 'Apresenta o código do Endereço Rural Digital, atalho para Google Maps, assinatura registrada e opções de correção ou desvinculação.',
+        rules: [
+          { type: 'normal', text: 'Exibe a assinatura digital capturada no Termo LGPD.' }
+        ],
+        payload: { erd: state.activeErd, cod_car: state.activeCar }
+      },
+      'es-help': {
+        code: 'AJUDA',
+        tag: 'Suporte',
+        title: 'Central de Ajuda ES',
+        desc: 'Orientações sobre o Endereço Rural Digital, uso no Google Maps e atendimento presencial.',
+        rules: [
+          { type: 'normal', text: 'Permite rever a apresentação inicial a qualquer momento.' }
+        ],
+        payload: { module: 'ES_HELP' }
+      }
+    };
+
+    // =============================================
+    // NAVIGATION
+    // =============================================
+    function goTo(screenId, pushHistory = true) {
+      if (pushHistory && state.currentScreen && state.currentScreen !== screenId) {
+        state.history.push(state.currentScreen);
+      }
+      state.currentScreen = screenId;
+
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById('screen-' + screenId);
+      if (target) target.classList.add('active');
+      document.getElementById('appViewport').scrollTop = 0;
+
+      document.querySelectorAll('.flow-btn').forEach(btn => {
+        const m = btn.dataset.screen;
+        const match = m === screenId ||
+          (m === 'login' && (screenId === 'forgot-password' || screenId === 'register' || screenId === 'unavailable')) ||
+          (m === 'es-home' && screenId === 'es-detail') ||
+          (m === 'es-register-entry' && (screenId === 'es-manual-car' || screenId === 'es-forma2-car' || screenId === 'es-gps-reg'));
+        btn.classList.toggle('active', match);
+      });
+
+      if (screenId === 'es-home') renderProperties();
+      if (screenId === 'es-gps-reg') renderGpsRegScreen();
+      if (screenId === 'es-map-confirm') renderMapScreen();
+      if (screenId === 'es-lgpd') renderLgpdScreen();
+      if (screenId === 'sp-legacy') document.getElementById('spUserName').textContent = state.user.name;
+
+      renderDevSpec();
+    }
+
+    function goBack() {
+      if (state.history.length > 0) {
+        goTo(state.history.pop(), false);
+      } else {
+        showToast('Você já está na tela inicial');
+      }
+    }
+
+    function renderDevSpec() {
+      const spec = devSpecs[state.currentScreen] || devSpecs['onboarding'];
+      document.getElementById('specStepCode').textContent = spec.code;
+
+      let payloadObj = spec.payload;
+      if (state.currentScreen === 'es-home') {
+        payloadObj = { active_proposal: state.proposal.toUpperCase(), total_properties: state.properties.length };
+      } else if (state.currentScreen === 'es-forma2-car') {
+        payloadObj = { proposal: 'FORMA_2', cod_car: state.activeCar, gps_inside_car: state.atProperty };
+      } else if (state.currentScreen === 'es-gps-reg') {
+        payloadObj = { cod_car: state.activeCar, gps_in_property: state.atProperty, gate_photo_captured: state.photoTaken };
+      } else if (state.currentScreen === 'es-lgpd') {
+        payloadObj = {
+          endpoint: 'POST /api/v1/es/deliveries/sign',
+          signer_name: state.user.name,
+          signer_cpf: state.user.cpf,
+          cod_car: state.activeCar,
+          signature_captured: state.hasSigned
+        };
+      }
+
+      const rulesHtml = spec.rules.map(r => `<li class="${r.type}">${r.text}</li>`).join('');
+      document.getElementById('devSpecBody').innerHTML = `
+        <span class="spec-tag">${spec.tag}</span>
+        <div class="spec-title">${spec.title}</div>
+        <p class="spec-desc">${spec.desc}</p>
+        <div class="spec-section-title">Regras de Negócio e UX</div>
+        <ul class="spec-list">${rulesHtml}</ul>
+        <div class="spec-section-title">Estado / Payload</div>
+        <div class="code-box">${JSON.stringify(payloadObj, null, 2)}</div>
+      `;
+    }
+
+    // =============================================
+    // SIMULATOR CONTROLS
+    // =============================================
+    function updateEnv() {
+      state.user.uf = document.getElementById('simUserState').value;
+      state.atProperty = document.getElementById('simAtProperty').checked;
+      document.getElementById('simAtPropertyHint').textContent = state.atProperty
+        ? 'Sim — dentro do perímetro do CAR'
+        : 'Não — fora do perímetro do CAR';
+
+      if (state.currentScreen === 'es-gps-reg') renderGpsRegScreen();
+      renderDevSpec();
+    }
+
+    function resetSimulator() {
+      state.history = [];
+      state.photoTaken = false;
+      state.pinCorrected = false;
+      state.editingPin = false;
+      state.hasSigned = false;
+      state.properties = [
+        {
+          id: 1,
+          name: 'SÍTIO S. JOÃO',
+          erd: '587H P94+QH5',
+          car: 'ES-3201902-4A8F9B2C1D3E',
+          city: 'Domingos Martins - ES',
+          status: 'Entregue e Validado',
+          statusType: 'ok',
+          photo: 'Anexada ✓',
+          sigDataUrl: null
+        }
+      ];
+      document.getElementById('forgotResult').style.display = 'none';
+      document.getElementById('interestDoneBox').style.display = 'none';
+      document.getElementById('btnShowInterest').style.display = 'inline-flex';
+      goTo('onboarding', false);
+      showToast('Simulação reiniciada');
+    }
+
+    // =============================================
+    // AUTH & REGISTRATION WITH MAP PICKER
+    // =============================================
+    function maskCpf(input) {
+      let v = input.value.replace(/\D/g, '').slice(0, 11);
+      v = v.replace(/(\d{3})(\d)/, '$1.$2');
+      v = v.replace(/(\d{3})(\d)/, '$1.$2');
+      v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      input.value = v;
+    }
+
+    function routeByUserState(uf) {
+      if (uf === 'ES') {
+        goTo('es-home');
+      } else if (uf === 'SP') {
+        goTo('sp-legacy');
+      } else {
+        goTo('unavailable');
+      }
+    }
+
+    function doLogin() {
+      const cpf = document.getElementById('loginCpf').value.trim();
+      if (cpf.length < 11) {
+        showToast('Informe um CPF válido');
+        return;
+      }
+      state.user.cpf = cpf;
+      state.user.uf = document.getElementById('simUserState').value;
+      showToast('Login efetuado! Abrindo módulo ' + state.user.uf);
+      routeByUserState(state.user.uf);
+    }
+
+    function sendRecovery() {
+      document.getElementById('forgotResult').style.display = 'block';
+      showToast('E-mail enviado para rot***ais@gmail.com');
+    }
+
+    function populateCitiesForState() {
+      const uf = document.getElementById('regState').value;
+      const sel = document.getElementById('regCitySelect');
+      const list = citiesByState[uf] || ['Outro município'];
+      sel.innerHTML = list.map(c => `<option value="${c}">${c}</option>`).join('');
+    }
+
+    function openRegMapPicker() {
+      const detectedUf = document.getElementById('simUserState').value;
+      const detectedCity = (citiesByState[detectedUf] && citiesByState[detectedUf][0]) || 'Domingos Martins';
+      openModal(`
+        <h3 style="font-size:15px; font-weight:800; color:var(--rr-green-dark); margin-bottom:6px;">Localização detectada</h3>
+        <p style="font-size:12px; color:var(--rr-muted); margin-bottom:10px;">
+          Confirme se este é o seu município de moradia ou feche para escolher na lista.
+        </p>
+        <div style="border-radius:12px; overflow:hidden; border:1.5px solid #b8dec6; margin-bottom:12px; position:relative; height:150px; background:#dbeee2;">
+          <svg width="100%" height="100%" viewBox="0 0 320 150">
+            <rect width="320" height="150" fill="#cfe8d5"/>
+            <path d="M0 95 Q110 70 210 100 T320 85" fill="none" stroke="#ffffff" stroke-width="8"/>
+            <path d="M140 0 L170 150" fill="none" stroke="#ffffff" stroke-width="6"/>
+            <circle cx="158" cy="82" r="24" fill="rgba(24,100,56,0.18)"/>
+            <circle cx="158" cy="82" r="8" fill="#186438" stroke="#fff" stroke-width="2.5"/>
+          </svg>
+          <div style="position:absolute; bottom:8px; left:8px; right:8px; background:rgba(255,255,255,0.95); padding:6px 10px; border-radius:8px; font-size:12px; font-weight:700; color:var(--rr-green-dark); text-align:center;">
+            📍 ${detectedCity} - ${detectedUf}
+          </div>
+        </div>
+        <button class="btn btn-primary" style="margin-bottom:8px;" onclick="confirmRegMapLocation('${detectedUf}', '${detectedCity}')">
+          Confirmar ${detectedCity} - ${detectedUf}
+        </button>
+        <button class="btn btn-outline" onclick="closeModal()">Escolher na lista</button>
+      `);
+    }
+
+    function confirmRegMapLocation(uf, city) {
+      document.getElementById('regState').value = uf;
+      populateCitiesForState();
+      document.getElementById('regCitySelect').value = city;
+      closeModal();
+      showToast('Moradia preenchida pelo mapa!');
+    }
+
+    function doRegister() {
+      const name = document.getElementById('regName').value.trim();
+      const cpf = document.getElementById('regCpf').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const uf = document.getElementById('regState').value;
+      const city = document.getElementById('regCitySelect').value;
+      const terms = document.getElementById('chkTerms').checked;
+
+      if (!name || !cpf || !email || !phone || !city) {
+        showToast('Preencha todos os campos obrigatórios');
+        return;
+      }
+      if (!terms) {
+        showToast('Aceite a Política de Privacidade e os Termos de Uso');
+        return;
+      }
+
+      state.user = { name, cpf, email, phone, uf, city };
+      document.getElementById('simUserState').value = (uf === 'ES' || uf === 'SP') ? uf : 'MG';
+      showToast('Cadastro concluído! Abrindo módulo ' + uf);
+      routeByUserState(uf);
+    }
+
+    function submitInterest() {
+      document.getElementById('interestDoneBox').style.display = 'block';
+      document.getElementById('btnShowInterest').style.display = 'none';
+      showToast('Manifestação de interesse registrada!');
+    }
+
+    // =============================================
+    // ES HOME & PROPERTIES LIST
+    // =============================================
+    function renderProperties() {
+      const list = document.getElementById('propertiesList');
+      document.getElementById('propCountBadge').textContent =
+        state.properties.length + (state.properties.length === 1 ? ' imóvel' : ' imóveis');
+
+      if (state.properties.length === 0) {
+        list.innerHTML = `
+          <div class="card" style="text-align:center; padding:24px 14px; color:var(--rr-muted); font-size:12.5px;">
+            Nenhuma propriedade vinculada ainda.<br>Toque em <strong>REGISTRAR PROPRIEDADE</strong> acima.
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = state.properties.map(p => `
+        <div class="prop-card" onclick="openPropertyDetail(${p.id})">
+          <div class="prop-pin">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+          </div>
+          <div class="prop-info">
+            <div class="prop-name">${p.name}</div>
+            <div class="prop-erd">${p.erd}</div>
+            <div class="prop-meta">
+              <span class="status-chip ${p.statusType}">${p.status}</span>
+            </div>
+          </div>
+          <span style="color:#9ca3af; font-size:16px;">›</span>
+        </div>
+      `).join('');
+    }
+
+    function openRegisterModeModalForma1() {
+      openModal(`
+        <h3 style="font-size:15.5px; font-weight:800; color:var(--rr-green-dark); margin-bottom:4px;">Registrar Propriedade</h3>
+        <p style="font-size:12px; color:var(--rr-muted); margin-bottom:14px;">Escolha como deseja localizar seu imóvel rural:</p>
+
+        <button class="btn btn-primary" style="margin-bottom:10px; text-align:left; justify-content:flex-start; padding:14px;" onclick="closeModal(); startGpsFlowForma1();">
+          <span style="font-size:20px;">📍</span>
+          <div>
+            <div style="font-size:13.5px;">Pela minha localização</div>
+            <div style="font-size:10.5px; font-weight:400; opacity:0.9;">Identifica o CAR automaticamente no local</div>
+          </div>
+        </button>
+
+        <button class="btn btn-secondary" style="margin-bottom:10px; text-align:left; justify-content:flex-start; padding:14px;" onclick="closeModal(); startManualCarFlowForma1();">
+          <span style="font-size:20px;">🔎</span>
+          <div>
+            <div style="font-size:13.5px;">Busca manual pelo código CAR</div>
+            <div style="font-size:10.5px; font-weight:400; opacity:0.85;">Digite o código CAR da sua propriedade</div>
+          </div>
+        </button>
+
+        <button class="btn btn-outline" style="padding:10px;" onclick="closeModal()">Cancelar</button>
+      `);
+    }
+
+    function openProfileModal() {
+      openModal(`
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+          <div style="width:46px; height:46px; border-radius:50%; background:var(--rr-green-light); color:var(--rr-green); display:flex; align-items:center; justify-content:center; font-size:22px;">👤</div>
+          <div>
+            <div style="font-size:14.5px; font-weight:800;">${state.user.name}</div>
+            <div style="font-size:11.5px; color:var(--rr-muted);">CPF ${state.user.cpf} • ${state.user.city} - ${state.user.uf}</div>
+          </div>
+        </div>
+        <button class="btn btn-danger-outline" onclick="closeModal(); goTo('login');">Sair da Conta</button>
+      `);
+    }
+
+    // =============================================
+    // FORMA 1 & FORMA 2 FLOWS
+    // =============================================
+    function fillSampleCar(inputId, car, city, erd) {
+      document.getElementById(inputId).value = car;
+      state.activeCar = car;
+      state.activeCity = city + ' - ES';
+      state.activeErd = erd;
+    }
+
+    function startManualCarFlowForma1() {
+      state.regOrigin = 'manual';
+      state.photoTaken = false;
+      goTo('es-manual-car');
+    }
+
+    function searchCarForma1() {
+      const val = document.getElementById('carInput').value.trim();
+      if (val.length < 8) {
+        showToast('Digite um código CAR válido ou use um exemplo');
+        return;
+      }
+      state.activeCar = val;
+      state.regOrigin = 'manual';
+      state.pinCorrected = false;
+      state.editingPin = false;
+      goTo('es-map-confirm');
+    }
+
+    function startGpsFlowForma1() {
+      state.regOrigin = 'gps';
+      state.photoTaken = false;
+      state.activeCar = 'ES-3201902-7F2A91B4C8E04D12';
+      state.activeCity = 'Domingos Martins - ES';
+      state.activeErd = '586H 9Q4+QH';
+      goTo('es-gps-reg');
+    }
+
+    function validateForma2CarAndGps() {
+      const val = document.getElementById('carInputForma2').value.trim();
+      const alertBox = document.getElementById('forma2GpsAlert');
+      if (val.length < 8) {
+        showToast('Digite o código CAR ou selecione um exemplo');
+        return;
+      }
+      state.activeCar = val;
+      if (!state.atProperty) {
+        alertBox.style.display = 'block';
+        showToast('GPS fora do polígono do CAR');
+        return;
+      }
+      alertBox.style.display = 'none';
+      state.regOrigin = 'forma2';
+      state.photoTaken = false;
+      goTo('es-gps-reg');
+    }
+
+    function renderGpsRegScreen() {
+      const outBox = document.getElementById('gpsOutOfRangeBox');
+      const inBox = document.getElementById('gpsInRangeBox');
+      // Na Forma 1 NÃO é obrigatório estar dentro da propriedade; a trava só se aplica à Forma 2
+      const mustBlock = state.proposal === 'forma2' && !state.atProperty;
+      outBox.style.display = mustBlock ? 'block' : 'none';
+      inBox.style.display = mustBlock ? 'none' : 'block';
+
+      document.getElementById('gpsCarSourceLabel').textContent =
+        state.regOrigin === 'forma2'
+          ? 'GPS confirmado dentro do CAR pesquisado:'
+          : 'CAR identificado pela localização:';
+      document.getElementById('gpsDetectedCarText').textContent = state.activeCar;
+      document.getElementById('gpsDetectedCityText').textContent = state.activeCity;
+
+      document.getElementById('cameraPreviewEmpty').style.display = state.photoTaken ? 'none' : 'block';
+      document.getElementById('cameraPreviewTaken').style.display = state.photoTaken ? 'block' : 'none';
+
+      const btn = document.getElementById('btnContinueAfterPhoto');
+      btn.disabled = !state.photoTaken;
+      btn.style.opacity = state.photoTaken ? '1' : '0.5';
+      btn.style.cursor = state.photoTaken ? 'pointer' : 'not-allowed';
+    }
+
+    function captureGatePhoto() {
+      state.photoTaken = true;
+      renderGpsRegScreen();
+      renderDevSpec();
+      showToast('Foto da porteira capturada!');
+    }
+
+    function retakeGatePhoto() {
+      state.photoTaken = false;
+      renderGpsRegScreen();
+      renderDevSpec();
+    }
+
+    function proceedFromPhotoToMap() {
+      if (!state.photoTaken) return;
+      state.pinCorrected = false;
+      state.editingPin = false;
+      goTo('es-map-confirm');
+    }
+
+    // =============================================
+    // MAP CONFIRMATION & PIN CORRECTION
+    // =============================================
+    function renderMapScreen() {
+      document.getElementById('mapCarLabel').innerHTML = `<strong>CAR:</strong> ${state.activeCar.slice(0, 18)}...`;
+      const originBadge = document.getElementById('mapOriginBadge');
+      originBadge.textContent = state.photoTaken ? 'Foto anexada ✓' : 'Busca por CAR';
+      originBadge.className = 'status-chip ' + (state.photoTaken ? 'ok' : 'pending');
+
+      document.getElementById('liveErdCode').textContent = state.activeErd;
+      document.getElementById('gatePin').setAttribute('transform', `translate(${state.pinX}, ${state.pinY})`);
+
+      document.getElementById('interactiveMap').classList.remove('editing');
+      document.getElementById('mapInstructionBadge').textContent = '📍 Porteira geolocalizada';
+      document.getElementById('mapQuestionBox').style.display = 'block';
+      document.getElementById('mapCorrectionBox').style.display = 'none';
+      document.getElementById('mapNameBox').style.display = 'none';
+      document.getElementById('propNameInput').value = '';
+    }
+
+    function startPinCorrection() {
+      state.editingPin = true;
+      document.getElementById('interactiveMap').classList.add('editing');
+      document.getElementById('mapInstructionBadge').textContent = '👆 Toque no mapa para mover a porteira';
+      document.getElementById('mapQuestionBox').style.display = 'none';
+      document.getElementById('mapCorrectionBox').style.display = 'block';
+      showToast('Toque no ponto correto da porteira');
+    }
+
+    function cancelPinCorrection() {
+      state.editingPin = false;
+      document.getElementById('interactiveMap').classList.remove('editing');
+      document.getElementById('mapInstructionBadge').textContent = '📍 Porteira geolocalizada';
+      document.getElementById('mapCorrectionBox').style.display = 'none';
+      document.getElementById('mapQuestionBox').style.display = 'block';
+    }
+
+    function handleMapClick(e) {
+      if (!state.editingPin) return;
+      const svg = document.getElementById('mapSvg');
+      const rect = svg.getBoundingClientRect();
+      const x = Math.round(((e.clientX - rect.left) / rect.width) * 340);
+      const y = Math.round(((e.clientY - rect.top) / rect.height) * 270);
+
+      state.pinX = Math.max(20, Math.min(320, x));
+      state.pinY = Math.max(25, Math.min(245, y));
+      state.pinCorrected = true;
+
+      const chars = '23456789CFGHJMPQRVWX';
+      const c1 = chars[state.pinX % chars.length];
+      const c2 = chars[state.pinY % chars.length];
+      const c3 = chars[(state.pinX + state.pinY) % chars.length];
+      state.activeErd = `586H 9${c1}${c2}+${c3}H`;
+
+      document.getElementById('gatePin').setAttribute('transform', `translate(${state.pinX}, ${state.pinY})`);
+      document.getElementById('liveErdCode').textContent = state.activeErd;
+      renderDevSpec();
+    }
+
+    function savePinCorrection() {
+      state.editingPin = false;
+      state.pinCorrected = true;
+      document.getElementById('interactiveMap').classList.remove('editing');
+      document.getElementById('mapInstructionBadge').textContent = '✓ Nova posição marcada';
+      document.getElementById('mapCorrectionBox').style.display = 'none';
+      document.getElementById('mapNameBox').style.display = 'block';
+      showToast('Informe o nome da propriedade');
+      renderDevSpec();
+    }
+
+    function confirmPinCorrect() {
+      document.getElementById('mapQuestionBox').style.display = 'none';
+      document.getElementById('mapNameBox').style.display = 'block';
+    }
+
+    function goToLgpdTerm() {
+      const name = document.getElementById('propNameInput').value.trim();
+      if (!name) {
+        showToast('Digite o nome da propriedade');
+        return;
+      }
+      state.pendingPropName = name.toUpperCase();
+      goTo('es-lgpd');
+    }
+
+    // =============================================
+    // TERMO LGPD + DIGITAL SIGNATURE CANVAS
+    // =============================================
+    function renderLgpdScreen() {
+      const nome = state.user.name.toUpperCase();
+      const cpf = state.user.cpf;
+      const car = state.activeCar;
+
+      document.getElementById('termoTextContent').innerHTML = `
+        <p>Eu, <strong>${nome}</strong>, inscrito(a) no CPF nº <strong>${cpf}</strong>, declaro, sob as penas da lei e ciente das responsabilidades legais decorrentes de declaração falsa, que sou proprietário(a) ou legítimo(a) responsável pelo imóvel rural identificado pelo Cadastro Ambiental Rural (CAR) nº <strong>${car}</strong>.</p>
+        <p>Declaro, ainda, que recebi o Endereço Rural Digital correspondente ao referido imóvel e que as informações prestadas são verdadeiras, assumindo integral responsabilidade por seu conteúdo.</p>
+      `;
+      clearSignature();
+    }
+
+    // Signature drawing setup
+    const sigCanvas = document.getElementById('sigCanvas');
+    const sigCtx = sigCanvas.getContext('2d');
+    let isDrawing = false;
+
+    function getCanvasPos(e) {
+      const rect = sigCanvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: (clientX - rect.left) * (sigCanvas.width / rect.width),
+        y: (clientY - rect.top) * (sigCanvas.height / rect.height)
+      };
+    }
+
+    function startDraw(e) {
+      isDrawing = true;
+      const pos = getCanvasPos(e);
+      sigCtx.beginPath();
+      sigCtx.moveTo(pos.x, pos.y);
+      sigCtx.lineWidth = 2.4;
+      sigCtx.lineCap = 'round';
+      sigCtx.lineJoin = 'round';
+      sigCtx.strokeStyle = '#0f291a';
+      if (!state.hasSigned) {
+        state.hasSigned = true;
+        document.getElementById('sigPlaceholder').style.display = 'none';
+        renderDevSpec();
+      }
+      if (e.cancelable) e.preventDefault();
+    }
+
+    function moveDraw(e) {
+      if (!isDrawing) return;
+      const pos = getCanvasPos(e);
+      sigCtx.lineTo(pos.x, pos.y);
+      sigCtx.stroke();
+      if (e.cancelable) e.preventDefault();
+    }
+
+    function endDraw() {
+      isDrawing = false;
+    }
+
+    sigCanvas.addEventListener('mousedown', startDraw);
+    sigCanvas.addEventListener('mousemove', moveDraw);
+    window.addEventListener('mouseup', endDraw);
+    sigCanvas.addEventListener('touchstart', startDraw, { passive: false });
+    sigCanvas.addEventListener('touchmove', moveDraw, { passive: false });
+    window.addEventListener('touchend', endDraw);
+
+    function clearSignature() {
+      sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+      state.hasSigned = false;
+      document.getElementById('sigPlaceholder').style.display = 'flex';
+      if (state.currentScreen === 'es-lgpd') renderDevSpec();
+    }
+
+    function finishPropertyWithSignature() {
+      if (!state.hasSigned) {
+        showToast('Faça sua assinatura digital antes de concluir');
+        return;
+      }
+      const sigUrl = sigCanvas.toDataURL('image/png');
+      state.properties.unshift({
+        id: Date.now(),
+        name: state.pendingPropName || 'PROPRIEDADE RURAL',
+        erd: state.activeErd,
+        car: state.activeCar,
+        city: state.activeCity,
+        status: state.pinCorrected ? 'Correção em validação' : 'Entregue e Validado',
+        statusType: state.pinCorrected ? 'pending' : 'ok',
+        photo: state.photoTaken ? 'Anexada ✓' : 'Não exigida',
+        sigDataUrl: sigUrl
+      });
+
+      showToast('Termo assinado e propriedade registrada!');
+      goTo('es-home');
+    }
+
+    // =============================================
+    // PROPERTY DETAIL
+    // =============================================
+    function openPropertyDetail(id) {
+      const p = state.properties.find(item => item.id === id);
+      if (!p) return;
+      state.selectedPropId = id;
+      state.activeErd = p.erd;
+      state.activeCar = p.car;
+
+      document.getElementById('detailTitle').textContent = p.name;
+      document.getElementById('detailErd').textContent = p.erd;
+      document.getElementById('detailCar').textContent = p.car;
+      document.getElementById('detailCity').textContent = p.city;
+      document.getElementById('detailPhoto').textContent = p.photo;
+
+      const badge = document.getElementById('detailStatusBadge');
+      badge.textContent = p.statusType === 'ok' ? '✓ ' + p.status : '⏳ ' + p.status;
+      badge.className = 'status-chip ' + p.statusType;
+
+      const sigPreview = document.getElementById('detailSigPreview');
+      if (p.sigDataUrl) {
+        document.getElementById('detailSigImg').src = p.sigDataUrl;
+        sigPreview.style.display = 'block';
+      } else {
+        sigPreview.style.display = 'none';
+      }
+
+      goTo('es-detail');
+    }
+
+    function copyDetailErd() {
+      const erd = document.getElementById('detailErd').textContent;
+      if (navigator.clipboard) navigator.clipboard.writeText(erd).catch(() => {});
+      showToast('Código ' + erd + ' copiado!');
+    }
+
+    function reopenCorrectionFromDetail() {
+      goTo('es-map-confirm');
+      setTimeout(() => startPinCorrection(), 120);
+    }
+
+    function unlinkCurrentProperty() {
+      state.properties = state.properties.filter(p => p.id !== state.selectedPropId);
+      showToast('Imóvel desvinculado do seu CPF');
+      goTo('es-home');
+    }
+
+    // =============================================
+    // MODAL & TOAST
+    // =============================================
+    function openModal(html) {
+      document.getElementById('phoneModalContent').innerHTML = html;
+      document.getElementById('phoneModalBackdrop').classList.add('open');
+    }
+    function closeModal() {
+      document.getElementById('phoneModalBackdrop').classList.remove('open');
+    }
+
+    let toastTimer;
+    function showToast(msg) {
+      const el = document.getElementById('phoneToast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+    }
+
+    // Init
+    populateCitiesForState();
+    renderProperties();
+    renderDevSpec();
+  </script>
+</body>
+</html>
