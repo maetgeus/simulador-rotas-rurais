@@ -15,7 +15,6 @@
       --rr-green-mid: #27804c;
       --rep-blue: #164e63;
       --rep-blue-dark: #0e3746;
-      --rep-blue-light: #e0f2fe;
       --rr-gold: #d97706;
       --rr-danger: #c62828;
       --rr-danger-bg: #fdecea;
@@ -36,7 +35,7 @@
       flex-direction: column;
     }
 
-    /* TOP STUDIO HEADER WITH 3-PROFILE SWITCHER */
+    /* TOP STUDIO HEADER */
     .studio-header {
       background: #0f2619;
       color: #ffffff;
@@ -51,11 +50,7 @@
       top: 0;
       z-index: 200;
     }
-    .studio-brand {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-    }
+    .studio-brand { display: flex; align-items: center; gap: 11px; }
     .studio-brand h1 { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
     .studio-brand span { font-size: 11.5px; color: #a5d6b7; display: block; }
 
@@ -85,38 +80,32 @@
       transition: all 0.16s;
     }
     .profile-tab:hover { background: rgba(255,255,255,0.1); color: #fff; }
-    .profile-tab.active.cidadao { background: var(--rr-green-mid); color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
-    .profile-tab.active.representante { background: #0e7490; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
-    .profile-tab.active.escritorio { background: #4338ca; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
-    .tab-count {
-      background: rgba(255,255,255,0.22);
-      font-size: 10.5px;
-      padding: 1px 6px;
-      border-radius: 999px;
-    }
+    .profile-tab.active.cidadao { background: var(--rr-green-mid); color: #fff; }
+    .profile-tab.active.representante { background: #0e7490; color: #fff; }
+    .profile-tab.active.escritorio { background: #4338ca; color: #fff; }
+    .tab-count { background: rgba(255,255,255,0.22); font-size: 10.5px; padding: 1px 6px; border-radius: 999px; }
 
-    /* MAIN VIEWS */
     .mode-view { display: none; flex: 1; }
     .mode-view.active { display: block; }
 
-    /* MOBILE WORKSPACE (CIDADÃO & REPRESENTANTE) */
+    /* WORKSPACE: LEFT = CONTEXTUAL EXPLANATION & CONTROLS | CENTER = GALAXY A07 | RIGHT = QUICK NAV */
     .workspace {
-      max-width: 1400px;
+      max-width: 1420px;
       width: 100%;
       margin: 0 auto;
       padding: 20px 20px 36px;
       display: grid;
-      grid-template-columns: 315px 410px 1fr;
+      grid-template-columns: 1fr 404px 290px;
       gap: 24px;
       align-items: start;
     }
-    @media (max-width: 1180px) {
-      .workspace { grid-template-columns: 410px 1fr; }
-      .panel-left { grid-column: 1 / -1; order: 3; }
+    @media (max-width: 1200px) {
+      .workspace { grid-template-columns: 1fr 404px; }
+      .panel-right { grid-column: 1 / -1; }
     }
-    @media (max-width: 840px) {
+    @media (max-width: 880px) {
       .workspace { grid-template-columns: 1fr; justify-items: center; }
-      .panel-left, .panel-right { width: 100%; max-width: 520px; }
+      .panel-left, .panel-right { width: 100%; max-width: 540px; }
     }
 
     /* PANELS */
@@ -128,7 +117,7 @@
       overflow: hidden;
     }
     .panel-header {
-      padding: 13px 16px;
+      padding: 13px 18px;
       background: #f8fbf9;
       border-bottom: 1px solid var(--rr-border);
       display: flex;
@@ -137,45 +126,127 @@
     }
     .panel-header h2 {
       font-size: 12.5px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--rr-green-dark);
-    }
-    .panel-body { padding: 15px 16px; }
-
-    /* PROPOSAL SWITCHER */
-    .proposal-box {
-      background: #f0f9f4;
-      border: 1.5px solid #9fd4b4;
-      border-radius: 12px;
-      padding: 11px;
-      margin-bottom: 14px;
-    }
-    .proposal-box-title {
-      font-size: 10.5px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--rr-green-dark);
-      margin-bottom: 7px;
     }
-    .proposal-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 7px; }
-    .proposal-tab {
-      padding: 7px 6px;
-      border-radius: 8px;
-      border: 1.5px solid #bddbc8;
-      background: #ffffff;
+    .panel-body { padding: 16px 18px; }
+
+    /* CONTEXTUAL GUIDE ELEMENTS (LEFT PANEL) */
+    .ctx-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--rr-green-light);
+      color: var(--rr-green-dark);
+      margin-bottom: 8px;
+    }
+    .ctx-title { font-size: 18px; font-weight: 800; color: var(--rr-text); margin-bottom: 6px; line-height: 1.25; }
+    .ctx-desc { font-size: 13px; color: #3d4d43; line-height: 1.55; margin-bottom: 14px; }
+
+    .ctx-box {
+      background: #f6faf7;
+      border: 1.5px solid #cde4d5;
+      border-radius: 13px;
+      padding: 13px 14px;
+      margin-bottom: 14px;
+    }
+    .ctx-box.decision {
+      background: #eff8f3;
+      border-color: #7cc49b;
+    }
+    .ctx-box.offline {
+      background: #f5f3ff;
+      border-color: #c4b5fd;
+    }
+    .ctx-box.warn {
+      background: #fffbeb;
+      border-color: #fcd34d;
+    }
+    .ctx-box-title {
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--rr-green-dark);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .ctx-box.offline .ctx-box-title { color: #4c1d95; }
+    .ctx-box.warn .ctx-box-title { color: #92400e; }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+    .choice-btn {
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1.5px solid #cbd7cf;
+      background: #fff;
       color: var(--rr-text);
       font-family: inherit;
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
+      text-align: left;
+      transition: all 0.15s;
     }
-    .proposal-tab.active { background: var(--rr-green); border-color: var(--rr-green); color: #ffffff; }
-    .proposal-desc { font-size: 11px; color: #2c4a38; line-height: 1.4; }
+    .choice-btn small { display: block; font-size: 10.5px; font-weight: 500; opacity: 0.78; margin-top: 2px; }
+    .choice-btn:hover { border-color: var(--rr-green); }
+    .choice-btn.active {
+      background: var(--rr-green);
+      border-color: var(--rr-green);
+      color: #fff;
+      box-shadow: 0 3px 10px rgba(24, 100, 56, 0.25);
+    }
+    .choice-btn.active.purple {
+      background: #5b21b6;
+      border-color: #5b21b6;
+      box-shadow: 0 3px 10px rgba(91, 33, 182, 0.25);
+    }
+    .choice-btn.active.amber {
+      background: #b45309;
+      border-color: #b45309;
+    }
+    .choice-btn.active.danger {
+      background: #b91c1c;
+      border-color: #b91c1c;
+    }
+    .ctx-explain {
+      font-size: 12px;
+      color: #2d3e34;
+      line-height: 1.48;
+      background: rgba(255,255,255,0.72);
+      padding: 9px 11px;
+      border-radius: 9px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
 
-    /* FLOW LIST */
+    .spec-list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+    .spec-list li {
+      font-size: 12px;
+      line-height: 1.45;
+      padding: 7px 10px;
+      background: #f7faf8;
+      border-left: 3px solid var(--rr-green);
+      border-radius: 0 8px 8px 0;
+    }
+    .spec-list li.warn { background: #fff8eb; border-left-color: var(--rr-gold); }
+    .spec-list li.critical { background: var(--rr-danger-bg); border-left-color: var(--rr-danger); }
+
+    /* RIGHT NAV LIST */
     .flow-list { display: flex; flex-direction: column; gap: 5px; }
     .flow-btn {
       width: 100%;
@@ -195,73 +266,18 @@
     .flow-btn.active { background: var(--rr-green); border-color: var(--rr-green); color: #fff; }
     .flow-btn.rep-style.active { background: var(--rep-blue); border-color: var(--rep-blue); color: #fff; }
     .flow-num {
-      font-size: 11px;
-      font-weight: 700;
-      min-width: 26px;
-      height: 22px;
-      border-radius: 6px;
-      background: rgba(24, 100, 56, 0.12);
-      color: var(--rr-green-dark);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-size: 11px; font-weight: 700; min-width: 24px; height: 22px; border-radius: 6px;
+      background: rgba(24, 100, 56, 0.12); color: var(--rr-green-dark);
+      display: flex; align-items: center; justify-content: center;
     }
     .flow-btn.active .flow-num { background: rgba(255,255,255,0.22); color: #fff; }
     .flow-label { font-size: 12px; font-weight: 600; line-height: 1.25; }
     .flow-sub { font-size: 10.5px; opacity: 0.78; display: block; font-weight: 400; }
 
-    /* ENV CONTROLS */
-    .env-group { margin-top: 13px; padding-top: 13px; border-top: 1px dashed var(--rr-border); }
-    .env-title {
-      font-size: 10.5px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--rr-muted);
-      margin-bottom: 8px;
-    }
-    .env-select {
-      width: 100%;
-      padding: 7px 9px;
-      border-radius: 8px;
-      border: 1px solid #cbd7cf;
-      font-family: inherit;
-      font-size: 12px;
-      background: #fff;
-      margin-bottom: 8px;
-    }
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      background: #f6f9f7;
-      padding: 8px 10px;
-      border-radius: 9px;
-      border: 1px solid var(--rr-border);
-      margin-bottom: 8px;
-    }
-    .toggle-row label { font-size: 11.5px; font-weight: 600; color: var(--rr-text); cursor: pointer; }
-    .toggle-row small { display: block; font-size: 10px; color: var(--rr-muted); font-weight: 400; }
-    .switch { position: relative; width: 38px; height: 20px; flex-shrink: 0; }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; inset: 0; background: #c5d1c9; border-radius: 20px; cursor: pointer; transition: 0.2s; }
-    .slider::before {
-      content: "";
-      position: absolute;
-      width: 14px;
-      height: 14px;
-      left: 3px;
-      bottom: 3px;
-      background: #fff;
-      border-radius: 50%;
-      transition: 0.2s;
-    }
-    .switch input:checked + .slider { background: var(--rr-green); }
-    .switch input:checked + .slider::before { transform: translateX(18px); }
     .btn-reset {
       width: 100%;
-      padding: 8px;
+      padding: 9px;
+      margin-top: 12px;
       border-radius: 9px;
       border: 1px solid #cbd7cf;
       background: #fff;
@@ -276,21 +292,10 @@
        ============================================= */
     .phone-stage { display: flex; flex-direction: column; align-items: center; }
     .device-caption {
-      font-size: 11.5px;
-      font-weight: 600;
-      color: var(--rr-muted);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
+      font-size: 11.5px; font-weight: 600; color: var(--rr-muted);
+      margin-bottom: 8px; display: flex; align-items: center; gap: 7px;
     }
-    .device-caption .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
-    }
+    .device-caption .dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2); }
 
     .galaxy-a07 {
       position: relative;
@@ -323,131 +328,74 @@
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4);
     }
     .a07-notch {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 34px;
-      height: 24px;
-      background: #121417;
-      border-radius: 0 0 18px 18px;
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-bottom: 3px;
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 34px; height: 24px; background: #121417; border-radius: 0 0 18px 18px;
+      z-index: 50; display: flex; align-items: center; justify-content: center; padding-bottom: 3px;
     }
-    .a07-camera-lens {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #374a66 0%, #0d131c 65%, #000 100%);
-    }
+    .a07-camera-lens { width: 11px; height: 11px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #374a66 0%, #0d131c 65%, #000 100%); }
     .android-status {
-      height: 28px;
-      padding: 0 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 11.5px;
-      font-weight: 600;
-      background: var(--rr-green-dark);
-      color: #ffffff;
-      z-index: 40;
-      flex-shrink: 0;
+      height: 28px; padding: 0 18px; display: flex; align-items: center; justify-content: space-between;
+      font-size: 11.5px; font-weight: 600; background: var(--rr-green-dark); color: #ffffff; z-index: 40; flex-shrink: 0;
     }
     .android-status.rep { background: var(--rep-blue-dark); }
+    .android-status.offline { background: #334155; }
     .status-right { display: flex; align-items: center; gap: 6px; font-size: 10.5px; }
 
+    .offline-banner {
+      background: #334155;
+      color: #fde68a;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 12px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .offline-banner.show { display: flex; }
+
     .app-viewport {
-      flex: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
-      position: relative;
-      background: var(--rr-bg);
-      display: flex;
-      flex-direction: column;
-      scrollbar-width: thin;
+      flex: 1; overflow-y: auto; overflow-x: hidden; position: relative;
+      background: var(--rr-bg); display: flex; flex-direction: column; scrollbar-width: thin;
     }
     .app-viewport::-webkit-scrollbar { width: 4px; }
     .app-viewport::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); border-radius: 4px; }
 
     .android-navbar {
-      height: 42px;
-      background: #ffffff;
-      border-top: 1px solid #e5ece7;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      flex-shrink: 0;
-      z-index: 40;
+      height: 42px; background: #ffffff; border-top: 1px solid #e5ece7;
+      display: flex; align-items: center; justify-content: space-around; flex-shrink: 0; z-index: 40;
     }
-    .nav-btn {
-      background: none;
-      border: none;
-      width: 56px;
-      height: 36px;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      color: #4b5563;
-    }
+    .nav-btn { background: none; border: none; width: 56px; height: 36px; border-radius: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #4b5563; }
     .nav-btn:hover { background: #edf2ef; color: #111827; }
 
-    /* IN-APP COMPONENTS */
+    /* IN-APP UI */
     .screen { display: none; flex-direction: column; min-height: 100%; animation: fadeIn 0.18s ease; }
     .screen.active { display: flex; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
     .app-topbar {
-      background: var(--rr-green);
-      color: #fff;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-shrink: 0;
+      background: var(--rr-green); color: #fff; padding: 12px 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-shrink: 0;
     }
     .app-topbar.rep { background: var(--rep-blue); }
     .app-topbar h3 { font-size: 15px; font-weight: 700; flex: 1; }
     .icon-btn {
-      background: rgba(255,255,255,0.15);
-      border: none;
-      color: #fff;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+      background: rgba(255,255,255,0.15); border: none; color: #fff;
+      width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
     }
     .icon-btn:hover { background: rgba(255,255,255,0.28); }
     .screen-pad { padding: 15px 15px 22px; flex: 1; display: flex; flex-direction: column; }
 
     .btn {
-      width: 100%;
-      padding: 12px 15px;
-      border-radius: 12px;
-      border: none;
-      font-family: inherit;
-      font-size: 13.5px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.15s;
+      width: 100%; padding: 12px 15px; border-radius: 12px; border: none;
+      font-family: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.15s;
     }
     .btn:active { transform: scale(0.98); }
     .btn-primary { background: var(--rr-green); color: #fff; box-shadow: 0 4px 12px rgba(24, 100, 56, 0.25); }
     .btn-primary:hover { background: var(--rr-green-dark); }
     .btn-rep { background: var(--rep-blue); color: #fff; box-shadow: 0 4px 12px rgba(22, 78, 99, 0.25); }
-    .btn-rep:hover { background: var(--rep-blue-dark); }
     .btn-secondary { background: var(--rr-green-light); color: var(--rr-green-dark); border: 1px solid #b8dec6; }
     .btn-outline { background: #fff; color: var(--rr-text); border: 1.5px solid #cbd7cf; }
     .btn-outline:hover { border-color: var(--rr-green); color: var(--rr-green); }
@@ -458,127 +406,48 @@
     .form-group { margin-bottom: 11px; }
     .form-label { display: block; font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 4px; }
     .form-input, .form-select {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1.5px solid #cfd9d2;
-      font-family: inherit;
-      font-size: 13.5px;
-      background: #fff;
-      color: var(--rr-text);
-      outline: none;
+      width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid #cfd9d2;
+      font-family: inherit; font-size: 13.5px; background: #fff; color: var(--rr-text); outline: none;
     }
     .form-input:focus, .form-select:focus { border-color: var(--rr-green); }
-    .form-input:disabled { background: #f1f5f9; color: #475569; }
 
     .check-box-group { display: flex; flex-direction: column; gap: 7px; margin: 10px 0 13px; }
     .check-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 9px;
-      font-size: 12px;
-      color: #2c3a31;
-      line-height: 1.38;
-      cursor: pointer;
-      background: #fff;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid var(--rr-border);
+      display: flex; align-items: flex-start; gap: 9px; font-size: 12px; color: #2c3a31;
+      line-height: 1.38; cursor: pointer; background: #fff; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--rr-border);
     }
     .check-item input { margin-top: 2px; width: 16px; height: 16px; accent-color: var(--rr-green); flex-shrink: 0; }
 
-    .card {
-      background: #fff;
-      border: 1px solid var(--rr-border);
-      border-radius: 14px;
-      padding: 13px;
-      box-shadow: 0 2px 8px rgba(16, 42, 27, 0.04);
-    }
+    .card { background: #fff; border: 1px solid var(--rr-border); border-radius: 14px; padding: 13px; box-shadow: 0 2px 8px rgba(16, 42, 27, 0.04); }
 
-    .hero-banner {
-      background: linear-gradient(160deg, #13522d 0%, #1e7a44 100%);
-      padding: 18px 18px 28px;
-      text-align: center;
-      color: #fff;
-    }
+    .hero-banner { background: linear-gradient(160deg, #13522d 0%, #1e7a44 100%); padding: 18px 18px 28px; text-align: center; color: #fff; }
     .hero-banner.rep { background: linear-gradient(160deg, #0e3746 0%, #0e7490 100%); }
     .hero-logo-circle {
-      width: 78px;
-      height: 78px;
-      border-radius: 50%;
-      background: #fff;
-      margin: 0 auto 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      border: 3px solid #66c289;
+      width: 78px; height: 78px; border-radius: 50%; background: #fff; margin: 0 auto 9px;
+      display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border: 3px solid #66c289;
     }
     .hero-banner.rep .hero-logo-circle { border-color: #67e8f9; }
-    .hero-sheet {
-      background: var(--rr-bg);
-      border-radius: 24px 24px 0 0;
-      margin-top: -18px;
-      padding: 18px 16px 22px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
+    .hero-sheet { background: var(--rr-bg); border-radius: 24px 24px 0 0; margin-top: -18px; padding: 18px 16px 22px; flex: 1; display: flex; flex-direction: column; }
 
     .tut-card { background: #fff; border: 1px solid var(--rr-border); border-radius: 14px; padding: 11px 13px; margin-bottom: 13px; }
     .tut-step { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; }
     .tut-step + .tut-step { border-top: 1px solid #eef3f0; }
-    .tut-icon {
-      width: 28px; height: 28px; border-radius: 8px;
-      background: var(--rr-green-light); color: var(--rr-green);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 13.5px; flex-shrink: 0;
-    }
+    .tut-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--rr-green-light); color: var(--rr-green); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13.5px; flex-shrink: 0; }
     .tut-step h4 { font-size: 12.5px; font-weight: 700; margin-bottom: 2px; }
     .tut-step p { font-size: 11.5px; color: var(--rr-muted); line-height: 1.35; }
 
-    .es-header {
-      background: var(--rr-green);
-      color: #fff;
-      padding: 12px 16px 15px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    .es-header { background: var(--rr-green); color: #fff; padding: 12px 16px 15px; display: flex; align-items: center; justify-content: space-between; }
     .es-header.rep { background: var(--rep-blue); }
-    .es-badge-pill {
-      background: rgba(255,255,255,0.16);
-      border: 1px solid rgba(255,255,255,0.28);
-      color: #fff;
-      border-radius: 11px;
-      padding: 5px 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 800;
-      font-size: 13px;
-    }
+    .es-badge-pill { background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.28); color: #fff; border-radius: 11px; padding: 5px 10px; display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 13px; }
 
     .prop-card {
-      background: #fff;
-      border: 1.5px solid var(--rr-border);
-      border-radius: 14px;
-      padding: 12px 13px;
-      margin-bottom: 9px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      transition: all 0.15s;
+      background: #fff; border: 1.5px solid var(--rr-border); border-radius: 14px; padding: 12px 13px;
+      margin-bottom: 9px; cursor: pointer; display: flex; align-items: center; gap: 11px; transition: all 0.15s;
     }
     .prop-card:hover { border-color: var(--rr-green); box-shadow: 0 4px 12px rgba(24, 100, 56, 0.1); }
-    .prop-pin {
-      width: 38px; height: 38px; border-radius: 11px;
-      background: var(--rr-green-light); color: var(--rr-green);
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
+    .prop-pin { width: 38px; height: 38px; border-radius: 11px; background: var(--rr-green-light); color: var(--rr-green); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .prop-pin.warn { background: #fef3c7; color: #b45309; }
-    .prop-pin.danger { background: var(--rr-danger-bg); color: var(--rr-danger); }
+    .prop-pin.sync { background: #e0e7ff; color: #3730a3; }
     .prop-info { flex: 1; min-width: 0; }
     .prop-name { font-size: 13.5px; font-weight: 800; color: var(--rr-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .prop-erd { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; color: var(--rr-green); margin-top: 2px; }
@@ -589,156 +458,56 @@
     .status-chip.ok { background: #dcfce7; color: #166534; }
     .status-chip.pending { background: #fef3c7; color: #92400e; }
     .status-chip.danger { background: var(--rr-danger-bg); color: var(--rr-danger); }
+    .status-chip.sync { background: #e0e7ff; color: #3730a3; }
 
-    /* REP HOME STATUS BUTTONS */
     .rep-menu-btn {
-      width: 100%;
-      background: #fff;
-      border: 1.5px solid var(--rr-border);
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-align: left;
-      font-family: inherit;
-      transition: all 0.15s;
+      width: 100%; background: #fff; border: 1.5px solid var(--rr-border); border-radius: 14px;
+      padding: 14px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 12px; text-align: left; font-family: inherit;
     }
-    .rep-menu-btn:hover { border-color: var(--rep-blue); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(14,55,70,0.08); }
-    .rep-menu-icon {
-      width: 42px; height: 42px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0;
-    }
-    .rep-menu-count {
-      margin-left: auto;
-      font-size: 13px;
-      font-weight: 800;
-      min-width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .rep-menu-btn:hover { border-color: var(--rep-blue); }
+    .rep-menu-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
+    .rep-menu-count { margin-left: auto; font-size: 13px; font-weight: 800; min-width: 28px; height: 28px; border-radius: 999px; display: flex; align-items: center; justify-content: center; }
 
-    /* MAP & CAMERA */
-    .map-box {
-      position: relative;
-      width: 100%;
-      height: 235px;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 2px solid #b9cdc0;
-      background: #3d5a3c;
-    }
-    .map-overlay-badge {
-      position: absolute;
-      top: 9px;
-      left: 9px;
-      background: rgba(16, 42, 27, 0.88);
-      color: #fff;
-      font-size: 10.5px;
-      font-weight: 600;
-      padding: 5px 9px;
-      border-radius: 8px;
-      pointer-events: none;
-    }
-    .map-erd-pill {
-      position: absolute;
-      bottom: 9px;
-      left: 9px;
-      right: 9px;
-      background: rgba(255,255,255,0.95);
-      padding: 7px 10px;
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 11px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-    }
-    .map-erd-pill code { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--rr-green-dark); font-size: 12px; }
+    .map-box { position: relative; width: 100%; height: 225px; border-radius: 14px; overflow: hidden; border: 2px solid #b9cdc0; background: #3d5a3c; }
+    .map-overlay-badge { position: absolute; top: 9px; left: 9px; background: rgba(16, 42, 27, 0.88); color: #fff; font-size: 10.5px; font-weight: 600; padding: 5px 9px; border-radius: 8px; pointer-events: none; }
 
     .camera-box {
-      background: #111827;
-      border-radius: 14px;
-      overflow: hidden;
-      position: relative;
-      height: 195px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      margin-bottom: 11px;
-      border: 2px solid #2d3748;
+      background: #111827; border-radius: 14px; overflow: hidden; position: relative;
+      height: 195px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; margin-bottom: 11px; border: 2px solid #2d3748;
     }
     .camera-frame { position: absolute; inset: 14px; border: 2px dashed rgba(255,255,255,0.45); border-radius: 10px; pointer-events: none; }
     .shutter-btn { width: 52px; height: 52px; border-radius: 50%; background: #fff; border: 4px solid rgba(255,255,255,0.4); cursor: pointer; position: relative; z-index: 3; }
 
-    /* SIGNATURE PAD */
     .sig-wrapper { background: #ffffff; border: 1.5px dashed #8eb69e; border-radius: 12px; overflow: hidden; position: relative; margin-bottom: 10px; }
     .sig-canvas { width: 100%; height: 125px; display: block; cursor: crosshair; touch-action: none; }
     .sig-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #94a3b8; pointer-events: none; }
     .sig-line { position: absolute; left: 18px; right: 18px; bottom: 22px; border-bottom: 1px solid #cbd5e1; pointer-events: none; }
-    .termo-document {
-      background: #ffffff;
-      border: 1px solid #cfd9d2;
-      border-radius: 12px;
-      padding: 13px;
-      font-size: 12px;
-      line-height: 1.55;
-      color: #1f2937;
-      margin-bottom: 12px;
-    }
+    .termo-document { background: #ffffff; border: 1px solid #cfd9d2; border-radius: 12px; padding: 13px; font-size: 12px; line-height: 1.55; color: #1f2937; margin-bottom: 12px; }
     .termo-document p + p { margin-top: 9px; }
 
-    /* MODAL & TOAST INSIDE PHONE */
+    /* MODAL & CENTER POPUP INSIDE PHONE */
     .phone-modal-backdrop {
-      position: absolute; inset: 0;
-      background: rgba(15, 23, 42, 0.58);
-      z-index: 80; display: none;
-      align-items: flex-end; justify-content: center;
+      position: absolute; inset: 0; background: rgba(15, 23, 42, 0.68);
+      z-index: 80; display: none; align-items: flex-end; justify-content: center;
       padding: 12px; backdrop-filter: blur(2px);
     }
+    .phone-modal-backdrop.center { align-items: center; }
     .phone-modal-backdrop.open { display: flex; }
     .phone-modal {
-      background: #fff; width: 100%; border-radius: 20px;
-      padding: 17px 15px; box-shadow: 0 12px 32px rgba(0,0,0,0.28);
-      max-height: 86%; overflow-y: auto;
+      background: #fff; width: 100%; border-radius: 20px; padding: 18px 16px;
+      box-shadow: 0 14px 36px rgba(0,0,0,0.32); max-height: 86%; overflow-y: auto;
     }
+
     .phone-toast {
-      position: absolute; bottom: 52px; left: 14px; right: 14px;
-      background: #102a1b; color: #fff; font-size: 11.5px; font-weight: 600;
-      padding: 9px 12px; border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,0.28);
-      z-index: 95; opacity: 0; transform: translateY(10px);
+      position: absolute; bottom: 52px; left: 14px; right: 14px; background: #102a1b; color: #fff;
+      font-size: 11.5px; font-weight: 600; padding: 9px 12px; border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.28); z-index: 95; opacity: 0; transform: translateY(10px);
       pointer-events: none; transition: all 0.22s ease; text-align: center;
     }
     .phone-toast.show { opacity: 1; transform: translateY(0); }
 
-    /* DEV SPEC PANEL */
-    .spec-tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; background: var(--rr-green-light); color: var(--rr-green-dark); margin-bottom: 7px; }
-    .spec-title { font-size: 16px; font-weight: 800; margin-bottom: 5px; }
-    .spec-desc { font-size: 12.5px; color: var(--rr-muted); line-height: 1.5; margin-bottom: 12px; }
-    .spec-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--rr-green-dark); margin: 12px 0 6px; }
-    .spec-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-    .spec-list li { font-size: 12px; line-height: 1.45; padding: 7px 10px; background: #f7faf8; border-left: 3px solid var(--rr-green); border-radius: 0 8px 8px 0; }
-    .spec-list li.warn { background: #fff8eb; border-left-color: var(--rr-gold); }
-    .spec-list li.critical { background: var(--rr-danger-bg); border-left-color: var(--rr-danger); }
-    .code-box {
-      background: #111b15; color: #a7f3d0; font-family: 'JetBrains Mono', monospace;
-      font-size: 10.5px; line-height: 1.48; padding: 11px; border-radius: 10px;
-      overflow-x: auto; white-space: pre-wrap; margin-top: 6px;
-    }
-
     .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-    .mini-chip {
-      font-size: 11px; font-weight: 600; background: var(--rr-green-light);
-      color: var(--rr-green-dark); border: 1px solid #b7dcc4;
-      border-radius: 8px; padding: 5px 8px; cursor: pointer;
-    }
+    .mini-chip { font-size: 11px; font-weight: 600; background: var(--rr-green-light); color: var(--rr-green-dark); border: 1px solid #b7dcc4; border-radius: 8px; padding: 5px 8px; cursor: pointer; }
     .mini-chip:hover { background: #ccebd7; }
 
     .divider-text { display: flex; align-items: center; gap: 10px; font-size: 11.5px; color: var(--rr-muted); margin: 12px 0; }
@@ -753,123 +522,25 @@
     .sp-icon-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin: 20px 0; text-align: center; }
     .sp-icon-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; color: #555; cursor: pointer; padding: 5px 2px; }
 
-    /* =============================================
-       WEB DESKTOP PANEL — ESCRITÓRIO (TÉCNICOS GEO)
-       ============================================= */
-    .office-wrap {
-      max-width: 1360px;
-      margin: 22px auto 40px;
-      padding: 0 20px;
-    }
-    .office-login-card {
-      max-width: 420px;
-      margin: 48px auto;
-      background: #fff;
-      border-radius: 18px;
-      border: 1px solid var(--rr-border);
-      box-shadow: 0 16px 40px rgba(16, 42, 27, 0.1);
-      overflow: hidden;
-    }
-    .office-shell {
-      background: #fff;
-      border-radius: 18px;
-      border: 1px solid var(--rr-border);
-      box-shadow: 0 14px 36px rgba(16, 42, 27, 0.08);
-      overflow: hidden;
-    }
-    .office-topbar {
-      background: #1e1b4b;
-      color: #fff;
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .office-grid {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      min-height: 620px;
-    }
-    @media (max-width: 920px) {
-      .office-grid { grid-template-columns: 1fr; }
-    }
-    .office-sidebar {
-      background: #f8fafc;
-      border-right: 1px solid #e2e8f0;
-      padding: 20px 16px;
-    }
+    /* WEB DESKTOP PANEL — ESCRITÓRIO */
+    .office-wrap { max-width: 1360px; margin: 22px auto 40px; padding: 0 20px; }
+    .office-login-card { max-width: 420px; margin: 48px auto; background: #fff; border-radius: 18px; border: 1px solid var(--rr-border); box-shadow: 0 16px 40px rgba(16, 42, 27, 0.1); overflow: hidden; }
+    .office-shell { background: #fff; border-radius: 18px; border: 1px solid var(--rr-border); box-shadow: 0 14px 36px rgba(16, 42, 27, 0.08); overflow: hidden; }
+    .office-topbar { background: #1e1b4b; color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .office-grid { display: grid; grid-template-columns: 270px 1fr; min-height: 620px; }
+    @media (max-width: 920px) { .office-grid { grid-template-columns: 1fr; } }
+    .office-sidebar { background: #f8fafc; border-right: 1px solid #e2e8f0; padding: 20px 16px; }
     .office-main { padding: 22px 24px; }
-
-    .muni-pill {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 9px 11px;
-      border-radius: 10px;
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 7px;
-      cursor: pointer;
-      font-size: 12.5px;
-      font-weight: 600;
-    }
+    .muni-pill { display: flex; align-items: center; justify-content: space-between; padding: 9px 11px; border-radius: 10px; background: #fff; border: 1px solid #e2e8f0; margin-bottom: 7px; cursor: pointer; font-size: 12.5px; font-weight: 600; }
     .muni-pill.active { background: #eef2ff; border-color: #6366f1; color: #312e81; }
-
-    .queue-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      margin-top: 12px;
-    }
-    .queue-table th {
-      text-align: left;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: #64748b;
-      padding: 10px 12px;
-      border-bottom: 2px solid #e2e8f0;
-    }
-    .queue-table td {
-      padding: 12px;
-      border-bottom: 1px solid #f1f5f9;
-      vertical-align: middle;
-    }
-    .queue-table tr:hover td { background: #f8fafc; }
-
-    /* FAST VALIDATOR VIEW */
-    .validator-layout {
-      display: grid;
-      grid-template-columns: 1.35fr 1fr;
-      gap: 20px;
-      align-items: start;
-    }
+    .queue-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+    .queue-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: #64748b; padding: 10px 12px; border-bottom: 2px solid #e2e8f0; }
+    .queue-table td { padding: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+    .validator-layout { display: grid; grid-template-columns: 1.35fr 1fr; gap: 20px; align-items: start; }
     @media (max-width: 980px) { .validator-layout { grid-template-columns: 1fr; } }
-
-    .office-map-box {
-      position: relative;
-      width: 100%;
-      height: 410px;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 2px solid #cbd5e1;
-      background: #3d5a3c;
-    }
-    .office-map-box.suggesting {
-      cursor: crosshair;
-      border-color: #6366f1;
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25);
-    }
-    .map-legend {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      font-size: 11.5px;
-      margin-top: 10px;
-      color: #475569;
-    }
+    .office-map-box { position: relative; width: 100%; height: 410px; border-radius: 14px; overflow: hidden; border: 2px solid #cbd5e1; background: #3d5a3c; }
+    .office-map-box.suggesting { cursor: crosshair; border-color: #6366f1; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25); }
+    .map-legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 11.5px; margin-top: 10px; color: #475569; }
     .legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; }
   </style>
 </head>
@@ -886,132 +557,50 @@
       </svg>
       <div>
         <h1>Simulador Ecossistema Rotas Rurais — ES</h1>
-        <span>3 níveis de acesso integrados em tempo real</span>
+        <span>Guia interativo por etapa • 3 níveis de acesso integrados</span>
       </div>
     </div>
 
     <div class="profile-switcher">
-      <button class="profile-tab active cidadao" id="tabProfileCidadao" onclick="switchProfile('cidadao')">
-        📱 App Cidadão
-      </button>
-      <button class="profile-tab representante" id="tabProfileRep" onclick="switchProfile('representante')">
-        📱 App Representante
-      </button>
-      <button class="profile-tab escritorio" id="tabProfileEscritorio" onclick="switchProfile('escritorio')">
-        💻 Painel Escritório <span class="tab-count" id="headerOfficeBadge">2</span>
-      </button>
+      <button class="profile-tab active cidadao" id="tabProfileCidadao" onclick="switchProfile('cidadao')">📱 App Cidadão</button>
+      <button class="profile-tab representante" id="tabProfileRep" onclick="switchProfile('representante')">📱 App Representante</button>
+      <button class="profile-tab escritorio" id="tabProfileEscritorio" onclick="switchProfile('escritorio')">💻 Painel Escritório <span class="tab-count" id="headerOfficeBadge">2</span></button>
     </div>
   </header>
 
   <!-- ======================================================================
-       MODO 1: APP DO CIDADÃO (GALAXY A07)
+       MODO 1: APP DO CIDADÃO (ESQUERDA = GUIA CONTEXTUAL | CENTRO = A07 | DIREITA = NAVEGAÇÃO)
        ====================================================================== -->
   <div class="mode-view active" id="mode-cidadao">
     <main class="workspace">
-      <!-- LEFT CONTROLS -->
+
+      <!-- LEFT PANEL: CONTEXTUAL EXPLANATION & CONDITIONAL CONTROLS -->
       <aside class="panel panel-left">
         <div class="panel-header">
-          <h2>Controles — App Cidadão</h2>
+          <h2>Explicação e Cenários desta Tela</h2>
+          <span style="font-size:11px; color:var(--rr-green); font-weight:700;" id="cLeftStepBadge">ETAPA 1</span>
         </div>
-        <div class="panel-body">
-          <div class="proposal-box">
-            <div class="proposal-box-title">Registro — Escolha da Coordenação</div>
-            <div class="proposal-tabs">
-              <button class="proposal-tab active" id="tabForma1" onclick="setProposal('forma1')">FORMA 1</button>
-              <button class="proposal-tab" id="tabForma2" onclick="setProposal('forma2')">FORMA 2</button>
-            </div>
-            <div class="proposal-desc" id="proposalDesc">
-              <strong>Forma 1:</strong> Não exige estar dentro da propriedade. Escolha entre localização ou busca por CAR.
-            </div>
-          </div>
-
-          <div class="flow-list">
-            <button class="flow-btn active" data-cscreen="onboarding" onclick="cGoTo('onboarding')">
-              <span class="flow-num">1</span>
-              <span class="flow-label">Abertura inicial<span class="flow-sub">Apresentação e Como Funciona</span></span>
-            </button>
-            <button class="flow-btn" data-cscreen="login" onclick="cGoTo('login')">
-              <span class="flow-num">2</span>
-              <span class="flow-label">Login e Cadastro<span class="flow-sub">CPF, moradia e autorizações</span></span>
-            </button>
-            <button class="flow-btn" data-cscreen="es-home" onclick="cGoTo('es-home')">
-              <span class="flow-num">3</span>
-              <span class="flow-label">Home Espírito Santo<span class="flow-sub">Registrar, Propriedades e Ajuda</span></span>
-            </button>
-            <button class="flow-btn" data-cscreen="es-reg" onclick="openRegistrarCidadao()">
-              <span class="flow-num">4</span>
-              <span class="flow-label">Registrar Propriedade<span class="flow-sub" id="navRegSub">Fluxo da Forma 1</span></span>
-            </button>
-            <button class="flow-btn" data-cscreen="es-photo" onclick="cGoTo('es-photo')">
-              <span class="flow-num">5</span>
-              <span class="flow-label">Foto Geolocalizada<span class="flow-sub">Open Buildings e raio de 10m</span></span>
-            </button>
-            <button class="flow-btn" data-cscreen="es-lgpd" onclick="cGoTo('es-lgpd')">
-              <span class="flow-num">6</span>
-              <span class="flow-label">Termo LGPD e Assinatura<span class="flow-sub">Declaração + assinatura digital</span></span>
-            </button>
-          </div>
-
-          <div class="env-group">
-            <div class="env-title">Simulação de Validação Automática</div>
-
-            <label style="font-size:11px; font-weight:600; display:block; margin-bottom:3px;">Estado do cadastro no Login</label>
-            <select class="env-select" id="simUserState" onchange="updateEnv()">
-              <option value="ES" selected>Espírito Santo — Domingos Martins</option>
-              <option value="SP">São Paulo — Itu</option>
-              <option value="MG">Minas Gerais — Fora da área</option>
-            </select>
-
-            <div class="toggle-row">
-              <label for="simAtProperty">
-                GPS dentro do CAR?
-                <small id="simAtPropertyHint">Sim — usado na trava da Forma 2</small>
-              </label>
-              <label class="switch">
-                <input type="checkbox" id="simAtProperty" checked onchange="updateEnv()">
-                <span class="slider"></span>
-              </label>
-            </div>
-
-            <div class="toggle-row">
-              <label for="simOpenBuildings">
-                Foto sobrepõe Open Buildings?
-                <small id="simObHint">Não — foto fora de edificação</small>
-              </label>
-              <label class="switch">
-                <input type="checkbox" id="simOpenBuildings" onchange="updateEnv()">
-                <span class="slider"></span>
-              </label>
-            </div>
-
-            <div class="toggle-row">
-              <label for="simWithin10m">
-                Foto dentro do raio de 10m?
-                <small id="sim10mHint">Sim — valida na hora</small>
-              </label>
-              <label class="switch">
-                <input type="checkbox" id="simWithin10m" checked onchange="updateEnv()">
-                <span class="slider"></span>
-              </label>
-            </div>
-
-            <button class="btn-reset" onclick="resetAll()">↺ Reiniciar Simulador</button>
-          </div>
+        <div class="panel-body" id="cContextualGuide">
+          <!-- Renderizado dinamicamente conforme a tela atual! -->
         </div>
       </aside>
 
-      <!-- GALAXY A07 — CIDADÃO -->
+      <!-- CENTER: SAMSUNG GALAXY A07 — CIDADÃO -->
       <section class="phone-stage">
-        <div class="device-caption"><span class="dot"></span> App Rotas Rurais — Cidadão • Galaxy A07</div>
+        <div class="device-caption"><span class="dot" id="cStatusDot"></span> App Rotas Rurais — Cidadão • Galaxy A07</div>
         <div class="galaxy-a07">
           <div class="a07-earpiece"></div>
           <div class="hw-btn hw-vol"></div>
           <div class="hw-btn hw-power" onclick="cGoTo('onboarding')"></div>
           <div class="a07-screen">
             <div class="a07-notch"><div class="a07-camera-lens"></div></div>
-            <div class="android-status">
-              <span>15:05</span>
-              <div class="status-right"><span>4G</span><span>84%</span></div>
+            <div class="android-status" id="cAndroidStatus">
+              <span>11:15</span>
+              <div class="status-right"><span id="cSignalLabel">4G</span><span>84%</span></div>
+            </div>
+            <div class="offline-banner" id="cOfflineBanner">
+              <span id="cOfflineBannerText">📡 Modo sem internet ativo</span>
+              <button onclick="setOnlineMode(true)" style="background:#fde68a; color:#1e293b; border:none; border-radius:6px; padding:3px 7px; font-size:10px; font-weight:800; cursor:pointer;">Voltar sinal</button>
             </div>
 
             <div class="app-viewport" id="cViewport">
@@ -1175,6 +764,17 @@
                   <button class="icon-btn" onclick="cGoTo('login')" title="Sair">👤</button>
                 </div>
                 <div class="screen-pad">
+                  <!-- Pacote Offline badge (aparece na Opção B de Offline) -->
+                  <div id="cOfflinePackStatus" class="alert-box info" style="display:none; font-size:11.5px; padding:9px 11px;">
+                    📦 <strong>Pacote offline pronto:</strong> Domingos Martins • 6,4 MB salvos para validação sem internet.
+                  </div>
+
+                  <!-- Botão sincronizar pendências offline -->
+                  <div id="cPendingSyncBanner" class="alert-box warn" style="display:none; font-size:11.5px; padding:10px;">
+                    <div style="margin-bottom:7px;"><strong>📡 Há registro salvo sem internet!</strong><br>Quando voltar o sinal, o servidor fará os cruzamentos.</div>
+                    <button class="btn btn-primary" style="padding:8px; font-size:12px;" onclick="syncOfflineQueueNow()">↻ Simular volta da internet e sincronizar</button>
+                  </div>
+
                   <button class="btn btn-primary" style="padding:14px; font-size:14px; margin-bottom:16px;" onclick="openRegistrarCidadao()">
                     ＋ REGISTRAR PROPRIEDADE
                   </button>
@@ -1222,10 +822,11 @@
                   <div id="cForma2Alert" class="alert-box danger" style="display:none; margin-top:14px;">
                     Para registrar sua propriedade e retirar seu endereço, você precisa estar na propriedade.
                   </div>
+                  <div id="cForma2OfflineNote" class="alert-box info" style="display:none; margin-top:12px; font-size:11.5px;"></div>
                 </div>
               </div>
 
-              <!-- C5: FOTO GEOLOCALIZADA + OPEN BUILDINGS + RAIO 10M (SEM MOVER PINO!) -->
+              <!-- C5: FOTO GEOLOCALIZADA + POP-UP OPEN BUILDINGS + RAIO 10M -->
               <div class="screen" id="c-screen-es-photo">
                 <div class="app-topbar"><button class="icon-btn" onclick="cGoBack()">←</button><h3>Foto da Porteira</h3></div>
                 <div class="screen-pad">
@@ -1234,7 +835,7 @@
                   </div>
 
                   <p style="font-size:12px; color:var(--rr-text); line-height:1.4; margin-bottom:10px;">
-                    Tire uma foto nítida da <strong>porteira</strong>. A foto será geolocalizada automaticamente para validar seu endereço.
+                    Tire uma foto nítida da <strong>porteira</strong>. A foto registra as coordenadas GPS automaticamente.
                   </p>
 
                   <div class="camera-box">
@@ -1254,23 +855,15 @@
                         <rect x="92" y="102" width="136" height="8" fill="#92400e"/>
                         <rect x="92" y="118" width="136" height="8" fill="#92400e"/>
                         <rect x="92" y="134" width="136" height="8" fill="#92400e"/>
-                        <rect x="8" y="168" width="215" height="20" rx="4" fill="rgba(0,0,0,0.65)"/>
+                        <rect x="8" y="168" width="230" height="20" rx="4" fill="rgba(0,0,0,0.65)"/>
                         <text x="14" y="182" fill="#fff" font-size="9.5" font-family="monospace" id="cPhotoCoordsText">GPS -20.3632, -40.6591 • 4m da porteira</text>
                       </svg>
                       <button onclick="cRetakePhoto()" style="position:absolute; top:9px; right:9px; background:rgba(0,0,0,0.65); color:#fff; border:none; border-radius:8px; padding:5px 9px; font-size:11px; cursor:pointer;">↻ Refazer</button>
                     </div>
                   </div>
 
-                  <!-- AVISO OPEN BUILDINGS -->
-                  <div id="cOpenBuildingsWarn" class="alert-box warn" style="display:none;">
-                    <strong>⚠ Atenção: edificação detectada no local da foto</strong><br>
-                    Lembramos que a foto deve ser tirada da <strong>porteira</strong>. Uma foto que não seja da porteira pode fazer com que o endereço não seja validado.
-                  </div>
-
-                  <!-- RESULTADO DO RAIO DE 10M -->
                   <div id="cRadiusInfo" class="alert-box" style="display:none;"></div>
 
-                  <!-- NOME DA PROPRIEDADE -->
                   <div id="cNameAfterPhoto" style="display:none; margin-top:4px;">
                     <div class="form-group">
                       <label class="form-label">NOME DA PROPRIEDADE *</label>
@@ -1312,15 +905,18 @@
                 <div class="app-topbar"><button class="icon-btn" onclick="cGoTo('es-home')">←</button><h3>Ajuda</h3></div>
                 <div class="screen-pad">
                   <div class="card" style="margin-bottom:10px;">
-                    <h4 style="font-size:13px; color:var(--rr-green-dark); margin-bottom:4px;">Validação em até 2 dias úteis</h4>
-                    <p style="font-size:12px; color:var(--rr-muted); line-height:1.45;">Se a foto da porteira estiver a mais de 10 metros do ponto original, nossa equipe técnica analisa e libera seu endereço em até 2 dias úteis.</p>
+                    <h4 style="font-size:13px; color:var(--rr-green-dark); margin-bottom:4px;">Funciona sem internet?</h4>
+                    <p style="font-size:12px; color:var(--rr-muted); line-height:1.45;">Sim! Você pode fotografar a porteira e assinar o termo mesmo sem sinal na zona rural. Os dados sincronizam assim que o celular voltar a ter internet.</p>
                   </div>
                   <button class="btn btn-secondary" onclick="cGoTo('onboarding')">Rever Apresentação</button>
                 </div>
               </div>
             </div>
 
-            <div class="phone-modal-backdrop" id="cModalBg" onclick="if(event.target===this) closeCModal()"><div class="phone-modal" id="cModalContent"></div></div>
+            <!-- MODAL / POP-UP OVERLAY -->
+            <div class="phone-modal-backdrop" id="cModalBg" onclick="if(event.target===this && !state.modalLocked) closeCModal()">
+              <div class="phone-modal" id="cModalContent"></div>
+            </div>
             <div class="phone-toast" id="cToast"></div>
 
             <div class="android-navbar">
@@ -1332,62 +928,52 @@
         </div>
       </section>
 
-      <!-- RIGHT DEV SPEC -->
+      <!-- RIGHT PANEL: CLEAN QUICK NAVIGATION -->
       <aside class="panel panel-right">
-        <div class="panel-header"><h2>Especificação — Cidadão</h2><span style="font-size:11px; color:var(--rr-green); font-weight:700;" id="cSpecCode">ETAPA 1</span></div>
-        <div class="panel-body" id="cDevSpec"></div>
+        <div class="panel-header"><h2>Navegação Rápida</h2></div>
+        <div class="panel-body">
+          <div class="flow-list">
+            <button class="flow-btn active" data-cscreen="onboarding" onclick="cGoTo('onboarding')">
+              <span class="flow-num">1</span>
+              <span class="flow-label">Abertura inicial<span class="flow-sub">Apresentação e Como Funciona</span></span>
+            </button>
+            <button class="flow-btn" data-cscreen="login" onclick="cGoTo('login')">
+              <span class="flow-num">2</span>
+              <span class="flow-label">Login e Cadastro<span class="flow-sub">CPF, Moradia e autorizações</span></span>
+            </button>
+            <button class="flow-btn" data-cscreen="es-home" onclick="cGoTo('es-home')">
+              <span class="flow-num">3</span>
+              <span class="flow-label">Home Espírito Santo<span class="flow-sub">Registrar, Propriedades, Ajuda</span></span>
+            </button>
+            <button class="flow-btn" data-cscreen="es-reg" onclick="openRegistrarCidadao()">
+              <span class="flow-num">4</span>
+              <span class="flow-label">Registrar Propriedade<span class="flow-sub" id="navRegSub">Forma 1 ou Forma 2</span></span>
+            </button>
+            <button class="flow-btn" data-cscreen="es-photo" onclick="cGoTo('es-photo')">
+              <span class="flow-num">5</span>
+              <span class="flow-label">Foto Geolocalizada<span class="flow-sub">Open Buildings, 10m e Offline</span></span>
+            </button>
+            <button class="flow-btn" data-cscreen="es-lgpd" onclick="cGoTo('es-lgpd')">
+              <span class="flow-num">6</span>
+              <span class="flow-label">Termo LGPD e Assinatura<span class="flow-sub">Declaração + assinatura digital</span></span>
+            </button>
+          </div>
+          <button class="btn-reset" onclick="resetAll()">↺ Reiniciar Simulador</button>
+        </div>
       </aside>
     </main>
   </div>
 
   <!-- ======================================================================
-       MODO 2: APP DO REPRESENTANTE (OUTRO APP NO GALAXY A07)
+       MODO 2: APP DO REPRESENTANTE (ESQUERDA = GUIA | CENTRO = A07 | DIREITA = NAV)
        ====================================================================== -->
   <div class="mode-view" id="mode-representante">
     <main class="workspace">
       <aside class="panel panel-left">
-        <div class="panel-header"><h2>Controles — Representante</h2></div>
-        <div class="panel-body">
-          <div class="flow-list">
-            <button class="flow-btn rep-style active" data-rscreen="login" onclick="rGoTo('login')">
-              <span class="flow-num">1</span>
-              <span class="flow-label">Login do Representante<span class="flow-sub">CPF e senha, sem cadastro</span></span>
-            </button>
-            <button class="flow-btn rep-style" data-rscreen="home" onclick="rGoTo('home')">
-              <span class="flow-num">2</span>
-              <span class="flow-label">Home Representante<span class="flow-sub">Entregar, Não Confirmadas, Aguardando, Entregues</span></span>
-            </button>
-            <button class="flow-btn rep-style" data-rscreen="deliver-car" onclick="rStartDelivery()">
-              <span class="flow-num">3</span>
-              <span class="flow-label">Entregar Propriedade<span class="flow-sub">CAR → Mapa → CPF → SMS → Assinatura</span></span>
-            </button>
-            <button class="flow-btn rep-style" data-rscreen="list-unconfirmed" onclick="rOpenList('nao_confirmada')">
-              <span class="flow-num">4</span>
-              <span class="flow-label">Não Confirmadas<span class="flow-sub">Devolvidas pelo escritório com dúvida</span></span>
-            </button>
-            <button class="flow-btn rep-style" data-rscreen="list-waiting" onclick="rOpenList('aguardando')">
-              <span class="flow-num">5</span>
-              <span class="flow-label">Aguardando<span class="flow-sub">Sem acesso ao endereço ainda</span></span>
-            </button>
-            <button class="flow-btn rep-style" data-rscreen="list-delivered" onclick="rOpenList('entregue')">
-              <span class="flow-num">6</span>
-              <span class="flow-label">Entregues<span class="flow-sub">Propriedades validadas e entregues</span></span>
-            </button>
-          </div>
-
-          <div class="env-group">
-            <div class="env-title">CPFs de Teste na Entrega</div>
-            <div style="font-size:11.5px; color:#334155; line-height:1.5; background:#f8fafc; padding:10px; border-radius:9px; border:1px solid #e2e8f0;">
-              <strong>Já cadastrado:</strong> <code>123.456.789-00</code><br>
-              <span style="color:#64748b;">Preenche dados automaticamente. Tel: 27 99812-4450</span><br><br>
-              <strong>Novo produtor:</strong> <code>987.654.321-11</code><br>
-              <span style="color:#64748b;">Abre cadastro completo. Se tentar usar o tel 27 99812-4450, bloqueia por telefone duplicado!</span>
-            </div>
-          </div>
-        </div>
+        <div class="panel-header"><h2>Explicação — App Representante</h2></div>
+        <div class="panel-body" id="rContextualGuide"></div>
       </aside>
 
-      <!-- GALAXY A07 — REPRESENTANTE -->
       <section class="phone-stage">
         <div class="device-caption"><span class="dot" style="background:#0e7490;"></span> App Rotas Rurais — Representante • Galaxy A07</div>
         <div class="galaxy-a07">
@@ -1396,13 +982,10 @@
           <div class="hw-btn hw-power" onclick="rGoTo('login')"></div>
           <div class="a07-screen">
             <div class="a07-notch"><div class="a07-camera-lens"></div></div>
-            <div class="android-status rep">
-              <span>15:05</span>
-              <div class="status-right"><span>4G</span><span>84%</span></div>
-            </div>
+            <div class="android-status rep"><span>11:15</span><div class="status-right"><span>4G</span><span>84%</span></div></div>
 
             <div class="app-viewport" id="rViewport">
-              <!-- R1: LOGIN REPRESENTANTE (SEM CADASTRO) -->
+              <!-- R1: LOGIN -->
               <div class="screen active" id="r-screen-login">
                 <div class="hero-banner rep">
                   <div class="hero-logo-circle">
@@ -1416,82 +999,51 @@
                   <div style="font-size:11.5px; opacity:0.9;">App do Representante Municipal</div>
                 </div>
                 <div class="hero-sheet">
-                  <div class="alert-box info" style="font-size:11.5px;">
-                    Acesso exclusivo para representantes autorizados. Credenciais fornecidas diretamente pelo escritório.
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">CPF do Representante</label>
-                    <input type="text" class="form-input" value="444.555.666-77" oninput="maskCpf(this)">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Senha</label>
-                    <input type="password" class="form-input" value="••••••••">
-                  </div>
+                  <div class="alert-box info" style="font-size:11.5px;">Acesso exclusivo para representantes autorizados pelo escritório.</div>
+                  <div class="form-group"><label class="form-label">CPF do Representante</label><input type="text" class="form-input" value="444.555.666-77" oninput="maskCpf(this)"></div>
+                  <div class="form-group"><label class="form-label">Senha</label><input type="password" class="form-input" value="••••••••"></div>
                   <button class="btn btn-rep" onclick="rGoTo('home')">ENTRAR</button>
-                  <p style="font-size:11px; color:var(--rr-muted); text-align:center; margin-top:auto; padding-top:16px;">
-                    Não possui acesso? Solicite ao escritório técnico do Rotas Rurais.
-                  </p>
                 </div>
               </div>
 
-              <!-- R2: HOME REPRESENTANTE -->
+              <!-- R2: HOME -->
               <div class="screen" id="r-screen-home">
                 <div class="es-header rep">
                   <div class="es-badge-pill">ES • Representante</div>
                   <button class="icon-btn" onclick="rGoTo('login')" title="Sair">🚪</button>
                 </div>
                 <div class="screen-pad">
-                  <div style="font-size:12px; color:var(--rr-muted); margin-bottom:10px;">
-                    Prefeitura de <strong>Domingos Martins - ES</strong>
-                  </div>
-
-                  <button class="btn btn-rep" style="padding:15px; font-size:14.5px; margin-bottom:16px;" onclick="rStartDelivery()">
-                    ＋ ENTREGAR PROPRIEDADE
-                  </button>
+                  <div style="font-size:12px; color:var(--rr-muted); margin-bottom:10px;">Prefeitura de <strong>Domingos Martins - ES</strong></div>
+                  <button class="btn btn-rep" style="padding:15px; font-size:14.5px; margin-bottom:16px;" onclick="rStartDelivery()">＋ ENTREGAR PROPRIEDADE</button>
 
                   <button class="rep-menu-btn" onclick="rOpenList('nao_confirmada')">
                     <div class="rep-menu-icon" style="background:#fdecea; color:#c62828;">⚠️</div>
-                    <div>
-                      <div style="font-size:13.5px; font-weight:800; color:#991b1b;">NÃO CONFIRMADAS</div>
-                      <div style="font-size:11px; color:var(--rr-muted);">Retornaram do escritório com dúvida</div>
-                    </div>
+                    <div><div style="font-size:13.5px; font-weight:800; color:#991b1b;">NÃO CONFIRMADAS</div><div style="font-size:11px; color:var(--rr-muted);">Retornaram do escritório com dúvida</div></div>
                     <span class="rep-menu-count" style="background:#fdecea; color:#c62828;" id="rCountUnconfirmed">1</span>
                   </button>
 
                   <button class="rep-menu-btn" onclick="rOpenList('aguardando')">
                     <div class="rep-menu-icon" style="background:#fef3c7; color:#b45309;">⏳</div>
-                    <div>
-                      <div style="font-size:13.5px; font-weight:800; color:#92400e;">AGUARDANDO</div>
-                      <div style="font-size:11px; color:var(--rr-muted);">Aguardando avaliação do escritório</div>
-                    </div>
+                    <div><div style="font-size:13.5px; font-weight:800; color:#92400e;">AGUARDANDO</div><div style="font-size:11px; color:var(--rr-muted);">Aguardando avaliação do escritório</div></div>
                     <span class="rep-menu-count" style="background:#fef3c7; color:#92400e;" id="rCountWaiting">1</span>
                   </button>
 
                   <button class="rep-menu-btn" onclick="rOpenList('entregue')">
                     <div class="rep-menu-icon" style="background:#dcfce7; color:#166534;">✅</div>
-                    <div>
-                      <div style="font-size:13.5px; font-weight:800; color:#166534;">ENTREGUES</div>
-                      <div style="font-size:11px; color:var(--rr-muted);">Validadas e entregues ao morador</div>
-                    </div>
+                    <div><div style="font-size:13.5px; font-weight:800; color:#166534;">ENTREGUES</div><div style="font-size:11px; color:var(--rr-muted);">Validadas e entregues ao morador</div></div>
                     <span class="rep-menu-count" style="background:#dcfce7; color:#166534;" id="rCountDelivered">1</span>
                   </button>
 
                   <div style="margin-top:auto; padding-top:10px;">
-                    <button class="btn btn-outline" style="justify-content:flex-start;" onclick="rToast('Canal de suporte técnico ao representante aberto')">
-                      💬 SUPORTE AO REPRESENTANTE
-                    </button>
+                    <button class="btn btn-outline" style="justify-content:flex-start;" onclick="rToast('Suporte técnico aberto')">💬 SUPORTE AO REPRESENTANTE</button>
                   </div>
                 </div>
               </div>
 
-              <!-- R3: ENTREGAR PROPRIEDADE — PASSO 1: CAR E CONFIRMAR NO MAPA -->
+              <!-- R3: CAR + MAPA -->
               <div class="screen" id="r-screen-deliver-car">
                 <div class="app-topbar rep"><button class="icon-btn" onclick="rGoTo('home')">←</button><h3>Entregar Propriedade</h3></div>
                 <div class="screen-pad">
-                  <div class="alert-box info" style="font-size:11.5px;">
-                    Não é necessário estar na propriedade, mas você precisa estar junto ao proprietário para confirmar o local e coletar o código SMS e assinatura.
-                  </div>
-
                   <div class="form-group">
                     <label class="form-label">Pesquisar código CAR *</label>
                     <input type="text" class="form-input" id="rCarInput" placeholder="ES-3201902-..." style="font-family:'JetBrains Mono', monospace; font-size:12px;">
@@ -1513,7 +1065,7 @@
                           <circle cx="0" cy="-8" r="4" fill="#fff"/>
                         </g>
                       </svg>
-                      <div class="map-overlay-badge">🔒 Endereço oculto até confirmação SMS e assinatura</div>
+                      <div class="map-overlay-badge">🔒 Endereço oculto até SMS e assinatura</div>
                     </div>
                     <div class="form-group" style="margin-top:10px;">
                       <label class="form-label">Nome da Propriedade *</label>
@@ -1524,7 +1076,7 @@
                 </div>
               </div>
 
-              <!-- R4: PASSO 2: CPF E CADASTRO DO PROPRIETÁRIO -->
+              <!-- R4: CPF PROPRIETÁRIO -->
               <div class="screen" id="r-screen-deliver-owner">
                 <div class="app-topbar rep"><button class="icon-btn" onclick="rGoBack()">←</button><h3>Dados do Proprietário</h3></div>
                 <div class="screen-pad">
@@ -1539,44 +1091,31 @@
                       <button type="button" class="mini-chip" onclick="document.getElementById('rOwnerCpf').value='987.654.321-11'; rLookupCpf();">CPF novo</button>
                     </div>
                   </div>
-
                   <div id="rOwnerStatusMsg" style="display:none;"></div>
-
                   <div id="rOwnerForm" style="display:none;">
                     <div class="form-group"><label class="form-label">Nome completo *</label><input type="text" class="form-input" id="rOwnerName"></div>
                     <div class="form-group"><label class="form-label">E-mail *</label><input type="email" class="form-input" id="rOwnerEmail"></div>
-                    <div class="form-group">
-                      <label class="form-label">Telefone exclusivo do morador *</label>
-                      <input type="tel" class="form-input" id="rOwnerPhone" placeholder="27 99999-0000">
-                    </div>
-                    <div class="form-group">
-                      <label class="form-label">Moradia *</label>
-                      <input type="text" class="form-input" id="rOwnerCity" value="Domingos Martins - ES">
-                    </div>
-                    <div id="rPhoneDupAlert" class="alert-box danger" style="display:none;">
-                      Este telefone já está vinculado a outro cadastro. É permitido apenas um telefone por cadastro.
-                    </div>
+                    <div class="form-group"><label class="form-label">Telefone exclusivo do morador *</label><input type="tel" class="form-input" id="rOwnerPhone"></div>
+                    <div class="form-group"><label class="form-label">Moradia *</label><input type="text" class="form-input" id="rOwnerCity" value="Domingos Martins - ES"></div>
+                    <div id="rPhoneDupAlert" class="alert-box danger" style="display:none;">Este telefone já está vinculado a outro cadastro. É permitido apenas um telefone por cadastro.</div>
                     <button class="btn btn-rep" onclick="rSendSmsAndNext()">ENVIAR CÓDIGO SMS AO MORADOR →</button>
                   </div>
                 </div>
               </div>
 
-              <!-- R5: PASSO 3: CÓDIGO SMS + ASSINATURA DIGITAL DO MORADOR -->
+              <!-- R5: SMS + ASSINATURA -->
               <div class="screen" id="r-screen-deliver-sms">
                 <div class="app-topbar rep"><button class="icon-btn" onclick="rGoBack()">←</button><h3>Validação SMS e Assinatura</h3></div>
                 <div class="screen-pad">
                   <div class="alert-box success" style="font-size:11.5px;">
                     <strong>📱 SMS enviado para <span id="rSmsPhoneLabel"></span></strong><br>
-                    Código simulado recebido pelo morador: <strong style="font-family:'JetBrains Mono', monospace; font-size:13px;" id="rSmsCodeHint">482910</strong>
+                    Código simulado recebido pelo morador: <strong style="font-family:'JetBrains Mono', monospace; font-size:13px;">482910</strong>
                   </div>
-
                   <div class="form-group">
                     <label class="form-label">Digite o código SMS informado pelo morador *</label>
                     <input type="text" class="form-input" id="rSmsInput" placeholder="000000" maxlength="6" style="font-family:'JetBrains Mono', monospace; font-size:18px; letter-spacing:0.25em; text-align:center;">
                   </div>
-
                   <div class="termo-document" id="rTermoText" style="font-size:11px; padding:10px; max-height:110px; overflow-y:auto;"></div>
-
                   <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
                     <span style="font-size:12px; font-weight:700;">Assinatura Digital do Morador *</span>
                     <button type="button" class="btn-link" style="font-size:11px; padding:0;" onclick="clearCanvas('rSigCanvas','rSigPh','r')">Limpar</button>
@@ -1586,19 +1125,17 @@
                     <div class="sig-placeholder" id="rSigPh">Morador assina aqui</div>
                     <div class="sig-line"></div>
                   </div>
-
                   <button class="btn btn-rep" onclick="rFinishDelivery()">CONFIRMAR ENTREGA E LIBERAR ENDEREÇO</button>
                 </div>
               </div>
 
-              <!-- R6: SUCESSO — SÓ AQUI APARECE O ENDEREÇO -->
+              <!-- R6: ENTREGA CONCLUÍDA -->
               <div class="screen" id="r-screen-deliver-done">
                 <div class="app-topbar rep"><button class="icon-btn" onclick="rGoTo('home')">←</button><h3>Entrega Concluída</h3></div>
                 <div class="screen-pad" style="text-align:center;">
                   <div style="font-size:44px; margin:8px 0;">✅</div>
                   <h3 style="font-size:16px; font-weight:800; color:var(--rr-green-dark); margin-bottom:6px;">Endereço Rural Digital Liberado!</h3>
-                  <p style="font-size:12px; color:var(--rr-muted); margin-bottom:14px;">SMS confirmado e termo assinado pelo morador.</p>
-                  <div class="card" style="background:#f3faf6; border-color:#b8dec6; margin-bottom:16px;">
+                  <div class="card" style="background:#f3faf6; border-color:#b8dec6; margin:12px 0 16px;">
                     <div style="font-size:11px; font-weight:700; color:var(--rr-muted);" id="rDonePropName">SÍTIO PEDRA AZUL</div>
                     <div style="font-family:'JetBrains Mono', monospace; font-size:24px; font-weight:800; color:var(--rr-green-dark); margin:6px 0;" id="rDoneErd">586H 8P2+QW</div>
                     <div style="font-size:11px; color:var(--rr-muted);" id="rDoneOwner">Proprietário</div>
@@ -1607,7 +1144,7 @@
                 </div>
               </div>
 
-              <!-- R-LISTA DE PROPRIEDADES POR STATUS -->
+              <!-- R-LISTA -->
               <div class="screen" id="r-screen-list">
                 <div class="app-topbar rep"><button class="icon-btn" onclick="rGoTo('home')">←</button><h3 id="rListTitle">Propriedades</h3></div>
                 <div class="screen-pad" id="rListBody"></div>
@@ -1615,7 +1152,6 @@
             </div>
 
             <div class="phone-toast" id="rToast"></div>
-
             <div class="android-navbar">
               <button class="nav-btn" onclick="rToast('Recentes')">☰</button>
               <button class="nav-btn" onclick="rGoTo('home')">○</button>
@@ -1625,10 +1161,18 @@
         </div>
       </section>
 
-      <!-- RIGHT DEV SPEC -->
       <aside class="panel panel-right">
-        <div class="panel-header"><h2>Especificação — Representante</h2><span style="font-size:11px; color:#0e7490; font-weight:700;" id="rSpecCode">APP REP</span></div>
-        <div class="panel-body" id="rDevSpec"></div>
+        <div class="panel-header"><h2>Navegação — Representante</h2></div>
+        <div class="panel-body">
+          <div class="flow-list">
+            <button class="flow-btn rep-style active" data-rscreen="login" onclick="rGoTo('login')"><span class="flow-num">1</span><span class="flow-label">Login<span class="flow-sub">CPF e senha, sem cadastro</span></span></button>
+            <button class="flow-btn rep-style" data-rscreen="home" onclick="rGoTo('home')"><span class="flow-num">2</span><span class="flow-label">Home<span class="flow-sub">Menu principal</span></span></button>
+            <button class="flow-btn rep-style" data-rscreen="deliver-car" onclick="rStartDelivery()"><span class="flow-num">3</span><span class="flow-label">Entregar Propriedade<span class="flow-sub">CAR → CPF → SMS → Assinatura</span></span></button>
+            <button class="flow-btn rep-style" data-rscreen="list-unconfirmed" onclick="rOpenList('nao_confirmada')"><span class="flow-num">4</span><span class="flow-label">Não Confirmadas<span class="flow-sub">Dúvidas do escritório</span></span></button>
+            <button class="flow-btn rep-style" data-rscreen="list-waiting" onclick="rOpenList('aguardando')"><span class="flow-num">5</span><span class="flow-label">Aguardando<span class="flow-sub">Sem acesso ao endereço</span></span></button>
+            <button class="flow-btn rep-style" data-rscreen="list-delivered" onclick="rOpenList('entregue')"><span class="flow-num">6</span><span class="flow-label">Entregues<span class="flow-sub">Validadas e entregues</span></span></button>
+          </div>
+        </div>
       </aside>
     </main>
   </div>
@@ -1638,27 +1182,18 @@
        ====================================================================== -->
   <div class="mode-view" id="mode-escritorio">
     <div class="office-wrap">
-
-      <!-- LOGIN ESCRITÓRIO -->
       <div id="officeLoginView" class="office-login-card">
         <div style="background:#1e1b4b; color:#fff; padding:24px; text-align:center;">
           <div style="font-size:18px; font-weight:800;">Painel do Escritório — Rotas Rurais</div>
           <div style="font-size:12px; color:#c7d2fe; margin-top:4px;">Acesso exclusivo para técnicos cadastrados pelo administrador</div>
         </div>
         <div style="padding:24px;">
-          <div class="form-group">
-            <label class="form-label">CPF do Técnico</label>
-            <input type="text" class="form-input" value="777.888.999-00" oninput="maskCpf(this)">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Senha</label>
-            <input type="password" class="form-input" value="••••••••">
-          </div>
+          <div class="form-group"><label class="form-label">CPF do Técnico</label><input type="text" class="form-input" value="777.888.999-00" oninput="maskCpf(this)"></div>
+          <div class="form-group"><label class="form-label">Senha</label><input type="password" class="form-input" value="••••••••"></div>
           <button class="btn btn-primary" style="background:#4338ca;" onclick="officeLogin()">ENTRAR NO PAINEL TÉCNICO</button>
         </div>
       </div>
 
-      <!-- DASHBOARD ESCRITÓRIO -->
       <div id="officeAppView" class="office-shell" style="display:none;">
         <div class="office-topbar">
           <div>
@@ -1666,30 +1201,18 @@
             <div style="font-size:12px; color:#c7d2fe;">Técnico: Matheus Fernandes • Municípios atribuídos: Domingos Martins, Santa Teresa, Venda Nova</div>
           </div>
           <div style="display:flex; gap:10px; align-items:center;">
-            <button class="btn btn-primary" style="width:auto; background:#16a34a; padding:10px 18px;" onclick="officeOpenFastValidator()">
-              ⚡ VALIDAR ENDEREÇOS
-            </button>
+            <button class="btn btn-primary" style="width:auto; background:#16a34a; padding:10px 18px;" onclick="officeOpenFastValidator()">⚡ VALIDAR ENDEREÇOS</button>
             <button class="btn btn-outline" style="width:auto; padding:9px 14px; background:rgba(255,255,255,0.1); color:#fff; border-color:rgba(255,255,255,0.25);" onclick="officeLogout()">Sair</button>
           </div>
         </div>
 
         <div class="office-grid">
-          <!-- SIDEBAR MUNICÍPIOS -->
           <div class="office-sidebar">
             <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:#64748b; margin-bottom:10px;">Municípios Atribuídos</div>
             <div id="officeMuniList"></div>
-
-            <div style="margin-top:20px; padding-top:16px; border-top:1px dashed #cbd5e1;">
-              <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:#64748b; margin-bottom:8px;">Integração ao Vivo</div>
-              <p style="font-size:11.5px; color:#475569; line-height:1.45;">
-                As decisões tomadas aqui atualizam automaticamente o <strong>App do Cidadão</strong> e o <strong>App do Representante</strong>!
-              </p>
-            </div>
           </div>
 
-          <!-- MAIN AREA: FILA OU VALIDADOR RÁPIDO -->
           <div class="office-main">
-            <!-- VISTA 1: LISTA DA FILA -->
             <div id="officeQueueView">
               <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
                 <div>
@@ -1698,111 +1221,72 @@
                 </div>
                 <span id="officePendingCountBadge" class="status-chip pending" style="font-size:12px; padding:5px 12px;"></span>
               </div>
-
               <table class="queue-table">
-                <thead>
-                  <tr>
-                    <th>Propriedade / CAR</th>
-                    <th>Município</th>
-                    <th>Origem</th>
-                    <th>Motivo</th>
-                    <th>Ação</th>
-                  </tr>
-                </thead>
+                <thead><tr><th>Propriedade / CAR</th><th>Município</th><th>Origem</th><th>Motivo</th><th>Ação</th></tr></thead>
                 <tbody id="officeQueueTbody"></tbody>
               </table>
             </div>
 
-            <!-- VISTA 2: VALIDADOR RÁPIDO COM MAPA E ZOOM -->
             <div id="officeValidatorView" style="display:none;">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
                 <div style="display:flex; align-items:center; gap:10px;">
                   <button class="btn btn-outline" style="width:auto; padding:7px 12px; font-size:12px;" onclick="officeBackToQueue()">← Voltar à fila</button>
-                  <h2 style="font-size:17px; font-weight:800;" id="valTitle">Validando propriedade</h2>
+                  <h2 style="font-size:17px; font-weight:800;">Validação Rápida</h2>
                 </div>
                 <span class="status-chip pending" style="font-size:12px; padding:5px 12px;" id="valCounter">1 de 2</span>
               </div>
 
               <div class="validator-layout">
-                <!-- MAPA AMPLIADO -->
                 <div>
                   <div class="office-map-box" id="officeMapBox" onclick="officeHandleMapClick(event)">
                     <svg width="100%" height="100%" viewBox="0 0 560 410" id="officeMapSvg">
                       <rect width="560" height="410" fill="#466842"/>
                       <path d="M0 0 L240 0 L195 190 L0 165 Z" fill="#3b5937"/>
                       <path d="M310 0 L560 0 L560 245 L340 215 Z" fill="#527549"/>
-                      <!-- Polígono CAR -->
                       <polygon points="130,55 430,75 400,295 110,275" fill="rgba(56,189,248,0.18)" stroke="#38bdf8" stroke-width="3" stroke-dasharray="8,5"/>
                       <text x="275" y="130" fill="#e0f2fe" font-size="12" font-weight="700" text-anchor="middle">POLÍGONO CAR</text>
-                      <!-- Open Buildings -->
                       <rect x="275" y="155" width="32" height="22" rx="3" fill="rgba(250,204,21,0.55)" stroke="#facc15" stroke-width="2"/>
                       <text x="291" y="190" fill="#fef08a" font-size="10" font-weight="700" text-anchor="middle">Open Buildings</text>
-                      <!-- Via Principal -->
                       <path d="M-10 290 Q200 282 345 305 T575 330" fill="none" stroke="#b08956" stroke-width="20"/>
                       <path d="M-10 290 Q200 282 345 305 T575 330" fill="none" stroke="#e2c8a0" stroke-width="14"/>
-                      <!-- Raio 10m da porteira original -->
                       <circle cx="245" cy="288" r="34" fill="rgba(59,130,246,0.15)" stroke="#60a5fa" stroke-width="2" stroke-dasharray="4,4"/>
-                      <!-- Porteira Original -->
-                      <g transform="translate(245, 288)">
-                        <circle cx="0" cy="0" r="8" fill="#2563eb" stroke="#fff" stroke-width="2.5"/>
-                        <text x="0" y="22" fill="#fff" font-size="10" font-weight="700" text-anchor="middle">Original</text>
-                      </g>
-                      <!-- Coordenada da Foto Enviada -->
-                      <g id="officePhotoPin" transform="translate(315, 255)">
-                        <circle cx="0" cy="0" r="14" fill="rgba(245,158,11,0.35)"/>
-                        <circle cx="0" cy="0" r="8" fill="#f59e0b" stroke="#fff" stroke-width="2.5"/>
-                        <text x="0" y="-14" fill="#fef3c7" font-size="10" font-weight="700" text-anchor="middle">Foto enviada</text>
-                      </g>
-                      <!-- Nova localização sugerida pelo técnico -->
-                      <g id="officeSuggestedPin" transform="translate(-100, -100)">
-                        <path d="M0 -24 C-9 -24 -15 -17 -15 -9 C-15 1 0 11 0 11 C0 11 15 1 15 -9 C15 -17 9 -24 0 -24 Z" fill="#6366f1" stroke="#fff" stroke-width="2.5"/>
-                        <circle cx="0" cy="-9" r="4.5" fill="#fff"/>
-                      </g>
+                      <g transform="translate(245, 288)"><circle cx="0" cy="0" r="8" fill="#2563eb" stroke="#fff" stroke-width="2.5"/><text x="0" y="22" fill="#fff" font-size="10" font-weight="700" text-anchor="middle">Original</text></g>
+                      <g id="officePhotoPin" transform="translate(315, 255)"><circle cx="0" cy="0" r="14" fill="rgba(245,158,11,0.35)"/><circle cx="0" cy="0" r="8" fill="#f59e0b" stroke="#fff" stroke-width="2.5"/><text x="0" y="-14" fill="#fef3c7" font-size="10" font-weight="700" text-anchor="middle">Foto enviada</text></g>
+                      <g id="officeSuggestedPin" transform="translate(-100, -100)"><path d="M0 -24 C-9 -24 -15 -17 -15 -9 C-15 1 0 11 0 11 C0 11 15 1 15 -9 C15 -17 9 -24 0 -24 Z" fill="#6366f1" stroke="#fff" stroke-width="2.5"/><circle cx="0" cy="-9" r="4.5" fill="#fff"/></g>
                     </svg>
-                    <div class="map-overlay-badge" id="officeMapBadge">Zoom 18x • Comparação Porteira Original vs Foto</div>
+                    <div class="map-overlay-badge" id="officeMapBadge">Zoom 18x • Porteira Original vs Foto</div>
                   </div>
                   <div class="map-legend">
                     <span><span class="legend-dot" style="background:#2563eb;"></span>Porteira original + raio 10m</span>
-                    <span><span class="legend-dot" style="background:#f59e0b;"></span>Coordenada da foto enviada</span>
+                    <span><span class="legend-dot" style="background:#f59e0b;"></span>Foto enviada</span>
                     <span><span class="legend-dot" style="background:#6366f1;"></span>Sugestão do técnico</span>
                   </div>
                 </div>
 
-                <!-- PAINEL DE DECISÃO DO TÉCNICO -->
                 <div class="card" style="padding:18px;">
                   <div style="font-size:15px; font-weight:800; color:#0f172a; margin-bottom:4px;" id="valPropName">Sítio Esperança</div>
-                  <div style="font-size:12px; color:#64748b; margin-bottom:12px;" id="valPropMeta">CAR • Município • Proprietário</div>
+                  <div style="font-size:12px; color:#64748b; margin-bottom:12px;" id="valPropMeta">CAR • Município</div>
+                  <div class="alert-box warn" style="font-size:12px;" id="valMotivoBox"></div>
 
-                  <div class="alert-box warn" style="font-size:12px;" id="valMotivoBox">
-                    <strong>Motivo da fila:</strong> Foto tirada a 26m da porteira original.
-                  </div>
-
-                  <!-- Miniatura da foto da porteira -->
-                  <div style="border-radius:10px; overflow:hidden; border:1px solid #cbd5e1; margin-bottom:14px; height:120px; position:relative;">
-                    <svg width="100%" height="100%" viewBox="0 0 320 120" preserveAspectRatio="xMidYMid slice">
-                      <rect width="320" height="65" fill="#7dd3fc"/>
-                      <path d="M0 65 Q90 48 180 60 T320 55 L320 120 L0 120 Z" fill="#4d7c0f"/>
-                      <rect x="95" y="55" width="10" height="48" fill="#78350f"/>
-                      <rect x="215" y="55" width="10" height="48" fill="#78350f"/>
-                      <rect x="100" y="64" width="120" height="7" fill="#92400e"/>
-                      <rect x="100" y="78" width="120" height="7" fill="#92400e"/>
+                  <div style="border-radius:10px; overflow:hidden; border:1px solid #cbd5e1; margin-bottom:14px; height:115px; position:relative;">
+                    <svg width="100%" height="100%" viewBox="0 0 320 115" preserveAspectRatio="xMidYMid slice">
+                      <rect width="320" height="60" fill="#7dd3fc"/>
+                      <path d="M0 60 Q90 45 180 56 T320 52 L320 115 L0 115 Z" fill="#4d7c0f"/>
+                      <rect x="95" y="50" width="10" height="46" fill="#78350f"/><rect x="215" y="50" width="10" height="46" fill="#78350f"/>
+                      <rect x="100" y="60" width="120" height="7" fill="#92400e"/><rect x="100" y="74" width="120" height="7" fill="#92400e"/>
                     </svg>
                     <div style="position:absolute; bottom:6px; left:8px; background:rgba(0,0,0,0.65); color:#fff; font-size:10px; padding:3px 7px; border-radius:5px;">Foto geolocalizada da porteira</div>
                   </div>
 
                   <div class="form-group">
                     <label class="form-label">Mensagem / Dúvida para o morador ou representante</label>
-                    <input type="text" class="form-input" id="valMessageInput" placeholder="Ex: Confirmar se a entrada principal é pela estrada vicinal ao sul">
+                    <input type="text" class="form-input" id="valMessageInput" placeholder="Ex: Confirmar se a entrada principal é na estrada ao sul">
                   </div>
 
                   <div style="display:flex; flex-direction:column; gap:8px;">
                     <button class="btn btn-primary" onclick="officeConfirmCurrent()">✓ CONFIRMAR LOCALIZAÇÃO E LIBERAR ENDEREÇO</button>
-                    <button class="btn btn-secondary" style="background:#eef2ff; color:#312e81; border-color:#c7d2fe;" onclick="officeToggleSuggestMode()" id="btnSuggestLoc">
-                      📍 SUGERIR NOVA LOCALIZAÇÃO NO MAPA
-                    </button>
-                    <button class="btn btn-danger-outline" onclick="officeReturnToRep()">
-                      ↩ ENCAMINHAR DÚVIDA PARA O REPRESENTANTE
-                    </button>
+                    <button class="btn btn-secondary" style="background:#eef2ff; color:#312e81; border-color:#c7d2fe;" onclick="officeToggleSuggestMode()">📍 SUGERIR NOVA LOCALIZAÇÃO NO MAPA</button>
+                    <button class="btn btn-danger-outline" onclick="officeReturnToRep()">↩ ENCAMINHAR DÚVIDA PARA O REPRESENTANTE</button>
                   </div>
                 </div>
               </div>
@@ -1810,13 +1294,12 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 
   <script>
     // =========================================================================
-    // SHARED ECOSYSTEM DATABASE (INTEGRADO ENTRE OS 3 PERFIS)
+    // SHARED DATABASE
     // =========================================================================
     const citiesByState = {
       ES: ['Domingos Martins', 'Santa Teresa', 'Venda Nova do Imigrante', 'Afonso Cláudio', 'Linhares'],
@@ -1835,72 +1318,48 @@
       }
     };
 
-    // Status possíveis: 'entregue' | 'aguardando' | 'nao_confirmada'
+    // status: 'entregue' | 'aguardando' | 'nao_confirmada' | 'pendente_sync'
     const dbProperties = [
       {
-        id: 1,
-        name: 'SÍTIO S. JOÃO',
-        erd: '587H P94+QH5',
-        car: 'ES-3201902-4A8F9B2C1D3E',
-        city: 'Domingos Martins',
-        ownerName: 'João Carlos da Silva',
-        ownerCpf: '123.456.789-00',
-        status: 'entregue',
-        origin: 'Cidadão',
-        note: 'Validado automaticamente no raio de 10m',
-        officeMessage: ''
+        id: 1, name: 'SÍTIO S. JOÃO', erd: '587H P94+QH5', car: 'ES-3201902-4A8F9B2C1D3E',
+        city: 'Domingos Martins', ownerName: 'João Carlos da Silva', ownerCpf: '123.456.789-00',
+        status: 'entregue', origin: 'Cidadão', note: 'Validado automaticamente no raio de 10m', officeMessage: ''
       },
       {
-        id: 2,
-        name: 'SÍTIO ESPERANÇA',
-        erd: '586H 9R2+MF',
-        car: 'ES-3201902-8B7C6D5E4F3A',
-        city: 'Domingos Martins',
-        ownerName: 'Maria Aparecida Souza',
-        ownerCpf: '222.333.444-55',
-        status: 'aguardando',
-        origin: 'Cidadão',
-        note: 'Foto tirada a 26m da porteira original',
-        officeMessage: ''
+        id: 2, name: 'SÍTIO ESPERANÇA', erd: '586H 9R2+MF', car: 'ES-3201902-8B7C6D5E4F3A',
+        city: 'Domingos Martins', ownerName: 'Maria Aparecida Souza', ownerCpf: '222.333.444-55',
+        status: 'aguardando', origin: 'Cidadão', note: 'Foto tirada a 26m da porteira original', officeMessage: ''
       },
       {
-        id: 3,
-        name: 'FAZENDA ALTO SERRA',
-        erd: '587J 4K8+PQ',
-        car: 'ES-3205002-1F2E3D4C5B6A',
-        city: 'Santa Teresa',
-        ownerName: 'Antônio Ferreira',
-        ownerCpf: '333.444.555-66',
-        status: 'aguardando',
-        origin: 'Representante',
-        note: 'Aguardando conferência de via de acesso pelo técnico',
-        officeMessage: ''
+        id: 3, name: 'FAZENDA ALTO SERRA', erd: '587J 4K8+PQ', car: 'ES-3205002-1F2E3D4C5B6A',
+        city: 'Santa Teresa', ownerName: 'Antônio Ferreira', ownerCpf: '333.444.555-66',
+        status: 'aguardando', origin: 'Representante', note: 'Aguardando conferência de via de acesso pelo técnico', officeMessage: ''
       },
       {
-        id: 4,
-        name: 'CHÁCARA BOA SORTE',
-        erd: '586H 7T1+GH',
-        car: 'ES-3201902-5E4D3C2B1A0F',
-        city: 'Domingos Martins',
-        ownerName: 'José Roberto Lima',
-        ownerCpf: '555.666.777-88',
-        status: 'nao_confirmada',
-        origin: 'Representante',
-        note: 'Devolvida pelo escritório com dúvida',
+        id: 4, name: 'CHÁCARA BOA SORTE', erd: '586H 7T1+GH', car: 'ES-3201902-5E4D3C2B1A0F',
+        city: 'Domingos Martins', ownerName: 'José Roberto Lima', ownerCpf: '555.666.777-88',
+        status: 'nao_confirmada', origin: 'Representante', note: 'Devolvida pelo escritório com dúvida',
         officeMessage: 'Foto mostra a sede da fazenda. Favor confirmar com o morador a porteira junto à estrada principal.'
       }
     ];
 
     const state = {
       activeProfile: 'cidadao',
-      proposal: 'forma1',
+      // Propostas com 2 formas (para escolha da coordenação)
+      proposal: 'forma1',       // 'forma1' | 'forma2'
+      offlineArch: 'opcaoA',    // 'opcaoA' (Fila de sincronização) | 'opcaoB' (Pacote offline do município)
+      isOnline: true,           // true | false
+      simLoginUf: 'ES',         // 'ES' | 'SP' | 'MG'
+      atProperty: true,
+      openBuildingsHit: false,
+      within10m: true,
+      obConfirmedAnyway: false,
+      modalLocked: false,
+
       cScreen: 'onboarding',
       cHistory: [],
       rScreen: 'login',
       rHistory: [],
-      atProperty: true,
-      openBuildingsHit: false,
-      within10m: true,
       cPhotoTaken: false,
       cActiveCar: 'ES-3201902-7F2A91B4C8E04D12',
       cActiveCity: 'Domingos Martins',
@@ -1919,54 +1378,262 @@
     };
 
     // =========================================================================
-    // PROFILE SWITCHER
+    // PROFILE SWITCHING
     // =========================================================================
     function switchProfile(profile) {
       state.activeProfile = profile;
       document.querySelectorAll('.mode-view').forEach(v => v.classList.remove('active'));
       document.getElementById('mode-' + profile).classList.add('active');
-
       document.getElementById('tabProfileCidadao').classList.toggle('active', profile === 'cidadao');
       document.getElementById('tabProfileRep').classList.toggle('active', profile === 'representante');
       document.getElementById('tabProfileEscritorio').classList.toggle('active', profile === 'escritorio');
-
       syncAllViews();
     }
 
     function syncAllViews() {
-      // Update pending badge on top header
       const pendingCount = dbProperties.filter(p => p.status === 'aguardando').length;
       document.getElementById('headerOfficeBadge').textContent = pendingCount;
-
       renderCitizenProperties();
       renderRepCounts();
       renderOfficeQueue();
+      renderContextualGuide();
+      renderRepGuide();
     }
 
     // =========================================================================
-    // CIDADÃO LOGIC
+    // CONTEXTUAL LEFT PANEL — CIDADÃO (EXPLICATIVO + CONTROLES SOMENTE DA ETAPA!)
+    // =========================================================================
+    function renderContextualGuide() {
+      const box = document.getElementById('cContextualGuide');
+      const badge = document.getElementById('cLeftStepBadge');
+      const s = state.cScreen;
+
+      if (s === 'onboarding') {
+        badge.textContent = 'ETAPA 1 • ABERTURA';
+        box.innerHTML = `
+          <span class="ctx-badge">Primeiro Acesso</span>
+          <div class="ctx-title">Apresentação do Programa</div>
+          <p class="ctx-desc">Esta tela aparece apenas na primeira vez que o produtor rural abre o aplicativo. Ela explica em linguagem simples o benefício do Endereço Rural Digital e os 3 passos do processo.</p>
+          <ul class="spec-list">
+            <li>Sem jargões técnicos para facilitar o entendimento no campo.</li>
+            <li>Ao clicar em <strong>CONTINUAR</strong>, o app grava localmente que o tutorial já foi visto e nas próximas aberturas vai direto ao Login.</li>
+          </ul>
+        `;
+      } else if (s === 'login' || s === 'register' || s === 'forgot' || s === 'sp-legacy' || s === 'unavailable') {
+        badge.textContent = 'ETAPA 2 • ACESSO';
+        box.innerHTML = `
+          <span class="ctx-badge">Login e Roteamento Automático</span>
+          <div class="ctx-title">Direcionamento pelo Endereço da Moradia</div>
+          <p class="ctx-desc">Não existe mais uma tela separada perguntando o estado. O sistema identifica automaticamente se o produtor é do <strong>Espírito Santo</strong>, <strong>São Paulo</strong> ou outro estado usando a <strong>Moradia</strong> cadastrada.</p>
+
+          <div class="ctx-box decision">
+            <div class="ctx-box-title">Simular Estado do Cadastro no Login</div>
+            <div class="choice-grid" style="grid-template-columns:1fr 1fr 1fr;">
+              <button class="choice-btn ${state.simLoginUf==='ES'?'active':''}" onclick="state.simLoginUf='ES'; renderContextualGuide();">ES<small>Novo Módulo</small></button>
+              <button class="choice-btn ${state.simLoginUf==='SP'?'active':''}" onclick="state.simLoginUf='SP'; renderContextualGuide();">SP<small>App Atual</small></button>
+              <button class="choice-btn ${state.simLoginUf==='MG'?'active danger':''}" onclick="state.simLoginUf='MG'; renderContextualGuide();">MG<small>Indisponível</small></button>
+            </div>
+            <div class="ctx-explain">
+              Agora clique em <strong>ENTRAR</strong> no celular para ver o roteamento automático para <strong>${state.simLoginUf === 'ES' ? 'Espírito Santo' : state.simLoginUf === 'SP' ? 'São Paulo legado' : 'Região Indisponível'}</strong>.
+            </div>
+          </div>
+
+          <ul class="spec-list">
+            <li>No <strong>Cadastro</strong>, a Moradia usa lista suspensa de Estado e Município + opção <em>Localizar no mapa</em>.</li>
+            <li>Inclui aceite obrigatório da Política de Privacidade/Termos e autorizações independentes de contato por e-mail e telefone.</li>
+          </ul>
+        `;
+      } else if (s === 'es-home' || s === 'es-manual-car' || s === 'es-forma2-car' || s === 'es-detail' || s === 'es-help') {
+        badge.textContent = 'ETAPA 3/4 • REGISTRO';
+        box.innerHTML = `
+          <span class="ctx-badge">Decisão da Coordenação</span>
+          <div class="ctx-title">Como o Produtor Localiza a Propriedade?</div>
+          <p class="ctx-desc">Aqui apresentamos <strong>duas propostas</strong> de fluxo para a coordenação escolher apenas uma para o aplicativo final. Alterne abaixo e clique em <strong>REGISTRAR PROPRIEDADE</strong> no celular:</p>
+
+          <div class="ctx-box decision">
+            <div class="ctx-box-title">Proposta de Registro • Escolha 1</div>
+            <div class="choice-grid">
+              <button class="choice-btn ${state.proposal==='forma1'?'active':''}" onclick="setProposal('forma1')">FORMA 1<small>Mais flexível</small></button>
+              <button class="choice-btn ${state.proposal==='forma2'?'active':''}" onclick="setProposal('forma2')">FORMA 2<small>Exige estar no CAR</small></button>
+            </div>
+            <div class="ctx-explain">
+              ${state.proposal === 'forma1'
+                ? '<strong>Forma 1 selecionada:</strong> NÃO exige estar dentro da propriedade. O produtor pode iniciar pela localização atual ou digitando o código CAR.'
+                : '<strong>Forma 2 selecionada:</strong> O produtor pesquisa o código CAR e o GPS <strong>precisa estar dentro daquele CAR</strong>. Se não estiver, o app bloqueia com aviso.'}
+            </div>
+          </div>
+
+          ${state.proposal === 'forma2' ? `
+          <div class="ctx-box warn">
+            <div class="ctx-box-title">Simulação de GPS para a Forma 2</div>
+            <div class="choice-grid">
+              <button class="choice-btn ${state.atProperty?'active':''}" onclick="state.atProperty=true; renderContextualGuide();">✓ Dentro do CAR<small>Libera o fluxo</small></button>
+              <button class="choice-btn ${!state.atProperty?'active danger':''}" onclick="state.atProperty=false; renderContextualGuide();">✕ Fora do CAR<small>Exibe aviso</small></button>
+            </div>
+            <div class="ctx-explain">Teste desligar para ver o bloqueio: <em>"Para registrar sua propriedade e retirar seu endereço, você precisa estar na propriedade."</em></div>
+          </div>` : ''}
+
+          <div class="ctx-box offline">
+            <div class="ctx-box-title">Proposta Sem Internet • Escolha 1</div>
+            <div class="choice-grid">
+              <button class="choice-btn ${state.offlineArch==='opcaoA'?'active purple':''}" onclick="setOfflineArch('opcaoA')">OPÇÃO A<small>Fila de sincronização</small></button>
+              <button class="choice-btn ${state.offlineArch==='opcaoB'?'active purple':''}" onclick="setOfflineArch('opcaoB')">OPÇÃO B<small>Pacote do município</small></button>
+            </div>
+            <div class="ctx-explain">
+              ${state.offlineArch === 'opcaoA'
+                ? '<strong>Opção A:</strong> App levíssimo. Sem internet, salva foto + GPS + termo localmente e faz os cruzamentos (CAR, Open Buildings, 10m) quando o sinal voltar.'
+                : '<strong>Opção B:</strong> Baixa os polígonos leves do município (3–12 MB) no Wi-Fi. Permite validar CAR, Open Buildings e raio de 10m <strong>na hora mesmo sem internet</strong>!'}
+            </div>
+          </div>
+        `;
+      } else if (s === 'es-photo') {
+        badge.textContent = 'ETAPA 5 • VALIDAÇÃO AUTOMÁTICA';
+        box.innerHTML = `
+          <span class="ctx-badge">Regras da Foto Geolocalizada</span>
+          <div class="ctx-title">Validação Automática da Porteira</div>
+          <p class="ctx-desc">O cidadão <strong>não move mais o pino manualmente</strong>. Ao fotografar a porteira, o sistema analisa as coordenadas da foto. Configure os cenários abaixo e toque no botão da câmera no celular:</p>
+
+          <!-- 1. CONECTIVIDADE + 2 FORMAS OFFLINE -->
+          <div class="ctx-box offline">
+            <div class="ctx-box-title">1. Internet no Campo & Arquitetura Offline</div>
+            <div class="choice-grid">
+              <button class="choice-btn ${state.isOnline?'active':''}" onclick="setOnlineMode(true)">📶 Com Internet<small>Valida online na hora</small></button>
+              <button class="choice-btn ${!state.isOnline?'active purple':''}" onclick="setOnlineMode(false)">📡 Sem Internet<small>Zona rural offline</small></button>
+            </div>
+            ${!state.isOnline ? `
+            <div class="choice-grid" style="margin-top:6px;">
+              <button class="choice-btn ${state.offlineArch==='opcaoA'?'active purple':''}" onclick="setOfflineArch('opcaoA')">Opção A<small>Valida ao sincronizar</small></button>
+              <button class="choice-btn ${state.offlineArch==='opcaoB'?'active purple':''}" onclick="setOfflineArch('opcaoB')">Opção B<small>Pacote municipal local</small></button>
+            </div>
+            <div class="ctx-explain">
+              ${state.offlineArch === 'opcaoA'
+                ? '<strong>Sem internet (Opção A):</strong> Não cruza CAR/Open Buildings agora. Salva foto + GPS + assinatura e valida automaticamente quando a internet voltar.'
+                : '<strong>Sem internet (Opção B):</strong> Usando o pacote offline de Domingos Martins, o app consegue disparar o <strong>Pop-up do Open Buildings</strong> e validar o <strong>raio de 10m</strong> na hora!'}
+            </div>` : ''}
+          </div>
+
+          <!-- 2. OPEN BUILDINGS -->
+          <div class="ctx-box warn">
+            <div class="ctx-box-title">2. Análise Open Buildings (Edificações)</div>
+            <div class="choice-grid">
+              <button class="choice-btn ${!state.openBuildingsHit?'active':''}" onclick="setOpenBuildings(false)">✓ Na Porteira<small>Sem edificação</small></button>
+              <button class="choice-btn ${state.openBuildingsHit?'active amber':''}" onclick="setOpenBuildings(true)">⚠ Sobre Casa<small>Dispara Pop-up</small></button>
+            </div>
+            <div class="ctx-explain">
+              Se a foto coincidir com um polígono do <strong>Open Buildings</strong>, abre um <strong>pop-up</strong> lembrando que a foto precisa ser da porteira (com opção de refazer ou confirmar mesmo assim).
+            </div>
+          </div>
+
+          <!-- 3. RAIO DE 10M -->
+          <div class="ctx-box decision">
+            <div class="ctx-box-title">3. Distância da Porteira Original (10m)</div>
+            <div class="choice-grid">
+              <button class="choice-btn ${state.within10m?'active':''}" onclick="setWithin10m(true)">✓ Raio ≤ 10m<small>Valida na hora!</small></button>
+              <button class="choice-btn ${!state.within10m?'active danger':''}" onclick="setWithin10m(false)">⏳ Raio > 10m<small>Fila até 2 dias úteis</small></button>
+            </div>
+            <div class="ctx-explain">
+              ${state.within10m
+                ? '<strong>Dentro de 10m:</strong> Coordenada validada automaticamente. O produtor recebe o Endereço Rural Digital imediatamente após assinar o termo.'
+                : '<strong>Fora de 10m:</strong> O produtor <strong>não recebe o endereço na hora</strong>. O pedido entra automaticamente na fila do <strong>Painel Escritório</strong> (prazo: até 2 dias úteis).'}
+            </div>
+          </div>
+        `;
+      } else if (s === 'es-lgpd') {
+        badge.textContent = 'ETAPA 6 • TERMO LGPD';
+        box.innerHTML = `
+          <span class="ctx-badge">Conformidade Jurídica</span>
+          <div class="ctx-title">Termo de Recebimento e Assinatura Digital</div>
+          <p class="ctx-desc">Página dedicada com a declaração preenchida automaticamente com o Nome, CPF e nº do CAR do produtor, exigindo assinatura digital na tela.</p>
+          <ul class="spec-list">
+            <li>Funciona tanto online quanto offline (a assinatura é salva localmente junto com data/hora e foto).</li>
+            <li>Se a foto ficou dentro de 10m, o endereço aparece imediatamente em <strong>Minhas Propriedades</strong>.</li>
+            <li>Se ficou fora de 10m, entra automaticamente na fila do <strong>Painel Escritório</strong> (aba superior).</li>
+          </ul>
+        `;
+      }
+    }
+
+    function renderRepGuide() {
+      const el = document.getElementById('rContextualGuide');
+      const s = state.rScreen;
+      const guides = {
+        'login': ['Acesso Controlado', 'Login do Representante', 'O App do Representante é um aplicativo separado. Não permite autocadastro — apenas CPF e senha criados pelo escritório para representantes municipais elegíveis.'],
+        'home': ['Gestão de Entregas', 'Home do Representante', 'Organiza o trabalho em campo por status: Não Confirmadas (dúvidas do escritório), Aguardando (em análise) e Entregues. O representante nunca vê endereços antes da entrega validada.'],
+        'deliver-car': ['Passo 1 da Entrega', 'Pesquisa de CAR com o Proprietário', 'O representante não precisa estar na propriedade, mas precisa estar presencialmente com o proprietário. O código do endereço permanece oculto nesta tela.'],
+        'deliver-owner': ['Passo 2 da Entrega', 'CPF Inteligente e Telefone Único', 'Começa pelo CPF: se já cadastrado (123.456.789-00), preenche tudo automaticamente. Se novo (987.654.321-11), cadastra já valendo para o App Cidadão. Bloqueia se o telefone (27 99812-4450) já pertencer a outro CPF.'],
+        'deliver-sms': ['Passo 3 — Antifraude', 'Código SMS + Assinatura do Morador', 'Para evitar fraudes, o morador recebe um código SMS (simulado: 482910). Só após digitar o SMS e coletar a assinatura digital do morador é que o endereço é liberado.']
+      };
+      const g = guides[s] || guides['home'];
+      el.innerHTML = `
+        <span class="ctx-badge" style="background:#e0f2fe; color:#0e3746;">${g[0]}</span>
+        <div class="ctx-title">${g[1]}</div>
+        <p class="ctx-desc">${g[2]}</p>
+        <div class="ctx-box" style="background:#f0f9ff; border-color:#bae6fd;">
+          <div class="ctx-box-title" style="color:#0e3746;">Dados de Teste Rápido</div>
+          <div class="ctx-explain">
+            <strong>CPF já cadastrado:</strong> <code>123.456.789-00</code> (Tel: 27 99812-4450)<br>
+            <strong>CPF novo:</strong> <code>987.654.321-11</code><br>
+            <strong>Código SMS simulado:</strong> <code>482910</code>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================================
+    // STATE SETTERS FOR CONTEXTUAL CONTROLS
     // =========================================================================
     function setProposal(mode) {
       state.proposal = mode;
-      document.getElementById('tabForma1').classList.toggle('active', mode === 'forma1');
-      document.getElementById('tabForma2').classList.toggle('active', mode === 'forma2');
-      document.getElementById('navRegSub').textContent = mode === 'forma1' ? 'Fluxo da Forma 1' : 'Fluxo da Forma 2';
-      document.getElementById('proposalDesc').innerHTML = mode === 'forma1'
-        ? '<strong>Forma 1:</strong> Não exige estar dentro da propriedade. Escolha entre localização ou busca por CAR.'
-        : '<strong>Forma 2:</strong> Pesquisa o CAR e o GPS precisa estar dentro daquele CAR. Se não estiver, bloqueia com aviso.';
-      cToast('Alternado para ' + mode.toUpperCase());
-      renderCitizenSpec();
+      document.getElementById('navRegSub').textContent = mode === 'forma1' ? 'Forma 1 selecionada' : 'Forma 2 selecionada';
+      renderContextualGuide();
+      cToast('Proposta alterada para ' + (mode === 'forma1' ? 'FORMA 1' : 'FORMA 2'));
     }
 
-    function updateEnv() {
-      state.atProperty = document.getElementById('simAtProperty').checked;
-      state.openBuildingsHit = document.getElementById('simOpenBuildings').checked;
-      state.within10m = document.getElementById('simWithin10m').checked;
-      document.getElementById('simObHint').textContent = state.openBuildingsHit ? 'Sim — exibe aviso de edificação' : 'Não — foto fora de edificação';
-      document.getElementById('sim10mHint').textContent = state.within10m ? 'Sim — valida na hora' : 'Não — vai para fila até 2 dias úteis';
-      renderCitizenSpec();
+    function setOfflineArch(arch) {
+      state.offlineArch = arch;
+      document.getElementById('cOfflinePackStatus').style.display = (arch === 'opcaoB') ? 'block' : 'none';
+      renderContextualGuide();
+      if (state.cScreen === 'es-photo' && state.cPhotoTaken) renderCitizenPhotoScreen();
+      cToast(arch === 'opcaoA' ? 'Offline: Opção A (Sincronização)' : 'Offline: Opção B (Pacote Municipal)');
     }
 
+    function setOnlineMode(online) {
+      state.isOnline = online;
+      const st = document.getElementById('cAndroidStatus');
+      const sig = document.getElementById('cSignalLabel');
+      const ban = document.getElementById('cOfflineBanner');
+      const dot = document.getElementById('cStatusDot');
+
+      st.classList.toggle('offline', !online);
+      sig.textContent = online ? '4G' : 'Sem sinal';
+      ban.classList.toggle('show', !online);
+      dot.style.background = online ? '#22c55e' : '#f59e0b';
+      document.getElementById('cOfflineBannerText').textContent = state.offlineArch === 'opcaoB'
+        ? '📡 Sem internet • Pacote local ativo'
+        : '📡 Sem internet • Fila de sincronização';
+
+      renderContextualGuide();
+      if (state.cScreen === 'es-photo' && state.cPhotoTaken) renderCitizenPhotoScreen();
+      if (online) cToast('Conexão 4G restabelecida');
+    }
+
+    function setOpenBuildings(hit) {
+      state.openBuildingsHit = hit;
+      renderContextualGuide();
+      if (state.cScreen === 'es-photo' && state.cPhotoTaken) {
+        if (hit && (state.isOnline || state.offlineArch === 'opcaoB')) openOpenBuildingsPopup();
+      }
+    }
+
+    function setWithin10m(ok) {
+      state.within10m = ok;
+      renderContextualGuide();
+      if (state.cScreen === 'es-photo' && state.cPhotoTaken) renderCitizenPhotoScreen();
+    }
+
+    // =========================================================================
+    // CIDADÃO NAVIGATION & FLOWS
+    // =========================================================================
     function cGoTo(id, push = true) {
       if (push && state.cScreen && state.cScreen !== id) state.cHistory.push(state.cScreen);
       state.cScreen = id;
@@ -1984,17 +1651,14 @@
       if (id === 'es-home') renderCitizenProperties();
       if (id === 'es-photo') renderCitizenPhotoScreen();
       if (id === 'es-lgpd') renderCitizenLgpd();
-      renderCitizenSpec();
+      renderContextualGuide();
     }
 
-    function cGoBack() {
-      if (state.cHistory.length) cGoTo(state.cHistory.pop(), false);
-    }
+    function cGoBack() { if (state.cHistory.length) cGoTo(state.cHistory.pop(), false); }
 
     function cDoLogin() {
-      const uf = document.getElementById('simUserState').value;
-      if (uf === 'ES') cGoTo('es-home');
-      else if (uf === 'SP') cGoTo('sp-legacy');
+      if (state.simLoginUf === 'ES') cGoTo('es-home');
+      else if (state.simLoginUf === 'SP') cGoTo('sp-legacy');
       else cGoTo('unavailable');
     }
 
@@ -2005,11 +1669,13 @@
     }
 
     function openRegMapPicker() {
-      const uf = document.getElementById('simUserState').value;
+      const uf = state.simLoginUf;
       const city = (citiesByState[uf] && citiesByState[uf][0]) || 'Domingos Martins';
+      state.modalLocked = false;
+      document.getElementById('cModalBg').classList.remove('center');
       document.getElementById('cModalContent').innerHTML = `
         <h3 style="font-size:15px; font-weight:800; color:var(--rr-green-dark); margin-bottom:6px;">Localização detectada</h3>
-        <div style="border-radius:12px; overflow:hidden; border:1.5px solid #b8dec6; margin:10px 0; height:130px; background:#cfe8d5; position:relative; display:flex; align-items:center; justify-content:center;">
+        <div style="border-radius:12px; border:1.5px solid #b8dec6; margin:10px 0; height:125px; background:#cfe8d5; display:flex; align-items:center; justify-content:center;">
           <div style="background:#fff; padding:6px 12px; border-radius:8px; font-weight:700; font-size:12.5px; color:var(--rr-green-dark);">📍 ${city} - ${uf}</div>
         </div>
         <button class="btn btn-primary" style="margin-bottom:8px;" onclick="confirmRegMap('${uf}','${city}')">Confirmar ${city} - ${uf}</button>
@@ -2026,7 +1692,10 @@
       cToast('Moradia confirmada pelo mapa');
     }
 
-    function closeCModal() { document.getElementById('cModalBg').classList.remove('open'); }
+    function closeCModal() {
+      document.getElementById('cModalBg').classList.remove('open');
+      state.modalLocked = false;
+    }
 
     function cDoRegister() {
       if (!document.getElementById('cChkTerms').checked) { cToast('Aceite a Política de Privacidade e os Termos de Uso'); return; }
@@ -2034,11 +1703,8 @@
       const city = document.getElementById('cRegCity').value;
       const cpf = document.getElementById('cRegCpf').value;
       registeredCitizens[cpf] = {
-        name: document.getElementById('cRegName').value,
-        cpf,
-        email: document.getElementById('cRegEmail').value,
-        phone: document.getElementById('cRegPhone').value,
-        uf, city
+        name: document.getElementById('cRegName').value, cpf,
+        email: document.getElementById('cRegEmail').value, phone: document.getElementById('cRegPhone').value, uf, city
       };
       if (uf === 'ES') cGoTo('es-home');
       else if (uf === 'SP') cGoTo('sp-legacy');
@@ -2047,6 +1713,8 @@
 
     function openRegistrarCidadao() {
       if (state.proposal === 'forma1') {
+        state.modalLocked = false;
+        document.getElementById('cModalBg').classList.remove('center');
         document.getElementById('cModalContent').innerHTML = `
           <h3 style="font-size:15px; font-weight:800; color:var(--rr-green-dark); margin-bottom:4px;">Registrar Propriedade</h3>
           <p style="font-size:12px; color:var(--rr-muted); margin-bottom:12px;">Escolha como localizar sua propriedade:</p>
@@ -2061,6 +1729,7 @@
         document.getElementById('cModalBg').classList.add('open');
       } else {
         document.getElementById('cForma2Alert').style.display = 'none';
+        document.getElementById('cForma2OfflineNote').style.display = 'none';
         cGoTo('es-forma2-car');
       }
     }
@@ -2083,51 +1752,113 @@
       const v = document.getElementById('cCarInput2').value.trim();
       if (v.length < 8) { cToast('Digite o código CAR ou use um exemplo'); return; }
       state.cActiveCar = v;
-      if (!state.atProperty) {
-        document.getElementById('cForma2Alert').style.display = 'block';
+      const alertEl = document.getElementById('cForma2Alert');
+      const noteEl = document.getElementById('cForma2OfflineNote');
+
+      // Se sem internet na Opção A, não consegue validar polígono CAR agora -> avança e valida na sincronização
+      if (!state.isOnline && state.offlineArch === 'opcaoA') {
+        alertEl.style.display = 'none';
+        noteEl.style.display = 'block';
+        noteEl.innerHTML = '📡 <strong>Sem internet:</strong> o CAR e a localização serão validados quando o aparelho recuperar sinal.';
+        setTimeout(() => { state.cPhotoTaken = false; cGoTo('es-photo'); }, 900);
         return;
       }
-      document.getElementById('cForma2Alert').style.display = 'none';
+
+      if (!state.atProperty) {
+        alertEl.style.display = 'block';
+        noteEl.style.display = 'none';
+        return;
+      }
+      alertEl.style.display = 'none';
+      noteEl.style.display = 'none';
       state.cPhotoTaken = false;
       cGoTo('es-photo');
+    }
+
+    // POP-UP CLARO DO OPEN BUILDINGS (ITEM 3!)
+    function openOpenBuildingsPopup() {
+      state.modalLocked = true;
+      document.getElementById('cModalBg').classList.add('center');
+      document.getElementById('cModalContent').innerHTML = `
+        <div style="text-align:center;">
+          <div style="width:58px; height:58px; border-radius:50%; background:#fef3c7; color:#b45309; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:28px;">🏠</div>
+          <h3 style="font-size:16px; font-weight:800; color:#92400e; margin-bottom:8px;">Atenção: você parece estar em uma casa ou construção</h3>
+          <p style="font-size:12.5px; color:#374151; line-height:1.5; margin-bottom:16px;">
+            Lembramos que a foto deve ser tirada na <strong>porteira</strong> da propriedade. Enviar uma foto que não seja da porteira pode fazer com que o seu endereço <strong>não seja validado</strong>.
+          </p>
+          <button class="btn btn-primary" style="margin-bottom:8px;" onclick="cRetakeFromPopup()">📷 Tirar nova foto na porteira</button>
+          <button class="btn btn-outline" style="color:#92400e; border-color:#fcd34d;" onclick="cConfirmOpenBuildingsAnyway()">Sim, estou na porteira — confirmar mesmo assim</button>
+        </div>
+      `;
+      document.getElementById('cModalBg').classList.add('open');
+    }
+
+    function cRetakeFromPopup() {
+      closeCModal();
+      cRetakePhoto();
+      cToast('Enquadre a porteira e fotografe novamente');
+    }
+
+    function cConfirmOpenBuildingsAnyway() {
+      state.obConfirmedAnyway = true;
+      closeCModal();
+      renderCitizenPhotoScreen();
+      cToast('Confirmado com alerta registrado para o técnico');
+    }
+
+    function cCaptureGatePhoto() {
+      state.cPhotoTaken = true;
+      state.obConfirmedAnyway = false;
+      renderCitizenPhotoScreen();
+
+      // Verifica se roda análise agora (Online OU Offline Opção B com pacote municipal)
+      const canValidateLocally = state.isOnline || state.offlineArch === 'opcaoB';
+      if (canValidateLocally && state.openBuildingsHit) {
+        openOpenBuildingsPopup();
+      } else {
+        cToast('Foto geolocalizada capturada!');
+      }
+    }
+
+    function cRetakePhoto() {
+      state.cPhotoTaken = false;
+      state.obConfirmedAnyway = false;
+      renderCitizenPhotoScreen();
     }
 
     function renderCitizenPhotoScreen() {
       document.getElementById('cPhotoCarLabel').textContent = state.cActiveCar;
       document.getElementById('cCamEmpty').style.display = state.cPhotoTaken ? 'none' : 'block';
       document.getElementById('cCamTaken').style.display = state.cPhotoTaken ? 'block' : 'none';
-      document.getElementById('cOpenBuildingsWarn').style.display = (state.cPhotoTaken && state.openBuildingsHit) ? 'block' : 'none';
 
       const rBox = document.getElementById('cRadiusInfo');
-      if (state.cPhotoTaken) {
-        rBox.style.display = 'block';
-        if (state.within10m) {
-          rBox.className = 'alert-box success';
-          rBox.innerHTML = '<strong>✓ Porteira validada automaticamente!</strong><br>A foto geolocalizada está dentro do raio de 10 metros da porteira original. Seu endereço será liberado na hora.';
-          document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3632, -40.6591 • 4m da porteira';
-        } else {
-          rBox.className = 'alert-box warn';
-          rBox.innerHTML = '<strong>⏳ Enviado para validação técnica</strong><br>A foto está a mais de 10 metros do ponto original. Você não receberá o endereço na hora — nossa equipe validará em até <strong>2 dias úteis</strong>.';
-          document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3639, -40.6584 • 28m da porteira';
-        }
-        document.getElementById('cNameAfterPhoto').style.display = 'block';
-      } else {
+      if (!state.cPhotoTaken) {
         rBox.style.display = 'none';
         document.getElementById('cNameAfterPhoto').style.display = 'none';
+        return;
       }
-    }
 
-    function cCaptureGatePhoto() {
-      state.cPhotoTaken = true;
-      renderCitizenPhotoScreen();
-      renderCitizenSpec();
-      cToast('Foto geolocalizada capturada!');
-    }
+      rBox.style.display = 'block';
+      document.getElementById('cNameAfterPhoto').style.display = 'block';
 
-    function cRetakePhoto() {
-      state.cPhotoTaken = false;
-      renderCitizenPhotoScreen();
-      renderCitizenSpec();
+      if (!state.isOnline && state.offlineArch === 'opcaoA') {
+        rBox.className = 'alert-box info';
+        rBox.innerHTML = '<strong>📡 Foto salva offline com GPS!</strong><br>As coordenadas foram gravadas no aparelho. A validação do CAR, Open Buildings e raio de 10m será feita automaticamente quando a internet voltar.';
+        document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3632, -40.6591 • Salvo offline';
+        return;
+      }
+
+      const modeTag = !state.isOnline ? ' (validado pelo pacote offline do município)' : '';
+      if (state.within10m) {
+        rBox.className = 'alert-box success';
+        rBox.innerHTML = `<strong>✓ Porteira validada automaticamente${modeTag}!</strong><br>A foto está dentro do raio de 10 metros da porteira original. Seu endereço será liberado após assinar o termo.` +
+          (state.obConfirmedAnyway ? '<br><span style="color:#92400e;">⚠ Obs: confirmada com alerta de edificação próxima.</span>' : '');
+        document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3632, -40.6591 • 4m da porteira';
+      } else {
+        rBox.className = 'alert-box warn';
+        rBox.innerHTML = `<strong>⏳ Irá para validação técnica${modeTag}</strong><br>A foto ficou a mais de 10 metros do ponto original. Você não receberá o endereço na hora — nossa equipe validará em até <strong>2 dias úteis</strong>.`;
+        document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3639, -40.6584 • 28m da porteira';
+      }
     }
 
     function cGoToLgpd() {
@@ -2149,40 +1880,71 @@
     function cFinishRegistration() {
       if (!state.cSigned) { cToast('Faça sua assinatura digital antes de concluir'); return; }
       const u = registeredCitizens['123.456.789-00'];
-      const isAutoOk = state.within10m;
+
+      let status = 'entregue';
+      let note = 'Validado automaticamente no raio de 10m';
+
+      if (!state.isOnline && state.offlineArch === 'opcaoA') {
+        status = 'pendente_sync';
+        note = 'Salvo sem internet — aguarda sincronização para validar CAR/Open Buildings/10m';
+      } else if (!state.within10m) {
+        status = 'aguardando';
+        note = 'Foto fora do raio de 10m — aguarda validação em até 2 dias úteis' + (state.obConfirmedAnyway ? ' • Alerta Open Buildings' : '');
+      }
+
       dbProperties.unshift({
-        id: Date.now(),
-        name: state.cPendingName,
-        erd: '586H 9Q4+QH',
-        car: state.cActiveCar,
-        city: state.cActiveCity,
-        ownerName: u.name,
-        ownerCpf: u.cpf,
-        status: isAutoOk ? 'entregue' : 'aguardando',
-        origin: 'Cidadão',
-        note: isAutoOk ? 'Validado automaticamente no raio de 10m' : 'Foto fora do raio de 10m — aguarda validação até 2 dias úteis',
-        officeMessage: ''
+        id: Date.now(), name: state.cPendingName, erd: '586H 9Q4+QH', car: state.cActiveCar,
+        city: state.cActiveCity, ownerName: u.name, ownerCpf: u.cpf, status, origin: 'Cidadão', note, officeMessage: ''
+      });
+
+      syncAllViews();
+      cToast(status === 'entregue' ? 'Endereço validado e liberado!' : status === 'pendente_sync' ? 'Salvo offline! Sincronizará ao voltar o sinal.' : 'Enviado para validação em até 2 dias úteis!');
+      cGoTo('es-home');
+    }
+
+    function syncOfflineQueueNow() {
+      setOnlineMode(true);
+      let synced = 0;
+      dbProperties.forEach(p => {
+        if (p.status === 'pendente_sync') {
+          synced++;
+          if (state.within10m) {
+            p.status = 'entregue';
+            p.note = 'Sincronizado e validado automaticamente no raio de 10m';
+          } else {
+            p.status = 'aguardando';
+            p.note = 'Sincronizado — foto fora de 10m enviada ao escritório';
+          }
+        }
       });
       syncAllViews();
-      cToast(isAutoOk ? 'Endereço validado e liberado!' : 'Enviado para validação em até 2 dias úteis!');
-      cGoTo('es-home');
+      cToast(synced + ' registro(s) sincronizado(s) com o servidor!');
     }
 
     function renderCitizenProperties() {
       const mine = dbProperties.filter(p => p.ownerCpf === '123.456.789-00');
+      const hasSync = mine.some(p => p.status === 'pendente_sync');
+      document.getElementById('cPendingSyncBanner').style.display = hasSync ? 'block' : 'none';
+      document.getElementById('cOfflinePackStatus').style.display = (state.offlineArch === 'opcaoB') ? 'block' : 'none';
+
       document.getElementById('cPropCount').textContent = mine.length + (mine.length === 1 ? ' imóvel' : ' imóveis');
       document.getElementById('cPropertiesList').innerHTML = mine.map(p => {
         const isOk = p.status === 'entregue';
+        const isSync = p.status === 'pendente_sync';
         return `
           <div class="prop-card" onclick="cOpenDetail(${p.id})">
-            <div class="prop-pin ${isOk ? '' : 'warn'}">${isOk ? '📍' : '⏳'}</div>
+            <div class="prop-pin ${isOk ? '' : isSync ? 'sync' : 'warn'}">${isOk ? '📍' : isSync ? '📡' : '⏳'}</div>
             <div class="prop-info">
               <div class="prop-name">${p.name}</div>
               ${isOk
                 ? `<div class="prop-erd">${p.erd}</div>`
-                : `<div class="prop-erd hidden-erd">Aguardando validação • até 2 dias úteis</div>`}
+                : isSync
+                  ? `<div class="prop-erd hidden-erd" style="color:#3730a3;">Salvo sem internet • aguarda sinal</div>`
+                  : `<div class="prop-erd hidden-erd">Aguardando validação • até 2 dias úteis</div>`}
               <div class="prop-meta">
-                <span class="status-chip ${isOk ? 'ok' : 'pending'}">${isOk ? 'Validado e Entregue' : 'Em análise pelo escritório'}</span>
+                <span class="status-chip ${isOk ? 'ok' : isSync ? 'sync' : 'pending'}">
+                  ${isOk ? 'Validado e Entregue' : isSync ? 'Aguardando sincronização' : 'Em análise pelo escritório'}
+                </span>
               </div>
             </div>
             <span style="color:#9ca3af;">›</span>
@@ -2212,37 +1974,16 @@
           <div><strong>Termo LGPD:</strong> Assinado digitalmente ✓</div>
         </div>
       ` : `
-        <div class="alert-box warn">
-          <strong>⏳ Endereço em validação</strong><br>
-          A foto da porteira enviada ficou fora do raio de 10 metros do ponto original. Nossa equipe técnica está analisando e o endereço será liberado em até <strong>2 dias úteis</strong>.
+        <div class="alert-box ${p.status === 'pendente_sync' ? 'info' : 'warn'}">
+          <strong>${p.status === 'pendente_sync' ? '📡 Aguardando internet para sincronizar' : '⏳ Endereço em validação técnica'}</strong><br>
+          ${p.note}
         </div>
         <div class="card" style="font-size:12px; line-height:1.6;">
           <div><strong>CAR:</strong> ${p.car}</div>
           <div><strong>Município:</strong> ${p.city} - ES</div>
-          <div><strong>Dica do simulador:</strong> abra a aba <strong>Painel Escritório</strong> no topo para aprovar este imóvel agora!</div>
         </div>
       `;
       cGoTo('es-detail');
-    }
-
-    function renderCitizenSpec() {
-      const specs = {
-        'onboarding': ['ETAPA 1', 'Abertura inicial', 'Texto institucional e passo a passo de como funciona o Rotas Rurais.', ['Exibida apenas no primeiro acesso.']],
-        'login': ['ETAPA 2', 'Login e Cadastro', 'Roteamento automático pelo estado da Moradia do cadastro.', ['Moradia selecionada via lista suspensa ou mapa.', 'Autorizações de contato via e-mail e telefone.']],
-        'es-home': ['ETAPA 3', 'Home Espírito Santo', 'Exibe botão Registrar Propriedade, lista Minhas Propriedades e Ajuda.', ['Propriedades fora do raio de 10m aparecem como Aguardando validação sem exibir o endereço.']],
-        'es-photo': ['ETAPA 5', 'Foto Geolocalizada — Sem edição manual', 'O cidadão NÃO pode mais mover a porteira no mapa manualmente.', ['Foto vem com coordenadas GPS.', 'Análise Open Buildings: se sobrepõe edificação, avisa que deve ser foto da porteira mas permite confirmar.', 'Raio <= 10m da porteira original: validação automática imediata.', 'Raio > 10m: entra na fila do Painel Escritório com prazo de até 2 dias úteis.']],
-        'es-lgpd': ['ETAPA 6', 'Termo LGPD e Assinatura', 'Página dedicada com declaração jurídica preenchida automaticamente e assinatura digital.', ['Assinatura obrigatória para concluir.']]
-      };
-      const s = specs[state.cScreen] || specs['es-home'];
-      document.getElementById('cSpecCode').textContent = s[0];
-      document.getElementById('cDevSpec').innerHTML = `
-        <span class="spec-tag">App Cidadão</span>
-        <div class="spec-title">${s[1]}</div>
-        <p class="spec-desc">${s[2]}</p>
-        <ul class="spec-list">${s[3].map(r => `<li>${r}</li>`).join('')}</ul>
-        <div class="spec-section-title">Parâmetros Simulados</div>
-        <div class="code-box">${JSON.stringify({ proposta: state.proposal, foto_open_buildings: state.openBuildingsHit, foto_dentro_10m: state.within10m }, null, 2)}</div>
-      `;
     }
 
     // =========================================================================
@@ -2255,24 +1996,16 @@
       const el = document.getElementById('r-screen-' + id);
       if (el) el.classList.add('active');
       document.getElementById('rViewport').scrollTop = 0;
-
-      document.querySelectorAll('#mode-representante .flow-btn').forEach(b => {
-        b.classList.toggle('active', b.dataset.rscreen === id);
-      });
+      document.querySelectorAll('#mode-representante .flow-btn').forEach(b => b.classList.toggle('active', b.dataset.rscreen === id));
       renderRepCounts();
-      renderRepSpec();
+      renderRepGuide();
     }
-
-    function rGoBack() {
-      if (state.rHistory.length) rGoTo(state.rHistory.pop(), false);
-    }
-
+    function rGoBack() { if (state.rHistory.length) rGoTo(state.rHistory.pop(), false); }
     function renderRepCounts() {
       document.getElementById('rCountUnconfirmed').textContent = dbProperties.filter(p => p.status === 'nao_confirmada').length;
       document.getElementById('rCountWaiting').textContent = dbProperties.filter(p => p.status === 'aguardando').length;
       document.getElementById('rCountDelivered').textContent = dbProperties.filter(p => p.status === 'entregue').length;
     }
-
     function rStartDelivery() {
       document.getElementById('rCarInput').value = '';
       document.getElementById('rMapPreviewBox').style.display = 'none';
@@ -2281,15 +2014,12 @@
       document.getElementById('rPhoneDupAlert').style.display = 'none';
       rGoTo('deliver-car');
     }
-
     function rLoadCarSample(car, name, city) {
       document.getElementById('rCarInput').value = car;
       document.getElementById('rPropName').value = name;
-      state.rActiveCar = car;
-      state.rActiveCity = city;
+      state.rActiveCar = car; state.rActiveCity = city;
       document.getElementById('rMapPreviewBox').style.display = 'block';
     }
-
     function rLookupCpf() {
       const cpf = document.getElementById('rOwnerCpf').value.trim();
       if (cpf.length < 11) { rToast('Digite um CPF válido'); return; }
@@ -2297,47 +2027,32 @@
       const msg = document.getElementById('rOwnerStatusMsg');
       document.getElementById('rOwnerForm').style.display = 'block';
       document.getElementById('rPhoneDupAlert').style.display = 'none';
-
       if (existing) {
-        msg.style.display = 'block';
-        msg.className = 'alert-box success';
+        msg.style.display = 'block'; msg.className = 'alert-box success';
         msg.innerHTML = '<strong>✓ CPF já cadastrado no app!</strong> Dados preenchidos automaticamente.';
         document.getElementById('rOwnerName').value = existing.name;
         document.getElementById('rOwnerEmail').value = existing.email;
         document.getElementById('rOwnerPhone').value = existing.phone;
         document.getElementById('rOwnerCity').value = existing.city + ' - ' + existing.uf;
       } else {
-        msg.style.display = 'block';
-        msg.className = 'alert-box info';
-        msg.innerHTML = '<strong>Novo cadastro:</strong> CPF não encontrado. Preencha os dados do proprietário (o cadastro já valerá para o app do cidadão).';
+        msg.style.display = 'block'; msg.className = 'alert-box info';
+        msg.innerHTML = '<strong>Novo cadastro:</strong> CPF não encontrado. Preencha os dados do proprietário.';
         document.getElementById('rOwnerName').value = 'Carlos Eduardo Pereira';
         document.getElementById('rOwnerEmail').value = 'carlos.pereira@email.com';
         document.getElementById('rOwnerPhone').value = '27 99744-1122';
         document.getElementById('rOwnerCity').value = 'Domingos Martins - ES';
       }
     }
-
     function rSendSmsAndNext() {
       const cpf = document.getElementById('rOwnerCpf').value.trim();
       const name = document.getElementById('rOwnerName').value.trim();
       const email = document.getElementById('rOwnerEmail').value.trim();
       const phone = document.getElementById('rOwnerPhone').value.trim();
-      if (!name || !phone) { rToast('Preencha nome e telefone do morador'); return; }
-
-      // Regra: um telefone por cadastro (não pode estar vinculado a outro CPF)
-      const phoneOwner = Object.values(registeredCitizens).find(u => u.phone === phone && u.cpf !== cpf);
-      if (phoneOwner) {
-        document.getElementById('rPhoneDupAlert').style.display = 'block';
-        rToast('Telefone já vinculado a outro CPF!');
-        return;
-      }
+      if (!name || !phone) { rToast('Preencha nome e telefone'); return; }
+      const dup = Object.values(registeredCitizens).find(u => u.phone === phone && u.cpf !== cpf);
+      if (dup) { document.getElementById('rPhoneDupAlert').style.display = 'block'; rToast('Telefone já vinculado a outro CPF'); return; }
       document.getElementById('rPhoneDupAlert').style.display = 'none';
-
-      // Salva cadastro se for novo (já vale para o app do cidadão!)
-      if (!registeredCitizens[cpf]) {
-        registeredCitizens[cpf] = { name, cpf, email, phone, uf: 'ES', city: state.rActiveCity };
-      }
-
+      if (!registeredCitizens[cpf]) registeredCitizens[cpf] = { name, cpf, email, phone, uf: 'ES', city: state.rActiveCity };
       state.rOwner = registeredCitizens[cpf];
       document.getElementById('rSmsPhoneLabel').textContent = phone;
       document.getElementById('rSmsInput').value = '';
@@ -2347,169 +2062,91 @@
       `;
       clearCanvas('rSigCanvas', 'rSigPh', 'r');
       rGoTo('deliver-sms');
-      rToast('SMS enviado ao morador: código 482910');
     }
-
     function rFinishDelivery() {
-      const code = document.getElementById('rSmsInput').value.trim();
-      if (code !== state.rSmsCode) { rToast('Código SMS inválido! Digite 482910'); return; }
+      if (document.getElementById('rSmsInput').value.trim() !== state.rSmsCode) { rToast('Código SMS inválido! Digite 482910'); return; }
       if (!state.rSigned) { rToast('Colete a assinatura digital do morador'); return; }
-
       const propName = (document.getElementById('rPropName').value.trim() || 'PROPRIEDADE RURAL').toUpperCase();
       const newErd = '586H 8P2+QW';
       dbProperties.unshift({
-        id: Date.now(),
-        name: propName,
-        erd: newErd,
-        car: state.rActiveCar,
-        city: state.rActiveCity,
-        ownerName: state.rOwner.name,
-        ownerCpf: state.rOwner.cpf,
-        status: 'entregue',
-        origin: 'Representante',
-        note: 'Entregue presencialmente com SMS e assinatura digital',
-        officeMessage: ''
+        id: Date.now(), name: propName, erd: newErd, car: state.rActiveCar, city: state.rActiveCity,
+        ownerName: state.rOwner.name, ownerCpf: state.rOwner.cpf, status: 'entregue', origin: 'Representante',
+        note: 'Entregue presencialmente com SMS e assinatura digital', officeMessage: ''
       });
-
       document.getElementById('rDonePropName').textContent = propName;
       document.getElementById('rDoneErd').textContent = newErd;
       document.getElementById('rDoneOwner').textContent = 'Proprietário: ' + state.rOwner.name;
       syncAllViews();
       rGoTo('deliver-done');
     }
-
     function rOpenList(status) {
       const titles = { nao_confirmada: 'Não Confirmadas', aguardando: 'Aguardando Avaliação', entregue: 'Propriedades Entregues' };
       document.getElementById('rListTitle').textContent = titles[status];
       const items = dbProperties.filter(p => p.status === status);
-      const body = document.getElementById('rListBody');
-
-      if (!items.length) {
-        body.innerHTML = `<div class="card" style="text-align:center; color:var(--rr-muted); font-size:12.5px;">Nenhuma propriedade nesta lista.</div>`;
-      } else {
-        body.innerHTML = items.map(p => `
+      document.getElementById('rListBody').innerHTML = !items.length
+        ? `<div class="card" style="text-align:center; color:var(--rr-muted); font-size:12.5px;">Nenhuma propriedade nesta lista.</div>`
+        : items.map(p => `
           <div class="card" style="margin-bottom:10px;">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
-              <div>
-                <div style="font-size:13.5px; font-weight:800;">${p.name}</div>
-                <div style="font-size:11px; color:var(--rr-muted);">${p.ownerName} • ${p.city}</div>
-              </div>
-              <span class="status-chip ${status === 'entregue' ? 'ok' : status === 'aguardando' ? 'pending' : 'danger'}">
-                ${status === 'entregue' ? 'Entregue' : status === 'aguardando' ? 'Aguardando' : 'Com dúvida'}
-              </span>
+              <div><div style="font-size:13.5px; font-weight:800;">${p.name}</div><div style="font-size:11px; color:var(--rr-muted);">${p.ownerName} • ${p.city}</div></div>
+              <span class="status-chip ${status==='entregue'?'ok':status==='aguardando'?'pending':'danger'}">${status==='entregue'?'Entregue':status==='aguardando'?'Aguardando':'Com dúvida'}</span>
             </div>
-            ${status === 'entregue'
-              ? `<div style="font-family:'JetBrains Mono', monospace; font-size:15px; font-weight:800; color:var(--rr-green-dark); margin-top:8px;">📍 ${p.erd}</div>`
-              : `<div style="font-size:11.5px; color:#64748b; margin-top:7px;">🔒 Endereço oculto até validação e entrega</div>`}
+            ${status==='entregue' ? `<div style="font-family:'JetBrains Mono', monospace; font-size:15px; font-weight:800; color:var(--rr-green-dark); margin-top:8px;">📍 ${p.erd}</div>` : `<div style="font-size:11.5px; color:#64748b; margin-top:7px;">🔒 Endereço oculto até validação e entrega</div>`}
             ${p.officeMessage ? `<div class="alert-box danger" style="margin-top:8px; margin-bottom:6px; font-size:11.5px;"><strong>Mensagem do escritório:</strong> ${p.officeMessage}</div>` : ''}
-            ${status === 'nao_confirmada' ? `<button class="btn btn-rep" style="margin-top:6px; padding:9px; font-size:12px;" onclick="rResubmitUnconfirmed(${p.id})">Corrigir com morador e reenviar</button>` : ''}
+            ${status==='nao_confirmada' ? `<button class="btn btn-rep" style="margin-top:6px; padding:9px; font-size:12px;" onclick="rResubmitUnconfirmed(${p.id})">Corrigir com morador e reenviar</button>` : ''}
           </div>
         `).join('');
-      }
       rGoTo('list');
     }
-
     function rResubmitUnconfirmed(id) {
       const p = dbProperties.find(x => x.id === id);
       if (!p) return;
-      p.status = 'aguardando';
-      p.note = 'Corrigido pelo representante e reenviado ao escritório';
-      p.officeMessage = '';
-      syncAllViews();
-      rToast('Reenviado para avaliação do escritório!');
-      rOpenList('nao_confirmada');
-    }
-
-    function renderRepSpec() {
-      document.getElementById('rDevSpec').innerHTML = `
-        <span class="spec-tag" style="background:#e0f2fe; color:#0e3746;">App Representante</span>
-        <div class="spec-title">Regras do Aplicativo de Campo</div>
-        <p class="spec-desc">Aplicativo separado para representantes municipais com foco em segurança antifraude.</p>
-        <ul class="spec-list">
-          <li><strong>Sem autocadastro:</strong> login por CPF e senha fornecidos pelo escritório.</li>
-          <li><strong>Sem acesso prévio a endereços:</strong> o endereço só aparece após validação SMS e assinatura digital do morador.</li>
-          <li class="warn"><strong>CPF inteligente:</strong> se o morador já tem conta, preenche tudo automaticamente; se não tem, cria cadastro válido também no App Cidadão.</li>
-          <li class="critical"><strong>Telefone único:</strong> bloqueia vínculo de um mesmo número de telefone em dois CPFs diferentes.</li>
-          <li><strong>Sincronia com Escritório:</strong> dúvidas enviadas pelo técnico caem direto em NÃO CONFIRMADAS.</li>
-        </ul>
-      `;
+      p.status = 'aguardando'; p.note = 'Corrigido pelo representante e reenviado ao escritório'; p.officeMessage = '';
+      syncAllViews(); rToast('Reenviado ao escritório'); rOpenList('nao_confirmada');
     }
 
     // =========================================================================
-    // PAINEL DO ESCRITÓRIO (WEB DESKTOP — TÉCNICOS GEO)
+    // ESCRITÓRIO LOGIC
     // =========================================================================
-    function officeLogin() {
-      state.officeLoggedIn = true;
-      document.getElementById('officeLoginView').style.display = 'none';
-      document.getElementById('officeAppView').style.display = 'block';
-      renderOfficeQueue();
-    }
-
-    function officeLogout() {
-      state.officeLoggedIn = false;
-      document.getElementById('officeLoginView').style.display = 'block';
-      document.getElementById('officeAppView').style.display = 'none';
-    }
-
-    function getOfficePendingList() {
-      return dbProperties.filter(p => p.status === 'aguardando' && (state.officeMuniFilter === 'Todos' || p.city === state.officeMuniFilter));
-    }
-
+    function officeLogin() { state.officeLoggedIn = true; document.getElementById('officeLoginView').style.display = 'none'; document.getElementById('officeAppView').style.display = 'block'; renderOfficeQueue(); }
+    function officeLogout() { state.officeLoggedIn = false; document.getElementById('officeLoginView').style.display = 'block'; document.getElementById('officeAppView').style.display = 'none'; }
+    function getOfficePendingList() { return dbProperties.filter(p => p.status === 'aguardando' && (state.officeMuniFilter === 'Todos' || p.city === state.officeMuniFilter)); }
     function renderOfficeQueue() {
       const allPending = dbProperties.filter(p => p.status === 'aguardando');
       const munis = ['Todos', 'Domingos Martins', 'Santa Teresa', 'Venda Nova do Imigrante'];
       document.getElementById('officeMuniList').innerHTML = munis.map(m => {
         const cnt = m === 'Todos' ? allPending.length : allPending.filter(p => p.city === m).length;
-        return `<div class="muni-pill ${state.officeMuniFilter === m ? 'active' : ''}" onclick="state.officeMuniFilter='${m}'; renderOfficeQueue();">
-          <span>${m}</span><span class="status-chip ${cnt ? 'pending' : 'ok'}">${cnt}</span>
-        </div>`;
+        return `<div class="muni-pill ${state.officeMuniFilter===m?'active':''}" onclick="state.officeMuniFilter='${m}'; renderOfficeQueue();"><span>${m}</span><span class="status-chip ${cnt?'pending':'ok'}">${cnt}</span></div>`;
       }).join('');
-
       const list = getOfficePendingList();
       document.getElementById('officePendingCountBadge').textContent = list.length + ' aguardando validação';
-
-      const tbody = document.getElementById('officeQueueTbody');
-      if (!list.length) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:32px; color:#64748b;">🎉 Nenhuma propriedade aguardando validação neste filtro!</td></tr>`;
-      } else {
-        tbody.innerHTML = list.map((p, idx) => `
+      document.getElementById('officeQueueTbody').innerHTML = !list.length
+        ? `<tr><td colspan="5" style="text-align:center; padding:32px; color:#64748b;">🎉 Nenhuma propriedade aguardando validação neste filtro!</td></tr>`
+        : list.map((p, idx) => `
           <tr>
             <td><strong>${p.name}</strong><div style="font-family:'JetBrains Mono', monospace; font-size:11px; color:#64748b;">${p.car}</div></td>
             <td>${p.city}</td>
-            <td><span class="status-chip ${p.origin === 'Cidadão' ? 'ok' : 'pending'}">${p.origin}</span></td>
+            <td><span class="status-chip ${p.origin==='Cidadão'?'ok':'pending'}">${p.origin}</span></td>
             <td style="font-size:12px; color:#475569;">${p.note}</td>
             <td><button class="btn btn-primary" style="width:auto; padding:7px 12px; font-size:12px; background:#4338ca;" onclick="officeOpenFastValidator(${idx})">Validar →</button></td>
           </tr>
         `).join('');
-      }
     }
-
     function officeOpenFastValidator(index = 0) {
       const list = getOfficePendingList();
-      if (!list.length) { alert('Não há propriedades aguardando validação no momento!'); return; }
+      if (!list.length) { alert('Nenhuma propriedade aguardando validação!'); return; }
       state.officeValIndex = Math.min(index, list.length - 1);
-      state.officeSuggesting = false;
-      state.officeSuggestedCoord = null;
+      state.officeSuggesting = false; state.officeSuggestedCoord = null;
       document.getElementById('officeQueueView').style.display = 'none';
       document.getElementById('officeValidatorView').style.display = 'block';
       renderOfficeValidatorCard();
     }
-
-    function officeBackToQueue() {
-      document.getElementById('officeValidatorView').style.display = 'none';
-      document.getElementById('officeQueueView').style.display = 'block';
-      renderOfficeQueue();
-    }
-
+    function officeBackToQueue() { document.getElementById('officeValidatorView').style.display = 'none'; document.getElementById('officeQueueView').style.display = 'block'; renderOfficeQueue(); }
     function renderOfficeValidatorCard() {
       const list = getOfficePendingList();
-      if (!list.length) {
-        officeBackToQueue();
-        return;
-      }
+      if (!list.length) { officeBackToQueue(); return; }
       if (state.officeValIndex >= list.length) state.officeValIndex = 0;
       const p = list[state.officeValIndex];
-
       document.getElementById('valCounter').textContent = `${state.officeValIndex + 1} de ${list.length}`;
       document.getElementById('valPropName').textContent = p.name;
       document.getElementById('valPropMeta').textContent = `${p.car} • ${p.city} - ES • Proprietário: ${p.ownerName}`;
@@ -2517,53 +2154,42 @@
       document.getElementById('valMessageInput').value = '';
       document.getElementById('officeSuggestedPin').setAttribute('transform', 'translate(-100, -100)');
       document.getElementById('officeMapBox').classList.remove('suggesting');
-      document.getElementById('officeMapBadge').textContent = 'Zoom 18x • Comparação Porteira Original vs Foto';
       state.officeSuggesting = false;
     }
-
     function officeToggleSuggestMode() {
       state.officeSuggesting = !state.officeSuggesting;
       document.getElementById('officeMapBox').classList.toggle('suggesting', state.officeSuggesting);
-      document.getElementById('officeMapBadge').textContent = state.officeSuggesting
-        ? '👆 Clique no mapa para marcar a nova localização sugerida'
-        : 'Zoom 18x • Comparação Porteira Original vs Foto';
+      document.getElementById('officeMapBadge').textContent = state.officeSuggesting ? '👆 Clique no mapa para marcar a nova localização' : 'Zoom 18x • Porteira Original vs Foto';
     }
-
     function officeHandleMapClick(e) {
       if (!state.officeSuggesting) return;
-      const svg = document.getElementById('officeMapSvg');
-      const rect = svg.getBoundingClientRect();
+      const rect = document.getElementById('officeMapSvg').getBoundingClientRect();
       const x = Math.round(((e.clientX - rect.left) / rect.width) * 560);
       const y = Math.round(((e.clientY - rect.top) / rect.height) * 410);
       document.getElementById('officeSuggestedPin').setAttribute('transform', `translate(${x}, ${y})`);
       state.officeSuggestedCoord = { x, y };
-      document.getElementById('officeMapBadge').textContent = '✓ Nova localização marcada! Clique em Confirmar ou Encaminhar.';
+      document.getElementById('officeMapBadge').textContent = '✓ Nova localização sugerida marcada!';
     }
-
     function officeConfirmCurrent() {
       const list = getOfficePendingList();
       const p = list[state.officeValIndex];
       if (!p) return;
       p.status = 'entregue';
       p.note = state.officeSuggestedCoord ? 'Validado pelo técnico com nova localização' : 'Validado pelo técnico no escritório';
-      syncAllViews();
-      renderOfficeValidatorCard();
+      syncAllViews(); renderOfficeValidatorCard();
     }
-
     function officeReturnToRep() {
       const list = getOfficePendingList();
       const p = list[state.officeValIndex];
       if (!p) return;
-      const msg = document.getElementById('valMessageInput').value.trim() || 'Favor confirmar a localização exata da porteira junto ao morador.';
       p.status = 'nao_confirmada';
-      p.officeMessage = msg;
+      p.officeMessage = document.getElementById('valMessageInput').value.trim() || 'Favor confirmar a localização exata da porteira junto ao morador.';
       p.note = 'Devolvido ao representante com dúvida';
-      syncAllViews();
-      renderOfficeValidatorCard();
+      syncAllViews(); renderOfficeValidatorCard();
     }
 
     // =========================================================================
-    // CANVAS SIGNATURE HELPER (CIDADÃO & REPRESENTANTE)
+    // CANVAS SIGNATURE + HELPERS
     // =========================================================================
     function initSigCanvas(canvasId, phId, who) {
       const canvas = document.getElementById(canvasId);
@@ -2576,57 +2202,31 @@
         return { x: (cx - r.left) * (canvas.width / r.width), y: (cy - r.top) * (canvas.height / r.height) };
       };
       const start = e => {
-        drawing = true;
-        const p = getPos(e);
-        ctx.beginPath(); ctx.moveTo(p.x, p.y);
-        ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.strokeStyle = '#0f291a';
+        drawing = true; const p = getPos(e);
+        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.strokeStyle = '#0f291a';
         if (who === 'c') state.cSigned = true; else state.rSigned = true;
         document.getElementById(phId).style.display = 'none';
         if (e.cancelable) e.preventDefault();
       };
-      const move = e => {
-        if (!drawing) return;
-        const p = getPos(e);
-        ctx.lineTo(p.x, p.y); ctx.stroke();
-        if (e.cancelable) e.preventDefault();
-      };
+      const move = e => { if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); if (e.cancelable) e.preventDefault(); };
       const end = () => { drawing = false; };
-      canvas.addEventListener('mousedown', start);
-      canvas.addEventListener('mousemove', move);
-      window.addEventListener('mouseup', end);
-      canvas.addEventListener('touchstart', start, { passive: false });
-      canvas.addEventListener('touchmove', move, { passive: false });
-      window.addEventListener('touchend', end);
+      canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move); window.addEventListener('mouseup', end);
+      canvas.addEventListener('touchstart', start, { passive: false }); canvas.addEventListener('touchmove', move, { passive: false }); window.addEventListener('touchend', end);
     }
-
     function clearCanvas(canvasId, phId, who) {
       const c = document.getElementById(canvasId);
       c.getContext('2d').clearRect(0, 0, c.width, c.height);
       if (who === 'c') state.cSigned = false; else state.rSigned = false;
       document.getElementById(phId).style.display = 'flex';
     }
-
-    // =========================================================================
-    // HELPERS
-    // =========================================================================
     function maskCpf(input) {
       let v = input.value.replace(/\D/g, '').slice(0, 11);
       v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
       input.value = v;
     }
-
     let cToastT, rToastT;
-    function cToast(m) {
-      const el = document.getElementById('cToast');
-      el.textContent = m; el.classList.add('show');
-      clearTimeout(cToastT); cToastT = setTimeout(() => el.classList.remove('show'), 2500);
-    }
-    function rToast(m) {
-      const el = document.getElementById('rToast');
-      el.textContent = m; el.classList.add('show');
-      clearTimeout(rToastT); rToastT = setTimeout(() => el.classList.remove('show'), 2500);
-    }
-
+    function cToast(m) { const el = document.getElementById('cToast'); el.textContent = m; el.classList.add('show'); clearTimeout(cToastT); cToastT = setTimeout(() => el.classList.remove('show'), 2500); }
+    function rToast(m) { const el = document.getElementById('rToast'); el.textContent = m; el.classList.add('show'); clearTimeout(rToastT); rToastT = setTimeout(() => el.classList.remove('show'), 2500); }
     function resetAll() { location.reload(); }
 
     // BOOT
@@ -2634,8 +2234,6 @@
     initSigCanvas('cSigCanvas', 'cSigPh', 'c');
     initSigCanvas('rSigCanvas', 'rSigPh', 'r');
     syncAllViews();
-    renderCitizenSpec();
-    renderRepSpec();
   </script>
 </body>
 </html>
