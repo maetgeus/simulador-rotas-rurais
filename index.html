@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simulador Ecossistema Rotas Rurais — Espírito Santo</title>
+  <title>Simulador App Rotas Rurais — Espírito Santo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -80,15 +80,14 @@
       transition: all 0.16s;
     }
     .profile-tab:hover { background: rgba(255,255,255,0.1); color: #fff; }
-    .profile-tab.active.cidadao { background: var(--rr-green-mid); color: #fff; }
-    .profile-tab.active.representante { background: #0e7490; color: #fff; }
+    .profile-tab.active.app { background: var(--rr-green-mid); color: #fff; }
     .profile-tab.active.escritorio { background: #4338ca; color: #fff; }
     .tab-count { background: rgba(255,255,255,0.22); font-size: 10.5px; padding: 1px 6px; border-radius: 999px; }
 
     .mode-view { display: none; flex: 1; }
     .mode-view.active { display: block; }
 
-    /* WORKSPACE: LEFT = CONTEXTUAL EXPLANATION & CONTROLS | CENTER = GALAXY A07 | RIGHT = QUICK NAV */
+    /* WORKSPACE */
     .workspace {
       max-width: 1420px;
       width: 100%;
@@ -133,239 +132,108 @@
     }
     .panel-body { padding: 16px 18px; }
 
-    /* CONTEXTUAL GUIDE ELEMENTS (LEFT PANEL) */
+    /* CONTEXTUAL GUIDE (LEFT PANEL) */
     .ctx-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: var(--rr-green-light);
-      color: var(--rr-green-dark);
-      margin-bottom: 8px;
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
+      padding: 4px 10px; border-radius: 999px;
+      background: var(--rr-green-light); color: var(--rr-green-dark); margin-bottom: 8px;
     }
+    .ctx-badge.rep { background: #e0f2fe; color: #0e3746; }
     .ctx-title { font-size: 18px; font-weight: 800; color: var(--rr-text); margin-bottom: 6px; line-height: 1.25; }
     .ctx-desc { font-size: 13px; color: #3d4d43; line-height: 1.55; margin-bottom: 14px; }
 
-    .ctx-box {
-      background: #f6faf7;
-      border: 1.5px solid #cde4d5;
-      border-radius: 13px;
-      padding: 13px 14px;
-      margin-bottom: 14px;
-    }
-    .ctx-box.decision {
-      background: #eff8f3;
-      border-color: #7cc49b;
-    }
-    .ctx-box.offline {
-      background: #f5f3ff;
-      border-color: #c4b5fd;
-    }
-    .ctx-box.warn {
-      background: #fffbeb;
-      border-color: #fcd34d;
-    }
+    .ctx-box { background: #f6faf7; border: 1.5px solid #cde4d5; border-radius: 13px; padding: 13px 14px; margin-bottom: 14px; }
+    .ctx-box.decision { background: #eff8f3; border-color: #7cc49b; }
+    .ctx-box.rep { background: #f0f9ff; border-color: #7dd3fc; }
+    .ctx-box.offline { background: #f5f3ff; border-color: #c4b5fd; }
+    .ctx-box.warn { background: #fffbeb; border-color: #fcd34d; }
     .ctx-box-title {
-      font-size: 11.5px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--rr-green-dark);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--rr-green-dark); margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;
     }
+    .ctx-box.rep .ctx-box-title { color: #0e3746; }
     .ctx-box.offline .ctx-box-title { color: #4c1d95; }
     .ctx-box.warn .ctx-box-title { color: #92400e; }
 
-    .choice-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 9px;
-    }
+    .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 9px; }
     .choice-btn {
-      padding: 9px 10px;
-      border-radius: 10px;
-      border: 1.5px solid #cbd7cf;
-      background: #fff;
-      color: var(--rr-text);
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.15s;
+      padding: 9px 10px; border-radius: 10px; border: 1.5px solid #cbd7cf; background: #fff;
+      color: var(--rr-text); font-family: inherit; font-size: 12px; font-weight: 700;
+      cursor: pointer; text-align: left; transition: all 0.15s;
     }
     .choice-btn small { display: block; font-size: 10.5px; font-weight: 500; opacity: 0.78; margin-top: 2px; }
     .choice-btn:hover { border-color: var(--rr-green); }
-    .choice-btn.active {
-      background: var(--rr-green);
-      border-color: var(--rr-green);
-      color: #fff;
-      box-shadow: 0 3px 10px rgba(24, 100, 56, 0.25);
-    }
-    .choice-btn.active.purple {
-      background: #5b21b6;
-      border-color: #5b21b6;
-      box-shadow: 0 3px 10px rgba(91, 33, 182, 0.25);
-    }
-    .choice-btn.active.amber {
-      background: #b45309;
-      border-color: #b45309;
-    }
-    .choice-btn.active.danger {
-      background: #b91c1c;
-      border-color: #b91c1c;
-    }
+    .choice-btn.active { background: var(--rr-green); border-color: var(--rr-green); color: #fff; }
+    .choice-btn.active.rep { background: var(--rep-blue); border-color: var(--rep-blue); }
+    .choice-btn.active.purple { background: #5b21b6; border-color: #5b21b6; }
+    .choice-btn.active.amber { background: #b45309; border-color: #b45309; }
+    .choice-btn.active.danger { background: #b91c1c; border-color: #b91c1c; }
     .ctx-explain {
-      font-size: 12px;
-      color: #2d3e34;
-      line-height: 1.48;
-      background: rgba(255,255,255,0.72);
-      padding: 9px 11px;
-      border-radius: 9px;
-      border: 1px solid rgba(0,0,0,0.06);
+      font-size: 12px; color: #2d3e34; line-height: 1.48;
+      background: rgba(255,255,255,0.75); padding: 9px 11px; border-radius: 9px; border: 1px solid rgba(0,0,0,0.06);
     }
 
     .spec-list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
-    .spec-list li {
-      font-size: 12px;
-      line-height: 1.45;
-      padding: 7px 10px;
-      background: #f7faf8;
-      border-left: 3px solid var(--rr-green);
-      border-radius: 0 8px 8px 0;
-    }
-    .spec-list li.warn { background: #fff8eb; border-left-color: var(--rr-gold); }
-    .spec-list li.critical { background: var(--rr-danger-bg); border-left-color: var(--rr-danger); }
+    .spec-list li { font-size: 12px; line-height: 1.45; padding: 7px 10px; background: #f7faf8; border-left: 3px solid var(--rr-green); border-radius: 0 8px 8px 0; }
 
     /* RIGHT NAV LIST */
+    .nav-section-label { font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--rr-muted); margin: 12px 0 6px; }
+    .nav-section-label:first-child { margin-top: 0; }
     .flow-list { display: flex; flex-direction: column; gap: 5px; }
     .flow-btn {
-      width: 100%;
-      text-align: left;
-      background: #f8faf9;
-      border: 1px solid #e3eae5;
-      border-radius: 10px;
-      padding: 8px 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      transition: all 0.15s;
-      font-family: inherit;
+      width: 100%; text-align: left; background: #f8faf9; border: 1px solid #e3eae5;
+      border-radius: 10px; padding: 8px 10px; cursor: pointer; display: flex; align-items: center; gap: 9px;
+      transition: all 0.15s; font-family: inherit;
     }
     .flow-btn:hover { background: var(--rr-green-light); border-color: #a9d5ba; }
     .flow-btn.active { background: var(--rr-green); border-color: var(--rr-green); color: #fff; }
     .flow-btn.rep-style.active { background: var(--rep-blue); border-color: var(--rep-blue); color: #fff; }
     .flow-num {
       font-size: 11px; font-weight: 700; min-width: 24px; height: 22px; border-radius: 6px;
-      background: rgba(24, 100, 56, 0.12); color: var(--rr-green-dark);
-      display: flex; align-items: center; justify-content: center;
+      background: rgba(24, 100, 56, 0.12); color: var(--rr-green-dark); display: flex; align-items: center; justify-content: center;
     }
     .flow-btn.active .flow-num { background: rgba(255,255,255,0.22); color: #fff; }
     .flow-label { font-size: 12px; font-weight: 600; line-height: 1.25; }
     .flow-sub { font-size: 10.5px; opacity: 0.78; display: block; font-weight: 400; }
 
-    .btn-reset {
-      width: 100%;
-      padding: 9px;
-      margin-top: 12px;
-      border-radius: 9px;
-      border: 1px solid #cbd7cf;
-      background: #fff;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-    }
+    .btn-reset { width: 100%; padding: 9px; margin-top: 12px; border-radius: 9px; border: 1px solid #cbd7cf; background: #fff; font-size: 12px; font-weight: 600; cursor: pointer; }
     .btn-reset:hover { background: #f0f5f2; border-color: var(--rr-green); color: var(--rr-green); }
 
     /* =============================================
        SAMSUNG GALAXY A07 FRAME
        ============================================= */
     .phone-stage { display: flex; flex-direction: column; align-items: center; }
-    .device-caption {
-      font-size: 11.5px; font-weight: 600; color: var(--rr-muted);
-      margin-bottom: 8px; display: flex; align-items: center; gap: 7px;
-    }
+    .device-caption { font-size: 11.5px; font-weight: 600; color: var(--rr-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 7px; }
     .device-caption .dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2); }
 
     .galaxy-a07 {
-      position: relative;
-      width: 382px;
-      height: 800px;
+      position: relative; width: 382px; height: 800px;
       background: linear-gradient(145deg, #2b2e33 0%, #17191c 50%, #0f1113 100%);
-      border-radius: 44px;
-      padding: 13px 11px 22px 11px;
-      box-shadow:
-        0 28px 60px rgba(10, 24, 16, 0.35),
-        0 6px 18px rgba(0, 0, 0, 0.22),
-        inset 0 0 0 2px #3b4047,
-        inset 0 0 0 4px #121417;
-      display: flex;
-      flex-direction: column;
-      user-select: none;
+      border-radius: 44px; padding: 13px 11px 22px 11px;
+      box-shadow: 0 28px 60px rgba(10, 24, 16, 0.35), 0 6px 18px rgba(0, 0, 0, 0.22), inset 0 0 0 2px #3b4047, inset 0 0 0 4px #121417;
+      display: flex; flex-direction: column; user-select: none;
     }
     .hw-btn { position: absolute; right: -4px; width: 4px; background: linear-gradient(180deg, #3c4149, #1d2024); border-radius: 0 3px 3px 0; }
     .hw-vol { top: 155px; height: 88px; }
     .hw-power { top: 266px; height: 50px; cursor: pointer; }
     .a07-earpiece { position: absolute; top: 5px; left: 50%; transform: translateX(-50%); width: 56px; height: 3.5px; background: #2d3138; border-radius: 4px; z-index: 20; }
-    .a07-screen {
-      flex: 1;
-      background: var(--rr-bg);
-      border-radius: 30px 30px 26px 26px;
-      overflow: hidden;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4);
-    }
-    .a07-notch {
-      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-      width: 34px; height: 24px; background: #121417; border-radius: 0 0 18px 18px;
-      z-index: 50; display: flex; align-items: center; justify-content: center; padding-bottom: 3px;
-    }
+    .a07-screen { flex: 1; background: var(--rr-bg); border-radius: 30px 30px 26px 26px; overflow: hidden; position: relative; display: flex; flex-direction: column; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.4); }
+    .a07-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 34px; height: 24px; background: #121417; border-radius: 0 0 18px 18px; z-index: 50; display: flex; align-items: center; justify-content: center; padding-bottom: 3px; }
     .a07-camera-lens { width: 11px; height: 11px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #374a66 0%, #0d131c 65%, #000 100%); }
-    .android-status {
-      height: 28px; padding: 0 18px; display: flex; align-items: center; justify-content: space-between;
-      font-size: 11.5px; font-weight: 600; background: var(--rr-green-dark); color: #ffffff; z-index: 40; flex-shrink: 0;
-    }
+    .android-status { height: 28px; padding: 0 18px; display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; font-weight: 600; background: var(--rr-green-dark); color: #ffffff; z-index: 40; flex-shrink: 0; transition: background 0.2s; }
     .android-status.rep { background: var(--rep-blue-dark); }
     .android-status.offline { background: #334155; }
     .status-right { display: flex; align-items: center; gap: 6px; font-size: 10.5px; }
 
-    .offline-banner {
-      background: #334155;
-      color: #fde68a;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 6px 12px;
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      flex-shrink: 0;
-    }
+    .offline-banner { background: #334155; color: #fde68a; font-size: 11px; font-weight: 700; padding: 6px 12px; display: none; align-items: center; justify-content: space-between; gap: 8px; flex-shrink: 0; }
     .offline-banner.show { display: flex; }
 
-    .app-viewport {
-      flex: 1; overflow-y: auto; overflow-x: hidden; position: relative;
-      background: var(--rr-bg); display: flex; flex-direction: column; scrollbar-width: thin;
-    }
+    .app-viewport { flex: 1; overflow-y: auto; overflow-x: hidden; position: relative; background: var(--rr-bg); display: flex; flex-direction: column; scrollbar-width: thin; }
     .app-viewport::-webkit-scrollbar { width: 4px; }
     .app-viewport::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); border-radius: 4px; }
 
-    .android-navbar {
-      height: 42px; background: #ffffff; border-top: 1px solid #e5ece7;
-      display: flex; align-items: center; justify-content: space-around; flex-shrink: 0; z-index: 40;
-    }
+    .android-navbar { height: 42px; background: #ffffff; border-top: 1px solid #e5ece7; display: flex; align-items: center; justify-content: space-around; flex-shrink: 0; z-index: 40; }
     .nav-btn { background: none; border: none; width: 56px; height: 36px; border-radius: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #4b5563; }
     .nav-btn:hover { background: #edf2ef; color: #111827; }
 
@@ -374,28 +242,19 @@
     .screen.active { display: flex; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-    .app-topbar {
-      background: var(--rr-green); color: #fff; padding: 12px 16px;
-      display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-shrink: 0;
-    }
+    .app-topbar { background: var(--rr-green); color: #fff; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-shrink: 0; }
     .app-topbar.rep { background: var(--rep-blue); }
     .app-topbar h3 { font-size: 15px; font-weight: 700; flex: 1; }
-    .icon-btn {
-      background: rgba(255,255,255,0.15); border: none; color: #fff;
-      width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
-    }
-    .icon-btn:hover { background: rgba(255,255,255,0.28); }
+    .icon-btn { background: rgba(255,255,255,0.16); border: none; color: #fff; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .icon-btn:hover { background: rgba(255,255,255,0.3); }
     .screen-pad { padding: 15px 15px 22px; flex: 1; display: flex; flex-direction: column; }
 
-    .btn {
-      width: 100%; padding: 12px 15px; border-radius: 12px; border: none;
-      font-family: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer;
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.15s;
-    }
+    .btn { width: 100%; padding: 12px 15px; border-radius: 12px; border: none; font-family: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.15s; }
     .btn:active { transform: scale(0.98); }
     .btn-primary { background: var(--rr-green); color: #fff; box-shadow: 0 4px 12px rgba(24, 100, 56, 0.25); }
     .btn-primary:hover { background: var(--rr-green-dark); }
     .btn-rep { background: var(--rep-blue); color: #fff; box-shadow: 0 4px 12px rgba(22, 78, 99, 0.25); }
+    .btn-rep:hover { background: var(--rep-blue-dark); }
     .btn-secondary { background: var(--rr-green-light); color: var(--rr-green-dark); border: 1px solid #b8dec6; }
     .btn-outline { background: #fff; color: var(--rr-text); border: 1.5px solid #cbd7cf; }
     .btn-outline:hover { border-color: var(--rr-green); color: var(--rr-green); }
@@ -405,28 +264,17 @@
 
     .form-group { margin-bottom: 11px; }
     .form-label { display: block; font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 4px; }
-    .form-input, .form-select {
-      width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid #cfd9d2;
-      font-family: inherit; font-size: 13.5px; background: #fff; color: var(--rr-text); outline: none;
-    }
+    .form-input, .form-select { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1.5px solid #cfd9d2; font-family: inherit; font-size: 13.5px; background: #fff; color: var(--rr-text); outline: none; }
     .form-input:focus, .form-select:focus { border-color: var(--rr-green); }
 
     .check-box-group { display: flex; flex-direction: column; gap: 7px; margin: 10px 0 13px; }
-    .check-item {
-      display: flex; align-items: flex-start; gap: 9px; font-size: 12px; color: #2c3a31;
-      line-height: 1.38; cursor: pointer; background: #fff; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--rr-border);
-    }
+    .check-item { display: flex; align-items: flex-start; gap: 9px; font-size: 12px; color: #2c3a31; line-height: 1.38; cursor: pointer; background: #fff; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--rr-border); }
     .check-item input { margin-top: 2px; width: 16px; height: 16px; accent-color: var(--rr-green); flex-shrink: 0; }
 
     .card { background: #fff; border: 1px solid var(--rr-border); border-radius: 14px; padding: 13px; box-shadow: 0 2px 8px rgba(16, 42, 27, 0.04); }
 
     .hero-banner { background: linear-gradient(160deg, #13522d 0%, #1e7a44 100%); padding: 18px 18px 28px; text-align: center; color: #fff; }
-    .hero-banner.rep { background: linear-gradient(160deg, #0e3746 0%, #0e7490 100%); }
-    .hero-logo-circle {
-      width: 78px; height: 78px; border-radius: 50%; background: #fff; margin: 0 auto 9px;
-      display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border: 3px solid #66c289;
-    }
-    .hero-banner.rep .hero-logo-circle { border-color: #67e8f9; }
+    .hero-logo-circle { width: 78px; height: 78px; border-radius: 50%; background: #fff; margin: 0 auto 9px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 20px rgba(0,0,0,0.2); border: 3px solid #66c289; }
     .hero-sheet { background: var(--rr-bg); border-radius: 24px 24px 0 0; margin-top: -18px; padding: 18px 16px 22px; flex: 1; display: flex; flex-direction: column; }
 
     .tut-card { background: #fff; border: 1px solid var(--rr-border); border-radius: 14px; padding: 11px 13px; margin-bottom: 13px; }
@@ -440,10 +288,7 @@
     .es-header.rep { background: var(--rep-blue); }
     .es-badge-pill { background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.28); color: #fff; border-radius: 11px; padding: 5px 10px; display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 13px; }
 
-    .prop-card {
-      background: #fff; border: 1.5px solid var(--rr-border); border-radius: 14px; padding: 12px 13px;
-      margin-bottom: 9px; cursor: pointer; display: flex; align-items: center; gap: 11px; transition: all 0.15s;
-    }
+    .prop-card { background: #fff; border: 1.5px solid var(--rr-border); border-radius: 14px; padding: 12px 13px; margin-bottom: 9px; cursor: pointer; display: flex; align-items: center; gap: 11px; transition: all 0.15s; }
     .prop-card:hover { border-color: var(--rr-green); box-shadow: 0 4px 12px rgba(24, 100, 56, 0.1); }
     .prop-pin { width: 38px; height: 38px; border-radius: 11px; background: var(--rr-green-light); color: var(--rr-green); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .prop-pin.warn { background: #fef3c7; color: #b45309; }
@@ -460,50 +305,36 @@
     .status-chip.danger { background: var(--rr-danger-bg); color: var(--rr-danger); }
     .status-chip.sync { background: #e0e7ff; color: #3730a3; }
 
-    .rep-menu-btn {
-      width: 100%; background: #fff; border: 1.5px solid var(--rr-border); border-radius: 14px;
-      padding: 14px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 12px; text-align: left; font-family: inherit;
-    }
+    .rep-menu-btn { width: 100%; background: #fff; border: 1.5px solid var(--rr-border); border-radius: 14px; padding: 14px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 12px; text-align: left; font-family: inherit; }
     .rep-menu-btn:hover { border-color: var(--rep-blue); }
     .rep-menu-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
     .rep-menu-count { margin-left: auto; font-size: 13px; font-weight: 800; min-width: 28px; height: 28px; border-radius: 999px; display: flex; align-items: center; justify-content: center; }
 
-    .map-box { position: relative; width: 100%; height: 225px; border-radius: 14px; overflow: hidden; border: 2px solid #b9cdc0; background: #3d5a3c; }
+    .profile-field { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #eef3f0; font-size: 12.5px; gap: 10px; }
+    .profile-field:last-child { border-bottom: none; }
+    .profile-field span:first-child { color: var(--rr-muted); font-weight: 500; }
+    .profile-field span:last-child { color: var(--rr-text); font-weight: 700; text-align: right; }
+
+    .map-box { position: relative; width: 100%; height: 195px; border-radius: 14px; overflow: hidden; border: 2px solid #b9cdc0; background: #3d5a3c; }
     .map-overlay-badge { position: absolute; top: 9px; left: 9px; background: rgba(16, 42, 27, 0.88); color: #fff; font-size: 10.5px; font-weight: 600; padding: 5px 9px; border-radius: 8px; pointer-events: none; }
 
-    .camera-box {
-      background: #111827; border-radius: 14px; overflow: hidden; position: relative;
-      height: 195px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; margin-bottom: 11px; border: 2px solid #2d3748;
-    }
+    .camera-box { background: #111827; border-radius: 14px; overflow: hidden; position: relative; height: 195px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; margin-bottom: 11px; border: 2px solid #2d3748; }
     .camera-frame { position: absolute; inset: 14px; border: 2px dashed rgba(255,255,255,0.45); border-radius: 10px; pointer-events: none; }
     .shutter-btn { width: 52px; height: 52px; border-radius: 50%; background: #fff; border: 4px solid rgba(255,255,255,0.4); cursor: pointer; position: relative; z-index: 3; }
 
     .sig-wrapper { background: #ffffff; border: 1.5px dashed #8eb69e; border-radius: 12px; overflow: hidden; position: relative; margin-bottom: 10px; }
-    .sig-canvas { width: 100%; height: 125px; display: block; cursor: crosshair; touch-action: none; }
+    .sig-canvas { width: 100%; height: 120px; display: block; cursor: crosshair; touch-action: none; }
     .sig-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #94a3b8; pointer-events: none; }
-    .sig-line { position: absolute; left: 18px; right: 18px; bottom: 22px; border-bottom: 1px solid #cbd5e1; pointer-events: none; }
+    .sig-line { position: absolute; left: 18px; right: 18px; bottom: 20px; border-bottom: 1px solid #cbd5e1; pointer-events: none; }
     .termo-document { background: #ffffff; border: 1px solid #cfd9d2; border-radius: 12px; padding: 13px; font-size: 12px; line-height: 1.55; color: #1f2937; margin-bottom: 12px; }
     .termo-document p + p { margin-top: 9px; }
 
-    /* MODAL & CENTER POPUP INSIDE PHONE */
-    .phone-modal-backdrop {
-      position: absolute; inset: 0; background: rgba(15, 23, 42, 0.68);
-      z-index: 80; display: none; align-items: flex-end; justify-content: center;
-      padding: 12px; backdrop-filter: blur(2px);
-    }
+    .phone-modal-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.68); z-index: 80; display: none; align-items: flex-end; justify-content: center; padding: 12px; backdrop-filter: blur(2px); }
     .phone-modal-backdrop.center { align-items: center; }
     .phone-modal-backdrop.open { display: flex; }
-    .phone-modal {
-      background: #fff; width: 100%; border-radius: 20px; padding: 18px 16px;
-      box-shadow: 0 14px 36px rgba(0,0,0,0.32); max-height: 86%; overflow-y: auto;
-    }
+    .phone-modal { background: #fff; width: 100%; border-radius: 20px; padding: 18px 16px; box-shadow: 0 14px 36px rgba(0,0,0,0.32); max-height: 86%; overflow-y: auto; }
 
-    .phone-toast {
-      position: absolute; bottom: 52px; left: 14px; right: 14px; background: #102a1b; color: #fff;
-      font-size: 11.5px; font-weight: 600; padding: 9px 12px; border-radius: 10px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.28); z-index: 95; opacity: 0; transform: translateY(10px);
-      pointer-events: none; transition: all 0.22s ease; text-align: center;
-    }
+    .phone-toast { position: absolute; bottom: 52px; left: 14px; right: 14px; background: #102a1b; color: #fff; font-size: 11.5px; font-weight: 600; padding: 9px 12px; border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,0.28); z-index: 95; opacity: 0; transform: translateY(10px); pointer-events: none; transition: all 0.22s ease; text-align: center; }
     .phone-toast.show { opacity: 1; transform: translateY(0); }
 
     .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
@@ -546,7 +377,7 @@
 </head>
 <body>
 
-  <!-- TOP STUDIO HEADER -->
+  <!-- TOP STUDIO HEADER: APENAS 2 ABAS (APP UNIFICADO + PAINEL ESCRITÓRIO) -->
   <header class="studio-header">
     <div class="studio-brand">
       <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
@@ -557,55 +388,53 @@
       </svg>
       <div>
         <h1>Simulador Ecossistema Rotas Rurais — ES</h1>
-        <span>Guia interativo por etapa • 3 níveis de acesso integrados</span>
+        <span>App único para Cidadão e Representante + Painel Web do Escritório</span>
       </div>
     </div>
 
     <div class="profile-switcher">
-      <button class="profile-tab active cidadao" id="tabProfileCidadao" onclick="switchProfile('cidadao')">📱 App Cidadão</button>
-      <button class="profile-tab representante" id="tabProfileRep" onclick="switchProfile('representante')">📱 App Representante</button>
-      <button class="profile-tab escritorio" id="tabProfileEscritorio" onclick="switchProfile('escritorio')">💻 Painel Escritório <span class="tab-count" id="headerOfficeBadge">2</span></button>
+      <button class="profile-tab active app" id="tabViewApp" onclick="switchMainView('app')">📱 App Rotas Rurais</button>
+      <button class="profile-tab escritorio" id="tabViewEscritorio" onclick="switchMainView('escritorio')">💻 Painel Escritório <span class="tab-count" id="headerOfficeBadge">2</span></button>
     </div>
   </header>
 
   <!-- ======================================================================
-       MODO 1: APP DO CIDADÃO (ESQUERDA = GUIA CONTEXTUAL | CENTRO = A07 | DIREITA = NAVEGAÇÃO)
+       VIEW 1: APP ROTAS RURAIS UNIFICADO (CIDADÃO + REPRESENTANTE NO MESMO APP)
        ====================================================================== -->
-  <div class="mode-view active" id="mode-cidadao">
+  <div class="mode-view active" id="view-app">
     <main class="workspace">
 
-      <!-- LEFT PANEL: CONTEXTUAL EXPLANATION & CONDITIONAL CONTROLS -->
+      <!-- LEFT PANEL: CONTEXTUAL GUIDE & CONDITIONAL CONTROLS -->
       <aside class="panel panel-left">
         <div class="panel-header">
           <h2>Explicação e Cenários desta Tela</h2>
-          <span style="font-size:11px; color:var(--rr-green); font-weight:700;" id="cLeftStepBadge">ETAPA 1</span>
+          <span style="font-size:11px; color:var(--rr-green); font-weight:700;" id="leftStepBadge">ETAPA 1</span>
         </div>
-        <div class="panel-body" id="cContextualGuide">
-          <!-- Renderizado dinamicamente conforme a tela atual! -->
-        </div>
+        <div class="panel-body" id="contextualGuide"></div>
       </aside>
 
-      <!-- CENTER: SAMSUNG GALAXY A07 — CIDADÃO -->
+      <!-- CENTER: SAMSUNG GALAXY A07 (APP ÚNICO) -->
       <section class="phone-stage">
-        <div class="device-caption"><span class="dot" id="cStatusDot"></span> App Rotas Rurais — Cidadão • Galaxy A07</div>
+        <div class="device-caption"><span class="dot" id="statusDot"></span> <span id="deviceCaptionText">App Rotas Rurais • Galaxy A07</span></div>
         <div class="galaxy-a07">
           <div class="a07-earpiece"></div>
           <div class="hw-btn hw-vol"></div>
-          <div class="hw-btn hw-power" onclick="cGoTo('onboarding')"></div>
+          <div class="hw-btn hw-power" onclick="appGoTo('onboarding')"></div>
           <div class="a07-screen">
             <div class="a07-notch"><div class="a07-camera-lens"></div></div>
-            <div class="android-status" id="cAndroidStatus">
-              <span>11:15</span>
-              <div class="status-right"><span id="cSignalLabel">4G</span><span>84%</span></div>
+            <div class="android-status" id="androidStatus">
+              <span>12:05</span>
+              <div class="status-right"><span id="signalLabel">4G</span><span>84%</span></div>
             </div>
-            <div class="offline-banner" id="cOfflineBanner">
-              <span id="cOfflineBannerText">📡 Modo sem internet ativo</span>
+            <div class="offline-banner" id="offlineBanner">
+              <span id="offlineBannerText">📡 Modo sem internet ativo</span>
               <button onclick="setOnlineMode(true)" style="background:#fde68a; color:#1e293b; border:none; border-radius:6px; padding:3px 7px; font-size:10px; font-weight:800; cursor:pointer;">Voltar sinal</button>
             </div>
 
-            <div class="app-viewport" id="cViewport">
-              <!-- C1: ONBOARDING -->
-              <div class="screen active" id="c-screen-onboarding">
+            <div class="app-viewport" id="appViewport">
+
+              <!-- 1: ONBOARDING -->
+              <div class="screen active" id="screen-onboarding">
                 <div class="hero-banner">
                   <div class="hero-logo-circle">
                     <svg width="50" height="50" viewBox="0 0 100 100" fill="none">
@@ -631,13 +460,13 @@
                     <div class="tut-step"><div class="tut-icon">3</div><div><h4>Receba seu Endereço Rural Digital</h4><p>Ele funciona no Google Maps e qualquer pessoa conseguirá chegar na sua casa</p></div></div>
                   </div>
                   <div style="margin-top:auto;">
-                    <button class="btn btn-primary" onclick="cGoTo('login')">CONTINUAR →</button>
+                    <button class="btn btn-primary" onclick="appGoTo('login')">CONTINUAR →</button>
                   </div>
                 </div>
               </div>
 
-              <!-- C2: LOGIN -->
-              <div class="screen" id="c-screen-login">
+              <!-- 2: LOGIN UNIFICADO (DETECTA CIDADÃO OU REPRESENTANTE PELO CPF) -->
+              <div class="screen" id="screen-login">
                 <div class="hero-banner" style="padding:16px 18px 26px;">
                   <div class="hero-logo-circle" style="width:68px; height:68px;">
                     <svg width="40" height="40" viewBox="0 0 100 100" fill="none">
@@ -651,44 +480,43 @@
                 <div class="hero-sheet">
                   <div class="form-group">
                     <label class="form-label">CPF</label>
-                    <input type="text" class="form-input" id="cLoginCpf" value="123.456.789-00" oninput="maskCpf(this)">
+                    <input type="text" class="form-input" id="loginCpfInput" value="123.456.789-00" oninput="maskCpf(this)">
+                    <div class="chip-row">
+                      <button type="button" class="mini-chip" onclick="selectLoginPreset('cidadao')">CPF Cidadão</button>
+                      <button type="button" class="mini-chip" style="background:#e0f2fe; color:#0e3746; border-color:#7dd3fc;" onclick="selectLoginPreset('representante')">CPF Representante</button>
+                    </div>
                   </div>
                   <div class="form-group">
                     <label class="form-label">Senha</label>
                     <input type="password" class="form-input" value="••••••••">
                   </div>
-                  <button class="btn btn-primary" onclick="cDoLogin()">ENTRAR</button>
+                  <button class="btn btn-primary" onclick="doUnifiedLogin()">ENTRAR</button>
                   <div style="text-align:center; margin-top:8px;">
-                    <button class="btn-link" onclick="cGoTo('forgot')">ESQUECI A SENHA</button>
+                    <button class="btn-link" onclick="appGoTo('forgot')">ESQUECI A SENHA</button>
                   </div>
                   <div class="divider-text">Ainda não tem conta?</div>
-                  <button class="btn btn-secondary" onclick="cGoTo('register')">CRIAR CADASTRO</button>
+                  <button class="btn btn-secondary" onclick="appGoTo('register')">CRIAR CADASTRO</button>
                 </div>
               </div>
 
-              <!-- C2b: ESQUECI A SENHA -->
-              <div class="screen" id="c-screen-forgot">
-                <div class="app-topbar"><button class="icon-btn" onclick="cGoBack()">←</button><h3>Recuperar Senha</h3></div>
+              <!-- 2b: ESQUECI A SENHA -->
+              <div class="screen" id="screen-forgot">
+                <div class="app-topbar"><button class="icon-btn" onclick="appGoBack()">←</button><h3>Recuperar Senha</h3></div>
                 <div class="screen-pad">
-                  <div class="form-group">
-                    <label class="form-label">Informe o CPF *</label>
-                    <input type="text" class="form-input" value="123.456.789-00" oninput="maskCpf(this)">
-                  </div>
-                  <button class="btn btn-primary" onclick="document.getElementById('cForgotRes').style.display='block'">ENVIAR CONFIRMAÇÃO</button>
-                  <div id="cForgotRes" class="alert-box success" style="display:none; margin-top:14px;">
-                    Um e-mail de confirmação foi enviado para <strong>rot***ais@gmail.com</strong>.
-                  </div>
+                  <div class="form-group"><label class="form-label">Informe o CPF *</label><input type="text" class="form-input" value="123.456.789-00" oninput="maskCpf(this)"></div>
+                  <button class="btn btn-primary" onclick="document.getElementById('forgotRes').style.display='block'">ENVIAR CONFIRMAÇÃO</button>
+                  <div id="forgotRes" class="alert-box success" style="display:none; margin-top:14px;">Um e-mail de confirmação foi enviado para <strong>rot***ais@gmail.com</strong>.</div>
                 </div>
               </div>
 
-              <!-- C2c: CRIAR CADASTRO -->
-              <div class="screen" id="c-screen-register">
-                <div class="app-topbar"><button class="icon-btn" onclick="cGoBack()">←</button><h3>Criar Cadastro</h3></div>
+              <!-- 2c: CRIAR CADASTRO -->
+              <div class="screen" id="screen-register">
+                <div class="app-topbar"><button class="icon-btn" onclick="appGoBack()">←</button><h3>Criar Cadastro</h3></div>
                 <div class="screen-pad">
-                  <div class="form-group"><label class="form-label">Nome completo *</label><input type="text" class="form-input" id="cRegName" value="João Carlos da Silva"></div>
-                  <div class="form-group"><label class="form-label">CPF *</label><input type="text" class="form-input" id="cRegCpf" value="123.456.789-00" oninput="maskCpf(this)"></div>
-                  <div class="form-group"><label class="form-label">E-mail *</label><input type="email" class="form-input" id="cRegEmail" value="joao.silva@email.com"></div>
-                  <div class="form-group"><label class="form-label">Telefone *</label><input type="tel" class="form-input" id="cRegPhone" value="27 99812-4450"></div>
+                  <div class="form-group"><label class="form-label">Nome completo *</label><input type="text" class="form-input" id="regName" value="João Carlos da Silva"></div>
+                  <div class="form-group"><label class="form-label">CPF *</label><input type="text" class="form-input" id="regCpf" value="123.456.789-00" oninput="maskCpf(this)"></div>
+                  <div class="form-group"><label class="form-label">E-mail *</label><input type="email" class="form-input" id="regEmail" value="joao.silva@email.com"></div>
+                  <div class="form-group"><label class="form-label">Telefone *</label><input type="tel" class="form-input" id="regPhone" value="27 99812-4450"></div>
 
                   <div class="card" style="background:#f8fbf9; margin-bottom:11px; padding:11px;">
                     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:7px;">
@@ -698,30 +526,29 @@
                     <div style="display:grid; grid-template-columns:86px 1fr; gap:8px;">
                       <div>
                         <label class="form-label" style="font-size:11px;">Estado</label>
-                        <select class="form-select" id="cRegState" onchange="populateCities('cRegState','cRegCity')" style="padding:8px;">
+                        <select class="form-select" id="regState" onchange="populateCities('regState','regCity')" style="padding:8px;">
                           <option value="ES" selected>ES</option><option value="SP">SP</option><option value="MG">MG</option>
                         </select>
                       </div>
                       <div>
                         <label class="form-label" style="font-size:11px;">Município</label>
-                        <select class="form-select" id="cRegCity" style="padding:8px;"></select>
+                        <select class="form-select" id="regCity" style="padding:8px;"></select>
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group"><label class="form-label">Senha *</label><input type="password" class="form-input" value="12345678"></div>
-
                   <div class="check-box-group">
-                    <label class="check-item"><input type="checkbox" id="cChkTerms" checked><span>Concordo com a <strong>Política de Privacidade</strong> e os <strong>Termos de Uso</strong> *</span></label>
+                    <label class="check-item"><input type="checkbox" id="chkTerms" checked><span>Concordo com a <strong>Política de Privacidade</strong> e os <strong>Termos de Uso</strong> *</span></label>
                     <label class="check-item"><input type="checkbox" checked><span>Autorizo o Programa Rotas Rurais entrar em contato via <strong>e-mail</strong></span></label>
                     <label class="check-item"><input type="checkbox" checked><span>Autorizo o Programa Rotas Rurais entrar em contato via <strong>telefone</strong></span></label>
                   </div>
-                  <button class="btn btn-primary" onclick="cDoRegister()">CONCLUIR CADASTRO</button>
+                  <button class="btn btn-primary" onclick="doRegister()">CONCLUIR CADASTRO</button>
                 </div>
               </div>
 
-              <!-- C-SP LEGADO -->
-              <div class="screen" id="c-screen-sp-legacy">
+              <!-- SP LEGADO & UNAVAILABLE -->
+              <div class="screen" id="screen-sp-legacy">
                 <div class="app-topbar" style="background:#00693e; justify-content:center;"><h3 style="text-align:center; flex:none;">Perfil</h3></div>
                 <div class="screen-pad" style="background:#fff; align-items:center;">
                   <div class="alert-box info" style="width:100%; font-size:11.5px;"><strong>Módulo São Paulo:</strong> mantido exatamente como está hoje.</div>
@@ -731,27 +558,68 @@
                     <div class="sp-icon-item"><span>✏️</span><span>Editar</span></div>
                     <div class="sp-icon-item"><span>💬</span><span>Contato</span></div>
                     <div class="sp-icon-item"><span>🔔</span><span>Avisos</span></div>
-                    <div class="sp-icon-item" onclick="cGoTo('login')"><span>🚪</span><span>Sair</span></div>
+                    <div class="sp-icon-item" onclick="appGoTo('login')"><span>🚪</span><span>Sair</span></div>
                   </div>
                   <button class="btn btn-primary" style="background:#00693e;">Cadastrar Minha Propriedade</button>
                   <div style="margin-top:auto; width:100%; padding-top:16px;">
-                    <button class="btn btn-outline" onclick="cGoTo('es-home')">Ver Módulo Espírito Santo →</button>
+                    <button class="btn btn-outline" onclick="appGoTo('es-home')">Ver Módulo Espírito Santo →</button>
                   </div>
                 </div>
               </div>
 
-              <!-- C-UNAVAILABLE -->
-              <div class="screen" id="c-screen-unavailable">
-                <div class="app-topbar" style="background:#991b1b;"><button class="icon-btn" onclick="cGoTo('login')">←</button><h3>Região Indisponível</h3></div>
+              <div class="screen" id="screen-unavailable">
+                <div class="app-topbar" style="background:#991b1b;"><button class="icon-btn" onclick="appGoTo('login')">←</button><h3>Região Indisponível</h3></div>
                 <div class="screen-pad" style="text-align:center;">
                   <div style="font-size:42px; margin:16px 0 10px;">🗺️</div>
                   <h2 style="font-size:15.5px; font-weight:800; color:var(--rr-danger); text-transform:uppercase; margin-bottom:10px;">Infelizmente o Rotas Rurais ainda não está disponível em sua região</h2>
-                  <button class="btn btn-danger" onclick="cToast('Interesse registrado!')">MANIFESTAR INTERESSE</button>
+                  <button class="btn btn-danger" onclick="appToast('Interesse registrado!')">MANIFESTAR INTERESSE</button>
                 </div>
               </div>
 
-              <!-- C3: HOME ES -->
-              <div class="screen" id="c-screen-es-home">
+              <!-- ============================================================
+                   NOVA TELA: PERFIL DO USUÁRIO (COM TROCA REPRESENTANTE <-> CIDADÃO)
+                   ============================================================ -->
+              <div class="screen" id="screen-es-profile">
+                <div class="app-topbar" id="profileTopbar">
+                  <button class="icon-btn" onclick="returnFromProfile()">←</button>
+                  <h3>Meu Perfil</h3>
+                </div>
+                <div class="screen-pad">
+                  <div style="text-align:center; margin-bottom:14px;">
+                    <div id="profileAvatar" style="width:74px; height:74px; border-radius:50%; background:var(--rr-green-light); color:var(--rr-green); margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-size:32px; border:3px solid var(--rr-green);">👤</div>
+                    <div style="font-size:16px; font-weight:800;" id="profName">João Carlos da Silva</div>
+                    <span class="status-chip ok" id="profRoleBadge" style="margin-top:4px;">Perfil Cidadão</span>
+                  </div>
+
+                  <!-- CARD DE TROCA DE MODO (VISÍVEL APENAS SE O CPF FOR REPRESENTANTE!) -->
+                  <div id="profSwitchModeCard" class="card" style="display:none; background:#f0f9ff; border-color:#7dd3fc; margin-bottom:13px;">
+                    <div style="font-size:12px; font-weight:800; color:#0e3746; margin-bottom:4px;">Alternar Modo do Aplicativo</div>
+                    <p style="font-size:11.5px; color:#334155; line-height:1.4; margin-bottom:10px;" id="profSwitchDesc">
+                      Seu CPF possui permissão de Representante Municipal. Você pode alternar para o Modo Cidadão para gerenciar suas próprias propriedades.
+                    </p>
+                    <button class="btn btn-rep" id="profSwitchBtn" onclick="toggleRepCitizenMode()">
+                      🔄 Trocar para Modo Cidadão
+                    </button>
+                  </div>
+
+                  <div class="card" style="margin-bottom:14px;">
+                    <div style="font-size:11.5px; font-weight:800; text-transform:uppercase; color:var(--rr-green-dark); margin-bottom:6px;">Informações Pessoais</div>
+                    <div class="profile-field"><span>CPF</span><span id="profCpf">123.456.789-00</span></div>
+                    <div class="profile-field"><span>E-mail</span><span id="profEmail">joao.silva@email.com</span></div>
+                    <div class="profile-field"><span>Telefone</span><span id="profPhone">27 99812-4450</span></div>
+                    <div class="profile-field"><span>Moradia</span><span id="profCity">Domingos Martins - ES</span></div>
+                    <div class="profile-field" id="profMuniRow" style="display:none;"><span>Município atribuído</span><span id="profMuni">Domingos Martins - ES</span></div>
+                  </div>
+
+                  <button class="btn btn-outline" style="margin-bottom:8px;" onclick="appToast('Edição de dados pessoais aberta')">✏️ Editar meus dados</button>
+                  <button class="btn btn-danger-outline" onclick="doLogout()">🚪 Sair da conta</button>
+                </div>
+              </div>
+
+              <!-- ============================================================
+                   MODO CIDADÃO: HOME, REGISTRO, FOTO, LGPD, DETALHES, AJUDA
+                   ============================================================ -->
+              <div class="screen" id="screen-es-home">
                 <div class="es-header">
                   <div class="es-badge-pill">
                     <svg width="16" height="20" viewBox="0 0 60 75" fill="none"><path d="M22 6L38 9L45 19L42 33L36 47L33 61L24 69L14 62L16 49L12 37L17 24L22 6Z" fill="rgba(255,255,255,0.25)" stroke="#fff" stroke-width="5"/></svg>
@@ -759,18 +627,15 @@
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:13px; font-weight:800;">ROTAS RURAIS</div>
-                    <div style="font-size:10px; opacity:0.85;">Espírito Santo</div>
+                    <div style="font-size:10px; opacity:0.85;">Modo Cidadão</div>
                   </div>
-                  <button class="icon-btn" onclick="cGoTo('login')" title="Sair">👤</button>
+                  <button class="icon-btn" onclick="openProfileScreen()" title="Meu Perfil">👤</button>
                 </div>
                 <div class="screen-pad">
-                  <!-- Pacote Offline badge (aparece na Opção B de Offline) -->
-                  <div id="cOfflinePackStatus" class="alert-box info" style="display:none; font-size:11.5px; padding:9px 11px;">
+                  <div id="offlinePackStatus" class="alert-box info" style="display:none; font-size:11.5px; padding:9px 11px;">
                     📦 <strong>Pacote offline pronto:</strong> Domingos Martins • 6,4 MB salvos para validação sem internet.
                   </div>
-
-                  <!-- Botão sincronizar pendências offline -->
-                  <div id="cPendingSyncBanner" class="alert-box warn" style="display:none; font-size:11.5px; padding:10px;">
+                  <div id="pendingSyncBanner" class="alert-box warn" style="display:none; font-size:11.5px; padding:10px;">
                     <div style="margin-bottom:7px;"><strong>📡 Há registro salvo sem internet!</strong><br>Quando voltar o sinal, o servidor fará os cruzamentos.</div>
                     <button class="btn btn-primary" style="padding:8px; font-size:12px;" onclick="syncOfflineQueueNow()">↻ Simular volta da internet e sincronizar</button>
                   </div>
@@ -784,14 +649,14 @@
                   </div>
                   <div id="cPropertiesList"></div>
                   <div style="margin-top:auto; padding-top:12px;">
-                    <button class="btn btn-outline" style="justify-content:flex-start;" onclick="cGoTo('es-help')">🔍 AJUDA</button>
+                    <button class="btn btn-outline" style="justify-content:flex-start;" onclick="appGoTo('es-help')">🔍 AJUDA</button>
                   </div>
                 </div>
               </div>
 
-              <!-- C4a: FORMA 1 CAR MANUAL -->
-              <div class="screen" id="c-screen-es-manual-car">
-                <div class="app-topbar"><button class="icon-btn" onclick="cGoTo('es-home')">←</button><h3>Buscar por Código CAR</h3></div>
+              <!-- FORMA 1 CAR -->
+              <div class="screen" id="screen-es-manual-car">
+                <div class="app-topbar"><button class="icon-btn" onclick="appGoTo('es-home')">←</button><h3>Buscar por Código CAR</h3></div>
                 <div class="screen-pad">
                   <div class="form-group">
                     <label class="form-label">Código CAR da propriedade *</label>
@@ -805,9 +670,9 @@
                 </div>
               </div>
 
-              <!-- C4b: FORMA 2 CAR + TRAVA GPS -->
-              <div class="screen" id="c-screen-es-forma2-car">
-                <div class="app-topbar"><button class="icon-btn" onclick="cGoTo('es-home')">←</button><h3>Registrar Propriedade</h3></div>
+              <!-- FORMA 2 CAR + TRAVA GPS -->
+              <div class="screen" id="screen-es-forma2-car">
+                <div class="app-topbar"><button class="icon-btn" onclick="appGoTo('es-home')">←</button><h3>Registrar Propriedade</h3></div>
                 <div class="screen-pad">
                   <p style="font-size:12px; color:var(--rr-muted); margin-bottom:12px;">Pesquise o código CAR. Validaremos se sua localização está dentro da propriedade.</p>
                   <div class="form-group">
@@ -819,25 +684,21 @@
                     </div>
                   </div>
                   <button class="btn btn-primary" onclick="cValidateForma2()">VALIDAR CAR E LOCALIZAÇÃO</button>
-                  <div id="cForma2Alert" class="alert-box danger" style="display:none; margin-top:14px;">
-                    Para registrar sua propriedade e retirar seu endereço, você precisa estar na propriedade.
-                  </div>
+                  <div id="cForma2Alert" class="alert-box danger" style="display:none; margin-top:14px;">Para registrar sua propriedade e retirar seu endereço, você precisa estar na propriedade.</div>
                   <div id="cForma2OfflineNote" class="alert-box info" style="display:none; margin-top:12px; font-size:11.5px;"></div>
                 </div>
               </div>
 
-              <!-- C5: FOTO GEOLOCALIZADA + POP-UP OPEN BUILDINGS + RAIO 10M -->
-              <div class="screen" id="c-screen-es-photo">
-                <div class="app-topbar"><button class="icon-btn" onclick="cGoBack()">←</button><h3>Foto da Porteira</h3></div>
+              <!-- FOTO GEOLOCALIZADA + VISADA + OPEN BUILDINGS + RAIO 50M -->
+              <div class="screen" id="screen-es-photo">
+                <div class="app-topbar"><button class="icon-btn" onclick="appGoBack()">←</button><h3>Foto da Porteira</h3></div>
                 <div class="screen-pad">
                   <div style="font-size:11.5px; color:var(--rr-muted); margin-bottom:8px;">
                     <strong>CAR:</strong> <span id="cPhotoCarLabel" style="font-family:'JetBrains Mono', monospace;">ES-3201902-7F2A...</span>
                   </div>
-
                   <p style="font-size:12px; color:var(--rr-text); line-height:1.4; margin-bottom:10px;">
-                    Tire uma foto nítida da <strong>porteira</strong>. A foto registra as coordenadas GPS automaticamente.
+                    Tire uma foto nítida da <strong>porteira</strong>. O app registra automaticamente as coordenadas GPS e a direção da câmera.
                   </p>
-
                   <div class="camera-box">
                     <div class="camera-frame"></div>
                     <div id="cCamEmpty" style="text-align:center; z-index:2;">
@@ -855,15 +716,13 @@
                         <rect x="92" y="102" width="136" height="8" fill="#92400e"/>
                         <rect x="92" y="118" width="136" height="8" fill="#92400e"/>
                         <rect x="92" y="134" width="136" height="8" fill="#92400e"/>
-                        <rect x="8" y="168" width="230" height="20" rx="4" fill="rgba(0,0,0,0.65)"/>
-                        <text x="14" y="182" fill="#fff" font-size="9.5" font-family="monospace" id="cPhotoCoordsText">GPS -20.3632, -40.6591 • 4m da porteira</text>
+                        <rect x="8" y="168" width="265" height="20" rx="4" fill="rgba(0,0,0,0.68)"/>
+                        <text x="14" y="182" fill="#fff" font-size="9" font-family="monospace" id="cPhotoCoordsText">GPS -20.3632, -40.6591 • Visada 245° • 12m</text>
                       </svg>
                       <button onclick="cRetakePhoto()" style="position:absolute; top:9px; right:9px; background:rgba(0,0,0,0.65); color:#fff; border:none; border-radius:8px; padding:5px 9px; font-size:11px; cursor:pointer;">↻ Refazer</button>
                     </div>
                   </div>
-
                   <div id="cRadiusInfo" class="alert-box" style="display:none;"></div>
-
                   <div id="cNameAfterPhoto" style="display:none; margin-top:4px;">
                     <div class="form-group">
                       <label class="form-label">NOME DA PROPRIEDADE *</label>
@@ -874,9 +733,9 @@
                 </div>
               </div>
 
-              <!-- C6: TERMO LGPD + ASSINATURA DIGITAL -->
-              <div class="screen" id="c-screen-es-lgpd">
-                <div class="app-topbar"><button class="icon-btn" onclick="cGoBack()">←</button><h3>Termo de Recebimento</h3></div>
+              <!-- TERMO LGPD CIDADÃO -->
+              <div class="screen" id="screen-es-lgpd">
+                <div class="app-topbar"><button class="icon-btn" onclick="appGoBack()">←</button><h3>Termo de Recebimento</h3></div>
                 <div class="screen-pad">
                   <div class="termo-document" id="cTermoText"></div>
                   <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
@@ -884,7 +743,7 @@
                     <button type="button" class="btn-link" style="font-size:11px; padding:0;" onclick="clearCanvas('cSigCanvas','cSigPh','c')">Limpar</button>
                   </div>
                   <div class="sig-wrapper">
-                    <canvas id="cSigCanvas" class="sig-canvas" width="320" height="125"></canvas>
+                    <canvas id="cSigCanvas" class="sig-canvas" width="320" height="120"></canvas>
                     <div class="sig-placeholder" id="cSigPh">Assine aqui com o dedo ou mouse</div>
                     <div class="sig-line"></div>
                   </div>
@@ -894,123 +753,30 @@
                 </div>
               </div>
 
-              <!-- C-DETAIL -->
-              <div class="screen" id="c-screen-es-detail">
-                <div class="app-topbar"><button class="icon-btn" onclick="cGoTo('es-home')">←</button><h3 id="cDetailTitle">Propriedade</h3></div>
+              <!-- DETALHES & AJUDA CIDADÃO -->
+              <div class="screen" id="screen-es-detail">
+                <div class="app-topbar"><button class="icon-btn" onclick="appGoTo('es-home')">←</button><h3 id="cDetailTitle">Propriedade</h3></div>
                 <div class="screen-pad" id="cDetailBody"></div>
               </div>
 
-              <!-- C-HELP -->
-              <div class="screen" id="c-screen-es-help">
-                <div class="app-topbar"><button class="icon-btn" onclick="cGoTo('es-home')">←</button><h3>Ajuda</h3></div>
+              <div class="screen" id="screen-es-help">
+                <div class="app-topbar"><button class="icon-btn" onclick="appGoTo('es-home')">←</button><h3>Ajuda</h3></div>
                 <div class="screen-pad">
                   <div class="card" style="margin-bottom:10px;">
                     <h4 style="font-size:13px; color:var(--rr-green-dark); margin-bottom:4px;">Funciona sem internet?</h4>
-                    <p style="font-size:12px; color:var(--rr-muted); line-height:1.45;">Sim! Você pode fotografar a porteira e assinar o termo mesmo sem sinal na zona rural. Os dados sincronizam assim que o celular voltar a ter internet.</p>
+                    <p style="font-size:12px; color:var(--rr-muted); line-height:1.45;">Sim! Você pode fotografar a porteira e assinar o termo mesmo sem sinal na zona rural. Os dados sincronizam assim que a internet voltar.</p>
                   </div>
-                  <button class="btn btn-secondary" onclick="cGoTo('onboarding')">Rever Apresentação</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- MODAL / POP-UP OVERLAY -->
-            <div class="phone-modal-backdrop" id="cModalBg" onclick="if(event.target===this && !state.modalLocked) closeCModal()">
-              <div class="phone-modal" id="cModalContent"></div>
-            </div>
-            <div class="phone-toast" id="cToast"></div>
-
-            <div class="android-navbar">
-              <button class="nav-btn" onclick="cToast('Recentes')">☰</button>
-              <button class="nav-btn" onclick="cGoTo('es-home')">○</button>
-              <button class="nav-btn" onclick="cGoBack()">◁</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- RIGHT PANEL: CLEAN QUICK NAVIGATION -->
-      <aside class="panel panel-right">
-        <div class="panel-header"><h2>Navegação Rápida</h2></div>
-        <div class="panel-body">
-          <div class="flow-list">
-            <button class="flow-btn active" data-cscreen="onboarding" onclick="cGoTo('onboarding')">
-              <span class="flow-num">1</span>
-              <span class="flow-label">Abertura inicial<span class="flow-sub">Apresentação e Como Funciona</span></span>
-            </button>
-            <button class="flow-btn" data-cscreen="login" onclick="cGoTo('login')">
-              <span class="flow-num">2</span>
-              <span class="flow-label">Login e Cadastro<span class="flow-sub">CPF, Moradia e autorizações</span></span>
-            </button>
-            <button class="flow-btn" data-cscreen="es-home" onclick="cGoTo('es-home')">
-              <span class="flow-num">3</span>
-              <span class="flow-label">Home Espírito Santo<span class="flow-sub">Registrar, Propriedades, Ajuda</span></span>
-            </button>
-            <button class="flow-btn" data-cscreen="es-reg" onclick="openRegistrarCidadao()">
-              <span class="flow-num">4</span>
-              <span class="flow-label">Registrar Propriedade<span class="flow-sub" id="navRegSub">Forma 1 ou Forma 2</span></span>
-            </button>
-            <button class="flow-btn" data-cscreen="es-photo" onclick="cGoTo('es-photo')">
-              <span class="flow-num">5</span>
-              <span class="flow-label">Foto Geolocalizada<span class="flow-sub">Open Buildings, 10m e Offline</span></span>
-            </button>
-            <button class="flow-btn" data-cscreen="es-lgpd" onclick="cGoTo('es-lgpd')">
-              <span class="flow-num">6</span>
-              <span class="flow-label">Termo LGPD e Assinatura<span class="flow-sub">Declaração + assinatura digital</span></span>
-            </button>
-          </div>
-          <button class="btn-reset" onclick="resetAll()">↺ Reiniciar Simulador</button>
-        </div>
-      </aside>
-    </main>
-  </div>
-
-  <!-- ======================================================================
-       MODO 2: APP DO REPRESENTANTE (ESQUERDA = GUIA | CENTRO = A07 | DIREITA = NAV)
-       ====================================================================== -->
-  <div class="mode-view" id="mode-representante">
-    <main class="workspace">
-      <aside class="panel panel-left">
-        <div class="panel-header"><h2>Explicação — App Representante</h2></div>
-        <div class="panel-body" id="rContextualGuide"></div>
-      </aside>
-
-      <section class="phone-stage">
-        <div class="device-caption"><span class="dot" style="background:#0e7490;"></span> App Rotas Rurais — Representante • Galaxy A07</div>
-        <div class="galaxy-a07">
-          <div class="a07-earpiece"></div>
-          <div class="hw-btn hw-vol"></div>
-          <div class="hw-btn hw-power" onclick="rGoTo('login')"></div>
-          <div class="a07-screen">
-            <div class="a07-notch"><div class="a07-camera-lens"></div></div>
-            <div class="android-status rep"><span>11:15</span><div class="status-right"><span>4G</span><span>84%</span></div></div>
-
-            <div class="app-viewport" id="rViewport">
-              <!-- R1: LOGIN -->
-              <div class="screen active" id="r-screen-login">
-                <div class="hero-banner rep">
-                  <div class="hero-logo-circle">
-                    <svg width="46" height="46" viewBox="0 0 100 100" fill="none">
-                      <path d="M50 10C36 10 25 21 25 35C25 53 50 72 50 72C50 72 75 53 75 35C75 21 64 10 50 10ZM50 43.5C45.3 43.5 41.5 39.7 41.5 35C41.5 30.3 45.3 26.5 50 26.5C54.7 26.5 58.5 30.3 58.5 35C58.5 39.7 54.7 43.5 50 43.5Z" fill="#164e63"/>
-                      <path d="M12 68C25 68 38 74 48 85C36 90 21 85 12 68Z" fill="#164e63"/>
-                      <path d="M88 68C75 68 61 74 51 87C64 90 79 85 88 68Z" fill="#164e63"/>
-                    </svg>
-                  </div>
-                  <div style="font-size:17px; font-weight:800;">ROTAS RURAIS</div>
-                  <div style="font-size:11.5px; opacity:0.9;">App do Representante Municipal</div>
-                </div>
-                <div class="hero-sheet">
-                  <div class="alert-box info" style="font-size:11.5px;">Acesso exclusivo para representantes autorizados pelo escritório.</div>
-                  <div class="form-group"><label class="form-label">CPF do Representante</label><input type="text" class="form-input" value="444.555.666-77" oninput="maskCpf(this)"></div>
-                  <div class="form-group"><label class="form-label">Senha</label><input type="password" class="form-input" value="••••••••"></div>
-                  <button class="btn btn-rep" onclick="rGoTo('home')">ENTRAR</button>
+                  <button class="btn btn-secondary" onclick="appGoTo('onboarding')">Rever Apresentação</button>
                 </div>
               </div>
 
-              <!-- R2: HOME -->
-              <div class="screen" id="r-screen-home">
+              <!-- ============================================================
+                   MODO REPRESENTANTE (DENTRO DO MESMO APLICATIVO!)
+                   ============================================================ -->
+              <div class="screen" id="screen-rep-home">
                 <div class="es-header rep">
                   <div class="es-badge-pill">ES • Representante</div>
-                  <button class="icon-btn" onclick="rGoTo('login')" title="Sair">🚪</button>
+                  <button class="icon-btn" onclick="openProfileScreen()" title="Meu Perfil / Trocar para Modo Cidadão">👤</button>
                 </div>
                 <div class="screen-pad">
                   <div style="font-size:12px; color:var(--rr-muted); margin-bottom:10px;">Prefeitura de <strong>Domingos Martins - ES</strong></div>
@@ -1035,14 +801,14 @@
                   </button>
 
                   <div style="margin-top:auto; padding-top:10px;">
-                    <button class="btn btn-outline" style="justify-content:flex-start;" onclick="rToast('Suporte técnico aberto')">💬 SUPORTE AO REPRESENTANTE</button>
+                    <button class="btn btn-outline" style="justify-content:flex-start;" onclick="appToast('Suporte técnico aberto')">💬 SUPORTE AO REPRESENTANTE</button>
                   </div>
                 </div>
               </div>
 
-              <!-- R3: CAR + MAPA -->
-              <div class="screen" id="r-screen-deliver-car">
-                <div class="app-topbar rep"><button class="icon-btn" onclick="rGoTo('home')">←</button><h3>Entregar Propriedade</h3></div>
+              <!-- REP: ENTREGAR CAR -->
+              <div class="screen" id="screen-rep-deliver-car">
+                <div class="app-topbar rep"><button class="icon-btn" onclick="appGoTo('rep-home')">←</button><h3>Entregar Propriedade</h3></div>
                 <div class="screen-pad">
                   <div class="form-group">
                     <label class="form-label">Pesquisar código CAR *</label>
@@ -1071,14 +837,14 @@
                       <label class="form-label">Nome da Propriedade *</label>
                       <input type="text" class="form-input" id="rPropName" value="Sítio Pedra Azul">
                     </div>
-                    <button class="btn btn-rep" onclick="rGoTo('deliver-owner')">CONFIRMAR LOCAL COM PROPRIETÁRIO →</button>
+                    <button class="btn btn-rep" onclick="appGoTo('rep-deliver-owner')">CONFIRMAR LOCAL COM PROPRIETÁRIO →</button>
                   </div>
                 </div>
               </div>
 
-              <!-- R4: CPF PROPRIETÁRIO -->
-              <div class="screen" id="r-screen-deliver-owner">
-                <div class="app-topbar rep"><button class="icon-btn" onclick="rGoBack()">←</button><h3>Dados do Proprietário</h3></div>
+              <!-- REP: CPF PROPRIETÁRIO -->
+              <div class="screen" id="screen-rep-deliver-owner">
+                <div class="app-topbar rep"><button class="icon-btn" onclick="appGoBack()">←</button><h3>Dados do Proprietário</h3></div>
                 <div class="screen-pad">
                   <div class="form-group">
                     <label class="form-label">CPF do Proprietário *</label>
@@ -1103,9 +869,9 @@
                 </div>
               </div>
 
-              <!-- R5: SMS + ASSINATURA -->
-              <div class="screen" id="r-screen-deliver-sms">
-                <div class="app-topbar rep"><button class="icon-btn" onclick="rGoBack()">←</button><h3>Validação SMS e Assinatura</h3></div>
+              <!-- REP: SMS + ASSINATURA -->
+              <div class="screen" id="screen-rep-deliver-sms">
+                <div class="app-topbar rep"><button class="icon-btn" onclick="appGoBack()">←</button><h3>Validação SMS e Assinatura</h3></div>
                 <div class="screen-pad">
                   <div class="alert-box success" style="font-size:11.5px;">
                     <strong>📱 SMS enviado para <span id="rSmsPhoneLabel"></span></strong><br>
@@ -1121,7 +887,7 @@
                     <button type="button" class="btn-link" style="font-size:11px; padding:0;" onclick="clearCanvas('rSigCanvas','rSigPh','r')">Limpar</button>
                   </div>
                   <div class="sig-wrapper">
-                    <canvas id="rSigCanvas" class="sig-canvas" width="320" height="115"></canvas>
+                    <canvas id="rSigCanvas" class="sig-canvas" width="320" height="110"></canvas>
                     <div class="sig-placeholder" id="rSigPh">Morador assina aqui</div>
                     <div class="sig-line"></div>
                   </div>
@@ -1129,9 +895,9 @@
                 </div>
               </div>
 
-              <!-- R6: ENTREGA CONCLUÍDA -->
-              <div class="screen" id="r-screen-deliver-done">
-                <div class="app-topbar rep"><button class="icon-btn" onclick="rGoTo('home')">←</button><h3>Entrega Concluída</h3></div>
+              <!-- REP: CONCLUÍDO & LISTAS -->
+              <div class="screen" id="screen-rep-deliver-done">
+                <div class="app-topbar rep"><button class="icon-btn" onclick="appGoTo('rep-home')">←</button><h3>Entrega Concluída</h3></div>
                 <div class="screen-pad" style="text-align:center;">
                   <div style="font-size:44px; margin:8px 0;">✅</div>
                   <h3 style="font-size:16px; font-weight:800; color:var(--rr-green-dark); margin-bottom:6px;">Endereço Rural Digital Liberado!</h3>
@@ -1140,47 +906,68 @@
                     <div style="font-family:'JetBrains Mono', monospace; font-size:24px; font-weight:800; color:var(--rr-green-dark); margin:6px 0;" id="rDoneErd">586H 8P2+QW</div>
                     <div style="font-size:11px; color:var(--rr-muted);" id="rDoneOwner">Proprietário</div>
                   </div>
-                  <button class="btn btn-rep" onclick="rGoTo('home')">VOLTAR PARA O INÍCIO</button>
+                  <button class="btn btn-rep" onclick="appGoTo('rep-home')">VOLTAR PARA O INÍCIO</button>
                 </div>
               </div>
 
-              <!-- R-LISTA -->
-              <div class="screen" id="r-screen-list">
-                <div class="app-topbar rep"><button class="icon-btn" onclick="rGoTo('home')">←</button><h3 id="rListTitle">Propriedades</h3></div>
+              <div class="screen" id="screen-rep-list">
+                <div class="app-topbar rep"><button class="icon-btn" onclick="appGoTo('rep-home')">←</button><h3 id="rListTitle">Propriedades</h3></div>
                 <div class="screen-pad" id="rListBody"></div>
               </div>
+
             </div>
 
-            <div class="phone-toast" id="rToast"></div>
+            <!-- MODAL & TOAST -->
+            <div class="phone-modal-backdrop" id="modalBg" onclick="if(event.target===this && !state.modalLocked) closeModal()">
+              <div class="phone-modal" id="modalContent"></div>
+            </div>
+            <div class="phone-toast" id="appToast"></div>
+
             <div class="android-navbar">
-              <button class="nav-btn" onclick="rToast('Recentes')">☰</button>
-              <button class="nav-btn" onclick="rGoTo('home')">○</button>
-              <button class="nav-btn" onclick="rGoBack()">◁</button>
+              <button class="nav-btn" onclick="appToast('Recentes')">☰</button>
+              <button class="nav-btn" onclick="appGoTo(state.activeAppMode==='representante'?'rep-home':'es-home')">○</button>
+              <button class="nav-btn" onclick="appGoBack()">◁</button>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- RIGHT PANEL: CLEAN QUICK NAVIGATION -->
       <aside class="panel panel-right">
-        <div class="panel-header"><h2>Navegação — Representante</h2></div>
+        <div class="panel-header"><h2>Navegação Rápida</h2></div>
         <div class="panel-body">
+          <div class="nav-section-label">Acesso e Perfil</div>
           <div class="flow-list">
-            <button class="flow-btn rep-style active" data-rscreen="login" onclick="rGoTo('login')"><span class="flow-num">1</span><span class="flow-label">Login<span class="flow-sub">CPF e senha, sem cadastro</span></span></button>
-            <button class="flow-btn rep-style" data-rscreen="home" onclick="rGoTo('home')"><span class="flow-num">2</span><span class="flow-label">Home<span class="flow-sub">Menu principal</span></span></button>
-            <button class="flow-btn rep-style" data-rscreen="deliver-car" onclick="rStartDelivery()"><span class="flow-num">3</span><span class="flow-label">Entregar Propriedade<span class="flow-sub">CAR → CPF → SMS → Assinatura</span></span></button>
-            <button class="flow-btn rep-style" data-rscreen="list-unconfirmed" onclick="rOpenList('nao_confirmada')"><span class="flow-num">4</span><span class="flow-label">Não Confirmadas<span class="flow-sub">Dúvidas do escritório</span></span></button>
-            <button class="flow-btn rep-style" data-rscreen="list-waiting" onclick="rOpenList('aguardando')"><span class="flow-num">5</span><span class="flow-label">Aguardando<span class="flow-sub">Sem acesso ao endereço</span></span></button>
-            <button class="flow-btn rep-style" data-rscreen="list-delivered" onclick="rOpenList('entregue')"><span class="flow-num">6</span><span class="flow-label">Entregues<span class="flow-sub">Validadas e entregues</span></span></button>
+            <button class="flow-btn active" data-screen="onboarding" onclick="appGoTo('onboarding')"><span class="flow-num">1</span><span class="flow-label">Abertura inicial</span></button>
+            <button class="flow-btn" data-screen="login" onclick="appGoTo('login')"><span class="flow-num">2</span><span class="flow-label">Login unificado<span class="flow-sub">Cidadão ou Representante</span></span></button>
+            <button class="flow-btn" data-screen="es-profile" onclick="openProfileScreen()"><span class="flow-num">👤</span><span class="flow-label">Meu Perfil<span class="flow-sub">Dados pessoais e troca de modo</span></span></button>
           </div>
+
+          <div class="nav-section-label">Modo Cidadão</div>
+          <div class="flow-list">
+            <button class="flow-btn" data-screen="es-home" onclick="enterCitizenMode()"><span class="flow-num">3</span><span class="flow-label">Home Cidadão</span></button>
+            <button class="flow-btn" data-screen="es-reg" onclick="openRegistrarCidadao()"><span class="flow-num">4</span><span class="flow-label">Registrar Propriedade<span class="flow-sub" id="navRegSub">Forma 1 ou Forma 2</span></span></button>
+            <button class="flow-btn" data-screen="es-photo" onclick="appGoTo('es-photo')"><span class="flow-num">5</span><span class="flow-label">Foto Geolocalizada<span class="flow-sub">Open Buildings, 50m e Offline</span></span></button>
+            <button class="flow-btn" data-screen="es-lgpd" onclick="appGoTo('es-lgpd')"><span class="flow-num">6</span><span class="flow-label">Termo LGPD e Assinatura</span></button>
+          </div>
+
+          <div class="nav-section-label">Modo Representante</div>
+          <div class="flow-list">
+            <button class="flow-btn rep-style" data-screen="rep-home" onclick="enterRepMode()"><span class="flow-num">R1</span><span class="flow-label">Home Representante</span></button>
+            <button class="flow-btn rep-style" data-screen="rep-deliver-car" onclick="enterRepMode(); rStartDelivery();"><span class="flow-num">R2</span><span class="flow-label">Entregar Propriedade<span class="flow-sub">CAR → CPF → SMS → Assinatura</span></span></button>
+            <button class="flow-btn rep-style" data-screen="rep-list" onclick="enterRepMode(); rOpenList('nao_confirmada');"><span class="flow-num">R3</span><span class="flow-label">Não Confirmadas / Filas</span></button>
+          </div>
+
+          <button class="btn-reset" onclick="location.reload()">↺ Reiniciar Simulador</button>
         </div>
       </aside>
     </main>
   </div>
 
   <!-- ======================================================================
-       MODO 3: PAINEL DO ESCRITÓRIO (WEB DESKTOP — TÉCNICOS GEO)
+       VIEW 2: PAINEL DO ESCRITÓRIO (WEB DESKTOP — TÉCNICOS GEO COM SETA DE VISADA)
        ====================================================================== -->
-  <div class="mode-view" id="mode-escritorio">
+  <div class="mode-view" id="view-escritorio">
     <div class="office-wrap">
       <div id="officeLoginView" class="office-login-card">
         <div style="background:#1e1b4b; color:#fff; padding:24px; text-align:center;">
@@ -1217,7 +1004,7 @@
               <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
                 <div>
                   <h2 style="font-size:18px; font-weight:800; color:#0f172a;">Propriedades Aguardando Validação</h2>
-                  <p style="font-size:12.5px; color:#64748b;">Clique em <strong>Validar Endereços</strong> para revisar uma a uma com mapa ampliado.</p>
+                  <p style="font-size:12.5px; color:#64748b;">Clique em <strong>Validar Endereços</strong> para revisar uma a uma com mapa ampliado e seta de visada da foto.</p>
                 </div>
                 <span id="officePendingCountBadge" class="status-chip pending" style="font-size:12px; padding:5px 12px;"></span>
               </div>
@@ -1240,6 +1027,11 @@
                 <div>
                   <div class="office-map-box" id="officeMapBox" onclick="officeHandleMapClick(event)">
                     <svg width="100%" height="100%" viewBox="0 0 560 410" id="officeMapSvg">
+                      <defs>
+                        <marker id="visadaArrow" markerWidth="10" markerHeight="10" refX="7" refY="3.5" orient="auto">
+                          <polygon points="0 0, 9 3.5, 0 7" fill="#f59e0b"/>
+                        </marker>
+                      </defs>
                       <rect width="560" height="410" fill="#466842"/>
                       <path d="M0 0 L240 0 L195 190 L0 165 Z" fill="#3b5937"/>
                       <path d="M310 0 L560 0 L560 245 L340 215 Z" fill="#527549"/>
@@ -1249,16 +1041,24 @@
                       <text x="291" y="190" fill="#fef08a" font-size="10" font-weight="700" text-anchor="middle">Open Buildings</text>
                       <path d="M-10 290 Q200 282 345 305 T575 330" fill="none" stroke="#b08956" stroke-width="20"/>
                       <path d="M-10 290 Q200 282 345 305 T575 330" fill="none" stroke="#e2c8a0" stroke-width="14"/>
-                      <circle cx="245" cy="288" r="34" fill="rgba(59,130,246,0.15)" stroke="#60a5fa" stroke-width="2" stroke-dasharray="4,4"/>
+                      <!-- Raio 50m da porteira original -->
+                      <circle cx="245" cy="288" r="68" fill="rgba(59,130,246,0.12)" stroke="#60a5fa" stroke-width="2" stroke-dasharray="5,5"/>
                       <g transform="translate(245, 288)"><circle cx="0" cy="0" r="8" fill="#2563eb" stroke="#fff" stroke-width="2.5"/><text x="0" y="22" fill="#fff" font-size="10" font-weight="700" text-anchor="middle">Original</text></g>
-                      <g id="officePhotoPin" transform="translate(315, 255)"><circle cx="0" cy="0" r="14" fill="rgba(245,158,11,0.35)"/><circle cx="0" cy="0" r="8" fill="#f59e0b" stroke="#fff" stroke-width="2.5"/><text x="0" y="-14" fill="#fef3c7" font-size="10" font-weight="700" text-anchor="middle">Foto enviada</text></g>
+                      <!-- Cone e Seta de Visada saindo da foto apontando para a porteira! -->
+                      <polygon points="315,322 252,272 238,302" fill="rgba(245,158,11,0.22)"/>
+                      <line x1="315" y1="322" x2="262" y2="294" stroke="#f59e0b" stroke-width="3.5" marker-end="url(#visadaArrow)"/>
+                      <g transform="translate(315, 322)">
+                        <circle cx="0" cy="0" r="12" fill="rgba(245,158,11,0.35)"/>
+                        <circle cx="0" cy="0" r="7.5" fill="#f59e0b" stroke="#fff" stroke-width="2.5"/>
+                        <text x="14" y="18" fill="#fef3c7" font-size="10" font-weight="700">Foto + Visada 295°</text>
+                      </g>
                       <g id="officeSuggestedPin" transform="translate(-100, -100)"><path d="M0 -24 C-9 -24 -15 -17 -15 -9 C-15 1 0 11 0 11 C0 11 15 1 15 -9 C15 -17 9 -24 0 -24 Z" fill="#6366f1" stroke="#fff" stroke-width="2.5"/><circle cx="0" cy="-9" r="4.5" fill="#fff"/></g>
                     </svg>
-                    <div class="map-overlay-badge" id="officeMapBadge">Zoom 18x • Porteira Original vs Foto</div>
+                    <div class="map-overlay-badge" id="officeMapBadge">Zoom 18x • Raio 50m + Seta de Visada da Câmera</div>
                   </div>
                   <div class="map-legend">
-                    <span><span class="legend-dot" style="background:#2563eb;"></span>Porteira original + raio 10m</span>
-                    <span><span class="legend-dot" style="background:#f59e0b;"></span>Foto enviada</span>
+                    <span><span class="legend-dot" style="background:#2563eb;"></span>Porteira original + raio 50m</span>
+                    <span><span class="legend-dot" style="background:#f59e0b;"></span>Local da foto + Seta de Visada</span>
                     <span><span class="legend-dot" style="background:#6366f1;"></span>Sugestão do técnico</span>
                   </div>
                 </div>
@@ -1275,7 +1075,7 @@
                       <rect x="95" y="50" width="10" height="46" fill="#78350f"/><rect x="215" y="50" width="10" height="46" fill="#78350f"/>
                       <rect x="100" y="60" width="120" height="7" fill="#92400e"/><rect x="100" y="74" width="120" height="7" fill="#92400e"/>
                     </svg>
-                    <div style="position:absolute; bottom:6px; left:8px; background:rgba(0,0,0,0.65); color:#fff; font-size:10px; padding:3px 7px; border-radius:5px;">Foto geolocalizada da porteira</div>
+                    <div style="position:absolute; bottom:6px; left:8px; background:rgba(0,0,0,0.65); color:#fff; font-size:10px; padding:3px 7px; border-radius:5px;">Foto geolocalizada • Visada 295° (ONO)</div>
                   </div>
 
                   <div class="form-group">
@@ -1299,7 +1099,7 @@
 
   <script>
     // =========================================================================
-    // SHARED DATABASE
+    // SHARED DATABASE (USERS + PROPERTIES)
     // =========================================================================
     const citiesByState = {
       ES: ['Domingos Martins', 'Santa Teresa', 'Venda Nova do Imigrante', 'Afonso Cláudio', 'Linhares'],
@@ -1307,28 +1107,43 @@
       MG: ['Manhuaçu', 'Caratinga', 'Governador Valadares']
     };
 
-    const registeredCitizens = {
+    const registeredUsers = {
       '123.456.789-00': {
         name: 'João Carlos da Silva',
         cpf: '123.456.789-00',
         email: 'joao.silva@email.com',
         phone: '27 99812-4450',
         uf: 'ES',
-        city: 'Domingos Martins'
+        city: 'Domingos Martins',
+        isRep: false
+      },
+      '444.555.666-77': {
+        name: 'Ana Paula Costa',
+        cpf: '444.555.666-77',
+        email: 'ana.costa@domingosmartins.es.gov.br',
+        phone: '27 99710-3300',
+        uf: 'ES',
+        city: 'Domingos Martins',
+        isRep: true,
+        repMunicipality: 'Domingos Martins - ES'
       }
     };
 
-    // status: 'entregue' | 'aguardando' | 'nao_confirmada' | 'pendente_sync'
     const dbProperties = [
       {
         id: 1, name: 'SÍTIO S. JOÃO', erd: '587H P94+QH5', car: 'ES-3201902-4A8F9B2C1D3E',
         city: 'Domingos Martins', ownerName: 'João Carlos da Silva', ownerCpf: '123.456.789-00',
-        status: 'entregue', origin: 'Cidadão', note: 'Validado automaticamente no raio de 10m', officeMessage: ''
+        status: 'entregue', origin: 'Cidadão', note: 'Validado automaticamente no raio de 50m', officeMessage: ''
+      },
+      {
+        id: 5, name: 'CHÁCARA DA ANA', erd: '586H 9N1+KM', car: 'ES-3201902-2C3D4E5F6A7B',
+        city: 'Domingos Martins', ownerName: 'Ana Paula Costa', ownerCpf: '444.555.666-77',
+        status: 'entregue', origin: 'Cidadão', note: 'Propriedade pessoal da representante (uso no Modo Cidadão)', officeMessage: ''
       },
       {
         id: 2, name: 'SÍTIO ESPERANÇA', erd: '586H 9R2+MF', car: 'ES-3201902-8B7C6D5E4F3A',
         city: 'Domingos Martins', ownerName: 'Maria Aparecida Souza', ownerCpf: '222.333.444-55',
-        status: 'aguardando', origin: 'Cidadão', note: 'Foto tirada a 26m da porteira original', officeMessage: ''
+        status: 'aguardando', origin: 'Cidadão', note: 'Foto tirada a 64m da porteira original • Visada 295°', officeMessage: ''
       },
       {
         id: 3, name: 'FAZENDA ALTO SERRA', erd: '587J 4K8+PQ', car: 'ES-3205002-1F2E3D4C5B6A',
@@ -1344,22 +1159,23 @@
     ];
 
     const state = {
-      activeProfile: 'cidadao',
-      // Propostas com 2 formas (para escolha da coordenação)
+      mainView: 'app',          // 'app' | 'escritorio'
+      currentUser: registeredUsers['123.456.789-00'],
+      activeAppMode: 'cidadao', // 'cidadao' | 'representante'
+      loginRolePreset: 'cidadao',
+      simLoginUf: 'ES',
+
       proposal: 'forma1',       // 'forma1' | 'forma2'
-      offlineArch: 'opcaoA',    // 'opcaoA' (Fila de sincronização) | 'opcaoB' (Pacote offline do município)
-      isOnline: true,           // true | false
-      simLoginUf: 'ES',         // 'ES' | 'SP' | 'MG'
+      offlineArch: 'opcaoA',    // 'opcaoA' | 'opcaoB'
+      isOnline: true,
       atProperty: true,
       openBuildingsHit: false,
-      within10m: true,
+      within50m: true,
       obConfirmedAnyway: false,
       modalLocked: false,
 
-      cScreen: 'onboarding',
-      cHistory: [],
-      rScreen: 'login',
-      rHistory: [],
+      screen: 'onboarding',
+      history: [],
       cPhotoTaken: false,
       cActiveCar: 'ES-3201902-7F2A91B4C8E04D12',
       cActiveCity: 'Domingos Martins',
@@ -1370,7 +1186,7 @@
       rActiveCity: 'Domingos Martins',
       rOwner: null,
       rSmsCode: '482910',
-      officeLoggedIn: false,
+
       officeMuniFilter: 'Todos',
       officeValIndex: 0,
       officeSuggesting: false,
@@ -1378,99 +1194,255 @@
     };
 
     // =========================================================================
-    // PROFILE SWITCHING
+    // MAIN VIEW SWITCHER (APP UNIFICADO vs PAINEL ESCRITÓRIO)
     // =========================================================================
-    function switchProfile(profile) {
-      state.activeProfile = profile;
+    function switchMainView(view) {
+      state.mainView = view;
       document.querySelectorAll('.mode-view').forEach(v => v.classList.remove('active'));
-      document.getElementById('mode-' + profile).classList.add('active');
-      document.getElementById('tabProfileCidadao').classList.toggle('active', profile === 'cidadao');
-      document.getElementById('tabProfileRep').classList.toggle('active', profile === 'representante');
-      document.getElementById('tabProfileEscritorio').classList.toggle('active', profile === 'escritorio');
+      document.getElementById('view-' + view).classList.add('active');
+      document.getElementById('tabViewApp').classList.toggle('active', view === 'app');
+      document.getElementById('tabViewEscritorio').classList.toggle('active', view === 'escritorio');
       syncAllViews();
     }
 
     function syncAllViews() {
-      const pendingCount = dbProperties.filter(p => p.status === 'aguardando').length;
-      document.getElementById('headerOfficeBadge').textContent = pendingCount;
+      document.getElementById('headerOfficeBadge').textContent = dbProperties.filter(p => p.status === 'aguardando').length;
       renderCitizenProperties();
       renderRepCounts();
       renderOfficeQueue();
       renderContextualGuide();
-      renderRepGuide();
     }
 
     // =========================================================================
-    // CONTEXTUAL LEFT PANEL — CIDADÃO (EXPLICATIVO + CONTROLES SOMENTE DA ETAPA!)
+    // APP NAVIGATION (UNIFICADO: CIDADÃO + REPRESENTANTE NO MESMO A07)
+    // =========================================================================
+    function appGoTo(id, push = true) {
+      if (push && state.screen && state.screen !== id) state.history.push(state.screen);
+      state.screen = id;
+
+      document.querySelectorAll('#appViewport .screen').forEach(s => s.classList.remove('active'));
+      const el = document.getElementById('screen-' + id);
+      if (el) el.classList.add('active');
+      document.getElementById('appViewport').scrollTop = 0;
+
+      // Status bar theme according to active mode
+      const isRepScreen = id.startsWith('rep-') || (id === 'es-profile' && state.activeAppMode === 'representante');
+      const stBar = document.getElementById('androidStatus');
+      stBar.classList.toggle('rep', isRepScreen && state.isOnline);
+      document.getElementById('deviceCaptionText').textContent = isRepScreen
+        ? 'App Rotas Rurais • Modo Representante • Galaxy A07'
+        : 'App Rotas Rurais • Modo Cidadão • Galaxy A07';
+
+      // Right nav highlight
+      document.querySelectorAll('#view-app .flow-btn').forEach(b => {
+        const m = b.dataset.screen;
+        const ok = m === id || (m === 'login' && (id === 'register' || id === 'forgot')) || (m === 'es-reg' && (id === 'es-manual-car' || id === 'es-forma2-car'));
+        b.classList.toggle('active', ok);
+      });
+
+      if (id === 'es-home') renderCitizenProperties();
+      if (id === 'es-photo') renderCitizenPhotoScreen();
+      if (id === 'es-lgpd') renderCitizenLgpd();
+      if (id === 'es-profile') renderProfileScreen();
+      if (id === 'rep-home') renderRepCounts();
+      renderContextualGuide();
+    }
+
+    function appGoBack() { if (state.history.length) appGoTo(state.history.pop(), false); }
+
+    // =========================================================================
+    // LOGIN UNIFICADO & PERFIL COM TROCA DE MODO
+    // =========================================================================
+    function selectLoginPreset(role) {
+      state.loginRolePreset = role;
+      document.getElementById('loginCpfInput').value = role === 'representante' ? '444.555.666-77' : '123.456.789-00';
+      renderContextualGuide();
+    }
+
+    function doUnifiedLogin() {
+      const cpf = document.getElementById('loginCpfInput').value.trim();
+      const user = registeredUsers[cpf] || registeredUsers['123.456.789-00'];
+      state.currentUser = user;
+
+      if (user.isRep) {
+        state.activeAppMode = 'representante';
+        appToast('Login como Representante Municipal!');
+        appGoTo('rep-home');
+        return;
+      }
+
+      state.activeAppMode = 'cidadao';
+      if (state.simLoginUf === 'ES') appGoTo('es-home');
+      else if (state.simLoginUf === 'SP') appGoTo('sp-legacy');
+      else appGoTo('unavailable');
+    }
+
+    function openProfileScreen() {
+      appGoTo('es-profile');
+    }
+
+    function renderProfileScreen() {
+      const u = state.currentUser;
+      const inRepMode = state.activeAppMode === 'representante';
+      document.getElementById('profileTopbar').classList.toggle('rep', inRepMode);
+
+      document.getElementById('profName').textContent = u.name;
+      document.getElementById('profCpf').textContent = u.cpf;
+      document.getElementById('profEmail').textContent = u.email;
+      document.getElementById('profPhone').textContent = u.phone;
+      document.getElementById('profCity').textContent = `${u.city} - ${u.uf}`;
+
+      const badge = document.getElementById('profRoleBadge');
+      const avatar = document.getElementById('profileAvatar');
+      const switchCard = document.getElementById('profSwitchModeCard');
+      const muniRow = document.getElementById('profMuniRow');
+
+      if (u.isRep) {
+        switchCard.style.display = 'block';
+        muniRow.style.display = 'flex';
+        document.getElementById('profMuni').textContent = u.repMunicipality;
+        if (inRepMode) {
+          badge.textContent = 'Modo Representante ativo';
+          badge.className = 'status-chip sync';
+          avatar.style.borderColor = '#164e63';
+          document.getElementById('profSwitchDesc').textContent = 'Seu CPF possui permissão de Representante Municipal. Você pode alternar para o Modo Cidadão para gerenciar suas próprias propriedades.';
+          document.getElementById('profSwitchBtn').textContent = '🔄 Trocar para Modo Cidadão';
+          document.getElementById('profSwitchBtn').className = 'btn btn-primary';
+        } else {
+          badge.textContent = 'Modo Cidadão ativo (CPF Representante)';
+          badge.className = 'status-chip ok';
+          avatar.style.borderColor = '#186438';
+          document.getElementById('profSwitchDesc').textContent = 'Você está usando o aplicativo como Cidadão. Volte para o Modo Representante quando quiser realizar entregas no município.';
+          document.getElementById('profSwitchBtn').textContent = '🔄 Voltar para Modo Representante';
+          document.getElementById('profSwitchBtn').className = 'btn btn-rep';
+        }
+      } else {
+        switchCard.style.display = 'none';
+        muniRow.style.display = 'none';
+        badge.textContent = 'Perfil Cidadão';
+        badge.className = 'status-chip ok';
+        avatar.style.borderColor = '#186438';
+      }
+    }
+
+    function toggleRepCitizenMode() {
+      if (!state.currentUser.isRep) return;
+      if (state.activeAppMode === 'representante') {
+        state.activeAppMode = 'cidadao';
+        appToast('Alternado para Modo Cidadão!');
+        appGoTo('es-home');
+      } else {
+        state.activeAppMode = 'representante';
+        appToast('Alternado para Modo Representante!');
+        appGoTo('rep-home');
+      }
+    }
+
+    function returnFromProfile() {
+      appGoTo(state.activeAppMode === 'representante' ? 'rep-home' : 'es-home');
+    }
+
+    function doLogout() {
+      state.activeAppMode = 'cidadao';
+      appToast('Sessão encerrada');
+      appGoTo('login');
+    }
+
+    function enterCitizenMode() {
+      state.activeAppMode = 'cidadao';
+      appGoTo('es-home');
+    }
+
+    function enterRepMode() {
+      state.currentUser = registeredUsers['444.555.666-77'];
+      state.activeAppMode = 'representante';
+      appGoTo('rep-home');
+    }
+
+    // =========================================================================
+    // CONTEXTUAL GUIDE (LEFT PANEL)
     // =========================================================================
     function renderContextualGuide() {
-      const box = document.getElementById('cContextualGuide');
-      const badge = document.getElementById('cLeftStepBadge');
-      const s = state.cScreen;
+      const box = document.getElementById('contextualGuide');
+      const badge = document.getElementById('leftStepBadge');
+      const s = state.screen;
 
       if (s === 'onboarding') {
         badge.textContent = 'ETAPA 1 • ABERTURA';
         box.innerHTML = `
           <span class="ctx-badge">Primeiro Acesso</span>
           <div class="ctx-title">Apresentação do Programa</div>
-          <p class="ctx-desc">Esta tela aparece apenas na primeira vez que o produtor rural abre o aplicativo. Ela explica em linguagem simples o benefício do Endereço Rural Digital e os 3 passos do processo.</p>
-          <ul class="spec-list">
-            <li>Sem jargões técnicos para facilitar o entendimento no campo.</li>
-            <li>Ao clicar em <strong>CONTINUAR</strong>, o app grava localmente que o tutorial já foi visto e nas próximas aberturas vai direto ao Login.</li>
-          </ul>
+          <p class="ctx-desc">Exibida apenas na primeira abertura do aplicativo. Apresenta em linguagem acessível o benefício do Endereço Rural Digital e os 3 passos de como funciona.</p>
         `;
       } else if (s === 'login' || s === 'register' || s === 'forgot' || s === 'sp-legacy' || s === 'unavailable') {
-        badge.textContent = 'ETAPA 2 • ACESSO';
+        badge.textContent = 'ETAPA 2 • LOGIN UNIFICADO';
         box.innerHTML = `
-          <span class="ctx-badge">Login e Roteamento Automático</span>
-          <div class="ctx-title">Direcionamento pelo Endereço da Moradia</div>
-          <p class="ctx-desc">Não existe mais uma tela separada perguntando o estado. O sistema identifica automaticamente se o produtor é do <strong>Espírito Santo</strong>, <strong>São Paulo</strong> ou outro estado usando a <strong>Moradia</strong> cadastrada.</p>
+          <span class="ctx-badge">App Único • 2 Perfis</span>
+          <div class="ctx-title">Login Unificado por CPF</div>
+          <p class="ctx-desc">Cidadãos e Representantes usam o <strong>mesmo aplicativo</strong>. O sistema identifica automaticamente pelo CPF se o usuário é um Representante autorizado ou Cidadão comum:</p>
 
-          <div class="ctx-box decision">
-            <div class="ctx-box-title">Simular Estado do Cadastro no Login</div>
-            <div class="choice-grid" style="grid-template-columns:1fr 1fr 1fr;">
-              <button class="choice-btn ${state.simLoginUf==='ES'?'active':''}" onclick="state.simLoginUf='ES'; renderContextualGuide();">ES<small>Novo Módulo</small></button>
-              <button class="choice-btn ${state.simLoginUf==='SP'?'active':''}" onclick="state.simLoginUf='SP'; renderContextualGuide();">SP<small>App Atual</small></button>
-              <button class="choice-btn ${state.simLoginUf==='MG'?'active danger':''}" onclick="state.simLoginUf='MG'; renderContextualGuide();">MG<small>Indisponível</small></button>
+          <div class="ctx-box rep">
+            <div class="ctx-box-title">Testar Tipo de CPF no Login</div>
+            <div class="choice-grid">
+              <button class="choice-btn ${state.loginRolePreset==='cidadao'?'active':''}" onclick="selectLoginPreset('cidadao')">👤 Cidadão<small>123.456.789-00</small></button>
+              <button class="choice-btn ${state.loginRolePreset==='representante'?'active rep':''}" onclick="selectLoginPreset('representante')">🏛️ Representante<small>444.555.666-77</small></button>
             </div>
             <div class="ctx-explain">
-              Agora clique em <strong>ENTRAR</strong> no celular para ver o roteamento automático para <strong>${state.simLoginUf === 'ES' ? 'Espírito Santo' : state.simLoginUf === 'SP' ? 'São Paulo legado' : 'Região Indisponível'}</strong>.
+              ${state.loginRolePreset === 'representante'
+                ? '<strong>CPF de Representante:</strong> entra direto no <strong>Modo Representante</strong>. Pelo ícone de Perfil (👤), pode alternar para o <strong>Modo Cidadão</strong> quando quiser!'
+                : '<strong>CPF de Cidadão:</strong> entra direto no módulo do estado cadastrado na Moradia.'}
             </div>
           </div>
 
+          ${state.loginRolePreset === 'cidadao' ? `
+          <div class="ctx-box decision">
+            <div class="ctx-box-title">Simular Estado da Moradia (Cidadão)</div>
+            <div class="choice-grid" style="grid-template-columns:1fr 1fr 1fr;">
+              <button class="choice-btn ${state.simLoginUf==='ES'?'active':''}" onclick="state.simLoginUf='ES'; renderContextualGuide();">ES<small>Novo</small></button>
+              <button class="choice-btn ${state.simLoginUf==='SP'?'active':''}" onclick="state.simLoginUf='SP'; renderContextualGuide();">SP<small>Atual</small></button>
+              <button class="choice-btn ${state.simLoginUf==='MG'?'active danger':''}" onclick="state.simLoginUf='MG'; renderContextualGuide();">MG<small>Fora</small></button>
+            </div>
+          </div>` : ''}
+        `;
+      } else if (s === 'es-profile') {
+        badge.textContent = 'PERFIL DO USUÁRIO';
+        box.innerHTML = `
+          <span class="ctx-badge ${state.currentUser.isRep?'rep':''}">Página de Perfil</span>
+          <div class="ctx-title">Informações Pessoais e Troca de Modo</div>
+          <p class="ctx-desc">Ao tocar no ícone de perfil (👤) no topo da Home, o usuário visualiza seus dados cadastrais (em vez de sair do app).</p>
           <ul class="spec-list">
-            <li>No <strong>Cadastro</strong>, a Moradia usa lista suspensa de Estado e Município + opção <em>Localizar no mapa</em>.</li>
-            <li>Inclui aceite obrigatório da Política de Privacidade/Termos e autorizações independentes de contato por e-mail e telefone.</li>
+            <li><strong>Para CPF comum:</strong> exibe os dados pessoais, edição e botão Sair.</li>
+            <li><strong>Para CPF Representante:</strong> exibe o botão de <strong>alternância entre Modo Representante e Modo Cidadão</strong>, permitindo usar o mesmo CPF nas duas funções.</li>
           </ul>
+          ${!state.currentUser.isRep ? `<button class="btn btn-rep" style="margin-top:12px;" onclick="enterRepMode(); openProfileScreen();">Simular Perfil com CPF de Representante</button>` : ''}
         `;
       } else if (s === 'es-home' || s === 'es-manual-car' || s === 'es-forma2-car' || s === 'es-detail' || s === 'es-help') {
-        badge.textContent = 'ETAPA 3/4 • REGISTRO';
+        badge.textContent = 'MODO CIDADÃO • REGISTRO';
         box.innerHTML = `
-          <span class="ctx-badge">Decisão da Coordenação</span>
-          <div class="ctx-title">Como o Produtor Localiza a Propriedade?</div>
-          <p class="ctx-desc">Aqui apresentamos <strong>duas propostas</strong> de fluxo para a coordenação escolher apenas uma para o aplicativo final. Alterne abaixo e clique em <strong>REGISTRAR PROPRIEDADE</strong> no celular:</p>
+          <span class="ctx-badge">Propostas para Coordenação</span>
+          <div class="ctx-title">Home ES e Registro de Propriedade</div>
+          <p class="ctx-desc">Alterne as propostas abaixo e clique em <strong>REGISTRAR PROPRIEDADE</strong> no celular:</p>
 
           <div class="ctx-box decision">
             <div class="ctx-box-title">Proposta de Registro • Escolha 1</div>
             <div class="choice-grid">
-              <button class="choice-btn ${state.proposal==='forma1'?'active':''}" onclick="setProposal('forma1')">FORMA 1<small>Mais flexível</small></button>
-              <button class="choice-btn ${state.proposal==='forma2'?'active':''}" onclick="setProposal('forma2')">FORMA 2<small>Exige estar no CAR</small></button>
+              <button class="choice-btn ${state.proposal==='forma1'?'active':''}" onclick="setProposal('forma1')">FORMA 1<small>Não exige estar no CAR</small></button>
+              <button class="choice-btn ${state.proposal==='forma2'?'active':''}" onclick="setProposal('forma2')">FORMA 2<small>Exige GPS no CAR</small></button>
             </div>
             <div class="ctx-explain">
               ${state.proposal === 'forma1'
-                ? '<strong>Forma 1 selecionada:</strong> NÃO exige estar dentro da propriedade. O produtor pode iniciar pela localização atual ou digitando o código CAR.'
-                : '<strong>Forma 2 selecionada:</strong> O produtor pesquisa o código CAR e o GPS <strong>precisa estar dentro daquele CAR</strong>. Se não estiver, o app bloqueia com aviso.'}
+                ? '<strong>Forma 1:</strong> permite escolher entre localização atual ou busca pelo CAR, sem exigir estar na propriedade.'
+                : '<strong>Forma 2:</strong> pesquisa o CAR e o GPS precisa estar dentro daquele CAR.'}
             </div>
           </div>
 
           ${state.proposal === 'forma2' ? `
           <div class="ctx-box warn">
-            <div class="ctx-box-title">Simulação de GPS para a Forma 2</div>
+            <div class="ctx-box-title">Simulação de GPS (Forma 2)</div>
             <div class="choice-grid">
-              <button class="choice-btn ${state.atProperty?'active':''}" onclick="state.atProperty=true; renderContextualGuide();">✓ Dentro do CAR<small>Libera o fluxo</small></button>
-              <button class="choice-btn ${!state.atProperty?'active danger':''}" onclick="state.atProperty=false; renderContextualGuide();">✕ Fora do CAR<small>Exibe aviso</small></button>
+              <button class="choice-btn ${state.atProperty?'active':''}" onclick="state.atProperty=true; renderContextualGuide();">✓ Dentro do CAR</button>
+              <button class="choice-btn ${!state.atProperty?'active danger':''}" onclick="state.atProperty=false; renderContextualGuide();">✕ Fora do CAR</button>
             </div>
-            <div class="ctx-explain">Teste desligar para ver o bloqueio: <em>"Para registrar sua propriedade e retirar seu endereço, você precisa estar na propriedade."</em></div>
           </div>` : ''}
 
           <div class="ctx-box offline">
@@ -1479,397 +1451,246 @@
               <button class="choice-btn ${state.offlineArch==='opcaoA'?'active purple':''}" onclick="setOfflineArch('opcaoA')">OPÇÃO A<small>Fila de sincronização</small></button>
               <button class="choice-btn ${state.offlineArch==='opcaoB'?'active purple':''}" onclick="setOfflineArch('opcaoB')">OPÇÃO B<small>Pacote do município</small></button>
             </div>
-            <div class="ctx-explain">
-              ${state.offlineArch === 'opcaoA'
-                ? '<strong>Opção A:</strong> App levíssimo. Sem internet, salva foto + GPS + termo localmente e faz os cruzamentos (CAR, Open Buildings, 10m) quando o sinal voltar.'
-                : '<strong>Opção B:</strong> Baixa os polígonos leves do município (3–12 MB) no Wi-Fi. Permite validar CAR, Open Buildings e raio de 10m <strong>na hora mesmo sem internet</strong>!'}
-            </div>
           </div>
         `;
       } else if (s === 'es-photo') {
-        badge.textContent = 'ETAPA 5 • VALIDAÇÃO AUTOMÁTICA';
+        badge.textContent = 'VALIDAÇÃO AUTOMÁTICA';
         box.innerHTML = `
-          <span class="ctx-badge">Regras da Foto Geolocalizada</span>
-          <div class="ctx-title">Validação Automática da Porteira</div>
-          <p class="ctx-desc">O cidadão <strong>não move mais o pino manualmente</strong>. Ao fotografar a porteira, o sistema analisa as coordenadas da foto. Configure os cenários abaixo e toque no botão da câmera no celular:</p>
+          <span class="ctx-badge">Foto Geolocalizada + Visada</span>
+          <div class="ctx-title">Validação por Raio de 50m e Open Buildings</div>
+          <p class="ctx-desc">O cidadão fotografa a porteira (registrando coordenadas GPS e direção da câmera). Configure os cenários abaixo e toque na câmera:</p>
 
-          <!-- 1. CONECTIVIDADE + 2 FORMAS OFFLINE -->
           <div class="ctx-box offline">
-            <div class="ctx-box-title">1. Internet no Campo & Arquitetura Offline</div>
+            <div class="ctx-box-title">1. Internet no Campo</div>
             <div class="choice-grid">
-              <button class="choice-btn ${state.isOnline?'active':''}" onclick="setOnlineMode(true)">📶 Com Internet<small>Valida online na hora</small></button>
-              <button class="choice-btn ${!state.isOnline?'active purple':''}" onclick="setOnlineMode(false)">📡 Sem Internet<small>Zona rural offline</small></button>
+              <button class="choice-btn ${state.isOnline?'active':''}" onclick="setOnlineMode(true)">📶 Com Internet</button>
+              <button class="choice-btn ${!state.isOnline?'active purple':''}" onclick="setOnlineMode(false)">📡 Sem Internet</button>
             </div>
             ${!state.isOnline ? `
             <div class="choice-grid" style="margin-top:6px;">
-              <button class="choice-btn ${state.offlineArch==='opcaoA'?'active purple':''}" onclick="setOfflineArch('opcaoA')">Opção A<small>Valida ao sincronizar</small></button>
-              <button class="choice-btn ${state.offlineArch==='opcaoB'?'active purple':''}" onclick="setOfflineArch('opcaoB')">Opção B<small>Pacote municipal local</small></button>
-            </div>
-            <div class="ctx-explain">
-              ${state.offlineArch === 'opcaoA'
-                ? '<strong>Sem internet (Opção A):</strong> Não cruza CAR/Open Buildings agora. Salva foto + GPS + assinatura e valida automaticamente quando a internet voltar.'
-                : '<strong>Sem internet (Opção B):</strong> Usando o pacote offline de Domingos Martins, o app consegue disparar o <strong>Pop-up do Open Buildings</strong> e validar o <strong>raio de 10m</strong> na hora!'}
+              <button class="choice-btn ${state.offlineArch==='opcaoA'?'active purple':''}" onclick="setOfflineArch('opcaoA')">Opção A<small>Sincroniza depois</small></button>
+              <button class="choice-btn ${state.offlineArch==='opcaoB'?'active purple':''}" onclick="setOfflineArch('opcaoB')">Opção B<small>Pacote local</small></button>
             </div>` : ''}
           </div>
 
-          <!-- 2. OPEN BUILDINGS -->
           <div class="ctx-box warn">
-            <div class="ctx-box-title">2. Análise Open Buildings (Edificações)</div>
+            <div class="ctx-box-title">2. Análise Open Buildings</div>
             <div class="choice-grid">
-              <button class="choice-btn ${!state.openBuildingsHit?'active':''}" onclick="setOpenBuildings(false)">✓ Na Porteira<small>Sem edificação</small></button>
+              <button class="choice-btn ${!state.openBuildingsHit?'active':''}" onclick="setOpenBuildings(false)">✓ Na Porteira</button>
               <button class="choice-btn ${state.openBuildingsHit?'active amber':''}" onclick="setOpenBuildings(true)">⚠ Sobre Casa<small>Dispara Pop-up</small></button>
-            </div>
-            <div class="ctx-explain">
-              Se a foto coincidir com um polígono do <strong>Open Buildings</strong>, abre um <strong>pop-up</strong> lembrando que a foto precisa ser da porteira (com opção de refazer ou confirmar mesmo assim).
             </div>
           </div>
 
-          <!-- 3. RAIO DE 10M -->
           <div class="ctx-box decision">
-            <div class="ctx-box-title">3. Distância da Porteira Original (10m)</div>
+            <div class="ctx-box-title">3. Raio de 50 metros da Porteira</div>
             <div class="choice-grid">
-              <button class="choice-btn ${state.within10m?'active':''}" onclick="setWithin10m(true)">✓ Raio ≤ 10m<small>Valida na hora!</small></button>
-              <button class="choice-btn ${!state.within10m?'active danger':''}" onclick="setWithin10m(false)">⏳ Raio > 10m<small>Fila até 2 dias úteis</small></button>
-            </div>
-            <div class="ctx-explain">
-              ${state.within10m
-                ? '<strong>Dentro de 10m:</strong> Coordenada validada automaticamente. O produtor recebe o Endereço Rural Digital imediatamente após assinar o termo.'
-                : '<strong>Fora de 10m:</strong> O produtor <strong>não recebe o endereço na hora</strong>. O pedido entra automaticamente na fila do <strong>Painel Escritório</strong> (prazo: até 2 dias úteis).'}
+              <button class="choice-btn ${state.within50m?'active':''}" onclick="setWithin50m(true)">✓ Raio ≤ 50m<small>Valida na hora</small></button>
+              <button class="choice-btn ${!state.within50m?'active danger':''}" onclick="setWithin50m(false)">⏳ Raio > 50m<small>Fila até 2 dias úteis</small></button>
             </div>
           </div>
         `;
       } else if (s === 'es-lgpd') {
-        badge.textContent = 'ETAPA 6 • TERMO LGPD';
+        badge.textContent = 'TERMO LGPD';
         box.innerHTML = `
-          <span class="ctx-badge">Conformidade Jurídica</span>
-          <div class="ctx-title">Termo de Recebimento e Assinatura Digital</div>
-          <p class="ctx-desc">Página dedicada com a declaração preenchida automaticamente com o Nome, CPF e nº do CAR do produtor, exigindo assinatura digital na tela.</p>
-          <ul class="spec-list">
-            <li>Funciona tanto online quanto offline (a assinatura é salva localmente junto com data/hora e foto).</li>
-            <li>Se a foto ficou dentro de 10m, o endereço aparece imediatamente em <strong>Minhas Propriedades</strong>.</li>
-            <li>Se ficou fora de 10m, entra automaticamente na fila do <strong>Painel Escritório</strong> (aba superior).</li>
-          </ul>
+          <span class="ctx-badge">Assinatura Digital</span>
+          <div class="ctx-title">Termo de Recebimento</div>
+          <p class="ctx-desc">Declaração preenchida automaticamente com Nome, CPF e CAR do produtor, exigindo assinatura digital na tela.</p>
+        `;
+      } else if (s.startsWith('rep-')) {
+        badge.textContent = 'MODO REPRESENTANTE';
+        box.innerHTML = `
+          <span class="ctx-badge rep">Perfil Representante Municipal</span>
+          <div class="ctx-title">Entregas em Campo no Mesmo App</div>
+          <p class="ctx-desc">Logado com CPF autorizado (<code>444.555.666-77</code>), o representante acessa as entregas do município e pode clicar no ícone <strong>👤</strong> no topo a qualquer momento para alternar para o <strong>Modo Cidadão</strong>.</p>
+          <div class="ctx-box rep">
+            <div class="ctx-box-title">Dados para Testar Entrega</div>
+            <div class="ctx-explain">
+              <strong>CPF já cadastrado:</strong> <code>123.456.789-00</code> (Tel: 27 99812-4450)<br>
+              <strong>CPF novo:</strong> <code>987.654.321-11</code><br>
+              <strong>Código SMS simulado:</strong> <code>482910</code>
+            </div>
+          </div>
         `;
       }
     }
 
-    function renderRepGuide() {
-      const el = document.getElementById('rContextualGuide');
-      const s = state.rScreen;
-      const guides = {
-        'login': ['Acesso Controlado', 'Login do Representante', 'O App do Representante é um aplicativo separado. Não permite autocadastro — apenas CPF e senha criados pelo escritório para representantes municipais elegíveis.'],
-        'home': ['Gestão de Entregas', 'Home do Representante', 'Organiza o trabalho em campo por status: Não Confirmadas (dúvidas do escritório), Aguardando (em análise) e Entregues. O representante nunca vê endereços antes da entrega validada.'],
-        'deliver-car': ['Passo 1 da Entrega', 'Pesquisa de CAR com o Proprietário', 'O representante não precisa estar na propriedade, mas precisa estar presencialmente com o proprietário. O código do endereço permanece oculto nesta tela.'],
-        'deliver-owner': ['Passo 2 da Entrega', 'CPF Inteligente e Telefone Único', 'Começa pelo CPF: se já cadastrado (123.456.789-00), preenche tudo automaticamente. Se novo (987.654.321-11), cadastra já valendo para o App Cidadão. Bloqueia se o telefone (27 99812-4450) já pertencer a outro CPF.'],
-        'deliver-sms': ['Passo 3 — Antifraude', 'Código SMS + Assinatura do Morador', 'Para evitar fraudes, o morador recebe um código SMS (simulado: 482910). Só após digitar o SMS e coletar a assinatura digital do morador é que o endereço é liberado.']
-      };
-      const g = guides[s] || guides['home'];
-      el.innerHTML = `
-        <span class="ctx-badge" style="background:#e0f2fe; color:#0e3746;">${g[0]}</span>
-        <div class="ctx-title">${g[1]}</div>
-        <p class="ctx-desc">${g[2]}</p>
-        <div class="ctx-box" style="background:#f0f9ff; border-color:#bae6fd;">
-          <div class="ctx-box-title" style="color:#0e3746;">Dados de Teste Rápido</div>
-          <div class="ctx-explain">
-            <strong>CPF já cadastrado:</strong> <code>123.456.789-00</code> (Tel: 27 99812-4450)<br>
-            <strong>CPF novo:</strong> <code>987.654.321-11</code><br>
-            <strong>Código SMS simulado:</strong> <code>482910</code>
-          </div>
-        </div>
-      `;
-    }
-
     // =========================================================================
-    // STATE SETTERS FOR CONTEXTUAL CONTROLS
+    // CONTROLS & CITIZEN ACTIONS
     // =========================================================================
     function setProposal(mode) {
       state.proposal = mode;
       document.getElementById('navRegSub').textContent = mode === 'forma1' ? 'Forma 1 selecionada' : 'Forma 2 selecionada';
       renderContextualGuide();
-      cToast('Proposta alterada para ' + (mode === 'forma1' ? 'FORMA 1' : 'FORMA 2'));
+      appToast('Proposta: ' + mode.toUpperCase());
     }
-
     function setOfflineArch(arch) {
       state.offlineArch = arch;
-      document.getElementById('cOfflinePackStatus').style.display = (arch === 'opcaoB') ? 'block' : 'none';
+      document.getElementById('offlinePackStatus').style.display = (arch === 'opcaoB') ? 'block' : 'none';
       renderContextualGuide();
-      if (state.cScreen === 'es-photo' && state.cPhotoTaken) renderCitizenPhotoScreen();
-      cToast(arch === 'opcaoA' ? 'Offline: Opção A (Sincronização)' : 'Offline: Opção B (Pacote Municipal)');
+      if (state.screen === 'es-photo' && state.cPhotoTaken) renderCitizenPhotoScreen();
     }
-
     function setOnlineMode(online) {
       state.isOnline = online;
-      const st = document.getElementById('cAndroidStatus');
-      const sig = document.getElementById('cSignalLabel');
-      const ban = document.getElementById('cOfflineBanner');
-      const dot = document.getElementById('cStatusDot');
-
-      st.classList.toggle('offline', !online);
-      sig.textContent = online ? '4G' : 'Sem sinal';
-      ban.classList.toggle('show', !online);
-      dot.style.background = online ? '#22c55e' : '#f59e0b';
-      document.getElementById('cOfflineBannerText').textContent = state.offlineArch === 'opcaoB'
-        ? '📡 Sem internet • Pacote local ativo'
-        : '📡 Sem internet • Fila de sincronização';
-
+      document.getElementById('androidStatus').classList.toggle('offline', !online);
+      document.getElementById('signalLabel').textContent = online ? '4G' : 'Sem sinal';
+      document.getElementById('offlineBanner').classList.toggle('show', !online);
+      document.getElementById('statusDot').style.background = online ? '#22c55e' : '#f59e0b';
+      document.getElementById('offlineBannerText').textContent = state.offlineArch === 'opcaoB'
+        ? '📡 Sem internet • Pacote local ativo' : '📡 Sem internet • Fila de sincronização';
       renderContextualGuide();
-      if (state.cScreen === 'es-photo' && state.cPhotoTaken) renderCitizenPhotoScreen();
-      if (online) cToast('Conexão 4G restabelecida');
+      if (state.screen === 'es-photo' && state.cPhotoTaken) renderCitizenPhotoScreen();
     }
-
     function setOpenBuildings(hit) {
       state.openBuildingsHit = hit;
       renderContextualGuide();
-      if (state.cScreen === 'es-photo' && state.cPhotoTaken) {
-        if (hit && (state.isOnline || state.offlineArch === 'opcaoB')) openOpenBuildingsPopup();
-      }
+      if (state.screen === 'es-photo' && state.cPhotoTaken && hit && (state.isOnline || state.offlineArch === 'opcaoB')) openOpenBuildingsPopup();
     }
-
-    function setWithin10m(ok) {
-      state.within10m = ok;
+    function setWithin50m(ok) {
+      state.within50m = ok;
       renderContextualGuide();
-      if (state.cScreen === 'es-photo' && state.cPhotoTaken) renderCitizenPhotoScreen();
-    }
-
-    // =========================================================================
-    // CIDADÃO NAVIGATION & FLOWS
-    // =========================================================================
-    function cGoTo(id, push = true) {
-      if (push && state.cScreen && state.cScreen !== id) state.cHistory.push(state.cScreen);
-      state.cScreen = id;
-      document.querySelectorAll('#cViewport .screen').forEach(s => s.classList.remove('active'));
-      const el = document.getElementById('c-screen-' + id);
-      if (el) el.classList.add('active');
-      document.getElementById('cViewport').scrollTop = 0;
-
-      document.querySelectorAll('#mode-cidadao .flow-btn').forEach(b => {
-        const m = b.dataset.cscreen;
-        const ok = m === id || (m === 'login' && (id === 'register' || id === 'forgot')) || (m === 'es-reg' && (id === 'es-manual-car' || id === 'es-forma2-car'));
-        b.classList.toggle('active', ok);
-      });
-
-      if (id === 'es-home') renderCitizenProperties();
-      if (id === 'es-photo') renderCitizenPhotoScreen();
-      if (id === 'es-lgpd') renderCitizenLgpd();
-      renderContextualGuide();
-    }
-
-    function cGoBack() { if (state.cHistory.length) cGoTo(state.cHistory.pop(), false); }
-
-    function cDoLogin() {
-      if (state.simLoginUf === 'ES') cGoTo('es-home');
-      else if (state.simLoginUf === 'SP') cGoTo('sp-legacy');
-      else cGoTo('unavailable');
+      if (state.screen === 'es-photo' && state.cPhotoTaken) renderCitizenPhotoScreen();
     }
 
     function populateCities(stateId, cityId) {
       const uf = document.getElementById(stateId).value;
-      const list = citiesByState[uf] || ['Domingos Martins'];
-      document.getElementById(cityId).innerHTML = list.map(c => `<option value="${c}">${c}</option>`).join('');
+      document.getElementById(cityId).innerHTML = (citiesByState[uf] || ['Domingos Martins']).map(c => `<option value="${c}">${c}</option>`).join('');
     }
-
     function openRegMapPicker() {
       const uf = state.simLoginUf;
       const city = (citiesByState[uf] && citiesByState[uf][0]) || 'Domingos Martins';
       state.modalLocked = false;
-      document.getElementById('cModalBg').classList.remove('center');
-      document.getElementById('cModalContent').innerHTML = `
+      document.getElementById('modalBg').classList.remove('center');
+      document.getElementById('modalContent').innerHTML = `
         <h3 style="font-size:15px; font-weight:800; color:var(--rr-green-dark); margin-bottom:6px;">Localização detectada</h3>
-        <div style="border-radius:12px; border:1.5px solid #b8dec6; margin:10px 0; height:125px; background:#cfe8d5; display:flex; align-items:center; justify-content:center;">
+        <div style="border-radius:12px; border:1.5px solid #b8dec6; margin:10px 0; height:120px; background:#cfe8d5; display:flex; align-items:center; justify-content:center;">
           <div style="background:#fff; padding:6px 12px; border-radius:8px; font-weight:700; font-size:12.5px; color:var(--rr-green-dark);">📍 ${city} - ${uf}</div>
         </div>
         <button class="btn btn-primary" style="margin-bottom:8px;" onclick="confirmRegMap('${uf}','${city}')">Confirmar ${city} - ${uf}</button>
-        <button class="btn btn-outline" onclick="closeCModal()">Escolher na lista</button>
+        <button class="btn btn-outline" onclick="closeModal()">Escolher na lista</button>
       `;
-      document.getElementById('cModalBg').classList.add('open');
+      document.getElementById('modalBg').classList.add('open');
     }
-
     function confirmRegMap(uf, city) {
-      document.getElementById('cRegState').value = uf;
-      populateCities('cRegState', 'cRegCity');
-      document.getElementById('cRegCity').value = city;
-      closeCModal();
-      cToast('Moradia confirmada pelo mapa');
+      document.getElementById('regState').value = uf;
+      populateCities('regState', 'regCity');
+      document.getElementById('regCity').value = city;
+      closeModal();
     }
+    function closeModal() { document.getElementById('modalBg').classList.remove('open'); state.modalLocked = false; }
 
-    function closeCModal() {
-      document.getElementById('cModalBg').classList.remove('open');
-      state.modalLocked = false;
-    }
-
-    function cDoRegister() {
-      if (!document.getElementById('cChkTerms').checked) { cToast('Aceite a Política de Privacidade e os Termos de Uso'); return; }
-      const uf = document.getElementById('cRegState').value;
-      const city = document.getElementById('cRegCity').value;
-      const cpf = document.getElementById('cRegCpf').value;
-      registeredCitizens[cpf] = {
-        name: document.getElementById('cRegName').value, cpf,
-        email: document.getElementById('cRegEmail').value, phone: document.getElementById('cRegPhone').value, uf, city
+    function doRegister() {
+      if (!document.getElementById('chkTerms').checked) { appToast('Aceite a Política de Privacidade e os Termos de Uso'); return; }
+      const uf = document.getElementById('regState').value;
+      const city = document.getElementById('regCity').value;
+      const cpf = document.getElementById('regCpf').value;
+      registeredUsers[cpf] = {
+        name: document.getElementById('regName').value, cpf,
+        email: document.getElementById('regEmail').value, phone: document.getElementById('regPhone').value, uf, city, isRep: false
       };
-      if (uf === 'ES') cGoTo('es-home');
-      else if (uf === 'SP') cGoTo('sp-legacy');
-      else cGoTo('unavailable');
+      state.currentUser = registeredUsers[cpf];
+      state.activeAppMode = 'cidadao';
+      if (uf === 'ES') appGoTo('es-home'); else if (uf === 'SP') appGoTo('sp-legacy'); else appGoTo('unavailable');
     }
 
     function openRegistrarCidadao() {
+      state.activeAppMode = 'cidadao';
       if (state.proposal === 'forma1') {
         state.modalLocked = false;
-        document.getElementById('cModalBg').classList.remove('center');
-        document.getElementById('cModalContent').innerHTML = `
+        document.getElementById('modalBg').classList.remove('center');
+        document.getElementById('modalContent').innerHTML = `
           <h3 style="font-size:15px; font-weight:800; color:var(--rr-green-dark); margin-bottom:4px;">Registrar Propriedade</h3>
           <p style="font-size:12px; color:var(--rr-muted); margin-bottom:12px;">Escolha como localizar sua propriedade:</p>
-          <button class="btn btn-primary" style="margin-bottom:9px; justify-content:flex-start;" onclick="closeCModal(); state.cActiveCar='ES-3201902-7F2A91B4C8E04D12'; state.cPhotoTaken=false; cGoTo('es-photo');">
-            📍 Pela minha localização
-          </button>
-          <button class="btn btn-secondary" style="margin-bottom:9px; justify-content:flex-start;" onclick="closeCModal(); cGoTo('es-manual-car');">
-            🔎 Buscar pelo código CAR
-          </button>
-          <button class="btn btn-outline" onclick="closeCModal()">Cancelar</button>
+          <button class="btn btn-primary" style="margin-bottom:9px; justify-content:flex-start;" onclick="closeModal(); state.cActiveCar='ES-3201902-7F2A91B4C8E04D12'; state.cPhotoTaken=false; appGoTo('es-photo');">📍 Pela minha localização</button>
+          <button class="btn btn-secondary" style="margin-bottom:9px; justify-content:flex-start;" onclick="closeModal(); appGoTo('es-manual-car');">🔎 Buscar pelo código CAR</button>
+          <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
         `;
-        document.getElementById('cModalBg').classList.add('open');
+        document.getElementById('modalBg').classList.add('open');
       } else {
         document.getElementById('cForma2Alert').style.display = 'none';
         document.getElementById('cForma2OfflineNote').style.display = 'none';
-        cGoTo('es-forma2-car');
+        appGoTo('es-forma2-car');
       }
     }
 
-    function fillCar(inputId, car, city) {
-      document.getElementById(inputId).value = car;
-      state.cActiveCar = car;
-      state.cActiveCity = city;
-    }
-
+    function fillCar(inputId, car, city) { document.getElementById(inputId).value = car; state.cActiveCar = car; state.cActiveCity = city; }
     function cProceedFromCar1() {
       const v = document.getElementById('cCarInput1').value.trim();
-      if (v.length < 8) { cToast('Digite o código CAR ou use um exemplo'); return; }
-      state.cActiveCar = v;
-      state.cPhotoTaken = false;
-      cGoTo('es-photo');
+      if (v.length < 8) { appToast('Digite o código CAR ou use um exemplo'); return; }
+      state.cActiveCar = v; state.cPhotoTaken = false; appGoTo('es-photo');
     }
-
     function cValidateForma2() {
       const v = document.getElementById('cCarInput2').value.trim();
-      if (v.length < 8) { cToast('Digite o código CAR ou use um exemplo'); return; }
+      if (v.length < 8) { appToast('Digite o código CAR ou use um exemplo'); return; }
       state.cActiveCar = v;
-      const alertEl = document.getElementById('cForma2Alert');
-      const noteEl = document.getElementById('cForma2OfflineNote');
-
-      // Se sem internet na Opção A, não consegue validar polígono CAR agora -> avança e valida na sincronização
       if (!state.isOnline && state.offlineArch === 'opcaoA') {
-        alertEl.style.display = 'none';
-        noteEl.style.display = 'block';
-        noteEl.innerHTML = '📡 <strong>Sem internet:</strong> o CAR e a localização serão validados quando o aparelho recuperar sinal.';
-        setTimeout(() => { state.cPhotoTaken = false; cGoTo('es-photo'); }, 900);
+        document.getElementById('cForma2Alert').style.display = 'none';
+        document.getElementById('cForma2OfflineNote').style.display = 'block';
+        document.getElementById('cForma2OfflineNote').innerHTML = '📡 <strong>Sem internet:</strong> o CAR e a localização serão validados ao recuperar sinal.';
+        setTimeout(() => { state.cPhotoTaken = false; appGoTo('es-photo'); }, 800);
         return;
       }
-
-      if (!state.atProperty) {
-        alertEl.style.display = 'block';
-        noteEl.style.display = 'none';
-        return;
-      }
-      alertEl.style.display = 'none';
-      noteEl.style.display = 'none';
-      state.cPhotoTaken = false;
-      cGoTo('es-photo');
+      if (!state.atProperty) { document.getElementById('cForma2Alert').style.display = 'block'; return; }
+      document.getElementById('cForma2Alert').style.display = 'none';
+      state.cPhotoTaken = false; appGoTo('es-photo');
     }
 
-    // POP-UP CLARO DO OPEN BUILDINGS (ITEM 3!)
     function openOpenBuildingsPopup() {
       state.modalLocked = true;
-      document.getElementById('cModalBg').classList.add('center');
-      document.getElementById('cModalContent').innerHTML = `
+      document.getElementById('modalBg').classList.add('center');
+      document.getElementById('modalContent').innerHTML = `
         <div style="text-align:center;">
-          <div style="width:58px; height:58px; border-radius:50%; background:#fef3c7; color:#b45309; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:28px;">🏠</div>
-          <h3 style="font-size:16px; font-weight:800; color:#92400e; margin-bottom:8px;">Atenção: você parece estar em uma casa ou construção</h3>
-          <p style="font-size:12.5px; color:#374151; line-height:1.5; margin-bottom:16px;">
-            Lembramos que a foto deve ser tirada na <strong>porteira</strong> da propriedade. Enviar uma foto que não seja da porteira pode fazer com que o seu endereço <strong>não seja validado</strong>.
-          </p>
-          <button class="btn btn-primary" style="margin-bottom:8px;" onclick="cRetakeFromPopup()">📷 Tirar nova foto na porteira</button>
-          <button class="btn btn-outline" style="color:#92400e; border-color:#fcd34d;" onclick="cConfirmOpenBuildingsAnyway()">Sim, estou na porteira — confirmar mesmo assim</button>
+          <div style="width:56px; height:56px; border-radius:50%; background:#fef3c7; color:#b45309; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:26px;">🏠</div>
+          <h3 style="font-size:15.5px; font-weight:800; color:#92400e; margin-bottom:8px;">Atenção: você parece estar em uma casa ou construção</h3>
+          <p style="font-size:12.5px; color:#374151; line-height:1.5; margin-bottom:15px;">Lembramos que a foto deve ser tirada na <strong>porteira</strong> da propriedade. Enviar uma foto que não seja da porteira pode fazer com que o seu endereço <strong>não seja validado</strong>.</p>
+          <button class="btn btn-primary" style="margin-bottom:8px;" onclick="closeModal(); cRetakePhoto();">📷 Tirar nova foto na porteira</button>
+          <button class="btn btn-outline" style="color:#92400e; border-color:#fcd34d;" onclick="state.obConfirmedAnyway=true; closeModal(); renderCitizenPhotoScreen();">Sim, estou na porteira — confirmar mesmo assim</button>
         </div>
       `;
-      document.getElementById('cModalBg').classList.add('open');
-    }
-
-    function cRetakeFromPopup() {
-      closeCModal();
-      cRetakePhoto();
-      cToast('Enquadre a porteira e fotografe novamente');
-    }
-
-    function cConfirmOpenBuildingsAnyway() {
-      state.obConfirmedAnyway = true;
-      closeCModal();
-      renderCitizenPhotoScreen();
-      cToast('Confirmado com alerta registrado para o técnico');
+      document.getElementById('modalBg').classList.add('open');
     }
 
     function cCaptureGatePhoto() {
-      state.cPhotoTaken = true;
-      state.obConfirmedAnyway = false;
+      state.cPhotoTaken = true; state.obConfirmedAnyway = false;
       renderCitizenPhotoScreen();
-
-      // Verifica se roda análise agora (Online OU Offline Opção B com pacote municipal)
-      const canValidateLocally = state.isOnline || state.offlineArch === 'opcaoB';
-      if (canValidateLocally && state.openBuildingsHit) {
-        openOpenBuildingsPopup();
-      } else {
-        cToast('Foto geolocalizada capturada!');
-      }
+      if ((state.isOnline || state.offlineArch === 'opcaoB') && state.openBuildingsHit) openOpenBuildingsPopup();
+      else appToast('Foto geolocalizada + visada capturadas!');
     }
-
-    function cRetakePhoto() {
-      state.cPhotoTaken = false;
-      state.obConfirmedAnyway = false;
-      renderCitizenPhotoScreen();
-    }
+    function cRetakePhoto() { state.cPhotoTaken = false; state.obConfirmedAnyway = false; renderCitizenPhotoScreen(); }
 
     function renderCitizenPhotoScreen() {
       document.getElementById('cPhotoCarLabel').textContent = state.cActiveCar;
       document.getElementById('cCamEmpty').style.display = state.cPhotoTaken ? 'none' : 'block';
       document.getElementById('cCamTaken').style.display = state.cPhotoTaken ? 'block' : 'none';
-
       const rBox = document.getElementById('cRadiusInfo');
-      if (!state.cPhotoTaken) {
-        rBox.style.display = 'none';
-        document.getElementById('cNameAfterPhoto').style.display = 'none';
-        return;
-      }
-
-      rBox.style.display = 'block';
-      document.getElementById('cNameAfterPhoto').style.display = 'block';
+      if (!state.cPhotoTaken) { rBox.style.display = 'none'; document.getElementById('cNameAfterPhoto').style.display = 'none'; return; }
+      rBox.style.display = 'block'; document.getElementById('cNameAfterPhoto').style.display = 'block';
 
       if (!state.isOnline && state.offlineArch === 'opcaoA') {
         rBox.className = 'alert-box info';
-        rBox.innerHTML = '<strong>📡 Foto salva offline com GPS!</strong><br>As coordenadas foram gravadas no aparelho. A validação do CAR, Open Buildings e raio de 10m será feita automaticamente quando a internet voltar.';
-        document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3632, -40.6591 • Salvo offline';
+        rBox.innerHTML = '<strong>📡 Foto salva offline com GPS e visada!</strong><br>A validação será executada automaticamente quando a internet voltar.';
+        document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3632, -40.6591 • Visada 295° • Offline';
         return;
       }
-
-      const modeTag = !state.isOnline ? ' (validado pelo pacote offline do município)' : '';
-      if (state.within10m) {
+      if (state.within50m) {
         rBox.className = 'alert-box success';
-        rBox.innerHTML = `<strong>✓ Porteira validada automaticamente${modeTag}!</strong><br>A foto está dentro do raio de 10 metros da porteira original. Seu endereço será liberado após assinar o termo.` +
-          (state.obConfirmedAnyway ? '<br><span style="color:#92400e;">⚠ Obs: confirmada com alerta de edificação próxima.</span>' : '');
-        document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3632, -40.6591 • 4m da porteira';
+        rBox.innerHTML = '<strong>✓ Porteira validada automaticamente!</strong><br>Foto dentro do raio de 50 metros da porteira do CAR. Seu endereço será liberado após assinar o termo.';
+        document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3632, -40.6591 • Visada 295° • 14m';
       } else {
         rBox.className = 'alert-box warn';
-        rBox.innerHTML = `<strong>⏳ Irá para validação técnica${modeTag}</strong><br>A foto ficou a mais de 10 metros do ponto original. Você não receberá o endereço na hora — nossa equipe validará em até <strong>2 dias úteis</strong>.`;
-        document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3639, -40.6584 • 28m da porteira';
+        rBox.innerHTML = '<strong>⏳ Irá para validação técnica</strong><br>A foto ficou fora do raio de 50 metros. Você não receberá o endereço na hora — validação em até <strong>2 dias úteis</strong>.';
+        document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3641, -40.6580 • Visada 295° • 68m';
       }
     }
 
     function cGoToLgpd() {
       const name = document.getElementById('cPropNameInput').value.trim();
-      if (!name) { cToast('Digite o nome da propriedade'); return; }
+      if (!name) { appToast('Digite o nome da propriedade'); return; }
       state.cPendingName = name.toUpperCase();
-      cGoTo('es-lgpd');
+      appGoTo('es-lgpd');
     }
 
     function renderCitizenLgpd() {
-      const u = registeredCitizens['123.456.789-00'];
+      const u = state.currentUser;
       document.getElementById('cTermoText').innerHTML = `
         <p>Eu, <strong>${u.name.toUpperCase()}</strong>, inscrito(a) no CPF nº <strong>${u.cpf}</strong>, declaro, sob as penas da lei e ciente das responsabilidades legais decorrentes de declaração falsa, que sou proprietário(a) ou legítimo(a) responsável pelo imóvel rural identificado pelo Cadastro Ambiental Rural (CAR) nº <strong>${state.cActiveCar}</strong>.</p>
         <p>Declaro, ainda, que recebi o Endereço Rural Digital correspondente ao referido imóvel e que as informações prestadas são verdadeiras, assumindo integral responsabilidade por seu conteúdo.</p>
@@ -1878,84 +1699,58 @@
     }
 
     function cFinishRegistration() {
-      if (!state.cSigned) { cToast('Faça sua assinatura digital antes de concluir'); return; }
-      const u = registeredCitizens['123.456.789-00'];
-
-      let status = 'entregue';
-      let note = 'Validado automaticamente no raio de 10m';
-
-      if (!state.isOnline && state.offlineArch === 'opcaoA') {
-        status = 'pendente_sync';
-        note = 'Salvo sem internet — aguarda sincronização para validar CAR/Open Buildings/10m';
-      } else if (!state.within10m) {
-        status = 'aguardando';
-        note = 'Foto fora do raio de 10m — aguarda validação em até 2 dias úteis' + (state.obConfirmedAnyway ? ' • Alerta Open Buildings' : '');
-      }
+      if (!state.cSigned) { appToast('Faça sua assinatura digital antes de concluir'); return; }
+      const u = state.currentUser;
+      let status = 'entregue', note = 'Validado automaticamente no raio de 50m';
+      if (!state.isOnline && state.offlineArch === 'opcaoA') { status = 'pendente_sync'; note = 'Salvo sem internet — aguarda sincronização'; }
+      else if (!state.within50m) { status = 'aguardando'; note = 'Foto fora do raio de 50m • Visada 295° — até 2 dias úteis'; }
 
       dbProperties.unshift({
         id: Date.now(), name: state.cPendingName, erd: '586H 9Q4+QH', car: state.cActiveCar,
         city: state.cActiveCity, ownerName: u.name, ownerCpf: u.cpf, status, origin: 'Cidadão', note, officeMessage: ''
       });
-
       syncAllViews();
-      cToast(status === 'entregue' ? 'Endereço validado e liberado!' : status === 'pendente_sync' ? 'Salvo offline! Sincronizará ao voltar o sinal.' : 'Enviado para validação em até 2 dias úteis!');
-      cGoTo('es-home');
+      appToast(status === 'entregue' ? 'Endereço liberado!' : status === 'pendente_sync' ? 'Salvo offline!' : 'Enviado para validação em até 2 dias úteis');
+      appGoTo('es-home');
     }
 
     function syncOfflineQueueNow() {
       setOnlineMode(true);
-      let synced = 0;
       dbProperties.forEach(p => {
         if (p.status === 'pendente_sync') {
-          synced++;
-          if (state.within10m) {
-            p.status = 'entregue';
-            p.note = 'Sincronizado e validado automaticamente no raio de 10m';
-          } else {
-            p.status = 'aguardando';
-            p.note = 'Sincronizado — foto fora de 10m enviada ao escritório';
-          }
+          p.status = state.within50m ? 'entregue' : 'aguardando';
+          p.note = state.within50m ? 'Sincronizado e validado no raio de 50m' : 'Sincronizado — foto fora de 50m enviada ao escritório';
         }
       });
       syncAllViews();
-      cToast(synced + ' registro(s) sincronizado(s) com o servidor!');
+      appToast('Registros sincronizados com o servidor!');
     }
 
     function renderCitizenProperties() {
-      const mine = dbProperties.filter(p => p.ownerCpf === '123.456.789-00');
-      const hasSync = mine.some(p => p.status === 'pendente_sync');
-      document.getElementById('cPendingSyncBanner').style.display = hasSync ? 'block' : 'none';
-      document.getElementById('cOfflinePackStatus').style.display = (state.offlineArch === 'opcaoB') ? 'block' : 'none';
-
+      const mine = dbProperties.filter(p => p.ownerCpf === state.currentUser.cpf);
+      document.getElementById('pendingSyncBanner').style.display = mine.some(p => p.status === 'pendente_sync') ? 'block' : 'none';
+      document.getElementById('offlinePackStatus').style.display = (state.offlineArch === 'opcaoB') ? 'block' : 'none';
       document.getElementById('cPropCount').textContent = mine.length + (mine.length === 1 ? ' imóvel' : ' imóveis');
-      document.getElementById('cPropertiesList').innerHTML = mine.map(p => {
-        const isOk = p.status === 'entregue';
-        const isSync = p.status === 'pendente_sync';
-        return `
-          <div class="prop-card" onclick="cOpenDetail(${p.id})">
-            <div class="prop-pin ${isOk ? '' : isSync ? 'sync' : 'warn'}">${isOk ? '📍' : isSync ? '📡' : '⏳'}</div>
-            <div class="prop-info">
-              <div class="prop-name">${p.name}</div>
-              ${isOk
-                ? `<div class="prop-erd">${p.erd}</div>`
-                : isSync
-                  ? `<div class="prop-erd hidden-erd" style="color:#3730a3;">Salvo sem internet • aguarda sinal</div>`
-                  : `<div class="prop-erd hidden-erd">Aguardando validação • até 2 dias úteis</div>`}
-              <div class="prop-meta">
-                <span class="status-chip ${isOk ? 'ok' : isSync ? 'sync' : 'pending'}">
-                  ${isOk ? 'Validado e Entregue' : isSync ? 'Aguardando sincronização' : 'Em análise pelo escritório'}
-                </span>
+      document.getElementById('cPropertiesList').innerHTML = !mine.length
+        ? `<div class="card" style="text-align:center; color:var(--rr-muted); font-size:12px;">Nenhuma propriedade cadastrada neste CPF ainda.</div>`
+        : mine.map(p => {
+          const isOk = p.status === 'entregue', isSync = p.status === 'pendente_sync';
+          return `
+            <div class="prop-card" onclick="cOpenDetail(${p.id})">
+              <div class="prop-pin ${isOk?'':isSync?'sync':'warn'}">${isOk?'📍':isSync?'📡':'⏳'}</div>
+              <div class="prop-info">
+                <div class="prop-name">${p.name}</div>
+                ${isOk ? `<div class="prop-erd">${p.erd}</div>` : `<div class="prop-erd hidden-erd">${isSync?'Salvo sem internet • aguarda sinal':'Aguardando validação • até 2 dias úteis'}</div>`}
+                <div class="prop-meta"><span class="status-chip ${isOk?'ok':isSync?'sync':'pending'}">${isOk?'Validado e Entregue':isSync?'Aguardando sincronização':'Em análise pelo escritório'}</span></div>
               </div>
+              <span style="color:#9ca3af;">›</span>
             </div>
-            <span style="color:#9ca3af;">›</span>
-          </div>
-        `;
-      }).join('');
+          `;
+        }).join('');
     }
 
     function cOpenDetail(id) {
-      const p = dbProperties.find(x => x.id === id);
-      if (!p) return;
+      const p = dbProperties.find(x => x.id === id); if (!p) return;
       document.getElementById('cDetailTitle').textContent = p.name;
       const isOk = p.status === 'entregue';
       document.getElementById('cDetailBody').innerHTML = isOk ? `
@@ -1964,43 +1759,20 @@
           <div style="font-family:'JetBrains Mono', monospace; font-size:24px; font-weight:800; color:var(--rr-green-dark); margin:6px 0;">${p.erd}</div>
           <span class="status-chip ok" style="margin-bottom:10px;">✓ Validado</span>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-            <button class="btn btn-secondary" style="padding:9px; font-size:12px;" onclick="cToast('Código copiado!')">📋 Copiar</button>
-            <button class="btn btn-primary" style="padding:9px; font-size:12px;" onclick="cToast('Abrindo Google Maps...')">🗺️ Rota</button>
+            <button class="btn btn-secondary" style="padding:9px; font-size:12px;" onclick="appToast('Código copiado!')">📋 Copiar</button>
+            <button class="btn btn-primary" style="padding:9px; font-size:12px;" onclick="appToast('Abrindo Google Maps...')">🗺️ Rota</button>
           </div>
         </div>
         <div class="card" style="font-size:12px; line-height:1.6;">
-          <div><strong>CAR:</strong> ${p.car}</div>
-          <div><strong>Município:</strong> ${p.city} - ES</div>
-          <div><strong>Termo LGPD:</strong> Assinado digitalmente ✓</div>
+          <div><strong>CAR:</strong> ${p.car}</div><div><strong>Município:</strong> ${p.city} - ES</div><div><strong>Termo LGPD:</strong> Assinado digitalmente ✓</div>
         </div>
-      ` : `
-        <div class="alert-box ${p.status === 'pendente_sync' ? 'info' : 'warn'}">
-          <strong>${p.status === 'pendente_sync' ? '📡 Aguardando internet para sincronizar' : '⏳ Endereço em validação técnica'}</strong><br>
-          ${p.note}
-        </div>
-        <div class="card" style="font-size:12px; line-height:1.6;">
-          <div><strong>CAR:</strong> ${p.car}</div>
-          <div><strong>Município:</strong> ${p.city} - ES</div>
-        </div>
-      `;
-      cGoTo('es-detail');
+      ` : `<div class="alert-box warn"><strong>⏳ ${p.note}</strong></div>`;
+      appGoTo('es-detail');
     }
 
     // =========================================================================
-    // REPRESENTANTE LOGIC
+    // REPRESENTANTE ACTIONS (MESMO APP)
     // =========================================================================
-    function rGoTo(id, push = true) {
-      if (push && state.rScreen && state.rScreen !== id) state.rHistory.push(state.rScreen);
-      state.rScreen = id;
-      document.querySelectorAll('#rViewport .screen').forEach(s => s.classList.remove('active'));
-      const el = document.getElementById('r-screen-' + id);
-      if (el) el.classList.add('active');
-      document.getElementById('rViewport').scrollTop = 0;
-      document.querySelectorAll('#mode-representante .flow-btn').forEach(b => b.classList.toggle('active', b.dataset.rscreen === id));
-      renderRepCounts();
-      renderRepGuide();
-    }
-    function rGoBack() { if (state.rHistory.length) rGoTo(state.rHistory.pop(), false); }
     function renderRepCounts() {
       document.getElementById('rCountUnconfirmed').textContent = dbProperties.filter(p => p.status === 'nao_confirmada').length;
       document.getElementById('rCountWaiting').textContent = dbProperties.filter(p => p.status === 'aguardando').length;
@@ -2012,18 +1784,17 @@
       document.getElementById('rOwnerForm').style.display = 'none';
       document.getElementById('rOwnerStatusMsg').style.display = 'none';
       document.getElementById('rPhoneDupAlert').style.display = 'none';
-      rGoTo('deliver-car');
+      appGoTo('rep-deliver-car');
     }
     function rLoadCarSample(car, name, city) {
-      document.getElementById('rCarInput').value = car;
-      document.getElementById('rPropName').value = name;
+      document.getElementById('rCarInput').value = car; document.getElementById('rPropName').value = name;
       state.rActiveCar = car; state.rActiveCity = city;
       document.getElementById('rMapPreviewBox').style.display = 'block';
     }
     function rLookupCpf() {
       const cpf = document.getElementById('rOwnerCpf').value.trim();
-      if (cpf.length < 11) { rToast('Digite um CPF válido'); return; }
-      const existing = registeredCitizens[cpf];
+      if (cpf.length < 11) { appToast('Digite um CPF válido'); return; }
+      const existing = registeredUsers[cpf];
       const msg = document.getElementById('rOwnerStatusMsg');
       document.getElementById('rOwnerForm').style.display = 'block';
       document.getElementById('rPhoneDupAlert').style.display = 'none';
@@ -2048,12 +1819,12 @@
       const name = document.getElementById('rOwnerName').value.trim();
       const email = document.getElementById('rOwnerEmail').value.trim();
       const phone = document.getElementById('rOwnerPhone').value.trim();
-      if (!name || !phone) { rToast('Preencha nome e telefone'); return; }
-      const dup = Object.values(registeredCitizens).find(u => u.phone === phone && u.cpf !== cpf);
-      if (dup) { document.getElementById('rPhoneDupAlert').style.display = 'block'; rToast('Telefone já vinculado a outro CPF'); return; }
+      if (!name || !phone) { appToast('Preencha nome e telefone'); return; }
+      const dup = Object.values(registeredUsers).find(u => u.phone === phone && u.cpf !== cpf);
+      if (dup) { document.getElementById('rPhoneDupAlert').style.display = 'block'; appToast('Telefone já vinculado a outro CPF'); return; }
       document.getElementById('rPhoneDupAlert').style.display = 'none';
-      if (!registeredCitizens[cpf]) registeredCitizens[cpf] = { name, cpf, email, phone, uf: 'ES', city: state.rActiveCity };
-      state.rOwner = registeredCitizens[cpf];
+      if (!registeredUsers[cpf]) registeredUsers[cpf] = { name, cpf, email, phone, uf: 'ES', city: state.rActiveCity, isRep: false };
+      state.rOwner = registeredUsers[cpf];
       document.getElementById('rSmsPhoneLabel').textContent = phone;
       document.getElementById('rSmsInput').value = '';
       document.getElementById('rTermoText').innerHTML = `
@@ -2061,11 +1832,11 @@
         <p>Declaro, ainda, que recebi o Endereço Rural Digital correspondente ao referido imóvel e que as informações prestadas são verdadeiras, assumindo integral responsabilidade por seu conteúdo.</p>
       `;
       clearCanvas('rSigCanvas', 'rSigPh', 'r');
-      rGoTo('deliver-sms');
+      appGoTo('rep-deliver-sms');
     }
     function rFinishDelivery() {
-      if (document.getElementById('rSmsInput').value.trim() !== state.rSmsCode) { rToast('Código SMS inválido! Digite 482910'); return; }
-      if (!state.rSigned) { rToast('Colete a assinatura digital do morador'); return; }
+      if (document.getElementById('rSmsInput').value.trim() !== state.rSmsCode) { appToast('Código SMS inválido! Digite 482910'); return; }
+      if (!state.rSigned) { appToast('Colete a assinatura digital do morador'); return; }
       const propName = (document.getElementById('rPropName').value.trim() || 'PROPRIEDADE RURAL').toUpperCase();
       const newErd = '586H 8P2+QW';
       dbProperties.unshift({
@@ -2077,7 +1848,7 @@
       document.getElementById('rDoneErd').textContent = newErd;
       document.getElementById('rDoneOwner').textContent = 'Proprietário: ' + state.rOwner.name;
       syncAllViews();
-      rGoTo('deliver-done');
+      appGoTo('rep-deliver-done');
     }
     function rOpenList(status) {
       const titles = { nao_confirmada: 'Não Confirmadas', aguardando: 'Aguardando Avaliação', entregue: 'Propriedades Entregues' };
@@ -2096,20 +1867,19 @@
             ${status==='nao_confirmada' ? `<button class="btn btn-rep" style="margin-top:6px; padding:9px; font-size:12px;" onclick="rResubmitUnconfirmed(${p.id})">Corrigir com morador e reenviar</button>` : ''}
           </div>
         `).join('');
-      rGoTo('list');
+      appGoTo('rep-list');
     }
     function rResubmitUnconfirmed(id) {
-      const p = dbProperties.find(x => x.id === id);
-      if (!p) return;
+      const p = dbProperties.find(x => x.id === id); if (!p) return;
       p.status = 'aguardando'; p.note = 'Corrigido pelo representante e reenviado ao escritório'; p.officeMessage = '';
-      syncAllViews(); rToast('Reenviado ao escritório'); rOpenList('nao_confirmada');
+      syncAllViews(); appToast('Reenviado ao escritório'); rOpenList('nao_confirmada');
     }
 
     // =========================================================================
-    // ESCRITÓRIO LOGIC
+    // ESCRITÓRIO ACTIONS
     // =========================================================================
-    function officeLogin() { state.officeLoggedIn = true; document.getElementById('officeLoginView').style.display = 'none'; document.getElementById('officeAppView').style.display = 'block'; renderOfficeQueue(); }
-    function officeLogout() { state.officeLoggedIn = false; document.getElementById('officeLoginView').style.display = 'block'; document.getElementById('officeAppView').style.display = 'none'; }
+    function officeLogin() { document.getElementById('officeLoginView').style.display = 'none'; document.getElementById('officeAppView').style.display = 'block'; renderOfficeQueue(); }
+    function officeLogout() { document.getElementById('officeLoginView').style.display = 'block'; document.getElementById('officeAppView').style.display = 'none'; }
     function getOfficePendingList() { return dbProperties.filter(p => p.status === 'aguardando' && (state.officeMuniFilter === 'Todos' || p.city === state.officeMuniFilter)); }
     function renderOfficeQueue() {
       const allPending = dbProperties.filter(p => p.status === 'aguardando');
@@ -2159,7 +1929,7 @@
     function officeToggleSuggestMode() {
       state.officeSuggesting = !state.officeSuggesting;
       document.getElementById('officeMapBox').classList.toggle('suggesting', state.officeSuggesting);
-      document.getElementById('officeMapBadge').textContent = state.officeSuggesting ? '👆 Clique no mapa para marcar a nova localização' : 'Zoom 18x • Porteira Original vs Foto';
+      document.getElementById('officeMapBadge').textContent = state.officeSuggesting ? '👆 Clique no mapa para marcar a nova localização' : 'Zoom 18x • Raio 50m + Seta de Visada da Câmera';
     }
     function officeHandleMapClick(e) {
       if (!state.officeSuggesting) return;
@@ -2171,34 +1941,26 @@
       document.getElementById('officeMapBadge').textContent = '✓ Nova localização sugerida marcada!';
     }
     function officeConfirmCurrent() {
-      const list = getOfficePendingList();
-      const p = list[state.officeValIndex];
-      if (!p) return;
-      p.status = 'entregue';
-      p.note = state.officeSuggestedCoord ? 'Validado pelo técnico com nova localização' : 'Validado pelo técnico no escritório';
+      const list = getOfficePendingList(); const p = list[state.officeValIndex]; if (!p) return;
+      p.status = 'entregue'; p.note = state.officeSuggestedCoord ? 'Validado pelo técnico com nova localização' : 'Validado pelo técnico no escritório';
       syncAllViews(); renderOfficeValidatorCard();
     }
     function officeReturnToRep() {
-      const list = getOfficePendingList();
-      const p = list[state.officeValIndex];
-      if (!p) return;
-      p.status = 'nao_confirmada';
-      p.officeMessage = document.getElementById('valMessageInput').value.trim() || 'Favor confirmar a localização exata da porteira junto ao morador.';
+      const list = getOfficePendingList(); const p = list[state.officeValIndex]; if (!p) return;
+      p.status = 'nao_confirmada'; p.officeMessage = document.getElementById('valMessageInput').value.trim() || 'Favor confirmar a localização exata da porteira junto ao morador.';
       p.note = 'Devolvido ao representante com dúvida';
       syncAllViews(); renderOfficeValidatorCard();
     }
 
     // =========================================================================
-    // CANVAS SIGNATURE + HELPERS
+    // CANVAS SIGNATURE & HELPERS
     // =========================================================================
     function initSigCanvas(canvasId, phId, who) {
-      const canvas = document.getElementById(canvasId);
-      const ctx = canvas.getContext('2d');
+      const canvas = document.getElementById(canvasId), ctx = canvas.getContext('2d');
       let drawing = false;
       const getPos = e => {
         const r = canvas.getBoundingClientRect();
-        const cx = e.touches ? e.touches[0].clientX : e.clientX;
-        const cy = e.touches ? e.touches[0].clientY : e.clientY;
+        const cx = e.touches ? e.touches[0].clientX : e.clientX, cy = e.touches ? e.touches[0].clientY : e.clientY;
         return { x: (cx - r.left) * (canvas.width / r.width), y: (cy - r.top) * (canvas.height / r.height) };
       };
       const start = e => {
@@ -2214,8 +1976,7 @@
       canvas.addEventListener('touchstart', start, { passive: false }); canvas.addEventListener('touchmove', move, { passive: false }); window.addEventListener('touchend', end);
     }
     function clearCanvas(canvasId, phId, who) {
-      const c = document.getElementById(canvasId);
-      c.getContext('2d').clearRect(0, 0, c.width, c.height);
+      document.getElementById(canvasId).getContext('2d').clearRect(0, 0, 320, 125);
       if (who === 'c') state.cSigned = false; else state.rSigned = false;
       document.getElementById(phId).style.display = 'flex';
     }
@@ -2224,13 +1985,14 @@
       v = v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
       input.value = v;
     }
-    let cToastT, rToastT;
-    function cToast(m) { const el = document.getElementById('cToast'); el.textContent = m; el.classList.add('show'); clearTimeout(cToastT); cToastT = setTimeout(() => el.classList.remove('show'), 2500); }
-    function rToast(m) { const el = document.getElementById('rToast'); el.textContent = m; el.classList.add('show'); clearTimeout(rToastT); rToastT = setTimeout(() => el.classList.remove('show'), 2500); }
-    function resetAll() { location.reload(); }
+    let toastT;
+    function appToast(m) {
+      const el = document.getElementById('appToast'); el.textContent = m; el.classList.add('show');
+      clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 2500);
+    }
 
     // BOOT
-    populateCities('cRegState', 'cRegCity');
+    populateCities('regState', 'regCity');
     initSigCanvas('cSigCanvas', 'cSigPh', 'c');
     initSigCanvas('rSigCanvas', 'rSigPh', 'r');
     syncAllViews();
