@@ -87,24 +87,20 @@
     .mode-view { display: none; flex: 1; }
     .mode-view.active { display: block; }
 
-    /* WORKSPACE */
+    /* WORKSPACE (2 COLUNAS LIMPAS: GUIA CONTEXTUAL + GALAXY A07) */
     .workspace {
-      max-width: 1420px;
+      max-width: 1080px;
       width: 100%;
       margin: 0 auto;
-      padding: 20px 20px 36px;
+      padding: 22px 20px 36px;
       display: grid;
-      grid-template-columns: 1fr 404px 290px;
-      gap: 24px;
+      grid-template-columns: 1fr 404px;
+      gap: 28px;
       align-items: start;
-    }
-    @media (max-width: 1200px) {
-      .workspace { grid-template-columns: 1fr 404px; }
-      .panel-right { grid-column: 1 / -1; }
     }
     @media (max-width: 880px) {
       .workspace { grid-template-columns: 1fr; justify-items: center; }
-      .panel-left, .panel-right { width: 100%; max-width: 540px; }
+      .panel-left { width: 100%; max-width: 540px; }
     }
 
     /* PANELS */
@@ -176,6 +172,45 @@
 
     .spec-list { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
     .spec-list li { font-size: 12px; line-height: 1.45; padding: 7px 10px; background: #f7faf8; border-left: 3px solid var(--rr-green); border-radius: 0 8px 8px 0; }
+    .spec-list li.warn { background: #fff8eb; border-left-color: var(--rr-gold); }
+    .spec-list li.critical { background: var(--rr-danger-bg); border-left-color: var(--rr-danger); }
+
+    .dev-details {
+      margin-top: 14px;
+      border: 1px solid #d5e2da;
+      border-radius: 12px;
+      background: #f9fbfa;
+      overflow: hidden;
+    }
+    .dev-details summary {
+      padding: 10px 12px;
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--rr-green-dark);
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #eef5f0;
+    }
+    .dev-details-body {
+      padding: 11px 12px 13px;
+    }
+    .code-box {
+      background: #111b15;
+      color: #a7f3d0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      line-height: 1.48;
+      padding: 11px;
+      border-radius: 9px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      margin-top: 8px;
+    }
 
     /* RIGHT NAV LIST */
     .nav-section-label { font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--rr-muted); margin: 12px 0 6px; }
@@ -226,8 +261,29 @@
     .android-status.offline { background: #334155; }
     .status-right { display: flex; align-items: center; gap: 6px; font-size: 10.5px; }
 
-    .offline-banner { background: #334155; color: #fde68a; font-size: 11px; font-weight: 700; padding: 6px 12px; display: none; align-items: center; justify-content: space-between; gap: 8px; flex-shrink: 0; }
-    .offline-banner.show { display: flex; }
+    /* DRAWER LATERAL DENTRO DO CELULAR */
+    .drawer-backdrop {
+      position: absolute; inset: 0; background: rgba(15, 23, 42, 0.55);
+      z-index: 75; display: none;
+    }
+    .drawer-backdrop.open { display: block; }
+    .drawer-panel {
+      width: 78%; height: 100%; background: #ffffff;
+      box-shadow: 6px 0 24px rgba(0,0,0,0.22);
+      display: flex; flex-direction: column;
+      animation: slideRight 0.18s ease;
+    }
+    @keyframes slideRight { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+    .drawer-item {
+      width: 100%; background: none; border: none; padding: 13px 16px;
+      display: flex; align-items: center; gap: 11px; font-family: inherit;
+      font-size: 13.5px; font-weight: 600; color: var(--rr-text); cursor: pointer;
+      text-align: left; border-bottom: 1px solid #f0f5f2;
+    }
+    .drawer-item:hover { background: var(--rr-green-light); color: var(--rr-green-dark); }
+
+    .dl-bar-track { height: 8px; background: #e2e8f0; border-radius: 99px; overflow: hidden; margin: 14px 0 6px; }
+    .dl-bar-fill { height: 100%; width: 0%; background: var(--rr-green); transition: width 0.25s ease; }
 
     .app-viewport { flex: 1; overflow-y: auto; overflow-x: hidden; position: relative; background: var(--rr-bg); display: flex; flex-direction: column; scrollbar-width: thin; }
     .app-viewport::-webkit-scrollbar { width: 4px; }
@@ -353,6 +409,40 @@
     .sp-icon-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin: 20px 0; text-align: center; }
     .sp-icon-item { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; color: #555; cursor: pointer; padding: 5px 2px; }
 
+    /* WIZARD PAGE-BY-PAGE LAYOUT */
+    .wiz-progress-track { height: 4px; background: #dce8e0; width: 100%; flex-shrink: 0; }
+    .wiz-progress-fill { height: 100%; background: var(--rr-green-mid); transition: width 0.25s ease; }
+    .wiz-later-btn {
+      background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.28);
+      color: #fff; font-size: 11px; font-weight: 700; padding: 5px 9px; border-radius: 8px;
+      cursor: pointer; font-family: inherit;
+    }
+    .wiz-later-btn:hover { background: rgba(255,255,255,0.28); }
+    .wiz-footer {
+      margin-top: auto;
+      padding-top: 14px;
+      display: grid;
+      grid-template-columns: 1fr 1.45fr;
+      gap: 9px;
+      border-top: 1px solid #e6eee9;
+    }
+    .loupe-anim {
+      width: 78px; height: 78px; border-radius: 50%;
+      background: var(--rr-green-light); border: 2px solid #9fd4b4;
+      margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .loupe-icon {
+      font-size: 34px;
+      animation: loupeScan 1.2s ease-in-out infinite;
+    }
+    @keyframes loupeScan {
+      0%   { transform: translate(-8px, -4px) rotate(-10deg) scale(1); }
+      33%  { transform: translate(8px, -6px) rotate(12deg) scale(1.08); }
+      66%  { transform: translate(6px, 6px) rotate(4deg) scale(1); }
+      100% { transform: translate(-8px, -4px) rotate(-10deg) scale(1); }
+    }
+
     /* WEB DESKTOP PANEL — ESCRITÓRIO */
     .office-wrap { max-width: 1360px; margin: 22px auto 40px; padding: 0 20px; }
     .office-login-card { max-width: 420px; margin: 48px auto; background: #fff; border-radius: 18px; border: 1px solid var(--rr-border); box-shadow: 0 16px 40px rgba(16, 42, 27, 0.1); overflow: hidden; }
@@ -395,6 +485,7 @@
     <div class="profile-switcher">
       <button class="profile-tab active app" id="tabViewApp" onclick="switchMainView('app')">📱 App Rotas Rurais</button>
       <button class="profile-tab escritorio" id="tabViewEscritorio" onclick="switchMainView('escritorio')">💻 Painel Escritório <span class="tab-count" id="headerOfficeBadge">2</span></button>
+      <button class="profile-tab" style="border-left:1px solid rgba(255,255,255,0.16); margin-left:4px; padding-left:12px;" onclick="location.reload()" title="Reiniciar Simulador">↺ Reiniciar</button>
     </div>
   </header>
 
@@ -425,10 +516,6 @@
             <div class="android-status" id="androidStatus">
               <span>12:05</span>
               <div class="status-right"><span id="signalLabel">4G</span><span>84%</span></div>
-            </div>
-            <div class="offline-banner" id="offlineBanner">
-              <span id="offlineBannerText">📡 Modo sem internet ativo</span>
-              <button onclick="setOnlineMode(true)" style="background:#fde68a; color:#1e293b; border:none; border-radius:6px; padding:3px 7px; font-size:10px; font-weight:800; cursor:pointer;">Voltar sinal</button>
             </div>
 
             <div class="app-viewport" id="appViewport">
@@ -621,9 +708,12 @@
                    ============================================================ -->
               <div class="screen" id="screen-es-home">
                 <div class="es-header">
-                  <div class="es-badge-pill">
-                    <svg width="16" height="20" viewBox="0 0 60 75" fill="none"><path d="M22 6L38 9L45 19L42 33L36 47L33 61L24 69L14 62L16 49L12 37L17 24L22 6Z" fill="rgba(255,255,255,0.25)" stroke="#fff" stroke-width="5"/></svg>
-                    <span>ES</span>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <button class="icon-btn" onclick="openDrawer()" title="Menu">☰</button>
+                    <div class="es-badge-pill">
+                      <svg width="15" height="19" viewBox="0 0 60 75" fill="none"><path d="M22 6L38 9L45 19L42 33L36 47L33 61L24 69L14 62L16 49L12 37L17 24L22 6Z" fill="rgba(255,255,255,0.25)" stroke="#fff" stroke-width="5"/></svg>
+                      <span>ES</span>
+                    </div>
                   </div>
                   <div style="text-align:center;">
                     <div style="font-size:13px; font-weight:800;">ROTAS RURAIS</div>
@@ -633,15 +723,15 @@
                 </div>
                 <div class="screen-pad">
                   <div id="offlinePackStatus" class="alert-box info" style="display:none; font-size:11.5px; padding:9px 11px;">
-                    📦 <strong>Pacote offline pronto:</strong> Domingos Martins • 6,4 MB salvos para validação sem internet.
+                    📦 <strong>Dados offline prontos:</strong> <span id="offlinePackMuniLabel">Domingos Martins</span> salvo no aparelho.
                   </div>
                   <div id="pendingSyncBanner" class="alert-box warn" style="display:none; font-size:11.5px; padding:10px;">
-                    <div style="margin-bottom:7px;"><strong>📡 Há registro salvo sem internet!</strong><br>Quando voltar o sinal, o servidor fará os cruzamentos.</div>
+                    <div style="margin-bottom:7px;"><strong>📡 Há solicitação salva sem internet!</strong><br>A sincronização é automática assim que encontrar sinal.</div>
                     <button class="btn btn-primary" style="padding:8px; font-size:12px;" onclick="syncOfflineQueueNow()">↻ Simular volta da internet e sincronizar</button>
                   </div>
 
-                  <button class="btn btn-primary" style="padding:14px; font-size:14px; margin-bottom:16px;" onclick="openRegistrarCidadao()">
-                    ＋ REGISTRAR PROPRIEDADE
+                  <button class="btn btn-primary" style="padding:14px; font-size:14px; margin-bottom:16px;" onclick="handleReceberEnderecoClick()">
+                    ＋ RECEBER ENDEREÇO
                   </button>
                   <div style="display:flex; justify-content:space-between; margin-bottom:9px;">
                     <span style="font-size:12px; font-weight:800; color:var(--rr-green-dark);">MINHAS PROPRIEDADES</span>
@@ -654,51 +744,173 @@
                 </div>
               </div>
 
-              <!-- FORMA 1 CAR -->
-              <div class="screen" id="screen-es-manual-car">
-                <div class="app-topbar"><button class="icon-btn" onclick="appGoTo('es-home')">←</button><h3>Buscar por Código CAR</h3></div>
+              <!-- WIZARD TELA 1: INTRODUÇÃO -->
+              <div class="screen" id="screen-es-wiz-1">
+                <div class="app-topbar">
+                  <h3>Novo Endereço</h3>
+                  <button class="wiz-later-btn" onclick="exitWizardLater()">Fazer depois</button>
+                </div>
+                <div class="wiz-progress-track"><div class="wiz-progress-fill" style="width:18%;"></div></div>
                 <div class="screen-pad">
+                  <div style="margin:auto 0; text-align:center; padding:8px 4px;">
+                    <div style="width:76px; height:76px; border-radius:22px; background:var(--rr-green-light); color:var(--rr-green); margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:36px;">🏡</div>
+                    <h2 style="font-size:19px; font-weight:800; color:var(--rr-green-dark); margin-bottom:10px; line-height:1.25;">
+                      Vamos pegar seu endereço!
+                    </h2>
+                    <p style="font-size:13.5px; color:#314037; line-height:1.55; margin-bottom:16px;">
+                      Para retirar seu Endereço Rural Digital, você precisará <strong>estar dentro da sua propriedade</strong> e tirar uma <strong>foto da porteira</strong>.
+                    </p>
+                    <div class="card" style="text-align:left; background:#f8fbf9; font-size:12px; color:#374151; line-height:1.5;">
+                      <div>✓ Esteja fisicamente na sua propriedade</div>
+                      <div>✓ Tenha o código CAR em mãos ou use o GPS</div>
+                      <div>✓ Fotografe a porteira principal de entrada</div>
+                    </div>
+                  </div>
+                  <div class="wiz-footer">
+                    <button class="btn btn-outline" onclick="appGoTo('es-home')">← Voltar</button>
+                    <button class="btn btn-primary" onclick="appGoTo('es-busca-car')">Avançar →</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- WIZARD TELA 2: BUSCAR CAR -->
+              <div class="screen" id="screen-es-busca-car">
+                <div class="app-topbar">
+                  <h3>Código CAR</h3>
+                  <button class="wiz-later-btn" onclick="exitWizardLater()">Fazer depois</button>
+                </div>
+                <div class="wiz-progress-track"><div class="wiz-progress-fill" style="width:36%;"></div></div>
+                <div class="screen-pad">
+                  <h2 style="font-size:17px; font-weight:800; color:var(--rr-text); margin-bottom:14px;">Digite seu código CAR</h2>
+
                   <div class="form-group">
                     <label class="form-label">Código CAR da propriedade *</label>
-                    <input type="text" class="form-input" id="cCarInput1" placeholder="ES-3201902-..." style="font-family:'JetBrains Mono', monospace; font-size:12px;">
+                    <input type="text" class="form-input" id="cCarInput" placeholder="ES-3201902-XXXXXXXXXXXXXXXXXXXX" style="font-family:'JetBrains Mono', monospace; font-size:12px;">
                     <div class="chip-row">
-                      <button type="button" class="mini-chip" onclick="fillCar('cCarInput1','ES-3201902-7F2A91B4C8E04D12','Domingos Martins')">CAR Exemplo 1</button>
-                      <button type="button" class="mini-chip" onclick="fillCar('cCarInput1','ES-3205002-3C8B12E9A4F10D55','Santa Teresa')">CAR Exemplo 2</button>
+                      <button type="button" class="mini-chip" onclick="fillCar('cCarInput','ES-3201902-7F2A91B4C8E04D12','Domingos Martins','18,4 hectares')">CAR Exemplo 1</button>
+                      <button type="button" class="mini-chip" onclick="fillCar('cCarInput','ES-3205002-3C8B12E9A4F10D55','Santa Teresa','24,1 hectares')">CAR Exemplo 2</button>
                     </div>
                   </div>
-                  <button class="btn btn-primary" onclick="cProceedFromCar1()">CONTINUAR PARA FOTO DA PORTEIRA →</button>
+
+                  <div class="divider-text">ou</div>
+
+                  <button class="btn btn-secondary" onclick="openLocateCarIntroPopup()">
+                    📍 Buscar meu CAR baseado na minha localização
+                  </button>
+
+                  <div class="wiz-footer">
+                    <button class="btn btn-outline" onclick="appGoTo('es-wiz-1')">← Voltar</button>
+                    <button class="btn btn-primary" onclick="startVerifyCarManual()">Avançar →</button>
+                  </div>
                 </div>
               </div>
 
-              <!-- FORMA 2 CAR + TRAVA GPS -->
-              <div class="screen" id="screen-es-forma2-car">
-                <div class="app-topbar"><button class="icon-btn" onclick="appGoTo('es-home')">←</button><h3>Registrar Propriedade</h3></div>
+              <!-- WIZARD TELA 3: VERIFICANDO CAR (COM ANIMAÇÃO DE LUPA!) -->
+              <div class="screen" id="screen-es-verificando-car">
+                <div class="app-topbar">
+                  <h3>Verificando CAR</h3>
+                  <button class="wiz-later-btn" onclick="exitWizardLater()">Fazer depois</button>
+                </div>
+                <div class="wiz-progress-track"><div class="wiz-progress-fill" style="width:52%;"></div></div>
+                <div class="screen-pad" style="text-align:center;">
+                  <div id="verifyLoadingBox" style="margin:auto 0;">
+                    <div class="loupe-anim"><span class="loupe-icon">🔍</span></div>
+                    <h3 style="font-size:16.5px; font-weight:800; color:var(--rr-green-dark); margin-bottom:6px;">Verificando CAR...</h3>
+                    <p style="font-size:12.5px; color:var(--rr-muted); line-height:1.45;">Conferindo os limites da propriedade e sua localização atual.</p>
+                  </div>
+
+                  <div id="verifyOutBox" style="display:none; margin:auto 0;">
+                    <div style="width:62px; height:62px; border-radius:50%; background:var(--rr-danger-bg); color:var(--rr-danger); margin:0 auto 12px; display:flex; align-items:center; justify-content:center; font-size:28px;">📍</div>
+                    <h3 style="font-size:15.5px; font-weight:800; color:var(--rr-danger); margin-bottom:10px; line-height:1.35;">
+                      Hmmm, parece que você não está nessa propriedade no momento.
+                    </h3>
+                    <p style="font-size:12.5px; color:#374151; line-height:1.5; margin-bottom:18px;">
+                      Para pegar seu endereço você precisa estar dentro de sua propriedade.
+                    </p>
+                    <button class="btn btn-danger-outline" style="margin-bottom:9px;" onclick="openTicketModal()">
+                      📩 Acha que isso é um erro? Abrir chamado
+                    </button>
+                  </div>
+
+                  <div class="wiz-footer" id="verifyFooter" style="display:none; grid-template-columns:1fr;">
+                    <button class="btn btn-outline" onclick="appGoTo('es-busca-car')">← Voltar e tentar novamente</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- WIZARD TELA 3B: CONFIRMAR CAR ENCONTRADO PELA LOCALIZAÇÃO -->
+              <div class="screen" id="screen-es-confirmar-car">
+                <div class="app-topbar">
+                  <h3>Confirmar CAR</h3>
+                  <button class="wiz-later-btn" onclick="exitWizardLater()">Fazer depois</button>
+                </div>
+                <div class="wiz-progress-track"><div class="wiz-progress-fill" style="width:58%;"></div></div>
                 <div class="screen-pad">
-                  <p style="font-size:12px; color:var(--rr-muted); margin-bottom:12px;">Pesquise o código CAR. Validaremos se sua localização está dentro da propriedade.</p>
-                  <div class="form-group">
-                    <label class="form-label">Pesquisar código CAR *</label>
-                    <input type="text" class="form-input" id="cCarInput2" placeholder="ES-3201902-..." style="font-family:'JetBrains Mono', monospace; font-size:12px;">
-                    <div class="chip-row">
-                      <button type="button" class="mini-chip" onclick="fillCar('cCarInput2','ES-3201902-7F2A91B4C8E04D12','Domingos Martins')">CAR Exemplo 1</button>
-                      <button type="button" class="mini-chip" onclick="fillCar('cCarInput2','ES-3205002-3C8B12E9A4F10D55','Santa Teresa')">CAR Exemplo 2</button>
-                    </div>
+                  <h2 style="font-size:15.5px; font-weight:800; color:var(--rr-text); margin-bottom:10px;">Encontramos esta propriedade na sua localização:</h2>
+
+                  <div class="map-box" style="height:185px; margin-bottom:11px;">
+                    <svg width="100%" height="100%" viewBox="0 0 340 185">
+                      <rect width="340" height="185" fill="#466842"/>
+                      <path d="M0 0 L150 0 L120 105 L0 90 Z" fill="#3b5937"/>
+                      <polygon points="82,26 260,38 242,145 72,134" fill="rgba(56,189,248,0.24)" stroke="#38bdf8" stroke-width="3" stroke-dasharray="6,4"/>
+                      <text x="168" y="88" fill="#e0f2fe" font-size="11" font-weight="800" text-anchor="middle">POLÍGONO DO CAR</text>
+                      <circle cx="165" cy="110" r="10" fill="rgba(34,197,94,0.35)"/>
+                      <circle cx="165" cy="110" r="5.5" fill="#22c55e" stroke="#fff" stroke-width="2"/>
+                    </svg>
+                    <div class="map-overlay-badge">📍 Você está dentro deste polígono</div>
                   </div>
-                  <button class="btn btn-primary" onclick="cValidateForma2()">VALIDAR CAR E LOCALIZAÇÃO</button>
-                  <div id="cForma2Alert" class="alert-box danger" style="display:none; margin-top:14px;">Para registrar sua propriedade e retirar seu endereço, você precisa estar na propriedade.</div>
-                  <div id="cForma2OfflineNote" class="alert-box info" style="display:none; margin-top:12px; font-size:11.5px;"></div>
+
+                  <div class="card" style="margin-bottom:12px; font-size:12.5px; line-height:1.6;">
+                    <div><strong>Código CAR:</strong><div id="foundCarCode" style="font-family:'JetBrains Mono', monospace; font-size:11.5px; color:var(--rr-green-dark); font-weight:700;">ES-3201902-7F2A91B4C8E04D12</div></div>
+                    <div style="margin-top:5px;"><strong>Área da propriedade:</strong> <span id="foundCarArea">18,4 hectares</span></div>
+                    <div><strong>Município:</strong> <span id="foundCarCity">Domingos Martins - ES</span></div>
+                  </div>
+
+                  <div style="display:flex; flex-direction:column; gap:8px; margin-top:auto;">
+                    <button class="btn btn-primary" onclick="appGoTo('es-wiz-photo-intro')">✓ Esse CAR é meu</button>
+                    <button class="btn btn-danger-outline" onclick="notMyPropertyReturn()">✕ Esse CAR não é meu</button>
+                  </div>
                 </div>
               </div>
 
-              <!-- FOTO GEOLOCALIZADA + VISADA + OPEN BUILDINGS + RAIO 50M -->
+              <!-- WIZARD TELA 4: ORIENTAÇÃO PARA FOTO DA PORTEIRA -->
+              <div class="screen" id="screen-es-wiz-photo-intro">
+                <div class="app-topbar">
+                  <h3>Foto da Porteira</h3>
+                  <button class="wiz-later-btn" onclick="exitWizardLater()">Fazer depois</button>
+                </div>
+                <div class="wiz-progress-track"><div class="wiz-progress-fill" style="width:70%;"></div></div>
+                <div class="screen-pad">
+                  <div style="margin:auto 0; text-align:center; padding:8px 4px;">
+                    <div style="width:76px; height:76px; border-radius:22px; background:#fef3c7; color:#b45309; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:36px;">📷</div>
+                    <h2 style="font-size:18px; font-weight:800; color:var(--rr-green-dark); margin-bottom:10px; line-height:1.3;">
+                      Agora vamos fotografar sua porteira
+                    </h2>
+                    <p style="font-size:13.5px; color:#314037; line-height:1.55; margin-bottom:14px;">
+                      Será necessário tirar uma foto nítida da <strong>porteira de entrada</strong> da propriedade.
+                    </p>
+                    <div class="alert-box warn" style="text-align:left; font-size:12px;">
+                      <strong>Atenção:</strong> caso a foto não seja da porteira, seu endereço precisará passar por análise técnica e pode demorar mais para ser gerado.
+                    </div>
+                  </div>
+                  <div class="wiz-footer">
+                    <button class="btn btn-outline" onclick="appGoTo('es-busca-car')">← Voltar</button>
+                    <button class="btn btn-primary" onclick="state.cPhotoTaken=false; appGoTo('es-photo');">Avançar →</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- WIZARD TELA 5: TIRAR FOTO DA PORTEIRA -->
               <div class="screen" id="screen-es-photo">
-                <div class="app-topbar"><button class="icon-btn" onclick="appGoBack()">←</button><h3>Foto da Porteira</h3></div>
+                <div class="app-topbar">
+                  <h3>Tirar Foto</h3>
+                  <button class="wiz-later-btn" onclick="exitWizardLater()">Fazer depois</button>
+                </div>
+                <div class="wiz-progress-track"><div class="wiz-progress-fill" style="width:84%;"></div></div>
                 <div class="screen-pad">
                   <div style="font-size:11.5px; color:var(--rr-muted); margin-bottom:8px;">
                     <strong>CAR:</strong> <span id="cPhotoCarLabel" style="font-family:'JetBrains Mono', monospace;">ES-3201902-7F2A...</span>
                   </div>
-                  <p style="font-size:12px; color:var(--rr-text); line-height:1.4; margin-bottom:10px;">
-                    Tire uma foto nítida da <strong>porteira</strong>. O app registra automaticamente as coordenadas GPS e a direção da câmera.
-                  </p>
                   <div class="camera-box">
                     <div class="camera-frame"></div>
                     <div id="cCamEmpty" style="text-align:center; z-index:2;">
@@ -717,25 +929,32 @@
                         <rect x="92" y="118" width="136" height="8" fill="#92400e"/>
                         <rect x="92" y="134" width="136" height="8" fill="#92400e"/>
                         <rect x="8" y="168" width="265" height="20" rx="4" fill="rgba(0,0,0,0.68)"/>
-                        <text x="14" y="182" fill="#fff" font-size="9" font-family="monospace" id="cPhotoCoordsText">GPS -20.3632, -40.6591 • Visada 245° • 12m</text>
+                        <text x="14" y="182" fill="#fff" font-size="9" font-family="monospace" id="cPhotoCoordsText">GPS -20.3632, -40.6591 • Visada 295° • 14m</text>
                       </svg>
                       <button onclick="cRetakePhoto()" style="position:absolute; top:9px; right:9px; background:rgba(0,0,0,0.65); color:#fff; border:none; border-radius:8px; padding:5px 9px; font-size:11px; cursor:pointer;">↻ Refazer</button>
                     </div>
                   </div>
                   <div id="cRadiusInfo" class="alert-box" style="display:none;"></div>
                   <div id="cNameAfterPhoto" style="display:none; margin-top:4px;">
-                    <div class="form-group">
-                      <label class="form-label">NOME DA PROPRIEDADE *</label>
+                    <div class="form-group" style="margin-bottom:0;">
+                      <label class="form-label">Nome da propriedade *</label>
                       <input type="text" class="form-input" id="cPropNameInput" placeholder="Ex: Sítio Boa Vista">
                     </div>
-                    <button class="btn btn-primary" onclick="cGoToLgpd()">CONFIRMAR E IR PARA O TERMO →</button>
+                  </div>
+                  <div class="wiz-footer">
+                    <button class="btn btn-outline" onclick="appGoTo('es-wiz-photo-intro')">← Voltar</button>
+                    <button class="btn btn-primary" id="btnNextFromPhoto" onclick="cProceedAfterPhoto()" disabled style="opacity:0.5;">Avançar →</button>
                   </div>
                 </div>
               </div>
 
-              <!-- TERMO LGPD CIDADÃO -->
+              <!-- WIZARD TELA 6A: TERMO DE RECEBIMENTO (APENAS QUANDO VALIDADO — COM ENDEREÇO NO TERMO!) -->
               <div class="screen" id="screen-es-lgpd">
-                <div class="app-topbar"><button class="icon-btn" onclick="appGoBack()">←</button><h3>Termo de Recebimento</h3></div>
+                <div class="app-topbar">
+                  <h3>Termo de Recebimento</h3>
+                  <button class="wiz-later-btn" onclick="exitWizardLater()">Fazer depois</button>
+                </div>
+                <div class="wiz-progress-track"><div class="wiz-progress-fill" style="width:100%;"></div></div>
                 <div class="screen-pad">
                   <div class="termo-document" id="cTermoText"></div>
                   <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
@@ -743,12 +962,56 @@
                     <button type="button" class="btn-link" style="font-size:11px; padding:0;" onclick="clearCanvas('cSigCanvas','cSigPh','c')">Limpar</button>
                   </div>
                   <div class="sig-wrapper">
-                    <canvas id="cSigCanvas" class="sig-canvas" width="320" height="120"></canvas>
+                    <canvas id="cSigCanvas" class="sig-canvas" width="320" height="115"></canvas>
                     <div class="sig-placeholder" id="cSigPh">Assine aqui com o dedo ou mouse</div>
                     <div class="sig-line"></div>
                   </div>
+                  <div class="wiz-footer">
+                    <button class="btn btn-outline" onclick="appGoBack()">← Voltar</button>
+                    <button class="btn btn-primary" onclick="cFinishWithSignature()">Assinar e Retirar ✓</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- WIZARD TELA 6B: EM AVALIAÇÃO TÉCNICA (SEM TERMO! ATÉ 2 DIAS ÚTEIS) -->
+              <div class="screen" id="screen-es-wiz-pending">
+                <div class="app-topbar"><h3>Em Avaliação</h3></div>
+                <div class="wiz-progress-track"><div class="wiz-progress-fill" style="width:100%; background:#d97706;"></div></div>
+                <div class="screen-pad" style="text-align:center;">
+                  <div style="margin:auto 0;">
+                    <div style="width:76px; height:76px; border-radius:50%; background:#fef3c7; color:#b45309; margin:0 auto 14px; display:flex; align-items:center; justify-content:center; font-size:36px;">⏳</div>
+                    <h2 style="font-size:18px; font-weight:800; color:#92400e; margin-bottom:10px; line-height:1.3;">
+                      Seu endereço está sendo avaliado por nossos técnicos
+                    </h2>
+                    <p style="font-size:13px; color:#374151; line-height:1.55; margin-bottom:14px;" id="pendingEvalDesc">
+                      Ele chegará em até <strong>2 dias úteis</strong>. Assim que for validado, aparecerá na sua lista de propriedades para você assinar o termo de recebimento e retirar seu endereço.
+                    </p>
+                    <div class="alert-box info" style="text-align:left; font-size:11.5px;">
+                      <strong>Como retirar depois:</strong> quando o técnico aprovar no <em>Painel Escritório</em>, o imóvel ficará pronto em <strong>Minhas Propriedades</strong> para assinatura do termo.
+                    </div>
+                  </div>
                   <div style="margin-top:auto;">
-                    <button class="btn btn-primary" onclick="cFinishRegistration()">✓ ASSINAR E CONCLUIR</button>
+                    <button class="btn btn-primary" onclick="appGoTo('es-home')">IR PARA MINHAS PROPRIEDADES</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- WIZARD TELA 6C: SEM INTERNET E SEM DADOS OFFLINE BAIXADOS -->
+              <div class="screen" id="screen-es-wiz-offline-wait">
+                <div class="app-topbar" style="background:#334155;"><h3>Sem Conexão</h3></div>
+                <div class="wiz-progress-track"><div class="wiz-progress-fill" style="width:100%; background:#64748b;"></div></div>
+                <div class="screen-pad" style="text-align:center;">
+                  <div style="margin:auto 0;">
+                    <div style="width:76px; height:76px; border-radius:50%; background:#e2e8f0; color:#334155; margin:0 auto 14px; display:flex; align-items:center; justify-content:center; font-size:36px;">📡</div>
+                    <h2 style="font-size:17.5px; font-weight:800; color:#1e293b; margin-bottom:10px; line-height:1.3;">
+                      Solicitação salva no aparelho
+                    </h2>
+                    <p style="font-size:13px; color:#374151; line-height:1.58; margin-bottom:16px;">
+                      Parece que você não está conectada à internet. Para recebermos a solicitação é necessário que você encontre um local com internet. A sincronização é automática e seu endereço chega em até <strong>2 dias úteis</strong>.
+                    </p>
+                  </div>
+                  <div style="margin-top:auto;">
+                    <button class="btn btn-primary" onclick="appGoTo('es-home')">IR PARA MINHAS PROPRIEDADES</button>
                   </div>
                 </div>
               </div>
@@ -764,9 +1027,20 @@
                 <div class="screen-pad">
                   <div class="card" style="margin-bottom:10px;">
                     <h4 style="font-size:13px; color:var(--rr-green-dark); margin-bottom:4px;">Funciona sem internet?</h4>
-                    <p style="font-size:12px; color:var(--rr-muted); line-height:1.45;">Sim! Você pode fotografar a porteira e assinar o termo mesmo sem sinal na zona rural. Os dados sincronizam assim que a internet voltar.</p>
+                    <p style="font-size:12px; color:var(--rr-muted); line-height:1.45;">Sim! Você pode fotografar a porteira e solicitar seu endereço mesmo sem sinal na zona rural. Os dados sincronizam automaticamente quando a internet voltar.</p>
                   </div>
                   <button class="btn btn-secondary" onclick="appGoTo('onboarding')">Rever Apresentação</button>
+                </div>
+              </div>
+
+              <!-- TELA: DADOS BAIXADOS (GERENCIAMENTO DE MUNICÍPIOS OFFLINE) -->
+              <div class="screen" id="screen-es-offline-data">
+                <div class="app-topbar"><button class="icon-btn" onclick="appGoTo('es-home')">←</button><h3>Dados Baixados</h3></div>
+                <div class="screen-pad">
+                  <p style="font-size:12px; color:var(--rr-muted); line-height:1.45; margin-bottom:12px;">
+                    Gerencie os municípios salvos no seu aparelho para agilizar o recebimento de endereços sem internet.
+                  </p>
+                  <div id="offlineDataList"></div>
                 </div>
               </div>
 
@@ -903,8 +1177,10 @@
                   <h3 style="font-size:16px; font-weight:800; color:var(--rr-green-dark); margin-bottom:6px;">Endereço Rural Digital Liberado!</h3>
                   <div class="card" style="background:#f3faf6; border-color:#b8dec6; margin:12px 0 16px;">
                     <div style="font-size:11px; font-weight:700; color:var(--rr-muted);" id="rDonePropName">SÍTIO PEDRA AZUL</div>
-                    <div style="font-family:'JetBrains Mono', monospace; font-size:24px; font-weight:800; color:var(--rr-green-dark); margin:6px 0;" id="rDoneErd">586H 8P2+QW</div>
-                    <div style="font-size:11px; color:var(--rr-muted);" id="rDoneOwner">Proprietário</div>
+                    <div style="font-size:10px; font-weight:700; color:var(--rr-green); margin-top:6px;">VERSÃO RECOMENDADA</div>
+                    <div style="font-family:'JetBrains Mono', monospace; font-size:18px; font-weight:800; color:var(--rr-green-dark); margin:3px 0 8px;" id="rDoneErdShort">8P2G+Q5M, Domingos Martins</div>
+                    <div style="font-size:10px; color:var(--rr-muted);">Código completo: <strong style="font-family:'JetBrains Mono', monospace;" id="rDoneErdFull">586H8P2G+Q5M</strong></div>
+                    <div style="font-size:11px; color:var(--rr-muted); margin-top:8px;" id="rDoneOwner">Proprietário</div>
                   </div>
                   <button class="btn btn-rep" onclick="appGoTo('rep-home')">VOLTAR PARA O INÍCIO</button>
                 </div>
@@ -915,6 +1191,23 @@
                 <div class="screen-pad" id="rListBody"></div>
               </div>
 
+            </div>
+
+            <!-- DRAWER LATERAL -->
+            <div class="drawer-backdrop" id="drawerBg" onclick="if(event.target===this) closeDrawer()">
+              <div class="drawer-panel">
+                <div style="background:var(--rr-green); color:#fff; padding:22px 16px 16px;">
+                  <div style="font-size:15px; font-weight:800;" id="drawerUserName">João Carlos da Silva</div>
+                  <div style="font-size:11px; opacity:0.85; margin-top:2px;">Rotas Rurais • Espírito Santo</div>
+                </div>
+                <button class="drawer-item" onclick="closeDrawer(); appGoTo('es-home');">🏡 Início</button>
+                <button class="drawer-item" onclick="closeDrawer(); openOfflineDataScreen();">📦 Dados baixados</button>
+                <button class="drawer-item" onclick="closeDrawer(); openProfileScreen();">👤 Meu Perfil</button>
+                <button class="drawer-item" onclick="closeDrawer(); appGoTo('es-help');">🔍 Ajuda</button>
+                <div style="margin-top:auto; padding:14px;">
+                  <button class="btn btn-danger-outline" onclick="closeDrawer(); doLogout();">🚪 Sair da conta</button>
+                </div>
+              </div>
             </div>
 
             <!-- MODAL & TOAST -->
@@ -931,36 +1224,6 @@
           </div>
         </div>
       </section>
-
-      <!-- RIGHT PANEL: CLEAN QUICK NAVIGATION -->
-      <aside class="panel panel-right">
-        <div class="panel-header"><h2>Navegação Rápida</h2></div>
-        <div class="panel-body">
-          <div class="nav-section-label">Acesso e Perfil</div>
-          <div class="flow-list">
-            <button class="flow-btn active" data-screen="onboarding" onclick="appGoTo('onboarding')"><span class="flow-num">1</span><span class="flow-label">Abertura inicial</span></button>
-            <button class="flow-btn" data-screen="login" onclick="appGoTo('login')"><span class="flow-num">2</span><span class="flow-label">Login unificado<span class="flow-sub">Cidadão ou Representante</span></span></button>
-            <button class="flow-btn" data-screen="es-profile" onclick="openProfileScreen()"><span class="flow-num">👤</span><span class="flow-label">Meu Perfil<span class="flow-sub">Dados pessoais e troca de modo</span></span></button>
-          </div>
-
-          <div class="nav-section-label">Modo Cidadão</div>
-          <div class="flow-list">
-            <button class="flow-btn" data-screen="es-home" onclick="enterCitizenMode()"><span class="flow-num">3</span><span class="flow-label">Home Cidadão</span></button>
-            <button class="flow-btn" data-screen="es-reg" onclick="openRegistrarCidadao()"><span class="flow-num">4</span><span class="flow-label">Registrar Propriedade<span class="flow-sub" id="navRegSub">Forma 1 ou Forma 2</span></span></button>
-            <button class="flow-btn" data-screen="es-photo" onclick="appGoTo('es-photo')"><span class="flow-num">5</span><span class="flow-label">Foto Geolocalizada<span class="flow-sub">Open Buildings, 50m e Offline</span></span></button>
-            <button class="flow-btn" data-screen="es-lgpd" onclick="appGoTo('es-lgpd')"><span class="flow-num">6</span><span class="flow-label">Termo LGPD e Assinatura</span></button>
-          </div>
-
-          <div class="nav-section-label">Modo Representante</div>
-          <div class="flow-list">
-            <button class="flow-btn rep-style" data-screen="rep-home" onclick="enterRepMode()"><span class="flow-num">R1</span><span class="flow-label">Home Representante</span></button>
-            <button class="flow-btn rep-style" data-screen="rep-deliver-car" onclick="enterRepMode(); rStartDelivery();"><span class="flow-num">R2</span><span class="flow-label">Entregar Propriedade<span class="flow-sub">CAR → CPF → SMS → Assinatura</span></span></button>
-            <button class="flow-btn rep-style" data-screen="rep-list" onclick="enterRepMode(); rOpenList('nao_confirmada');"><span class="flow-num">R3</span><span class="flow-label">Não Confirmadas / Filas</span></button>
-          </div>
-
-          <button class="btn-reset" onclick="location.reload()">↺ Reiniciar Simulador</button>
-        </div>
-      </aside>
     </main>
   </div>
 
@@ -1079,14 +1342,15 @@
                   </div>
 
                   <div class="form-group">
-                    <label class="form-label">Mensagem / Dúvida para o morador ou representante</label>
-                    <input type="text" class="form-input" id="valMessageInput" placeholder="Ex: Confirmar se a entrada principal é na estrada ao sul">
+                    <label class="form-label">Mensagem / Motivo (dúvida ou inconsistência)</label>
+                    <input type="text" class="form-input" id="valMessageInput" placeholder="Ex: Foto é uma selfie / não é da porteira / fora da propriedade">
                   </div>
 
                   <div style="display:flex; flex-direction:column; gap:8px;">
                     <button class="btn btn-primary" onclick="officeConfirmCurrent()">✓ CONFIRMAR LOCALIZAÇÃO E LIBERAR ENDEREÇO</button>
                     <button class="btn btn-secondary" style="background:#eef2ff; color:#312e81; border-color:#c7d2fe;" onclick="officeToggleSuggestMode()">📍 SUGERIR NOVA LOCALIZAÇÃO NO MAPA</button>
-                    <button class="btn btn-danger-outline" onclick="officeReturnToRep()">↩ ENCAMINHAR DÚVIDA PARA O REPRESENTANTE</button>
+                    <button class="btn btn-outline" style="color:#92400e; border-color:#fcd34d; background:#fffbeb;" onclick="officeReturnToRep()">↩ ENCAMINHAR DÚVIDA PARA O REPRESENTANTE</button>
+                    <button class="btn btn-danger" onclick="officeMarkInconsistent()">🚫 CLASSIFICAR COMO INCONSISTENTE</button>
                   </div>
                 </div>
               </div>
@@ -1129,32 +1393,39 @@
       }
     };
 
+    // Helper para gerar versão reduzida recomendada a partir do código completo sem espaços (ex: 586GHR64+G5M -> HR64+G5M, Domingos Martins)
+    function formatShortErd(fullErd, city) {
+      const clean = (fullErd || '').replace(/\s+/g, '');
+      const shortCode = clean.length > 4 ? clean.slice(4) : clean;
+      return `${shortCode}, ${city}`;
+    }
+
+    // Tela padrão do cidadão (123.456.789-00) inicia SEM nenhum endereço entregue!
     const dbProperties = [
       {
-        id: 1, name: 'SÍTIO S. JOÃO', erd: '587H P94+QH5', car: 'ES-3201902-4A8F9B2C1D3E',
-        city: 'Domingos Martins', ownerName: 'João Carlos da Silva', ownerCpf: '123.456.789-00',
-        status: 'entregue', origin: 'Cidadão', note: 'Validado automaticamente no raio de 50m', officeMessage: ''
-      },
-      {
-        id: 5, name: 'CHÁCARA DA ANA', erd: '586H 9N1+KM', car: 'ES-3201902-2C3D4E5F6A7B',
+        id: 5, name: 'CHÁCARA DA ANA', erd: '586H9N1G+K5M', car: 'ES-3201902-2C3D4E5F6A7B',
         city: 'Domingos Martins', ownerName: 'Ana Paula Costa', ownerCpf: '444.555.666-77',
-        status: 'entregue', origin: 'Cidadão', note: 'Propriedade pessoal da representante (uso no Modo Cidadão)', officeMessage: ''
+        status: 'entregue', origin: 'Cidadão', note: 'Propriedade pessoal da representante', officeMessage: '',
+        signedAt: '19/11/2026 às 10:42', sigDataUrl: null
       },
       {
-        id: 2, name: 'SÍTIO ESPERANÇA', erd: '586H 9R2+MF', car: 'ES-3201902-8B7C6D5E4F3A',
+        id: 2, name: 'SÍTIO ESPERANÇA', erd: '586H9R2G+M5F', car: 'ES-3201902-8B7C6D5E4F3A',
         city: 'Domingos Martins', ownerName: 'Maria Aparecida Souza', ownerCpf: '222.333.444-55',
-        status: 'aguardando', origin: 'Cidadão', note: 'Foto tirada a 64m da porteira original • Visada 295°', officeMessage: ''
+        status: 'aguardando', origin: 'Cidadão', note: 'Foto tirada a 64m da porteira original • Visada 295°', officeMessage: '',
+        signedAt: '23/11/2026 às 09:15', sigDataUrl: null
       },
       {
-        id: 3, name: 'FAZENDA ALTO SERRA', erd: '587J 4K8+PQ', car: 'ES-3205002-1F2E3D4C5B6A',
+        id: 3, name: 'FAZENDA ALTO SERRA', erd: '587J4K8G+P5Q', car: 'ES-3205002-1F2E3D4C5B6A',
         city: 'Santa Teresa', ownerName: 'Antônio Ferreira', ownerCpf: '333.444.555-66',
-        status: 'aguardando', origin: 'Representante', note: 'Aguardando conferência de via de acesso pelo técnico', officeMessage: ''
+        status: 'aguardando', origin: 'Representante', note: 'Aguardando conferência de via de acesso pelo técnico', officeMessage: '',
+        signedAt: '23/11/2026 às 10:05', sigDataUrl: null
       },
       {
-        id: 4, name: 'CHÁCARA BOA SORTE', erd: '586H 7T1+GH', car: 'ES-3201902-5E4D3C2B1A0F',
+        id: 4, name: 'CHÁCARA BOA SORTE', erd: '586H7T1G+G5H', car: 'ES-3201902-5E4D3C2B1A0F',
         city: 'Domingos Martins', ownerName: 'José Roberto Lima', ownerCpf: '555.666.777-88',
         status: 'nao_confirmada', origin: 'Representante', note: 'Devolvida pelo escritório com dúvida',
-        officeMessage: 'Foto mostra a sede da fazenda. Favor confirmar com o morador a porteira junto à estrada principal.'
+        officeMessage: 'Foto mostra a sede da fazenda. Favor confirmar com o morador a porteira junto à estrada principal.',
+        signedAt: '22/11/2026 às 16:30', sigDataUrl: null
       }
     ];
 
@@ -1165,9 +1436,10 @@
       loginRolePreset: 'cidadao',
       simLoginUf: 'ES',
 
-      proposal: 'forma1',       // 'forma1' | 'forma2'
-      offlineArch: 'opcaoA',    // 'opcaoA' | 'opcaoB'
       isOnline: true,
+      gpsCurrentMuni: 'Domingos Martins', // mesmo do cadastro ('Domingos Martins') ou outro ('Santa Teresa')
+      downloadedMunis: {},                // ex: { 'Domingos Martins': true, 'Santa Teresa': false }
+      startupCheckDone: false,
       atProperty: true,
       openBuildingsHit: false,
       within50m: true,
@@ -1179,7 +1451,10 @@
       cPhotoTaken: false,
       cActiveCar: 'ES-3201902-7F2A91B4C8E04D12',
       cActiveCity: 'Domingos Martins',
+      cActiveArea: '18,4 hectares',
+      cActiveErd: '586GHR64+G5M',
       cPendingName: 'SÍTIO BOA VISTA',
+      cSigningPropId: null, // quando está retirando um imóvel já validado pelo escritório!
       cSigned: false,
       rSigned: false,
       rActiveCar: '',
@@ -1272,7 +1547,11 @@
       }
 
       state.activeAppMode = 'cidadao';
-      if (state.simLoginUf === 'ES') appGoTo('es-home');
+      state.startupCheckDone = false;
+      if (state.simLoginUf === 'ES') {
+        appGoTo('es-home');
+        setTimeout(() => runBackgroundHomeCheck(), 250);
+      }
       else if (state.simLoginUf === 'SP') appGoTo('sp-legacy');
       else appGoTo('unavailable');
     }
@@ -1362,6 +1641,19 @@
     // =========================================================================
     // CONTEXTUAL GUIDE (LEFT PANEL)
     // =========================================================================
+    function buildDevBlock(rules, payload) {
+      const rulesHtml = rules.map(r => `<li class="${r.t || ''}">${r.txt}</li>`).join('');
+      return `
+        <details class="dev-details" open>
+          <summary><span>⚙️ Notas Técnicas & Payload (Devs)</span><span style="font-size:10px; opacity:0.75;">recolher ▾</span></summary>
+          <div class="dev-details-body">
+            <ul class="spec-list" style="margin-top:0;">${rulesHtml}</ul>
+            <div class="code-box">${JSON.stringify(payload, null, 2)}</div>
+          </div>
+        </details>
+      `;
+    }
+
     function renderContextualGuide() {
       const box = document.getElementById('contextualGuide');
       const badge = document.getElementById('leftStepBadge');
@@ -1373,6 +1665,10 @@
           <span class="ctx-badge">Primeiro Acesso</span>
           <div class="ctx-title">Apresentação do Programa</div>
           <p class="ctx-desc">Exibida apenas na primeira abertura do aplicativo. Apresenta em linguagem acessível o benefício do Endereço Rural Digital e os 3 passos de como funciona.</p>
+          ${buildDevBlock([
+            { txt: 'Salvar flag local <code>hasSeenOnboarding = true</code> após clicar em CONTINUAR.' },
+            { txt: 'Revisitável a qualquer momento pelo botão AJUDA na Home.' }
+          ], { local_storage: { hasSeenOnboarding: false }, next_route: '/login' })}
         `;
       } else if (s === 'login' || s === 'register' || s === 'forgot' || s === 'sp-legacy' || s === 'unavailable') {
         badge.textContent = 'ETAPA 2 • LOGIN UNIFICADO';
@@ -1403,6 +1699,20 @@
               <button class="choice-btn ${state.simLoginUf==='MG'?'active danger':''}" onclick="state.simLoginUf='MG'; renderContextualGuide();">MG<small>Fora</small></button>
             </div>
           </div>` : ''}
+
+          ${buildDevBlock([
+            { txt: 'Backend retorna <code>roles: ["cidadao"]</code> ou <code>["cidadao", "representante"]</code> + <code>uf_moradia</code>.' },
+            { txt: 'Se possuir role <code>representante</code>, iniciar direto na Home Representante; senão, rotear por <code>uf_moradia</code>.' },
+            { t: 'warn', txt: 'No cadastro: Moradia via dropdown ou mapa + aceite obrigatório de Privacidade/Termos + opt-ins independentes de e-mail e telefone.' }
+          ], {
+            endpoint: 'POST /api/v1/auth/login',
+            response: {
+              cpf: state.loginRolePreset === 'representante' ? '44455566677' : '12345678900',
+              uf_moradia: state.simLoginUf,
+              roles: state.loginRolePreset === 'representante' ? ['cidadao', 'representante'] : ['cidadao'],
+              initial_module: state.loginRolePreset === 'representante' ? 'REP_HOME' : (state.simLoginUf === 'ES' ? 'ES_HOME' : state.simLoginUf === 'SP' ? 'SP_LEGACY' : 'UNAVAILABLE')
+            }
+          })}
         `;
       } else if (s === 'es-profile') {
         badge.textContent = 'PERFIL DO USUÁRIO';
@@ -1410,74 +1720,93 @@
           <span class="ctx-badge ${state.currentUser.isRep?'rep':''}">Página de Perfil</span>
           <div class="ctx-title">Informações Pessoais e Troca de Modo</div>
           <p class="ctx-desc">Ao tocar no ícone de perfil (👤) no topo da Home, o usuário visualiza seus dados cadastrais (em vez de sair do app).</p>
-          <ul class="spec-list">
-            <li><strong>Para CPF comum:</strong> exibe os dados pessoais, edição e botão Sair.</li>
-            <li><strong>Para CPF Representante:</strong> exibe o botão de <strong>alternância entre Modo Representante e Modo Cidadão</strong>, permitindo usar o mesmo CPF nas duas funções.</li>
-          </ul>
-          ${!state.currentUser.isRep ? `<button class="btn btn-rep" style="margin-top:12px;" onclick="enterRepMode(); openProfileScreen();">Simular Perfil com CPF de Representante</button>` : ''}
+          ${!state.currentUser.isRep ? `<button class="btn btn-rep" style="margin-bottom:10px;" onclick="enterRepMode(); openProfileScreen();">Simular Perfil com CPF de Representante</button>` : ''}
+          ${buildDevBlock([
+            { txt: 'Exibir card de alternância de modo somente se o token do usuário incluir a role <code>representante</code>.' },
+            { txt: 'Alternar entre <code>active_mode: "representante"</code> e <code>"cidadao"</code> sem exigir novo login.' }
+          ], {
+            user_cpf: state.currentUser.cpf,
+            is_representante: state.currentUser.isRep,
+            active_mode: state.activeAppMode,
+            can_switch_mode: state.currentUser.isRep
+          })}
         `;
-      } else if (s === 'es-home' || s === 'es-manual-car' || s === 'es-forma2-car' || s === 'es-detail' || s === 'es-help') {
-        badge.textContent = 'MODO CIDADÃO • REGISTRO';
+      } else if (s === 'es-home' || s === 'es-wiz-1' || s === 'es-busca-car' || s === 'es-verificando-car' || s === 'es-confirmar-car' || s === 'es-wiz-photo-intro' || s === 'es-wiz-pending' || s === 'es-wiz-offline-wait' || s === 'es-detail' || s === 'es-help') {
+        badge.textContent = 'MODO CIDADÃO • RECEBER ENDEREÇO';
+        const isSameMuni = state.gpsCurrentMuni === state.currentUser.city;
+        const isDownloaded = !!state.downloadedMunis[state.gpsCurrentMuni];
         box.innerHTML = `
-          <span class="ctx-badge">Propostas para Coordenação</span>
-          <div class="ctx-title">Home ES e Registro de Propriedade</div>
-          <p class="ctx-desc">Alterne as propostas abaixo e clique em <strong>REGISTRAR PROPRIEDADE</strong> no celular:</p>
-
-          <div class="ctx-box decision">
-            <div class="ctx-box-title">Proposta de Registro • Escolha 1</div>
-            <div class="choice-grid">
-              <button class="choice-btn ${state.proposal==='forma1'?'active':''}" onclick="setProposal('forma1')">FORMA 1<small>Não exige estar no CAR</small></button>
-              <button class="choice-btn ${state.proposal==='forma2'?'active':''}" onclick="setProposal('forma2')">FORMA 2<small>Exige GPS no CAR</small></button>
-            </div>
-            <div class="ctx-explain">
-              ${state.proposal === 'forma1'
-                ? '<strong>Forma 1:</strong> permite escolher entre localização atual ou busca pelo CAR, sem exigir estar na propriedade.'
-                : '<strong>Forma 2:</strong> pesquisa o CAR e o GPS precisa estar dentro daquele CAR.'}
-            </div>
-          </div>
-
-          ${state.proposal === 'forma2' ? `
-          <div class="ctx-box warn">
-            <div class="ctx-box-title">Simulação de GPS (Forma 2)</div>
-            <div class="choice-grid">
-              <button class="choice-btn ${state.atProperty?'active':''}" onclick="state.atProperty=true; renderContextualGuide();">✓ Dentro do CAR</button>
-              <button class="choice-btn ${!state.atProperty?'active danger':''}" onclick="state.atProperty=false; renderContextualGuide();">✕ Fora do CAR</button>
-            </div>
-          </div>` : ''}
+          <span class="ctx-badge">Verificação de Município + Modo Offline Híbrido</span>
+          <div class="ctx-title">Receber Endereço & Dados Offline</div>
+          <p class="ctx-desc">Ao abrir a Home, o app verifica em segundo plano se o cidadão está no <strong>mesmo município do cadastro</strong> (${state.currentUser.city}) e se os <strong>dados offline</strong> daquela cidade já foram baixados:</p>
 
           <div class="ctx-box offline">
-            <div class="ctx-box-title">Proposta Sem Internet • Escolha 1</div>
+            <div class="ctx-box-title">1. Verificação de Município e Download Offline</div>
             <div class="choice-grid">
-              <button class="choice-btn ${state.offlineArch==='opcaoA'?'active purple':''}" onclick="setOfflineArch('opcaoA')">OPÇÃO A<small>Fila de sincronização</small></button>
-              <button class="choice-btn ${state.offlineArch==='opcaoB'?'active purple':''}" onclick="setOfflineArch('opcaoB')">OPÇÃO B<small>Pacote do município</small></button>
+              <button class="choice-btn ${isSameMuni?'active purple':''}" onclick="setGpsMuni('${state.currentUser.city}')">📍 Mesmo município<small>${state.currentUser.city}</small></button>
+              <button class="choice-btn ${!isSameMuni?'active purple':''}" onclick="setGpsMuni('Santa Teresa')">🗺️ Outro município<small>Santa Teresa</small></button>
+            </div>
+            <div class="choice-grid">
+              <button class="choice-btn ${!isDownloaded?'active amber':''}" onclick="setMuniDownloaded(false)">☁️ Dados não baixados<small>Oferece download Wi-Fi</small></button>
+              <button class="choice-btn ${isDownloaded?'active':''}" onclick="setMuniDownloaded(true)">📦 Dados baixados ✓<small>Validação offline ativa</small></button>
+            </div>
+            <button class="btn btn-secondary" style="padding:8px; font-size:12px; margin-bottom:8px;" onclick="runBackgroundHomeCheck(true)">▶ Testar verificação de abertura da Home agora</button>
+            <div class="ctx-explain">
+              ${isSameMuni
+                ? (isDownloaded ? '<strong>Mesmo município + baixado:</strong> abre a Home direto, sem pop-up.' : '<strong>Mesmo município + não baixado:</strong> pergunta se deseja baixar os dados (recomendando Wi-Fi). O usuário pode recusar.')
+                : '<strong>Outro município (Santa Teresa):</strong> pergunta se possui propriedade em Santa Teresa. Se SIM → baixa (ou já vai para Receber Endereço). Se NÃO → mostra Home e repete o aviso se clicar em Receber Endereço.'}
             </div>
           </div>
+
+          <div class="ctx-box warn">
+            <div class="ctx-box-title">2. Simular GPS e Internet no Campo</div>
+            <div class="choice-grid">
+              <button class="choice-btn ${state.atProperty?'active':''}" onclick="state.atProperty=true; renderContextualGuide();">✓ Dentro do CAR</button>
+              <button class="choice-btn ${!state.atProperty?'active danger':''}" onclick="state.atProperty=false; renderContextualGuide();">✕ Fora do CAR<small>Bloqueio + Chamado</small></button>
+            </div>
+            <div class="choice-grid" style="margin-bottom:0;">
+              <button class="choice-btn ${state.isOnline?'active':''}" onclick="setOnlineMode(true)">📶 Com Internet</button>
+              <button class="choice-btn ${!state.isOnline?'active purple':''}" onclick="setOnlineMode(false)">📡 Sem Internet</button>
+            </div>
+          </div>
+
+          ${buildDevBlock([
+            { txt: 'Ao abrir Home: checar <code>gps_muni == user.city</code> e <code>offline_packs[gps_muni]</code> em segundo plano.' },
+            { t: 'warn', txt: 'Se sem internet e SEM pacote baixado: exibe tela final "Parece que você não está conectada à internet..." e salva para sincronização automática.' },
+            { t: 'critical', txt: 'Ao sincronizar: se cumprir todos os critérios → valida automaticamente; senão → fila do Escritório (onde o técnico pode inclusive classificar como INCONSISTENTE).' }
+          ], {
+            user_city: state.currentUser.city,
+            gps_current_muni: state.gpsCurrentMuni,
+            muni_data_downloaded: isDownloaded,
+            is_online: state.isOnline,
+            gps_inside_car: state.atProperty
+          })}
         `;
       } else if (s === 'es-photo') {
         badge.textContent = 'VALIDAÇÃO AUTOMÁTICA';
+        const isDownloaded = !!state.downloadedMunis[state.gpsCurrentMuni];
         box.innerHTML = `
           <span class="ctx-badge">Foto Geolocalizada + Visada</span>
-          <div class="ctx-title">Validação por Raio de 50m e Open Buildings</div>
-          <p class="ctx-desc">O cidadão fotografa a porteira (registrando coordenadas GPS e direção da câmera). Configure os cenários abaixo e toque na câmera:</p>
+          <div class="ctx-title">Validação por Raio de 50m, Open Buildings e Offline</div>
+          <p class="ctx-desc">Configure os cenários abaixo e toque no botão da câmera no celular:</p>
 
           <div class="ctx-box offline">
-            <div class="ctx-box-title">1. Internet no Campo</div>
+            <div class="ctx-box-title">1. Internet e Dados Offline (${state.gpsCurrentMuni})</div>
             <div class="choice-grid">
               <button class="choice-btn ${state.isOnline?'active':''}" onclick="setOnlineMode(true)">📶 Com Internet</button>
               <button class="choice-btn ${!state.isOnline?'active purple':''}" onclick="setOnlineMode(false)">📡 Sem Internet</button>
             </div>
-            ${!state.isOnline ? `
-            <div class="choice-grid" style="margin-top:6px;">
-              <button class="choice-btn ${state.offlineArch==='opcaoA'?'active purple':''}" onclick="setOfflineArch('opcaoA')">Opção A<small>Sincroniza depois</small></button>
-              <button class="choice-btn ${state.offlineArch==='opcaoB'?'active purple':''}" onclick="setOfflineArch('opcaoB')">Opção B<small>Pacote local</small></button>
-            </div>` : ''}
+            <div class="choice-grid" style="margin-bottom:0;">
+              <button class="choice-btn ${!isDownloaded?'active amber':''}" onclick="setMuniDownloaded(false)">☁️ Sem pacote offline</button>
+              <button class="choice-btn ${isDownloaded?'active':''}" onclick="setMuniDownloaded(true)">📦 Com pacote offline ✓</button>
+            </div>
           </div>
 
           <div class="ctx-box warn">
             <div class="ctx-box-title">2. Análise Open Buildings</div>
             <div class="choice-grid">
               <button class="choice-btn ${!state.openBuildingsHit?'active':''}" onclick="setOpenBuildings(false)">✓ Na Porteira</button>
-              <button class="choice-btn ${state.openBuildingsHit?'active amber':''}" onclick="setOpenBuildings(true)">⚠ Sobre Casa<small>Dispara Pop-up</small></button>
+              <button class="choice-btn ${state.openBuildingsHit?'active amber':''}" onclick="setOpenBuildings(true)">⚠ Sobre Casa<small>Sempre vai p/ fila</small></button>
             </div>
           </div>
 
@@ -1488,6 +1817,17 @@
               <button class="choice-btn ${!state.within50m?'active danger':''}" onclick="setWithin50m(false)">⏳ Raio > 50m<small>Fila até 2 dias úteis</small></button>
             </div>
           </div>
+
+          ${buildDevBlock([
+            { txt: 'Capturar no clique: <code>lat</code>, <code>lon</code>, <code>accuracy_m</code> e <code>azimuth_deg</code>.' },
+            { t: 'critical', txt: 'SEMPRE que sobrepor Open Buildings → pop-up obrigatório e envia para fila do Escritório (sem termo agora).' },
+            { t: 'warn', txt: 'Sem internet + SEM pacote offline → exibe tela de sincronização automática ao voltar sinal.' }
+          ], {
+            is_online: state.isOnline,
+            muni_pack_downloaded: isDownloaded,
+            overlaps_open_buildings: state.openBuildingsHit,
+            within_50m: state.within50m
+          })}
         `;
       } else if (s === 'es-lgpd') {
         badge.textContent = 'TERMO LGPD';
@@ -1495,6 +1835,17 @@
           <span class="ctx-badge">Assinatura Digital</span>
           <div class="ctx-title">Termo de Recebimento</div>
           <p class="ctx-desc">Declaração preenchida automaticamente com Nome, CPF e CAR do produtor, exigindo assinatura digital na tela.</p>
+          ${buildDevBlock([
+            { t: 'critical', txt: 'Salvar imagem da assinatura (PNG/SVG), timestamp UTC, hash do termo e metadados do dispositivo para auditoria LGPD.' }
+          ], {
+            endpoint: 'POST /api/v1/es/deliveries/sign',
+            body: {
+              signer_cpf: state.currentUser.cpf,
+              cod_car: state.cActiveCar,
+              signature_captured: state.cSigned,
+              termo_version: 'v1.0-ES'
+            }
+          })}
         `;
       } else if (s.startsWith('rep-')) {
         badge.textContent = 'MODO REPRESENTANTE';
@@ -1510,6 +1861,14 @@
               <strong>Código SMS simulado:</strong> <code>482910</code>
             </div>
           </div>
+          ${buildDevBlock([
+            { t: 'critical', txt: 'API NUNCA deve retornar o campo <code>erd_plus_code</code> ao representante antes de validar o token SMS + assinatura do morador.' },
+            { t: 'warn', txt: 'Constraint única no banco: 1 número de telefone por CPF (evitar que representante use próprio celular para vários moradores).' },
+            { txt: 'Cadastro criado pelo representante gera conta válida também no Modo Cidadão.' }
+          ], {
+            endpoint: 'POST /api/v1/rep/deliveries/confirm-sms',
+            rules: { unique_phone_per_cpf: true, hide_erd_until_signed: true, sms_otp_required: true }
+          })}
         `;
       }
     }
@@ -1517,38 +1876,240 @@
     // =========================================================================
     // CONTROLS & CITIZEN ACTIONS
     // =========================================================================
-    function setProposal(mode) {
-      state.proposal = mode;
-      document.getElementById('navRegSub').textContent = mode === 'forma1' ? 'Forma 1 selecionada' : 'Forma 2 selecionada';
-      renderContextualGuide();
-      appToast('Proposta: ' + mode.toUpperCase());
+    function isCurrentMuniDownloaded() {
+      return !!state.downloadedMunis[state.gpsCurrentMuni];
     }
-    function setOfflineArch(arch) {
-      state.offlineArch = arch;
-      document.getElementById('offlinePackStatus').style.display = (arch === 'opcaoB') ? 'block' : 'none';
+
+    function setGpsMuni(muni) {
+      state.gpsCurrentMuni = muni;
+      state.cActiveCity = muni;
+      renderCitizenProperties();
       renderContextualGuide();
       if (state.screen === 'es-photo' && state.cPhotoTaken) renderCitizenPhotoScreen();
     }
+
+    function setMuniDownloaded(val) {
+      state.downloadedMunis[state.gpsCurrentMuni] = val;
+      renderCitizenProperties();
+      renderContextualGuide();
+      if (state.screen === 'es-photo' && state.cPhotoTaken) renderCitizenPhotoScreen();
+    }
+
     function setOnlineMode(online) {
       state.isOnline = online;
       document.getElementById('androidStatus').classList.toggle('offline', !online);
       document.getElementById('signalLabel').textContent = online ? '4G' : 'Sem sinal';
-      document.getElementById('offlineBanner').classList.toggle('show', !online);
       document.getElementById('statusDot').style.background = online ? '#22c55e' : '#f59e0b';
-      document.getElementById('offlineBannerText').textContent = state.offlineArch === 'opcaoB'
-        ? '📡 Sem internet • Pacote local ativo' : '📡 Sem internet • Fila de sincronização';
       renderContextualGuide();
       if (state.screen === 'es-photo' && state.cPhotoTaken) renderCitizenPhotoScreen();
     }
+
+    function openDrawer() {
+      document.getElementById('drawerUserName').textContent = state.currentUser.name;
+      document.getElementById('drawerBg').classList.add('open');
+    }
+    function closeDrawer() {
+      document.getElementById('drawerBg').classList.remove('open');
+    }
+
+    function openOfflineDataScreen() {
+      renderOfflineDataScreen();
+      appGoTo('es-offline-data');
+    }
+
+    function renderOfflineDataScreen() {
+      const downloaded = Object.keys(state.downloadedMunis).filter(k => state.downloadedMunis[k]);
+      const listEl = document.getElementById('offlineDataList');
+      if (!downloaded.length) {
+        listEl.innerHTML = `
+          <div class="card" style="text-align:center; padding:22px 14px; color:var(--rr-muted); font-size:12.5px;">
+            Nenhum município baixado no aparelho.<br><br>
+            <button class="btn btn-primary" onclick="downloadMuniDataNow('${state.gpsCurrentMuni}', false)">📥 Baixar dados de ${state.gpsCurrentMuni}</button>
+          </div>
+        `;
+        return;
+      }
+      listEl.innerHTML = downloaded.map(m => `
+        <div class="card" style="margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div>
+              <div style="font-size:13.5px; font-weight:800;">${m} - ES</div>
+              <div style="font-size:11px; color:var(--rr-muted);">6,4 MB • Atualizado hoje</div>
+            </div>
+            <span class="status-chip ok">Baixado</span>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <button class="btn btn-secondary" style="padding:8px; font-size:12px;" onclick="downloadMuniDataNow('${m}', false)">↻ Atualizar</button>
+            <button class="btn btn-danger-outline" style="padding:8px; font-size:12px;" onclick="deleteMuniData('${m}')">🗑️ Excluir</button>
+          </div>
+        </div>
+      `).join('') + `
+        <button class="btn btn-outline" style="margin-top:6px; font-size:12.5px;" onclick="downloadMuniDataNow('${state.gpsCurrentMuni === 'Domingos Martins' ? 'Santa Teresa' : 'Domingos Martins'}', false)">
+          ＋ Baixar outro município
+        </button>
+      `;
+    }
+
+    function deleteMuniData(muniName) {
+      delete state.downloadedMunis[muniName];
+      renderOfflineDataScreen();
+      renderCitizenProperties();
+      renderContextualGuide();
+      appToast(`Dados de ${muniName} excluídos`);
+    }
+
     function setOpenBuildings(hit) {
       state.openBuildingsHit = hit;
       renderContextualGuide();
-      if (state.screen === 'es-photo' && state.cPhotoTaken && hit && (state.isOnline || state.offlineArch === 'opcaoB')) openOpenBuildingsPopup();
+      if (state.screen === 'es-photo' && state.cPhotoTaken && hit && (state.isOnline || isCurrentMuniDownloaded())) openOpenBuildingsPopup();
     }
+
     function setWithin50m(ok) {
       state.within50m = ok;
       renderContextualGuide();
       if (state.screen === 'es-photo' && state.cPhotoTaken) renderCitizenPhotoScreen();
+    }
+
+    // =========================================================================
+    // VERIFICAÇÃO EM SEGUNDO PLANO AO ABRIR A HOME (5 CENÁRIOS EXATOS!)
+    // =========================================================================
+    function runBackgroundHomeCheck(force = false) {
+      if (!force && state.startupCheckDone) return;
+      state.startupCheckDone = true;
+
+      const userCity = state.currentUser.city;
+      const gpsCity = state.gpsCurrentMuni;
+      const sameMuni = (gpsCity === userCity);
+      const downloaded = !!state.downloadedMunis[gpsCity];
+
+      if (sameMuni && downloaded) {
+        // Cenário 1: mesmo município + dados baixados -> nada a fazer!
+        if (force) appToast(`✓ Você está em ${gpsCity} e os dados já estão baixados`);
+        return;
+      }
+
+      if (sameMuni && !downloaded) {
+        // Cenário 2: mesmo município + dados NÃO baixados -> oferecer download (Wi-Fi recomendado)
+        openDownloadMuniPopup(gpsCity, false);
+        return;
+      }
+
+      // Cenários 3, 4 e 5: NÃO está no mesmo município do cadastro!
+      openDifferentMuniPopup(gpsCity);
+    }
+
+    function openDifferentMuniPopup(gpsCity) {
+      state.modalLocked = false;
+      document.getElementById('modalBg').classList.add('center');
+      document.getElementById('modalContent').innerHTML = `
+        <div style="text-align:center;">
+          <div style="font-size:34px; margin-bottom:8px;">🗺️</div>
+          <h3 style="font-size:15px; font-weight:800; color:var(--rr-green-dark); margin-bottom:8px;">Você está em outro município</h3>
+          <p style="font-size:12.5px; color:#374151; line-height:1.5; margin-bottom:16px;">
+            Parece que você não está na mesma cidade que a do seu cadastro. Você possui alguma propriedade no município de <strong>${gpsCity}</strong>?
+          </p>
+          <button class="btn btn-primary" style="margin-bottom:8px;" onclick="answerHasPropertyInOtherMuni(true, '${gpsCity}')">Sim, possuo propriedade em ${gpsCity}</button>
+          <button class="btn btn-outline" onclick="answerHasPropertyInOtherMuni(false, '${gpsCity}')">Não</button>
+        </div>
+      `;
+      document.getElementById('modalBg').classList.add('open');
+    }
+
+    function answerHasPropertyInOtherMuni(hasProp, gpsCity) {
+      closeModal();
+      if (!hasProp) {
+        // Cenário 5: disse NÃO -> fica na página inicial (e se clicar em Receber Endereço fora do município, aparece novamente!)
+        appGoTo('es-home');
+        return;
+      }
+      state.cActiveCity = gpsCity;
+      if (state.downloadedMunis[gpsCity]) {
+        // Cenário 3: disse SIM e dados JÁ baixados -> redireciona direto para entrega de endereço!
+        openReceberEnderecoWizard();
+      } else {
+        // Cenário 4: disse SIM e dados NÃO baixados -> pergunta se quer baixar antes de ir para entrega!
+        openDownloadMuniPopup(gpsCity, true);
+      }
+    }
+
+    function openDownloadMuniPopup(muniName, goToWizardAfter) {
+      state.modalLocked = false;
+      document.getElementById('modalBg').classList.add('center');
+      document.getElementById('modalContent').innerHTML = `
+        <div style="text-align:center;">
+          <div style="font-size:34px; margin-bottom:8px;">📥</div>
+          <h3 style="font-size:15px; font-weight:800; color:var(--rr-green-dark); margin-bottom:8px;">Baixar dados de ${muniName}?</h3>
+          <p style="font-size:12.5px; color:#374151; line-height:1.5; margin-bottom:10px;">
+            Gostaria de baixar os dados do município de <strong>${muniName}</strong> para agilizar a retirada do endereço caso você não tenha sinal de internet estável?
+          </p>
+          <div class="alert-box info" style="text-align:left; font-size:11.5px; margin-bottom:14px;">
+            📶 <strong>Recomendação:</strong> esteja conectado ao <strong>Wi-Fi</strong> para realizar o download da área (aprox. 6,4 MB).
+          </div>
+          <button class="btn btn-primary" style="margin-bottom:8px;" onclick="downloadMuniDataNow('${muniName}', ${goToWizardAfter})">📥 Baixar dados do município</button>
+          <button class="btn btn-outline" onclick="skipMuniDownload(${goToWizardAfter})">Agora não (continuar sem baixar)</button>
+        </div>
+      `;
+      document.getElementById('modalBg').classList.add('open');
+    }
+
+    function downloadMuniDataNow(muniName, goToWizardAfter) {
+      state.modalLocked = true;
+      document.getElementById('modalBg').classList.add('center');
+      document.getElementById('modalContent').innerHTML = `
+        <div style="text-align:center; padding:8px 0;">
+          <div style="font-size:34px; margin-bottom:8px;">⏳</div>
+          <h3 style="font-size:15.5px; font-weight:800; color:var(--rr-green-dark); margin-bottom:6px;">Baixando dados</h3>
+          <p style="font-size:12.5px; color:#374151; line-height:1.45;">
+            Baixando dados de <strong>${muniName}</strong>. Isso pode demorar alguns minutos.
+          </p>
+          <div class="dl-bar-track"><div class="dl-bar-fill" id="dlBarFill"></div></div>
+          <div style="font-size:11px; color:var(--rr-muted);" id="dlPctLabel">0%</div>
+        </div>
+      `;
+      document.getElementById('modalBg').classList.add('open');
+
+      setTimeout(() => { const b = document.getElementById('dlBarFill'); if (b) b.style.width = '45%'; const l = document.getElementById('dlPctLabel'); if (l) l.textContent = '45%'; }, 300);
+      setTimeout(() => { const b = document.getElementById('dlBarFill'); if (b) b.style.width = '88%'; const l = document.getElementById('dlPctLabel'); if (l) l.textContent = '88%'; }, 750);
+      setTimeout(() => {
+        state.downloadedMunis[muniName] = true;
+        renderCitizenProperties();
+        renderContextualGuide();
+        if (state.screen === 'es-offline-data') renderOfflineDataScreen();
+        document.getElementById('modalContent').innerHTML = `
+          <div style="text-align:center; padding:8px 0;">
+            <div style="width:56px; height:56px; border-radius:50%; background:#dcfce7; color:#166534; margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:28px;">✓</div>
+            <h3 style="font-size:16px; font-weight:800; color:var(--rr-green-dark); margin-bottom:6px;">Dados baixados</h3>
+            <p style="font-size:12.5px; color:#374151; margin-bottom:16px;">Os dados do município de <strong>${muniName}</strong> foram baixados com sucesso.</p>
+            <button class="btn btn-primary" onclick="finishDownloadOk(${goToWizardAfter})">OK</button>
+          </div>
+        `;
+      }, 1250);
+    }
+
+    function finishDownloadOk(goToWizardAfter) {
+      closeModal();
+      if (goToWizardAfter) openReceberEnderecoWizard();
+    }
+
+    function skipMuniDownload(goToWizardAfter) {
+      closeModal();
+      appToast('Você pode baixar os dados offline em outro momento');
+      if (goToWizardAfter) openReceberEnderecoWizard();
+    }
+
+    function handleReceberEnderecoClick() {
+      // Se estiver fora do município de cadastro, o mesmo pop-up de outro município deve aparecer!
+      if (state.gpsCurrentMuni !== state.currentUser.city) {
+        openDifferentMuniPopup(state.gpsCurrentMuni);
+        return;
+      }
+      openReceberEnderecoWizard();
+    }
+
+    function openReceberEnderecoWizard() {
+      state.activeAppMode = 'cidadao';
+      state.cSigningPropId = null;
+      appGoTo('es-wiz-1');
     }
 
     function populateCities(stateId, cityId) {
@@ -1592,46 +2153,128 @@
       if (uf === 'ES') appGoTo('es-home'); else if (uf === 'SP') appGoTo('sp-legacy'); else appGoTo('unavailable');
     }
 
-    function openRegistrarCidadao() {
-      state.activeAppMode = 'cidadao';
-      if (state.proposal === 'forma1') {
-        state.modalLocked = false;
-        document.getElementById('modalBg').classList.remove('center');
-        document.getElementById('modalContent').innerHTML = `
-          <h3 style="font-size:15px; font-weight:800; color:var(--rr-green-dark); margin-bottom:4px;">Registrar Propriedade</h3>
-          <p style="font-size:12px; color:var(--rr-muted); margin-bottom:12px;">Escolha como localizar sua propriedade:</p>
-          <button class="btn btn-primary" style="margin-bottom:9px; justify-content:flex-start;" onclick="closeModal(); state.cActiveCar='ES-3201902-7F2A91B4C8E04D12'; state.cPhotoTaken=false; appGoTo('es-photo');">📍 Pela minha localização</button>
-          <button class="btn btn-secondary" style="margin-bottom:9px; justify-content:flex-start;" onclick="closeModal(); appGoTo('es-manual-car');">🔎 Buscar pelo código CAR</button>
-          <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
-        `;
-        document.getElementById('modalBg').classList.add('open');
-      } else {
-        document.getElementById('cForma2Alert').style.display = 'none';
-        document.getElementById('cForma2OfflineNote').style.display = 'none';
-        appGoTo('es-forma2-car');
-      }
+    function exitWizardLater() {
+      state.cSigningPropId = null;
+      appToast('Você pode receber seu endereço em outro momento');
+      appGoTo('es-home');
     }
 
-    function fillCar(inputId, car, city) { document.getElementById(inputId).value = car; state.cActiveCar = car; state.cActiveCity = city; }
-    function cProceedFromCar1() {
-      const v = document.getElementById('cCarInput1').value.trim();
-      if (v.length < 8) { appToast('Digite o código CAR ou use um exemplo'); return; }
-      state.cActiveCar = v; state.cPhotoTaken = false; appGoTo('es-photo');
+    function fillCar(inputId, car, city, area) {
+      document.getElementById(inputId).value = car;
+      state.cActiveCar = car;
+      state.cActiveCity = city;
+      if (area) state.cActiveArea = area;
     }
-    function cValidateForma2() {
-      const v = document.getElementById('cCarInput2').value.trim();
+
+    function startVerifyCarManual() {
+      const v = document.getElementById('cCarInput').value.trim();
       if (v.length < 8) { appToast('Digite o código CAR ou use um exemplo'); return; }
       state.cActiveCar = v;
-      if (!state.isOnline && state.offlineArch === 'opcaoA') {
-        document.getElementById('cForma2Alert').style.display = 'none';
-        document.getElementById('cForma2OfflineNote').style.display = 'block';
-        document.getElementById('cForma2OfflineNote').innerHTML = '📡 <strong>Sem internet:</strong> o CAR e a localização serão validados ao recuperar sinal.';
-        setTimeout(() => { state.cPhotoTaken = false; appGoTo('es-photo'); }, 800);
-        return;
-      }
-      if (!state.atProperty) { document.getElementById('cForma2Alert').style.display = 'block'; return; }
-      document.getElementById('cForma2Alert').style.display = 'none';
-      state.cPhotoTaken = false; appGoTo('es-photo');
+      runCarVerification('manual');
+    }
+
+    function openLocateCarIntroPopup() {
+      state.modalLocked = false;
+      document.getElementById('modalBg').classList.add('center');
+      document.getElementById('modalContent').innerHTML = `
+        <div style="text-align:center;">
+          <div style="font-size:36px; margin-bottom:8px;">📍</div>
+          <h3 style="font-size:15.5px; font-weight:800; color:var(--rr-green-dark); margin-bottom:8px;">Buscar CAR pela localização</h3>
+          <p style="font-size:12.5px; color:#374151; line-height:1.5; margin-bottom:16px;">
+            Vamos usar o GPS do seu celular para identificar automaticamente o imóvel rural onde você está agora. Para funcionar, você precisa estar dentro da propriedade.
+          </p>
+          <button class="btn btn-primary" style="margin-bottom:8px;" onclick="closeModal(); runCarVerification('gps');">Continuar</button>
+          <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+        </div>
+      `;
+      document.getElementById('modalBg').classList.add('open');
+    }
+
+    function runCarVerification(mode) {
+      appGoTo('es-verificando-car');
+      document.getElementById('verifyLoadingBox').style.display = 'block';
+      document.getElementById('verifyOutBox').style.display = 'none';
+      document.getElementById('verifyFooter').style.display = 'none';
+
+      setTimeout(() => {
+        document.getElementById('verifyLoadingBox').style.display = 'none';
+        // Se sem internet e SEM dados offline baixados, não consegue validar polígono agora -> deixa seguir para foto e valida ao sincronizar!
+        if (!state.isOnline && !isCurrentMuniDownloaded()) {
+          appToast('📡 Sem internet: CAR será conferido ao sincronizar');
+          appGoTo('es-wiz-photo-intro');
+          return;
+        }
+        if (!state.atProperty) {
+          document.getElementById('verifyOutBox').style.display = 'block';
+          document.getElementById('verifyFooter').style.display = 'grid';
+          return;
+        }
+        if (mode === 'gps') {
+          document.getElementById('foundCarCode').textContent = state.cActiveCar;
+          document.getElementById('foundCarArea').textContent = state.cActiveArea;
+          document.getElementById('foundCarCity').textContent = state.cActiveCity + ' - ES';
+          appGoTo('es-confirmar-car');
+        } else {
+          appToast('✓ CAR verificado!');
+          appGoTo('es-wiz-photo-intro');
+        }
+      }, 1150);
+    }
+
+    function openTicketModal() {
+      state.modalLocked = false;
+      document.getElementById('modalBg').classList.add('center');
+      document.getElementById('modalContent').innerHTML = `
+        <h3 style="font-size:15px; font-weight:800; color:var(--rr-green-dark); margin-bottom:6px;">Abrir chamado de erro de localização</h3>
+        <p style="font-size:12px; color:var(--rr-muted); line-height:1.45; margin-bottom:10px;">
+          Sua solicitação será encaminhada para o representante de <strong>${state.cActiveCity}</strong> e também poderá ser acompanhada pelo escritório técnico.
+        </p>
+        <div class="form-group">
+          <label class="form-label">Descreva o ocorrido</label>
+          <input type="text" class="form-input" id="ticketMsgInput" value="Estou dentro da minha propriedade mas o app diz que estou fora do CAR.">
+        </div>
+        <button class="btn btn-primary" style="margin-bottom:8px;" onclick="submitLocationTicket()">Enviar chamado</button>
+        <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+      `;
+      document.getElementById('modalBg').classList.add('open');
+    }
+
+    function submitLocationTicket() {
+      const msg = document.getElementById('ticketMsgInput').value.trim();
+      const u = state.currentUser;
+      dbProperties.unshift({
+        id: Date.now(), name: 'CHAMADO — ' + u.name.toUpperCase(), erd: '586GHR64+G5M', car: state.cActiveCar,
+        city: state.cActiveCity, ownerName: u.name, ownerCpf: u.cpf, status: 'nao_confirmada',
+        origin: 'Chamado Cidadão', note: 'Erro de validação de perímetro CAR: ' + msg,
+        officeMessage: 'Chamado aberto pelo cidadão: ' + msg, signedAt: '23/11/2026', sigDataUrl: null
+      });
+      closeModal();
+      syncAllViews();
+      appToast('Chamado enviado ao representante e escritório!');
+      appGoTo('es-home');
+    }
+
+    function notMyPropertyReturn() {
+      const rep = registeredUsers['444.555.666-77'];
+      appGoTo('es-busca-car');
+      state.modalLocked = false;
+      document.getElementById('modalBg').classList.add('center');
+      document.getElementById('modalContent').innerHTML = `
+        <div style="text-align:center;">
+          <div style="font-size:32px; margin-bottom:6px;">🏛️</div>
+          <h3 style="font-size:15px; font-weight:800; color:var(--rr-green-dark); margin-bottom:8px;">Não lembra seu código CAR?</h3>
+          <p style="font-size:12px; color:#374151; line-height:1.48; margin-bottom:12px;">
+            Caso não lembre seu código CAR, entre em contato com o seu representante municipal:
+          </p>
+          <div class="card" style="text-align:left; background:#f8fbf9; margin-bottom:14px; font-size:12.5px; line-height:1.6;">
+            <div><strong>Nome:</strong> ${rep.name}</div>
+            <div><strong>E-mail:</strong> ${rep.email}</div>
+            <div><strong>Telefone:</strong> ${rep.phone}</div>
+          </div>
+          <button class="btn btn-primary" onclick="closeModal()">Entendi</button>
+        </div>
+      `;
+      document.getElementById('modalBg').classList.add('open');
     }
 
     function openOpenBuildingsPopup() {
@@ -1652,7 +2295,7 @@
     function cCaptureGatePhoto() {
       state.cPhotoTaken = true; state.obConfirmedAnyway = false;
       renderCitizenPhotoScreen();
-      if ((state.isOnline || state.offlineArch === 'opcaoB') && state.openBuildingsHit) openOpenBuildingsPopup();
+      if ((state.isOnline || isCurrentMuniDownloaded()) && state.openBuildingsHit) openOpenBuildingsPopup();
       else appToast('Foto geolocalizada + visada capturadas!');
     }
     function cRetakePhoto() { state.cPhotoTaken = false; state.obConfirmedAnyway = false; renderCitizenPhotoScreen(); }
@@ -1662,86 +2305,185 @@
       document.getElementById('cCamEmpty').style.display = state.cPhotoTaken ? 'none' : 'block';
       document.getElementById('cCamTaken').style.display = state.cPhotoTaken ? 'block' : 'none';
       const rBox = document.getElementById('cRadiusInfo');
-      if (!state.cPhotoTaken) { rBox.style.display = 'none'; document.getElementById('cNameAfterPhoto').style.display = 'none'; return; }
-      rBox.style.display = 'block'; document.getElementById('cNameAfterPhoto').style.display = 'block';
+      const nextBtn = document.getElementById('btnNextFromPhoto');
 
-      if (!state.isOnline && state.offlineArch === 'opcaoA') {
+      if (!state.cPhotoTaken) {
+        rBox.style.display = 'none';
+        document.getElementById('cNameAfterPhoto').style.display = 'none';
+        nextBtn.disabled = true; nextBtn.style.opacity = '0.5';
+        return;
+      }
+
+      rBox.style.display = 'block';
+      document.getElementById('cNameAfterPhoto').style.display = 'block';
+      nextBtn.disabled = false; nextBtn.style.opacity = '1';
+
+      if (!state.isOnline && !isCurrentMuniDownloaded()) {
         rBox.className = 'alert-box info';
-        rBox.innerHTML = '<strong>📡 Foto salva offline com GPS e visada!</strong><br>A validação será executada automaticamente quando a internet voltar.';
+        rBox.innerHTML = '<strong>📡 Sem internet e sem pacote offline</strong><br>A foto foi gravada no aparelho com GPS e visada para sincronização automática.';
         document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3632, -40.6591 • Visada 295° • Offline';
+        return;
+      }
+      if (state.openBuildingsHit) {
+        rBox.className = 'alert-box warn';
+        rBox.innerHTML = '<strong>⏳ Irá para avaliação técnica</strong><br>A foto coincidiu com uma edificação. Nossos técnicos avaliarão em até <strong>2 dias úteis</strong> (sem termo agora).';
+        document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3632, -40.6591 • Alerta Open Buildings';
         return;
       }
       if (state.within50m) {
         rBox.className = 'alert-box success';
-        rBox.innerHTML = '<strong>✓ Porteira validada automaticamente!</strong><br>Foto dentro do raio de 50 metros da porteira do CAR. Seu endereço será liberado após assinar o termo.';
+        rBox.innerHTML = '<strong>✓ Porteira validada na hora!</strong><br>Avance para assinar o termo de recebimento e retirar seu endereço.';
         document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3632, -40.6591 • Visada 295° • 14m';
       } else {
         rBox.className = 'alert-box warn';
-        rBox.innerHTML = '<strong>⏳ Irá para validação técnica</strong><br>A foto ficou fora do raio de 50 metros. Você não receberá o endereço na hora — validação em até <strong>2 dias úteis</strong>.';
+        rBox.innerHTML = '<strong>⏳ Irá para avaliação técnica</strong><br>Foto fora do raio de 50 metros. Nossos técnicos avaliarão em até <strong>2 dias úteis</strong> (sem termo agora).';
         document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3641, -40.6580 • Visada 295° • 68m';
       }
     }
 
-    function cGoToLgpd() {
+    function cProceedAfterPhoto() {
       const name = document.getElementById('cPropNameInput').value.trim();
       if (!name) { appToast('Digite o nome da propriedade'); return; }
       state.cPendingName = name.toUpperCase();
+      state.cSigningPropId = null;
+      const u = state.currentUser;
+
+      // CASO 1: SEM INTERNET E SEM DADOS OFFLINE BAIXADOS -> TELA FINAL DE AGUARDANDO INTERNET!
+      if (!state.isOnline && !isCurrentMuniDownloaded()) {
+        dbProperties.unshift({
+          id: Date.now(), name: state.cPendingName, erd: state.cActiveErd, car: state.cActiveCar,
+          city: state.cActiveCity, ownerName: u.name, ownerCpf: u.cpf, status: 'pendente_sync', origin: 'Cidadão',
+          note: 'Salvo sem internet — aguarda conexão para sincronização automática',
+          officeMessage: '', signedAt: null, sigDataUrl: null
+        });
+        syncAllViews();
+        appGoTo('es-wiz-offline-wait');
+        return;
+      }
+
+      // CASO 2: OPEN BUILDINGS OU > 50M -> VAI PARA AVALIAÇÃO TÉCNICA (SEM TERMO!)
+      const isAutoValid = state.within50m && !state.openBuildingsHit;
+      if (!isAutoValid) {
+        const note = state.openBuildingsHit
+          ? 'Alerta Open Buildings (foto sobre edificação) — até 2 dias úteis'
+          : 'Foto fora do raio de 50m • Visada 295° — até 2 dias úteis';
+        dbProperties.unshift({
+          id: Date.now(), name: state.cPendingName, erd: state.cActiveErd, car: state.cActiveCar,
+          city: state.cActiveCity, ownerName: u.name, ownerCpf: u.cpf, status: 'aguardando', origin: 'Cidadão',
+          note, officeMessage: '', signedAt: null, sigDataUrl: null
+        });
+        syncAllViews();
+        appGoTo('es-wiz-pending');
+        return;
+      }
+
+      // CASO 3: VALIDADO NA HORA -> VAI PARA O TERMO DE RECEBIMENTO (COM ENDEREÇO DA PORTEIRA!)
       appGoTo('es-lgpd');
     }
 
     function renderCitizenLgpd() {
       const u = state.currentUser;
+      let car = state.cActiveCar, erd = state.cActiveErd, city = state.cActiveCity;
+      if (state.cSigningPropId) {
+        const p = dbProperties.find(x => x.id === state.cSigningPropId);
+        if (p) { car = p.car; erd = p.erd; city = p.city; }
+      }
+      const shortErd = formatShortErd(erd, city);
       document.getElementById('cTermoText').innerHTML = `
-        <p>Eu, <strong>${u.name.toUpperCase()}</strong>, inscrito(a) no CPF nº <strong>${u.cpf}</strong>, declaro, sob as penas da lei e ciente das responsabilidades legais decorrentes de declaração falsa, que sou proprietário(a) ou legítimo(a) responsável pelo imóvel rural identificado pelo Cadastro Ambiental Rural (CAR) nº <strong>${state.cActiveCar}</strong>.</p>
-        <p>Declaro, ainda, que recebi o Endereço Rural Digital correspondente ao referido imóvel e que as informações prestadas são verdadeiras, assumindo integral responsabilidade por seu conteúdo.</p>
+        <p>Eu, <strong>${u.name.toUpperCase()}</strong>, inscrito(a) no CPF nº <strong>${u.cpf}</strong>, declaro, sob as penas da lei e ciente das responsabilidades legais decorrentes de declaração falsa, que sou proprietário(a) ou legítimo(a) responsável pelo imóvel rural identificado pelo Cadastro Ambiental Rural (CAR) nº <strong>${car}</strong>.</p>
+        <p>Declaro, ainda, que recebi o Endereço Rural Digital da porteira correspondente ao referido imóvel, <strong>${shortErd}</strong>, e que as informações prestadas são verdadeiras, assumindo integral responsabilidade por seu conteúdo.</p>
       `;
       clearCanvas('cSigCanvas', 'cSigPh', 'c');
     }
 
-    function cFinishRegistration() {
-      if (!state.cSigned) { appToast('Faça sua assinatura digital antes de concluir'); return; }
+    function cFinishWithSignature() {
+      if (!state.cSigned) { appToast('Faça sua assinatura digital antes de retirar'); return; }
       const u = state.currentUser;
-      let status = 'entregue', note = 'Validado automaticamente no raio de 50m';
-      if (!state.isOnline && state.offlineArch === 'opcaoA') { status = 'pendente_sync'; note = 'Salvo sem internet — aguarda sincronização'; }
-      else if (!state.within50m) { status = 'aguardando'; note = 'Foto fora do raio de 50m • Visada 295° — até 2 dias úteis'; }
+      const sigUrl = document.getElementById('cSigCanvas').toDataURL('image/png');
 
+      if (state.cSigningPropId) {
+        // Estava retirando um endereço já validado pelo escritório!
+        const p = dbProperties.find(x => x.id === state.cSigningPropId);
+        if (p) {
+          p.status = 'entregue';
+          p.signedAt = '23/11/2026 às 16:00';
+          p.sigDataUrl = sigUrl;
+          p.note = 'Validado pelo escritório e retirado com assinatura digital';
+        }
+        const openId = state.cSigningPropId;
+        state.cSigningPropId = null;
+        syncAllViews();
+        appToast('Termo assinado! Endereço retirado com sucesso.');
+        cOpenDetail(openId);
+        return;
+      }
+
+      const newId = Date.now();
       dbProperties.unshift({
-        id: Date.now(), name: state.cPendingName, erd: '586H 9Q4+QH', car: state.cActiveCar,
-        city: state.cActiveCity, ownerName: u.name, ownerCpf: u.cpf, status, origin: 'Cidadão', note, officeMessage: ''
+        id: newId, name: state.cPendingName, erd: state.cActiveErd, car: state.cActiveCar,
+        city: state.cActiveCity, ownerName: u.name, ownerCpf: u.cpf, status: 'entregue', origin: 'Cidadão',
+        note: 'Validado automaticamente no raio de 50m', officeMessage: '',
+        signedAt: '23/11/2026 às 16:00', sigDataUrl: sigUrl
       });
       syncAllViews();
-      appToast(status === 'entregue' ? 'Endereço liberado!' : status === 'pendente_sync' ? 'Salvo offline!' : 'Enviado para validação em até 2 dias úteis');
-      appGoTo('es-home');
+      appToast('Termo assinado! Endereço liberado.');
+      cOpenDetail(newId);
     }
 
     function syncOfflineQueueNow() {
       setOnlineMode(true);
       dbProperties.forEach(p => {
         if (p.status === 'pendente_sync') {
-          p.status = state.within50m ? 'entregue' : 'aguardando';
-          p.note = state.within50m ? 'Sincronizado e validado no raio de 50m' : 'Sincronizado — foto fora de 50m enviada ao escritório';
+          const canAutoValidate = state.atProperty && state.within50m && !state.openBuildingsHit;
+          p.status = canAutoValidate ? 'pronto_retirada' : 'aguardando';
+          p.note = canAutoValidate
+            ? 'Sincronizado e validado automaticamente! Assine o termo para retirar.'
+            : (!state.atProperty
+                ? 'Sincronizado — foto fora do perímetro do CAR (fila de validação)'
+                : (state.openBuildingsHit ? 'Sincronizado — Alerta Open Buildings enviado ao escritório' : 'Sincronizado — foto fora de 50m enviada ao escritório'));
         }
       });
       syncAllViews();
-      appToast('Registros sincronizados com o servidor!');
+      appToast('Sincronização concluída com o servidor!');
     }
 
     function renderCitizenProperties() {
       const mine = dbProperties.filter(p => p.ownerCpf === state.currentUser.cpf);
       document.getElementById('pendingSyncBanner').style.display = mine.some(p => p.status === 'pendente_sync') ? 'block' : 'none';
-      document.getElementById('offlinePackStatus').style.display = (state.offlineArch === 'opcaoB') ? 'block' : 'none';
+      const hasPack = isCurrentMuniDownloaded();
+      document.getElementById('offlinePackStatus').style.display = hasPack ? 'block' : 'none';
+      if (hasPack) document.getElementById('offlinePackMuniLabel').textContent = state.gpsCurrentMuni;
+
       document.getElementById('cPropCount').textContent = mine.length + (mine.length === 1 ? ' imóvel' : ' imóveis');
       document.getElementById('cPropertiesList').innerHTML = !mine.length
-        ? `<div class="card" style="text-align:center; color:var(--rr-muted); font-size:12px;">Nenhuma propriedade cadastrada neste CPF ainda.</div>`
+        ? `<div class="card" style="text-align:center; padding:26px 14px; color:var(--rr-muted); font-size:12.5px; line-height:1.5;">
+             <div style="font-size:28px; margin-bottom:6px;">🏡</div>
+             <strong>Nenhum endereço entregue ainda</strong><br>
+             Toque em <strong>RECEBER ENDEREÇO</strong> acima para solicitar seu Endereço Rural Digital.
+           </div>`
         : mine.map(p => {
-          const isOk = p.status === 'entregue', isSync = p.status === 'pendente_sync';
+          const isOk = p.status === 'entregue';
+          const isReady = p.status === 'pronto_retirada';
+          const isSync = p.status === 'pendente_sync';
+          const isIncons = p.status === 'inconsistente';
+          const shortErd = formatShortErd(p.erd, p.city);
           return `
-            <div class="prop-card" onclick="cOpenDetail(${p.id})">
-              <div class="prop-pin ${isOk?'':isSync?'sync':'warn'}">${isOk?'📍':isSync?'📡':'⏳'}</div>
+            <div class="prop-card" onclick="${isReady ? `startPickupAfterValidation(${p.id})` : `cOpenDetail(${p.id})`}" style="${isReady ? 'border-color:#2563eb; background:#eff6ff;' : isIncons ? 'border-color:#fca5a5; background:#fef2f2;' : ''}">
+              <div class="prop-pin ${isOk?'':isIncons?'danger':isReady||isSync?'sync':'warn'}">${isOk?'📍':isIncons?'🚫':isReady?'✍️':isSync?'📡':'⏳'}</div>
               <div class="prop-info">
                 <div class="prop-name">${p.name}</div>
-                ${isOk ? `<div class="prop-erd">${p.erd}</div>` : `<div class="prop-erd hidden-erd">${isSync?'Salvo sem internet • aguarda sinal':'Aguardando validação • até 2 dias úteis'}</div>`}
-                <div class="prop-meta"><span class="status-chip ${isOk?'ok':isSync?'sync':'pending'}">${isOk?'Validado e Entregue':isSync?'Aguardando sincronização':'Em análise pelo escritório'}</span></div>
+                ${isOk
+                  ? `<div class="prop-erd">${shortErd}</div>`
+                  : isIncons
+                    ? `<div class="prop-erd hidden-erd" style="color:#b91c1c;">Cadastro inconsistente • toque para ver motivo</div>`
+                    : isReady
+                      ? `<div class="prop-erd hidden-erd" style="color:#1d4ed8;">✓ Validado! Toque para assinar o termo e retirar</div>`
+                      : `<div class="prop-erd hidden-erd">${isSync?'Salvo sem internet • aguarda sinal':'Em avaliação • até 2 dias úteis'}</div>`}
+                <div class="prop-meta">
+                  <span class="status-chip ${isOk?'ok':isIncons?'danger':isReady||isSync?'sync':'pending'}">
+                    ${isOk?'Validado e Entregue':isIncons?'Inconsistente':isReady?'Pronto para retirada':isSync?'Aguardando sincronização':'Em análise pelo escritório'}
+                  </span>
+                </div>
               </div>
               <span style="color:#9ca3af;">›</span>
             </div>
@@ -1749,24 +2491,78 @@
         }).join('');
     }
 
+    function startPickupAfterValidation(propId) {
+      state.cSigningPropId = propId;
+      appGoTo('es-lgpd');
+    }
+
+    function openSignedTermModal(propId) {
+      const p = dbProperties.find(x => x.id === propId);
+      if (!p) return;
+      const shortErd = formatShortErd(p.erd, p.city);
+      state.modalLocked = false;
+      document.getElementById('modalBg').classList.add('center');
+      document.getElementById('modalContent').innerHTML = `
+        <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--rr-green-dark); margin-bottom:6px;">Termo de Recebimento Assinado</div>
+        <div class="termo-document" style="font-size:11.5px; margin-bottom:10px;">
+          <p>Eu, <strong>${p.ownerName.toUpperCase()}</strong>, inscrito(a) no CPF nº <strong>${p.ownerCpf}</strong>, declaro, sob as penas da lei e ciente das responsabilidades legais decorrentes de declaração falsa, que sou proprietário(a) ou legítimo(a) responsável pelo imóvel rural identificado pelo Cadastro Ambiental Rural (CAR) nº <strong>${p.car}</strong>.</p>
+          <p>Declaro, ainda, que recebi o Endereço Rural Digital da porteira correspondente ao referido imóvel, <strong>${shortErd}</strong>, e que as informações prestadas são verdadeiras, assumindo integral responsabilidade por seu conteúdo.</p>
+        </div>
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:10px; text-align:center; margin-bottom:12px;">
+          <div style="font-size:10.5px; color:var(--rr-muted); margin-bottom:4px;">Assinatura digital registrada em ${p.signedAt || '23/11/2026'}</div>
+          ${p.sigDataUrl
+            ? `<img src="${p.sigDataUrl}" alt="Assinatura digital" style="max-height:64px; max-width:100%; background:#fff; border-radius:6px; border:1px solid #cbd5e1; padding:3px;">`
+            : `<div style="font-family:cursive; font-size:18px; color:#0f291a; padding:6px;">${p.ownerName}</div>`}
+        </div>
+        <button class="btn btn-primary" onclick="closeModal()">Fechar Termo</button>
+      `;
+      document.getElementById('modalBg').classList.add('open');
+    }
+
+    function copyTextValue(val, label) {
+      if (navigator.clipboard) navigator.clipboard.writeText(val).catch(() => {});
+      appToast(label + ' copiado!');
+    }
+
     function cOpenDetail(id) {
       const p = dbProperties.find(x => x.id === id); if (!p) return;
       document.getElementById('cDetailTitle').textContent = p.name;
       const isOk = p.status === 'entregue';
+      const shortErd = formatShortErd(p.erd, p.city);
       document.getElementById('cDetailBody').innerHTML = isOk ? `
-        <div class="card" style="text-align:center; background:#f3faf6; border-color:#b8dec6; margin-bottom:14px;">
-          <div style="font-size:11px; font-weight:700; color:var(--rr-muted);">SEU ENDEREÇO RURAL DIGITAL</div>
-          <div style="font-family:'JetBrains Mono', monospace; font-size:24px; font-weight:800; color:var(--rr-green-dark); margin:6px 0;">${p.erd}</div>
-          <span class="status-chip ok" style="margin-bottom:10px;">✓ Validado</span>
+        <div class="card" style="text-align:center; background:#f3faf6; border-color:#b8dec6; margin-bottom:12px;">
+          <div style="font-size:10.5px; font-weight:800; color:var(--rr-green); letter-spacing:0.04em;">ENDEREÇO</div>
+          <div style="font-family:'JetBrains Mono', monospace; font-size:18px; font-weight:800; color:var(--rr-green-dark); margin:5px 0 10px;">${shortErd}</div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-            <button class="btn btn-secondary" style="padding:9px; font-size:12px;" onclick="appToast('Código copiado!')">📋 Copiar</button>
-            <button class="btn btn-primary" style="padding:9px; font-size:12px;" onclick="appToast('Abrindo Google Maps...')">🗺️ Rota</button>
+            <button class="btn btn-secondary" style="padding:9px; font-size:12px;" onclick="copyTextValue('${shortErd}','Endereço')">📋 Copiar</button>
+            <button class="btn btn-primary" style="padding:9px; font-size:12px;" onclick="appToast('Abrindo rota no Google Maps...')">🗺️ Abrir Rota</button>
           </div>
         </div>
-        <div class="card" style="font-size:12px; line-height:1.6;">
-          <div><strong>CAR:</strong> ${p.car}</div><div><strong>Município:</strong> ${p.city} - ES</div><div><strong>Termo LGPD:</strong> Assinado digitalmente ✓</div>
+        <div class="card" style="font-size:12px; line-height:1.7; margin-bottom:12px;">
+          <div><strong>CAR:</strong> <span style="font-family:'JetBrains Mono', monospace; font-size:11px;">${p.car}</span></div>
+          <div><strong>Município:</strong> ${p.city} - ES</div>
+          <div><strong>Endereço completo:</strong> <span style="font-family:'JetBrains Mono', monospace; font-size:11.5px;">${p.erd}</span></div>
+          <div><strong>Status:</strong> <span class="status-chip ok">Validado e Entregue</span></div>
         </div>
-      ` : `<div class="alert-box warn"><strong>⏳ ${p.note}</strong></div>`;
+        <button class="btn btn-outline" onclick="openSignedTermModal(${p.id})">📄 Visualizar Termo Assinado</button>
+      ` : p.status === 'inconsistente' ? `
+        <div class="alert-box danger">
+          <strong>🚫 Cadastro classificado como Inconsistente</strong><br>
+          ${p.officeMessage || p.note}
+        </div>
+        <div class="card" style="font-size:12px; line-height:1.6; margin-bottom:12px;">
+          <div><strong>CAR:</strong> ${p.car}</div>
+          <div><strong>Município:</strong> ${p.city} - ES</div>
+        </div>
+        <button class="btn btn-primary" onclick="handleReceberEnderecoClick()">🔄 Refazer solicitação na porteira</button>
+      ` : `
+        <div class="alert-box warn"><strong>⏳ ${p.note}</strong></div>
+        <div class="card" style="font-size:12px; line-height:1.6;">
+          <div><strong>CAR:</strong> ${p.car}</div>
+          <div><strong>Município:</strong> ${p.city} - ES</div>
+          <div style="margin-top:6px; color:var(--rr-muted);">Assim que o técnico validar no Painel Escritório, o termo ficará disponível para assinatura e retirada do endereço.</div>
+        </div>
+      `;
       appGoTo('es-detail');
     }
 
@@ -1838,14 +2634,17 @@
       if (document.getElementById('rSmsInput').value.trim() !== state.rSmsCode) { appToast('Código SMS inválido! Digite 482910'); return; }
       if (!state.rSigned) { appToast('Colete a assinatura digital do morador'); return; }
       const propName = (document.getElementById('rPropName').value.trim() || 'PROPRIEDADE RURAL').toUpperCase();
-      const newErd = '586H 8P2+QW';
+      const newErd = '586H8P2G+Q5M';
+      const sigUrl = document.getElementById('rSigCanvas').toDataURL('image/png');
       dbProperties.unshift({
         id: Date.now(), name: propName, erd: newErd, car: state.rActiveCar, city: state.rActiveCity,
         ownerName: state.rOwner.name, ownerCpf: state.rOwner.cpf, status: 'entregue', origin: 'Representante',
-        note: 'Entregue presencialmente com SMS e assinatura digital', officeMessage: ''
+        note: 'Entregue presencialmente com SMS e assinatura digital', officeMessage: '',
+        signedAt: '23/11/2026 às 15:32', sigDataUrl: sigUrl
       });
       document.getElementById('rDonePropName').textContent = propName;
-      document.getElementById('rDoneErd').textContent = newErd;
+      document.getElementById('rDoneErdShort').textContent = formatShortErd(newErd, state.rActiveCity);
+      document.getElementById('rDoneErdFull').textContent = newErd;
       document.getElementById('rDoneOwner').textContent = 'Proprietário: ' + state.rOwner.name;
       syncAllViews();
       appGoTo('rep-deliver-done');
@@ -1862,7 +2661,9 @@
               <div><div style="font-size:13.5px; font-weight:800;">${p.name}</div><div style="font-size:11px; color:var(--rr-muted);">${p.ownerName} • ${p.city}</div></div>
               <span class="status-chip ${status==='entregue'?'ok':status==='aguardando'?'pending':'danger'}">${status==='entregue'?'Entregue':status==='aguardando'?'Aguardando':'Com dúvida'}</span>
             </div>
-            ${status==='entregue' ? `<div style="font-family:'JetBrains Mono', monospace; font-size:15px; font-weight:800; color:var(--rr-green-dark); margin-top:8px;">📍 ${p.erd}</div>` : `<div style="font-size:11.5px; color:#64748b; margin-top:7px;">🔒 Endereço oculto até validação e entrega</div>`}
+            ${status==='entregue'
+              ? `<div style="font-family:'JetBrains Mono', monospace; font-size:13.5px; font-weight:800; color:var(--rr-green-dark); margin-top:8px;">📍 ${formatShortErd(p.erd, p.city)}</div><div style="font-family:'JetBrains Mono', monospace; font-size:10.5px; color:var(--rr-muted);">Completo: ${p.erd}</div>`
+              : `<div style="font-size:11.5px; color:#64748b; margin-top:7px;">🔒 Endereço oculto até validação e entrega</div>`}
             ${p.officeMessage ? `<div class="alert-box danger" style="margin-top:8px; margin-bottom:6px; font-size:11.5px;"><strong>Mensagem do escritório:</strong> ${p.officeMessage}</div>` : ''}
             ${status==='nao_confirmada' ? `<button class="btn btn-rep" style="margin-top:6px; padding:9px; font-size:12px;" onclick="rResubmitUnconfirmed(${p.id})">Corrigir com morador e reenviar</button>` : ''}
           </div>
@@ -1942,13 +2743,28 @@
     }
     function officeConfirmCurrent() {
       const list = getOfficePendingList(); const p = list[state.officeValIndex]; if (!p) return;
-      p.status = 'entregue'; p.note = state.officeSuggestedCoord ? 'Validado pelo técnico com nova localização' : 'Validado pelo técnico no escritório';
+      // Se veio do Cidadão e ainda não assinou o termo, fica 'pronto_retirada' para ele assinar o termo e retirar!
+      if (p.origin === 'Cidadão' && !p.sigDataUrl) {
+        p.status = 'pronto_retirada';
+        p.note = 'Validado pelo escritório! Pronto para assinatura do termo e retirada.';
+      } else {
+        p.status = 'entregue';
+        p.note = state.officeSuggestedCoord ? 'Validado pelo técnico com nova localização' : 'Validado pelo técnico no escritório';
+      }
       syncAllViews(); renderOfficeValidatorCard();
     }
     function officeReturnToRep() {
       const list = getOfficePendingList(); const p = list[state.officeValIndex]; if (!p) return;
       p.status = 'nao_confirmada'; p.officeMessage = document.getElementById('valMessageInput').value.trim() || 'Favor confirmar a localização exata da porteira junto ao morador.';
       p.note = 'Devolvido ao representante com dúvida';
+      syncAllViews(); renderOfficeValidatorCard();
+    }
+    function officeMarkInconsistent() {
+      const list = getOfficePendingList(); const p = list[state.officeValIndex]; if (!p) return;
+      const reason = document.getElementById('valMessageInput').value.trim() || 'Foto enviada não corresponde à porteira da propriedade (ex: selfie ou fora do imóvel).';
+      p.status = 'inconsistente';
+      p.officeMessage = reason;
+      p.note = 'Classificado como INCONSISTENTE pelo escritório';
       syncAllViews(); renderOfficeValidatorCard();
     }
 
