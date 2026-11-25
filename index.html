@@ -440,31 +440,51 @@
       font-size: 12.5px; font-weight: 800; color: var(--rr-green);
     }
 
-    /* GUIDED TRAIL CARD */
+    /* GUIDED TRAIL CARD (MODO TUTORIAL OBRIGATÓRIO — SEM CONTROLES MANUAIS!) */
     .trail-card {
-      background: linear-gradient(135deg, #102a1b 0%, #164429 100%);
+      background: linear-gradient(145deg, #0f2c1b 0%, #174b2d 100%);
       color: #ffffff;
-      border-radius: 14px;
-      padding: 14px 15px;
+      border-radius: 15px;
+      padding: 18px 16px;
       margin-bottom: 14px;
-      box-shadow: 0 8px 22px rgba(16, 42, 27, 0.22);
+      box-shadow: 0 10px 26px rgba(16, 42, 27, 0.24);
       display: none;
     }
     .trail-card.active { display: block; }
-    .trail-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
-    .trail-pill { background: rgba(134, 239, 172, 0.2); color: #86efac; font-size: 10.5px; font-weight: 800; padding: 3px 9px; border-radius: 999px; }
-    .trail-bar { height: 5px; background: rgba(255,255,255,0.18); border-radius: 99px; overflow: hidden; margin-bottom: 10px; }
-    .trail-bar-fill { height: 100%; background: #4ade80; transition: width 0.25s ease; }
-    .trail-step-title { font-size: 14.5px; font-weight: 800; margin-bottom: 5px; color: #ffffff; }
-    .trail-step-desc { font-size: 12px; color: #d1fae5; line-height: 1.48; margin-bottom: 11px; }
-    .trail-actions { display: flex; gap: 7px; flex-wrap: wrap; }
-    .trail-btn {
-      border: none; border-radius: 8px; padding: 7px 11px; font-family: inherit;
-      font-size: 11.5px; font-weight: 700; cursor: pointer;
+    .trail-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 8px; }
+    .trail-pill { background: rgba(134, 239, 172, 0.2); color: #86efac; font-size: 10.5px; font-weight: 800; padding: 4px 10px; border-radius: 999px; }
+    .trail-bar { height: 6px; background: rgba(255,255,255,0.18); border-radius: 99px; overflow: hidden; margin-bottom: 14px; }
+    .trail-bar-fill { height: 100%; background: #4ade80; transition: width 0.35s ease; }
+    .trail-step-title { font-size: 16px; font-weight: 800; margin-bottom: 8px; color: #ffffff; line-height: 1.3; }
+    .trail-step-desc { font-size: 13px; color: #dcfce7; line-height: 1.55; margin-bottom: 14px; }
+    .trail-wait-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(134, 239, 172, 0.35);
+      color: #bbf7d0; font-size: 11.5px; font-weight: 700; padding: 8px 12px; border-radius: 10px;
+      width: 100%;
     }
-    .trail-btn.primary { background: #4ade80; color: #052e16; }
-    .trail-btn.ghost { background: rgba(255,255,255,0.14); color: #ffffff; }
-    .trail-btn.ghost:hover { background: rgba(255,255,255,0.24); }
+    .trail-pulse {
+      width: 9px; height: 9px; border-radius: 50%; background: #4ade80; flex-shrink: 0;
+      animation: trailPulse 1.3s ease-in-out infinite;
+    }
+    @keyframes trailPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.75); }
+    }
+    .trail-exit-link {
+      background: none; border: none; color: rgba(255,255,255,0.65);
+      font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit;
+    }
+    .trail-exit-link:hover { color: #fff; text-decoration: underline; }
+    .trail-checklist {
+      margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.14);
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .trail-check-row {
+      font-size: 11.5px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 7px;
+    }
+    .trail-check-row.done { color: #86efac; text-decoration: line-through; opacity: 0.8; }
+    .trail-check-row.now { color: #ffffff; font-weight: 700; }
 
     /* FLOATING TRAIL BANNER IN OFFICE VIEW */
     .office-trail-bar {
@@ -1770,6 +1790,9 @@
       if (id === 'es-lgpd') renderCitizenLgpd();
       if (id === 'es-profile') renderProfileScreen();
       if (id === 'rep-home') renderRepCounts();
+      if (id === 'login') trailEvent('onboarding_continue');
+      if (id === 'es-offline-data') trailEvent('opened_offline_data');
+      if (id === 'es-wiz-photo-intro') trailEvent('car_confirmed_gps');
       renderContextualGuide();
     }
 
@@ -1800,6 +1823,7 @@
       state.startupCheckDone = false;
       if (state.simLoginUf === 'ES') {
         appGoTo('es-home');
+        trailEvent('citizen_logged_in');
         setTimeout(() => runBackgroundHomeCheck(), 250);
       }
       else if (state.simLoginUf === 'SP') appGoTo('sp-legacy');
@@ -1860,6 +1884,7 @@
         state.activeAppMode = 'cidadao';
         appToast('Alternado para Modo Cidadão!');
         appGoTo('es-home');
+        trailEvent('rep_switched_to_citizen');
       } else {
         state.activeAppMode = 'representante';
         appToast('Alternado para Modo Representante!');
@@ -2237,6 +2262,7 @@
         <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
       `;
       document.getElementById('modalBg').classList.add('open');
+      trailEvent('viewed_signed_term');
     }
 
     function confirmChooseMuniDownload() {
@@ -2307,6 +2333,7 @@
         </div>
       `;
       document.getElementById('modalBg').classList.add('open');
+      trailEvent('viewed_signed_term');
     }
 
     function answerHasPropertyInOtherMuni(hasProp, gpsCity) {
@@ -2344,6 +2371,7 @@
         </div>
       `;
       document.getElementById('modalBg').classList.add('open');
+      trailEvent('viewed_signed_term');
     }
 
     function downloadMuniDataNow(muniName, goToWizardAfter) {
@@ -2382,6 +2410,7 @@
 
     function finishDownloadOk(goToWizardAfter) {
       closeModal();
+      trailEvent('download_ok');
       if (goToWizardAfter) openReceberEnderecoWizard();
     }
 
@@ -2519,6 +2548,7 @@
     }
     function finishStoriesTutorial() {
       state.hasSeenPickupStories = true;
+      trailEvent('stories_finished');
       appGoTo('es-wiz-1');
     }
 
@@ -2540,6 +2570,7 @@
         <button class="btn btn-outline" onclick="closeModal()">Escolher na lista</button>
       `;
       document.getElementById('modalBg').classList.add('open');
+      trailEvent('viewed_signed_term');
     }
     function confirmRegMap(uf, city) {
       document.getElementById('regState').value = uf;
@@ -2598,6 +2629,7 @@
         </div>
       `;
       document.getElementById('modalBg').classList.add('open');
+      trailEvent('viewed_signed_term');
     }
 
     function runCarVerification(mode) {
@@ -2647,6 +2679,7 @@
         <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
       `;
       document.getElementById('modalBg').classList.add('open');
+      trailEvent('viewed_signed_term');
     }
 
     function submitLocationTicket() {
@@ -2662,6 +2695,7 @@
       syncAllViews();
       appToast('Chamado enviado ao representante e escritório!');
       appGoTo('es-home');
+      trailEvent('ticket_submitted');
     }
 
     function notMyPropertyReturn() {
@@ -2685,6 +2719,7 @@
         </div>
       `;
       document.getElementById('modalBg').classList.add('open');
+      trailEvent('viewed_signed_term');
     }
 
     function openOpenBuildingsPopup() {
@@ -2700,6 +2735,7 @@
         </div>
       `;
       document.getElementById('modalBg').classList.add('open');
+      trailEvent('viewed_signed_term');
     }
 
     function cCaptureGatePhoto() {
@@ -2768,6 +2804,7 @@
         });
         syncAllViews();
         appGoTo('es-wiz-offline-wait');
+        trailEvent('saved_offline_wait');
         return;
       }
 
@@ -2784,6 +2821,7 @@
         });
         syncAllViews();
         appGoTo('es-wiz-pending');
+        trailEvent('sent_to_office_ob');
         return;
       }
 
@@ -2838,6 +2876,7 @@
       syncAllViews();
       appToast('Termo assinado! Endereço liberado.');
       cOpenDetail(newId);
+      trailEvent('citizen_signed_instant');
     }
 
     function syncOfflineQueueNow() {
@@ -2855,6 +2894,7 @@
       });
       syncAllViews();
       appToast('Sincronização concluída com o servidor!');
+      trailEvent('synced_offline');
     }
 
     function renderCitizenProperties() {
@@ -2927,6 +2967,7 @@
         <button class="btn btn-primary" onclick="closeModal()">Fechar Termo</button>
       `;
       document.getElementById('modalBg').classList.add('open');
+      trailEvent('viewed_signed_term');
     }
 
     function copyTextValue(val, label) {
@@ -3162,12 +3203,14 @@
         p.note = state.officeSuggestedCoord ? 'Validado pelo técnico com nova localização' : 'Validado pelo técnico no escritório';
       }
       syncAllViews(); renderOfficeValidatorCard();
+      trailEvent('office_validated');
     }
     function officeReturnToRep() {
       const list = getOfficePendingList(); const p = list[state.officeValIndex]; if (!p) return;
       p.status = 'nao_confirmada'; p.officeMessage = document.getElementById('valMessageInput').value.trim() || 'Favor confirmar a localização exata da porteira junto ao morador.';
       p.note = 'Devolvido ao representante com dúvida';
       syncAllViews(); renderOfficeValidatorCard();
+      trailEvent('office_validated');
     }
     function officeMarkInconsistent() {
       const list = getOfficePendingList(); const p = list[state.officeValIndex]; if (!p) return;
@@ -3176,6 +3219,7 @@
       p.officeMessage = reason;
       p.note = 'Classificado como INCONSISTENTE pelo escritório';
       syncAllViews(); renderOfficeValidatorCard();
+      trailEvent('office_validated');
     }
 
     // =========================================================================
@@ -3218,99 +3262,159 @@
     }
 
     // =========================================================================
-    // TRILHA DE TESTE GUIADA (10 PASSOS COBRINDO TODAS AS POSSIBILIDADES!)
+    // TRILHA DE TESTE INTERATIVA — SEM BOTÃO "PRÓXIMO", 100% ORIENTADA A AÇÕES!
     // =========================================================================
     const guidedTrailSteps = [
       {
-        title: '1. Primeiro acesso e Login Cidadão',
-        desc: 'Leia a abertura, clique em CONTINUAR e entre com o CPF de Cidadão (123.456.789-00). Veja a verificação automática de download offline do município ao abrir a Home.',
-        setup: () => { switchMainView('app'); appGoTo('onboarding'); }
+        event: 'onboarding_continue',
+        short: 'Apresentação inicial',
+        title: '1. Leia a apresentação e avance',
+        desc: 'No aparelho ao lado, leia a tela de boas-vindas do Rotas Rurais e toque em <strong>CONTINUAR →</strong>.',
+        onEnter: () => { switchMainView('app'); appGoTo('onboarding'); }
       },
       {
-        title: '2. Menu lateral e Dados Baixados',
-        desc: 'Na Home, toque no menu ☰ (canto superior esquerdo), abra "Dados baixados" e teste baixar outro município pela lista suspensa, atualizar ou excluir.',
-        setup: () => { switchMainView('app'); state.currentUser = registeredUsers['123.456.789-00']; state.activeAppMode = 'cidadao'; appGoTo('es-home'); }
+        event: 'citizen_logged_in',
+        short: 'Login como Cidadão',
+        title: '2. Acesse como Cidadão',
+        desc: 'Toque em <strong>ENTRAR</strong> no celular para logar com o CPF de Cidadão. O app fará a verificação automática de dados offline.',
+        onEnter: () => { state.simLoginUf = 'ES'; state.downloadedMunis = {}; state.gpsCurrentMuni = 'Domingos Martins'; }
       },
       {
-        title: '3. Tutorial Stories + Buscar CAR por Localização',
-        desc: 'Toque em RECEBER ENDEREÇO. Veja os 6 Stories explicativos, avance até a tela do CAR e clique em "Buscar meu CAR baseado na minha localização". Confira o polígono e toque em "Esse CAR é meu".',
-        setup: () => { switchMainView('app'); state.hasSeenPickupStories = false; state.atProperty = true; state.isOnline = true; appGoTo('es-home'); }
+        event: 'download_ok',
+        short: 'Download de dados offline',
+        title: '3. Baixe os dados do município',
+        desc: 'No pop-up que abriu no celular, toque em <strong>📥 Baixar dados do município</strong>, aguarde o progresso e toque em <strong>OK</strong>.',
+        onEnter: () => {}
       },
       {
-        title: '4. Validação Automática na Hora + Termo LGPD',
-        desc: 'Com GPS dentro de 50m e fora do Open Buildings, tire a foto da porteira, informe o nome do sítio, assine o Termo (com o código curto) e abra "Visualizar Termo Assinado".',
-        setup: () => { switchMainView('app'); state.isOnline = true; state.openBuildingsHit = false; state.within50m = true; state.cPhotoTaken = false; appGoTo('es-photo'); }
+        event: 'opened_offline_data',
+        short: 'Menu lateral e Dados baixados',
+        title: '4. Abra o menu lateral',
+        desc: 'Toque no ícone <strong>☰</strong> no canto superior esquerdo do celular e selecione <strong>📦 Dados baixados</strong> para ver onde o usuário gerencia os municípios.',
+        onEnter: () => {}
       },
       {
-        title: '5. Alerta Open Buildings (Foto sobre Casa)',
-        desc: 'Cenário configurado: foto sobre edificação! Toque na câmera para ver o Pop-up de alerta, confirme mesmo assim, dê um nome e veja cair na fila de 2 dias úteis (sem termo).',
-        setup: () => { switchMainView('app'); state.isOnline = true; state.openBuildingsHit = true; state.within50m = true; state.cPhotoTaken = false; appGoTo('es-photo'); }
+        event: 'stories_finished',
+        short: 'Tutorial em 6 Stories',
+        title: '5. Inicie o recebimento e veja os Stories',
+        desc: 'Volte para Meus endereços (seta <strong>←</strong>), toque em <strong>＋ RECEBER ENDEREÇO</strong> e passe pelos <strong>6 Stories</strong> até tocar em <strong>Entendi, começar! →</strong>.',
+        onEnter: () => { state.hasSeenPickupStories = false; state.atProperty = true; state.isOnline = true; state.openBuildingsHit = false; state.within50m = true; }
       },
       {
-        title: '6. Modo Sem Internet (Sem Pacote Offline)',
-        desc: 'Cenário configurado: Sem internet e sem dados offline baixados. Fotografe, avance para ver a tela "Parece que você não está conectada à internet..." e depois clique em sincronizar na Home.',
-        setup: () => { switchMainView('app'); state.downloadedMunis = {}; setOnlineMode(false); state.openBuildingsHit = false; state.within50m = true; state.cPhotoTaken = false; appGoTo('es-photo'); }
+        event: 'car_confirmed_gps',
+        short: 'Buscar CAR pela localização',
+        title: '6. Busque o CAR pela sua localização',
+        desc: 'Toque em <strong>Avançar →</strong>, depois clique em <strong>📍 Buscar meu CAR baseado na minha localização</strong>, toque em <strong>Continuar</strong> e confirme em <strong>✓ Esse CAR é meu</strong>.',
+        onEnter: () => {}
       },
       {
-        title: '7. Fora da Propriedade + Abrir Chamado',
-        desc: 'Cenário configurado: GPS fora do CAR! Escolha um CAR exemplo e clique em Avançar para ver o bloqueio e testar a abertura de chamado ao representante/escritório.',
-        setup: () => { switchMainView('app'); setOnlineMode(true); state.atProperty = false; appGoTo('es-busca-car'); }
+        event: 'citizen_signed_instant',
+        short: 'Foto válida + Termo LGPD',
+        title: '7. Fotografe a porteira e assine o Termo',
+        desc: 'Toque em <strong>Avançar →</strong>, tire a <strong>foto da porteira</strong>, digite o nome da propriedade, toque em <strong>Avançar →</strong>, faça sua <strong>assinatura digital</strong> e toque em <strong>Assinar e Retirar ✓</strong>.',
+        onEnter: () => {}
       },
       {
-        title: '8. Painel do Escritório (Visada, Aprovar e Inconsistente)',
-        desc: 'Entre no Painel Técnico, clique em ⚡ VALIDAR ENDEREÇOS, observe a seta de visada no mapa, aprove 1 propriedade do Cidadão e classifique outra como INCONSISTENTE.',
-        setup: () => { switchMainView('escritorio'); }
+        event: 'viewed_signed_term',
+        short: 'Visualizar Termo Assinado',
+        title: '8. Confira o Termo Assinado',
+        desc: 'Na tela do endereço entregue, toque em <strong>📄 Visualizar Termo Assinado</strong> para conferir o documento com o código curto e a assinatura.',
+        onEnter: () => {}
       },
       {
-        title: '9. Retirada após Validação do Escritório',
-        desc: 'Volte ao App Cidadão! Na Home, toque no imóvel azul "Pronto para retirada" (aprovado no passo 8) para assinar o Termo e retirar seu endereço.',
-        setup: () => { switchMainView('app'); state.currentUser = registeredUsers['123.456.789-00']; state.activeAppMode = 'cidadao'; appGoTo('es-home'); }
+        event: 'sent_to_office_ob',
+        short: 'Alerta Open Buildings (2 dias úteis)',
+        title: '9. Teste foto sobre casa (Open Buildings)',
+        desc: 'Cenário ajustado automaticamente! Feche o termo, volte (<strong>←</strong>), toque em <strong>＋ RECEBER ENDEREÇO</strong> → <strong>Avançar</strong> → clique em <strong>CAR Exemplo 1</strong> → <strong>Avançar</strong> → avance até a câmera e <strong>fotografe</strong>. Veja o Pop-up de alerta, confirme mesmo assim, dê um nome e avance!',
+        onEnter: () => { state.openBuildingsHit = true; state.within50m = true; state.isOnline = true; }
       },
       {
-        title: '10. Modo Representante (SMS + Troca de Modo no Perfil)',
-        desc: 'Faça login com CPF Representante (444.555.666-77), teste uma entrega com código SMS (482910) e assinatura, e clique no ícone 👤 para alternar para o Modo Cidadão!',
-        setup: () => { switchMainView('app'); selectLoginPreset('representante'); appGoTo('login'); }
+        event: 'saved_offline_wait',
+        short: 'Modo Sem Internet (sem pacote)',
+        title: '10. Teste zona rural sem internet',
+        desc: 'Cenário ajustado: aparelho <strong>sem internet</strong> e sem pacote offline! Toque em <strong>IR PARA MINHAS PROPRIEDADES</strong> → <strong>＋ RECEBER ENDEREÇO</strong> → avance pelo CAR → fotografe e dê um nome para ver a tela de <strong>Sem Conexão</strong>.',
+        onEnter: () => { state.downloadedMunis = {}; state.openBuildingsHit = false; state.within50m = true; setOnlineMode(false); }
+      },
+      {
+        event: 'synced_offline',
+        short: 'Sincronização automática',
+        title: '11. Sincronize ao voltar a internet',
+        desc: 'Toque em <strong>IR PARA MINHAS PROPRIEDADES</strong> e clique no botão verde <strong>↻ Simular volta da internet e sincronizar</strong>.',
+        onEnter: () => {}
+      },
+      {
+        event: 'ticket_submitted',
+        short: 'Fora do CAR + Abrir Chamado',
+        title: '12. Teste fora da propriedade + Chamado',
+        desc: 'Cenário ajustado: GPS <strong>fora do CAR</strong>! Toque em <strong>＋ RECEBER ENDEREÇO</strong> → <strong>Avançar</strong> → clique em <strong>CAR Exemplo 1</strong> → <strong>Avançar</strong>. Veja o bloqueio e toque em <strong>📩 Abrir chamado</strong> → <strong>Enviar chamado</strong>.',
+        onEnter: () => { state.atProperty = false; setOnlineMode(true); }
+      },
+      {
+        event: 'office_validated',
+        short: 'Painel Escritório (Visada / Inconsistente)',
+        title: '13. Valide no Painel do Escritório',
+        desc: 'Clique na aba <strong>💻 Painel Escritório</strong> lá no topo, entre no painel, clique em <strong>⚡ VALIDAR ENDEREÇOS</strong>, veja a seta de visada no mapa e clique em <strong>✓ CONFIRMAR LOCALIZAÇÃO</strong> (ou <strong>🚫 INCONSISTENTE</strong>).',
+        onEnter: () => { state.atProperty = true; }
+      },
+      {
+        event: 'rep_switched_to_citizen',
+        short: 'Representante + Troca de Modo no Perfil',
+        title: '14. Teste o Modo Representante e troca de perfil',
+        desc: 'Volte para a aba <strong>📱 App Rotas Rurais</strong>, toque no ícone <strong>👤</strong> → <strong>🚪 Sair da conta</strong>, toque em <strong>CPF Representante</strong> → <strong>ENTRAR</strong>, e por fim toque no ícone <strong>👤</strong> no topo e em <strong>🔄 Trocar para Modo Cidadão</strong>!',
+        onEnter: () => {}
       }
     ];
+
+    function trailEvent(evName) {
+      if (!state.guidedTrailActive) return;
+      const cur = guidedTrailSteps[state.trailStep];
+      if (!cur || cur.event !== evName) return;
+
+      state.trailStep++;
+      if (state.trailStep >= guidedTrailSteps.length) {
+        state.guidedTrailActive = false;
+        renderTrailUI();
+        renderContextualGuide();
+        appToast('🎉 Trilha de teste 100% concluída!');
+        setTimeout(() => alert('🎉 Parabéns! Você completou toda a Trilha de Teste e validou todas as possibilidades do ecossistema Rotas Rurais. O modo livre está agora desbloqueado.'), 250);
+        return;
+      }
+
+      const nextStep = guidedTrailSteps[state.trailStep];
+      if (nextStep.onEnter) nextStep.onEnter();
+      renderTrailUI();
+      renderContextualGuide();
+    }
 
     function startFreeMode() {
       state.guidedTrailActive = false;
       document.getElementById('welcomeOverlay').classList.add('hidden');
       renderTrailUI();
+      renderContextualGuide();
     }
 
     function startGuidedTrail() {
       state.guidedTrailActive = true;
       state.trailStep = 0;
       document.getElementById('welcomeOverlay').classList.add('hidden');
-      guidedTrailSteps[0].setup();
+      guidedTrailSteps[0].onEnter();
       renderTrailUI();
+      renderContextualGuide();
     }
 
     function toggleGuidedTrail() {
       state.guidedTrailActive = !state.guidedTrailActive;
       if (state.guidedTrailActive) {
-        guidedTrailSteps[state.trailStep].setup();
+        state.trailStep = 0;
+        guidedTrailSteps[0].onEnter();
       }
       renderTrailUI();
-    }
-
-    function trailGo(delta) {
-      const next = state.trailStep + delta;
-      if (next < 0) return;
-      if (next >= guidedTrailSteps.length) {
-        state.guidedTrailActive = false;
-        renderTrailUI();
-        alert('🎉 Trilha de teste concluída! Todas as 10 funcionalidades foram percorridas.');
-        return;
-      }
-      state.trailStep = next;
-      guidedTrailSteps[state.trailStep].setup();
-      renderTrailUI();
+      renderContextualGuide();
     }
 
     function renderTrailUI() {
       const card = document.getElementById('trailCard');
+      const guideDiv = document.getElementById('contextualGuide');
       const officeBar = document.getElementById('officeTrailBar');
       const tabBtn = document.getElementById('tabTrailToggle');
       tabBtn.style.background = state.guidedTrailActive ? '#15803d' : '';
@@ -3319,39 +3423,48 @@
       if (!state.guidedTrailActive) {
         card.classList.remove('active');
         officeBar.classList.remove('active');
+        guideDiv.style.display = 'block';
         return;
       }
 
+      // Na trilha obrigatória, OCULTA os controles manuais clicáveis do lado esquerdo!
+      guideDiv.style.display = 'none';
+
       const st = guidedTrailSteps[state.trailStep];
-      const pct = Math.round(((state.trailStep + 1) / guidedTrailSteps.length) * 100);
-      const isLast = state.trailStep === guidedTrailSteps.length - 1;
+      const pct = Math.round((state.trailStep / guidedTrailSteps.length) * 100);
+
+      const checklistHtml = guidedTrailSteps.map((s, idx) => {
+        const cls = idx < state.trailStep ? 'done' : idx === state.trailStep ? 'now' : '';
+        const icon = idx < state.trailStep ? '✓' : idx === state.trailStep ? '▶' : '○';
+        return `<div class="trail-check-row ${cls}"><span>${icon}</span><span>${idx + 1}. ${s.short}</span></div>`;
+      }).join('');
 
       card.classList.add('active');
       card.innerHTML = `
         <div class="trail-top">
-          <span class="trail-pill">🎯 TRILHA DE TESTE • PASSO ${state.trailStep + 1} DE ${guidedTrailSteps.length}</span>
-          <button class="trail-btn ghost" style="padding:3px 8px; font-size:10.5px;" onclick="state.guidedTrailActive=false; renderTrailUI();">Sair da trilha ✕</button>
+          <span class="trail-pill">🎯 TRILHA GUIADA • ${state.trailStep + 1} DE ${guidedTrailSteps.length}</span>
+          <button class="trail-exit-link" onclick="startFreeMode()">Sair p/ modo livre</button>
         </div>
         <div class="trail-bar"><div class="trail-bar-fill" style="width:${pct}%;"></div></div>
         <div class="trail-step-title">${st.title}</div>
         <div class="trail-step-desc">${st.desc}</div>
-        <div class="trail-actions">
-          ${state.trailStep > 0 ? `<button class="trail-btn ghost" onclick="trailGo(-1)">← Anterior</button>` : ''}
-          <button class="trail-btn ghost" onclick="guidedTrailSteps[state.trailStep].setup()">⚡ Preparar tela</button>
-          <button class="trail-btn primary" onclick="trailGo(1)">${isLast ? 'Concluir Trilha ✓' : 'Próximo passo →'}</button>
+        <div class="trail-wait-badge">
+          <span class="trail-pulse"></span>
+          <span>Execute a ação no aparelho para avançar automaticamente</span>
         </div>
+        <div class="trail-checklist">${checklistHtml}</div>
       `;
 
       officeBar.classList.add('active');
       officeBar.innerHTML = `
         <div>
-          <span class="trail-pill" style="display:inline-block; margin-bottom:4px;">🎯 TRILHA DE TESTE • PASSO ${state.trailStep + 1} DE ${guidedTrailSteps.length}</span>
+          <span class="trail-pill" style="display:inline-block; margin-bottom:4px;">🎯 TRILHA GUIADA • PASSO ${state.trailStep + 1} DE ${guidedTrailSteps.length}</span>
           <div style="font-size:14.5px; font-weight:800;">${st.title}</div>
           <div style="font-size:12px; color:#d1fae5; margin-top:2px;">${st.desc}</div>
         </div>
-        <div class="trail-actions">
-          ${state.trailStep > 0 ? `<button class="trail-btn ghost" onclick="trailGo(-1)">← Anterior</button>` : ''}
-          <button class="trail-btn primary" onclick="trailGo(1)">${isLast ? 'Concluir Trilha ✓' : 'Próximo passo →'}</button>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="font-size:11.5px; color:#86efac; font-weight:700;">● Aguardando ação no painel...</span>
+          <button class="trail-exit-link" onclick="startFreeMode()">Sair p/ modo livre</button>
         </div>
       `;
     }
