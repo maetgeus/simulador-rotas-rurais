@@ -297,8 +297,8 @@
     }
     .stories-bars {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 5px;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px;
       margin-bottom: 12px;
     }
     .story-bar {
@@ -367,6 +367,112 @@
       gap: 10px;
       margin-top: 18px;
     }
+
+    /* WELCOME CHOICE OVERLAY & GUIDED TEST TRAIL */
+    .welcome-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 38, 25, 0.82);
+      backdrop-filter: blur(6px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .welcome-overlay.hidden { display: none; }
+    .welcome-card {
+      background: #ffffff;
+      border-radius: 22px;
+      max-width: 680px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42);
+      animation: fadeIn 0.25s ease;
+    }
+    .welcome-head {
+      background: linear-gradient(135deg, #104928 0%, #1e7a44 100%);
+      color: #ffffff;
+      padding: 26px 28px;
+      text-align: center;
+    }
+    .welcome-head h2 { font-size: 21px; font-weight: 800; margin-bottom: 6px; }
+    .welcome-head p { font-size: 13.5px; color: #d1fae5; line-height: 1.45; }
+    .welcome-choices {
+      padding: 24px 26px 28px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 640px) { .welcome-choices { grid-template-columns: 1fr; } }
+    .welcome-opt {
+      border: 2px solid var(--rr-border);
+      border-radius: 16px;
+      padding: 20px 18px;
+      background: #f9fbfa;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.18s;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-family: inherit;
+    }
+    .welcome-opt:hover {
+      border-color: var(--rr-green);
+      background: #f0f9f4;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(24, 100, 56, 0.14);
+    }
+    .welcome-opt.featured {
+      border-color: var(--rr-green);
+      background: #eff8f3;
+    }
+    .welcome-opt-icon {
+      width: 46px; height: 46px; border-radius: 13px;
+      background: #fff; border: 1px solid #cce3d5;
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+    }
+    .welcome-opt h3 { font-size: 16px; font-weight: 800; color: var(--rr-green-dark); }
+    .welcome-opt p { font-size: 12.5px; color: #3d4d43; line-height: 1.45; }
+    .welcome-opt-cta {
+      margin-top: auto; padding-top: 8px;
+      font-size: 12.5px; font-weight: 800; color: var(--rr-green);
+    }
+
+    /* GUIDED TRAIL CARD */
+    .trail-card {
+      background: linear-gradient(135deg, #102a1b 0%, #164429 100%);
+      color: #ffffff;
+      border-radius: 14px;
+      padding: 14px 15px;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 22px rgba(16, 42, 27, 0.22);
+      display: none;
+    }
+    .trail-card.active { display: block; }
+    .trail-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
+    .trail-pill { background: rgba(134, 239, 172, 0.2); color: #86efac; font-size: 10.5px; font-weight: 800; padding: 3px 9px; border-radius: 999px; }
+    .trail-bar { height: 5px; background: rgba(255,255,255,0.18); border-radius: 99px; overflow: hidden; margin-bottom: 10px; }
+    .trail-bar-fill { height: 100%; background: #4ade80; transition: width 0.25s ease; }
+    .trail-step-title { font-size: 14.5px; font-weight: 800; margin-bottom: 5px; color: #ffffff; }
+    .trail-step-desc { font-size: 12px; color: #d1fae5; line-height: 1.48; margin-bottom: 11px; }
+    .trail-actions { display: flex; gap: 7px; flex-wrap: wrap; }
+    .trail-btn {
+      border: none; border-radius: 8px; padding: 7px 11px; font-family: inherit;
+      font-size: 11.5px; font-weight: 700; cursor: pointer;
+    }
+    .trail-btn.primary { background: #4ade80; color: #052e16; }
+    .trail-btn.ghost { background: rgba(255,255,255,0.14); color: #ffffff; }
+    .trail-btn.ghost:hover { background: rgba(255,255,255,0.24); }
+
+    /* FLOATING TRAIL BANNER IN OFFICE VIEW */
+    .office-trail-bar {
+      background: linear-gradient(135deg, #102a1b 0%, #164429 100%);
+      color: #fff; border-radius: 14px; padding: 14px 18px; margin-bottom: 16px;
+      display: none; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;
+    }
+    .office-trail-bar.active { display: flex; }
 
     .app-viewport { flex: 1; overflow-y: auto; overflow-x: hidden; position: relative; background: var(--rr-bg); display: flex; flex-direction: column; scrollbar-width: thin; }
     .app-viewport::-webkit-scrollbar { width: 4px; }
@@ -550,6 +656,31 @@
 </head>
 <body>
 
+  <!-- MODAL DE BOAS-VINDAS: TESTAR LIVREMENTE vs TRILHA DE TESTE -->
+  <div class="welcome-overlay" id="welcomeOverlay">
+    <div class="welcome-card">
+      <div class="welcome-head">
+        <h2>Simulador Interativo — Novo App Rotas Rurais</h2>
+        <p>Escolha como deseja explorar e testar as funcionalidades do ecossistema (App Cidadão, Modo Representante e Painel do Escritório).</p>
+      </div>
+      <div class="welcome-choices">
+        <button class="welcome-opt" onclick="startFreeMode()">
+          <div class="welcome-opt-icon">🧭</div>
+          <h3>1. Testar livremente</h3>
+          <p>Navegue por todas as telas, troque de perfil e alterne cenários de GPS, Open Buildings e internet no seu próprio ritmo.</p>
+          <span class="welcome-opt-cta">Começar modo livre →</span>
+        </button>
+
+        <button class="welcome-opt featured" onclick="startGuidedTrail()">
+          <div class="welcome-opt-icon">🎯</div>
+          <h3>2. Seguir trilha de teste</h3>
+          <p>Roteiro guiado em 10 etapas passando por todas as possibilidades do app e do escritório para validar se tudo funciona corretamente.</p>
+          <span class="welcome-opt-cta">Iniciar trilha guiada →</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- TOP STUDIO HEADER: APENAS 2 ABAS (APP UNIFICADO + PAINEL ESCRITÓRIO) -->
   <header class="studio-header">
     <div class="studio-brand">
@@ -568,7 +699,8 @@
     <div class="profile-switcher">
       <button class="profile-tab active app" id="tabViewApp" onclick="switchMainView('app')">📱 App Rotas Rurais</button>
       <button class="profile-tab escritorio" id="tabViewEscritorio" onclick="switchMainView('escritorio')">💻 Painel Escritório <span class="tab-count" id="headerOfficeBadge">2</span></button>
-      <button class="profile-tab" style="border-left:1px solid rgba(255,255,255,0.16); margin-left:4px; padding-left:12px;" onclick="location.reload()" title="Reiniciar Simulador">↺ Reiniciar</button>
+      <button class="profile-tab" id="tabTrailToggle" style="border-left:1px solid rgba(255,255,255,0.16); margin-left:4px; padding-left:12px;" onclick="toggleGuidedTrail()">🎯 Trilha de Teste</button>
+      <button class="profile-tab" onclick="location.reload()" title="Reiniciar Simulador">↺ Reiniciar</button>
     </div>
   </header>
 
@@ -578,13 +710,16 @@
   <div class="mode-view active" id="view-app">
     <main class="workspace">
 
-      <!-- LEFT PANEL: CONTEXTUAL GUIDE & CONDITIONAL CONTROLS -->
+      <!-- LEFT PANEL: TRILHA DE TESTE + CONTEXTUAL GUIDE -->
       <aside class="panel panel-left">
         <div class="panel-header">
           <h2>Explicação e Cenários desta Tela</h2>
           <span style="font-size:11px; color:var(--rr-green); font-weight:700;" id="leftStepBadge">ETAPA 1</span>
         </div>
-        <div class="panel-body" id="contextualGuide"></div>
+        <div class="panel-body">
+          <div class="trail-card" id="trailCard"></div>
+          <div id="contextualGuide"></div>
+        </div>
       </aside>
 
       <!-- CENTER: SAMSUNG GALAXY A07 (APP ÚNICO) -->
@@ -1342,6 +1477,7 @@
        ====================================================================== -->
   <div class="mode-view" id="view-escritorio">
     <div class="office-wrap">
+      <div class="office-trail-bar" id="officeTrailBar"></div>
       <div id="officeLoginView" class="office-login-card">
         <div style="background:#1e1b4b; color:#fff; padding:24px; text-align:center;">
           <div style="font-size:18px; font-weight:800;">Painel do Escritório — Rotas Rurais</div>
@@ -1552,6 +1688,8 @@
       startupCheckDone: false,
       hasSeenPickupStories: false,
       storyIndex: 0,
+      guidedTrailActive: false,
+      trailStep: 0,
       atProperty: true,
       openBuildingsHit: false,
       within50m: true,
@@ -2329,8 +2467,19 @@
         </svg>`
       },
       {
-        title: 'Ou em até 2 dias úteis',
-        text: 'Caso seu endereço não esteja registrado em nossa base ou a foto não seja da porteira, será necessária uma validação da equipe técnica. Nesse caso, seu endereço chegará em até dois dias úteis — não se preocupe, você receberá uma notificação quando ele estiver disponível. Nesse período, podemos entrar em contato para tirar alguma dúvida sobre a localização da entrada.',
+        title: 'Quando precisa de validação',
+        text: 'Caso seu endereço não esteja registrado em nossa base ou a foto não seja da porteira, nossa equipe técnica fará a conferência para você.',
+        svg: `<svg width="210" height="165" viewBox="0 0 210 165">
+          <rect x="28" y="24" width="154" height="116" rx="14" fill="#e0f2fe"/>
+          <circle cx="105" cy="70" r="24" fill="#ffffff"/>
+          <text x="105" y="79" font-size="26" text-anchor="middle">🛰️</text>
+          <rect x="44" y="106" width="122" height="22" rx="11" fill="#0369a1"/>
+          <text x="105" y="121" fill="#fff" font-size="10" font-weight="800" text-anchor="middle">Análise técnica GEO</text>
+        </svg>`
+      },
+      {
+        title: 'Chega em até 2 dias úteis',
+        text: 'Não se preocupe! Você receberá uma notificação assim que ele estiver disponível. Nesse período, podemos entrar em contato para tirar alguma dúvida sobre a entrada.',
         svg: `<svg width="210" height="165" viewBox="0 0 210 165">
           <rect x="28" y="26" width="154" height="112" rx="14" fill="#fef3c7"/>
           <text x="105" y="76" font-size="40" text-anchor="middle">🔔</text>
@@ -2350,7 +2499,7 @@
       document.getElementById('storyCardBody').innerHTML = `
         <div class="story-visual">${st.svg}</div>
         <div class="story-title">${st.title}</div>
-        <p class="story-text" style="${idx === 4 ? 'font-size:12px; line-height:1.48;' : ''}">${st.text}</p>
+        <p class="story-text">${st.text}</p>
       `;
       const prevBtn = document.getElementById('btnStoryPrev');
       const nextBtn = document.getElementById('btnStoryNext');
@@ -3068,11 +3217,151 @@
       clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('show'), 2500);
     }
 
+    // =========================================================================
+    // TRILHA DE TESTE GUIADA (10 PASSOS COBRINDO TODAS AS POSSIBILIDADES!)
+    // =========================================================================
+    const guidedTrailSteps = [
+      {
+        title: '1. Primeiro acesso e Login Cidadão',
+        desc: 'Leia a abertura, clique em CONTINUAR e entre com o CPF de Cidadão (123.456.789-00). Veja a verificação automática de download offline do município ao abrir a Home.',
+        setup: () => { switchMainView('app'); appGoTo('onboarding'); }
+      },
+      {
+        title: '2. Menu lateral e Dados Baixados',
+        desc: 'Na Home, toque no menu ☰ (canto superior esquerdo), abra "Dados baixados" e teste baixar outro município pela lista suspensa, atualizar ou excluir.',
+        setup: () => { switchMainView('app'); state.currentUser = registeredUsers['123.456.789-00']; state.activeAppMode = 'cidadao'; appGoTo('es-home'); }
+      },
+      {
+        title: '3. Tutorial Stories + Buscar CAR por Localização',
+        desc: 'Toque em RECEBER ENDEREÇO. Veja os 6 Stories explicativos, avance até a tela do CAR e clique em "Buscar meu CAR baseado na minha localização". Confira o polígono e toque em "Esse CAR é meu".',
+        setup: () => { switchMainView('app'); state.hasSeenPickupStories = false; state.atProperty = true; state.isOnline = true; appGoTo('es-home'); }
+      },
+      {
+        title: '4. Validação Automática na Hora + Termo LGPD',
+        desc: 'Com GPS dentro de 50m e fora do Open Buildings, tire a foto da porteira, informe o nome do sítio, assine o Termo (com o código curto) e abra "Visualizar Termo Assinado".',
+        setup: () => { switchMainView('app'); state.isOnline = true; state.openBuildingsHit = false; state.within50m = true; state.cPhotoTaken = false; appGoTo('es-photo'); }
+      },
+      {
+        title: '5. Alerta Open Buildings (Foto sobre Casa)',
+        desc: 'Cenário configurado: foto sobre edificação! Toque na câmera para ver o Pop-up de alerta, confirme mesmo assim, dê um nome e veja cair na fila de 2 dias úteis (sem termo).',
+        setup: () => { switchMainView('app'); state.isOnline = true; state.openBuildingsHit = true; state.within50m = true; state.cPhotoTaken = false; appGoTo('es-photo'); }
+      },
+      {
+        title: '6. Modo Sem Internet (Sem Pacote Offline)',
+        desc: 'Cenário configurado: Sem internet e sem dados offline baixados. Fotografe, avance para ver a tela "Parece que você não está conectada à internet..." e depois clique em sincronizar na Home.',
+        setup: () => { switchMainView('app'); state.downloadedMunis = {}; setOnlineMode(false); state.openBuildingsHit = false; state.within50m = true; state.cPhotoTaken = false; appGoTo('es-photo'); }
+      },
+      {
+        title: '7. Fora da Propriedade + Abrir Chamado',
+        desc: 'Cenário configurado: GPS fora do CAR! Escolha um CAR exemplo e clique em Avançar para ver o bloqueio e testar a abertura de chamado ao representante/escritório.',
+        setup: () => { switchMainView('app'); setOnlineMode(true); state.atProperty = false; appGoTo('es-busca-car'); }
+      },
+      {
+        title: '8. Painel do Escritório (Visada, Aprovar e Inconsistente)',
+        desc: 'Entre no Painel Técnico, clique em ⚡ VALIDAR ENDEREÇOS, observe a seta de visada no mapa, aprove 1 propriedade do Cidadão e classifique outra como INCONSISTENTE.',
+        setup: () => { switchMainView('escritorio'); }
+      },
+      {
+        title: '9. Retirada após Validação do Escritório',
+        desc: 'Volte ao App Cidadão! Na Home, toque no imóvel azul "Pronto para retirada" (aprovado no passo 8) para assinar o Termo e retirar seu endereço.',
+        setup: () => { switchMainView('app'); state.currentUser = registeredUsers['123.456.789-00']; state.activeAppMode = 'cidadao'; appGoTo('es-home'); }
+      },
+      {
+        title: '10. Modo Representante (SMS + Troca de Modo no Perfil)',
+        desc: 'Faça login com CPF Representante (444.555.666-77), teste uma entrega com código SMS (482910) e assinatura, e clique no ícone 👤 para alternar para o Modo Cidadão!',
+        setup: () => { switchMainView('app'); selectLoginPreset('representante'); appGoTo('login'); }
+      }
+    ];
+
+    function startFreeMode() {
+      state.guidedTrailActive = false;
+      document.getElementById('welcomeOverlay').classList.add('hidden');
+      renderTrailUI();
+    }
+
+    function startGuidedTrail() {
+      state.guidedTrailActive = true;
+      state.trailStep = 0;
+      document.getElementById('welcomeOverlay').classList.add('hidden');
+      guidedTrailSteps[0].setup();
+      renderTrailUI();
+    }
+
+    function toggleGuidedTrail() {
+      state.guidedTrailActive = !state.guidedTrailActive;
+      if (state.guidedTrailActive) {
+        guidedTrailSteps[state.trailStep].setup();
+      }
+      renderTrailUI();
+    }
+
+    function trailGo(delta) {
+      const next = state.trailStep + delta;
+      if (next < 0) return;
+      if (next >= guidedTrailSteps.length) {
+        state.guidedTrailActive = false;
+        renderTrailUI();
+        alert('🎉 Trilha de teste concluída! Todas as 10 funcionalidades foram percorridas.');
+        return;
+      }
+      state.trailStep = next;
+      guidedTrailSteps[state.trailStep].setup();
+      renderTrailUI();
+    }
+
+    function renderTrailUI() {
+      const card = document.getElementById('trailCard');
+      const officeBar = document.getElementById('officeTrailBar');
+      const tabBtn = document.getElementById('tabTrailToggle');
+      tabBtn.style.background = state.guidedTrailActive ? '#15803d' : '';
+      tabBtn.style.color = state.guidedTrailActive ? '#ffffff' : '';
+
+      if (!state.guidedTrailActive) {
+        card.classList.remove('active');
+        officeBar.classList.remove('active');
+        return;
+      }
+
+      const st = guidedTrailSteps[state.trailStep];
+      const pct = Math.round(((state.trailStep + 1) / guidedTrailSteps.length) * 100);
+      const isLast = state.trailStep === guidedTrailSteps.length - 1;
+
+      card.classList.add('active');
+      card.innerHTML = `
+        <div class="trail-top">
+          <span class="trail-pill">🎯 TRILHA DE TESTE • PASSO ${state.trailStep + 1} DE ${guidedTrailSteps.length}</span>
+          <button class="trail-btn ghost" style="padding:3px 8px; font-size:10.5px;" onclick="state.guidedTrailActive=false; renderTrailUI();">Sair da trilha ✕</button>
+        </div>
+        <div class="trail-bar"><div class="trail-bar-fill" style="width:${pct}%;"></div></div>
+        <div class="trail-step-title">${st.title}</div>
+        <div class="trail-step-desc">${st.desc}</div>
+        <div class="trail-actions">
+          ${state.trailStep > 0 ? `<button class="trail-btn ghost" onclick="trailGo(-1)">← Anterior</button>` : ''}
+          <button class="trail-btn ghost" onclick="guidedTrailSteps[state.trailStep].setup()">⚡ Preparar tela</button>
+          <button class="trail-btn primary" onclick="trailGo(1)">${isLast ? 'Concluir Trilha ✓' : 'Próximo passo →'}</button>
+        </div>
+      `;
+
+      officeBar.classList.add('active');
+      officeBar.innerHTML = `
+        <div>
+          <span class="trail-pill" style="display:inline-block; margin-bottom:4px;">🎯 TRILHA DE TESTE • PASSO ${state.trailStep + 1} DE ${guidedTrailSteps.length}</span>
+          <div style="font-size:14.5px; font-weight:800;">${st.title}</div>
+          <div style="font-size:12px; color:#d1fae5; margin-top:2px;">${st.desc}</div>
+        </div>
+        <div class="trail-actions">
+          ${state.trailStep > 0 ? `<button class="trail-btn ghost" onclick="trailGo(-1)">← Anterior</button>` : ''}
+          <button class="trail-btn primary" onclick="trailGo(1)">${isLast ? 'Concluir Trilha ✓' : 'Próximo passo →'}</button>
+        </div>
+      `;
+    }
+
     // BOOT
     populateCities('regState', 'regCity');
     initSigCanvas('cSigCanvas', 'cSigPh', 'c');
     initSigCanvas('rSigCanvas', 'rSigPh', 'r');
     syncAllViews();
+    renderTrailUI();
   </script>
 </body>
 </html>
