@@ -285,6 +285,89 @@
     .dl-bar-track { height: 8px; background: #e2e8f0; border-radius: 99px; overflow: hidden; margin: 14px 0 6px; }
     .dl-bar-fill { height: 100%; width: 0%; background: var(--rr-green); transition: width 0.25s ease; }
 
+    /* INSTAGRAM STORIES TUTORIAL */
+    .stories-screen {
+      background: linear-gradient(165deg, #0d3d22 0%, #165b33 55%, #0f2619 100%);
+      color: #ffffff;
+      padding: 12px 16px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .stories-bars {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+    .story-bar {
+      height: 3.5px;
+      background: rgba(255,255,255,0.28);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .story-bar.done { background: #ffffff; }
+    .story-bar.current { background: #86efac; }
+    .stories-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .story-skip-btn {
+      background: rgba(255,255,255,0.16);
+      border: none;
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .story-card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4px 6px;
+    }
+    .story-visual {
+      width: 220px;
+      height: 175px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.1);
+      border: 1.5px solid rgba(255,255,255,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.22);
+      overflow: hidden;
+    }
+    .story-title {
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      line-height: 1.25;
+      color: #ffffff;
+    }
+    .story-text {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: #e2f4e9;
+      max-width: 300px;
+    }
+    .stories-nav {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
     .app-viewport { flex: 1; overflow-y: auto; overflow-x: hidden; position: relative; background: var(--rr-bg); display: flex; flex-direction: column; scrollbar-width: thin; }
     .app-viewport::-webkit-scrollbar { width: 4px; }
     .app-viewport::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); border-radius: 4px; }
@@ -722,8 +805,14 @@
                   <button class="icon-btn" onclick="openProfileScreen()" title="Meu Perfil">👤</button>
                 </div>
                 <div class="screen-pad">
-                  <div id="offlinePackStatus" class="alert-box info" style="display:none; font-size:11.5px; padding:9px 11px;">
-                    📦 <strong>Dados offline prontos:</strong> <span id="offlinePackMuniLabel">Domingos Martins</span> salvo no aparelho.
+                  <div id="offlineMissingAlert" class="alert-box warn" style="display:none; font-size:11.5px; padding:10px 11px;">
+                    <div style="margin-bottom:6px;">
+                      <strong>⚠ Dados offline não baixados!</strong><br>
+                      Baixe os dados offline do seu município para o caso de não ter internet na hora de retirar o endereço.
+                    </div>
+                    <button class="btn btn-outline" style="padding:7px 10px; font-size:11.5px; border-color:#f59e0b; color:#92400e; background:#fff;" onclick="downloadMuniDataNow(state.gpsCurrentMuni, false)">
+                      📥 Baixar dados de <span id="offlineMissingMuniLabel">Domingos Martins</span>
+                    </button>
                   </div>
                   <div id="pendingSyncBanner" class="alert-box warn" style="display:none; font-size:11.5px; padding:10px;">
                     <div style="margin-bottom:7px;"><strong>📡 Há solicitação salva sem internet!</strong><br>A sincronização é automática assim que encontrar sinal.</div>
@@ -740,6 +829,27 @@
                   <div id="cPropertiesList"></div>
                   <div style="margin-top:auto; padding-top:12px;">
                     <button class="btn btn-outline" style="justify-content:flex-start;" onclick="appGoTo('es-help')">🔍 AJUDA</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- TUTORIAL ESTILO STORIES DO INSTAGRAM (1ª VEZ AO RETIRAR ENDEREÇO) -->
+              <div class="screen" id="screen-es-stories">
+                <div class="stories-screen">
+                  <div class="stories-bars" id="storiesBars"></div>
+                  <div class="stories-header">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      <div style="width:28px; height:28px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; font-size:14px;">📍</div>
+                      <span style="font-size:12px; font-weight:700;" id="storyStepCounter">Passo 1 de 5</span>
+                    </div>
+                    <button class="story-skip-btn" onclick="finishStoriesTutorial()">Pular ✕</button>
+                  </div>
+
+                  <div class="story-card-body" id="storyCardBody"></div>
+
+                  <div class="stories-nav">
+                    <button class="btn" id="btnStoryPrev" style="background:rgba(255,255,255,0.14); color:#fff;" onclick="prevStory()">← Anterior</button>
+                    <button class="btn" id="btnStoryNext" style="background:#ffffff; color:var(--rr-green-dark);" onclick="nextStory()">Próximo →</button>
                   </div>
                 </div>
               </div>
@@ -981,10 +1091,10 @@
                   <div style="margin:auto 0;">
                     <div style="width:76px; height:76px; border-radius:50%; background:#fef3c7; color:#b45309; margin:0 auto 14px; display:flex; align-items:center; justify-content:center; font-size:36px;">⏳</div>
                     <h2 style="font-size:18px; font-weight:800; color:#92400e; margin-bottom:10px; line-height:1.3;">
-                      Seu endereço está sendo avaliado por nossos técnicos
+                      Seu endereço chegará em até 2 dias úteis
                     </h2>
                     <p style="font-size:13px; color:#374151; line-height:1.55; margin-bottom:14px;" id="pendingEvalDesc">
-                      Ele chegará em até <strong>2 dias úteis</strong>. Assim que for validado, aparecerá na sua lista de propriedades para você assinar o termo de recebimento e retirar seu endereço.
+                      Não se preocupe, assim que ele estiver disponível, você será notificado. Nesse período, nossa equipe pode entrar em contato para tirar alguma dúvida sobre a localização da entrada.
                     </p>
                     <div class="alert-box info" style="text-align:left; font-size:11.5px;">
                       <strong>Como retirar depois:</strong> quando o técnico aprovar no <em>Painel Escritório</em>, o imóvel ficará pronto em <strong>Minhas Propriedades</strong> para assinatura do termo.
@@ -1437,9 +1547,11 @@
       simLoginUf: 'ES',
 
       isOnline: true,
-      gpsCurrentMuni: 'Domingos Martins', // mesmo do cadastro ('Domingos Martins') ou outro ('Santa Teresa')
-      downloadedMunis: {},                // ex: { 'Domingos Martins': true, 'Santa Teresa': false }
+      gpsCurrentMuni: 'Domingos Martins',
+      downloadedMunis: {},
       startupCheckDone: false,
+      hasSeenPickupStories: false,
+      storyIndex: 0,
       atProperty: true,
       openBuildingsHit: false,
       within50m: true,
@@ -1731,7 +1843,18 @@
             can_switch_mode: state.currentUser.isRep
           })}
         `;
-      } else if (s === 'es-home' || s === 'es-wiz-1' || s === 'es-busca-car' || s === 'es-verificando-car' || s === 'es-confirmar-car' || s === 'es-wiz-photo-intro' || s === 'es-wiz-pending' || s === 'es-wiz-offline-wait' || s === 'es-detail' || s === 'es-help') {
+      } else if (s === 'es-stories') {
+        badge.textContent = 'TUTORIAL EM STORIES';
+        box.innerHTML = `
+          <span class="ctx-badge">1ª Vez ao Retirar Endereço</span>
+          <div class="ctx-title">Tutorial Estilo Stories do Instagram</div>
+          <p class="ctx-desc">Exibido automaticamente na primeira vez que o cidadão toca em <strong>RECEBER ENDEREÇO</strong>. Explica visualmente em 5 telas rápidas todo o processo, com opção de pular a qualquer momento.</p>
+          ${buildDevBlock([
+            { txt: 'Salvar flag local <code>hasSeenPickupStories = true</code> após concluir ou pular.' },
+            { txt: 'Disponível para revisão a qualquer momento na tela de Ajuda.' }
+          ], { local_storage: { hasSeenPickupStories: state.hasSeenPickupStories }, current_story: state.storyIndex + 1, total_stories: 5 })}
+        `;
+      } else if (s === 'es-home' || s === 'es-wiz-1' || s === 'es-busca-car' || s === 'es-verificando-car' || s === 'es-confirmar-car' || s === 'es-wiz-photo-intro' || s === 'es-wiz-pending' || s === 'es-wiz-offline-wait' || s === 'es-detail' || s === 'es-help' || s === 'es-offline-data') {
         badge.textContent = 'MODO CIDADÃO • RECEBER ENDEREÇO';
         const isSameMuni = state.gpsCurrentMuni === state.currentUser.city;
         const isDownloaded = !!state.downloadedMunis[state.gpsCurrentMuni];
@@ -2142,6 +2265,111 @@
     function openReceberEnderecoWizard() {
       state.activeAppMode = 'cidadao';
       state.cSigningPropId = null;
+      if (!state.hasSeenPickupStories) {
+        state.storyIndex = 0;
+        renderStorySlide();
+        appGoTo('es-stories');
+        return;
+      }
+      appGoTo('es-wiz-1');
+    }
+
+    const pickupStories = [
+      {
+        title: 'Como retirar o endereço?',
+        text: 'Para isso, você precisará estar dentro da sua propriedade no momento.',
+        svg: `<svg width="210" height="165" viewBox="0 0 210 165">
+          <rect width="210" height="165" fill="#1e5631"/>
+          <polygon points="35,45 175,35 185,130 25,125" fill="rgba(134,239,172,0.22)" stroke="#86efac" stroke-width="2.5" stroke-dasharray="6,4"/>
+          <rect x="85" y="68" width="40" height="28" rx="4" fill="#fef08a"/>
+          <polygon points="80,70 105,48 130,70" fill="#dc2626"/>
+          <circle cx="105" cy="110" r="14" fill="rgba(56,189,248,0.35)"/>
+          <circle cx="105" cy="110" r="7" fill="#38bdf8" stroke="#fff" stroke-width="2.5"/>
+        </svg>`
+      },
+      {
+        title: 'Encontre seu código CAR',
+        text: 'Você pode buscar pelo CAR digitando o código ou deixar o sistema encontrar o seu CAR pela sua localização.',
+        svg: `<svg width="210" height="165" viewBox="0 0 210 165">
+          <rect x="52" y="16" width="106" height="132" rx="14" fill="#ffffff"/>
+          <rect x="64" y="34" width="82" height="22" rx="6" fill="#e6f4ec" stroke="#186438" stroke-width="1.5"/>
+          <text x="105" y="49" fill="#104928" font-size="9" font-weight="800" text-anchor="middle" font-family="monospace">ES-3201902...</text>
+          <rect x="64" y="68" width="82" height="24" rx="8" fill="#186438"/>
+          <text x="105" y="83" fill="#fff" font-size="8.5" font-weight="700" text-anchor="middle">📍 Usar GPS</text>
+          <circle cx="105" cy="118" r="14" fill="#dcfce7"/>
+          <text x="105" y="123" font-size="16" text-anchor="middle">🔍</text>
+        </svg>`
+      },
+      {
+        title: 'Tire uma foto da porteira',
+        text: 'Após isso, será necessário ir até a sua porteira e tirar uma foto dela.',
+        svg: `<svg width="210" height="165" viewBox="0 0 210 165">
+          <rect width="210" height="82" fill="#7dd3fc"/>
+          <path d="M0 82 Q60 66 115 76 T210 72 L210 165 L0 165 Z" fill="#4d7c0f"/>
+          <rect x="46" y="72" width="10" height="58" fill="#78350f"/>
+          <rect x="154" y="72" width="10" height="58" fill="#78350f"/>
+          <rect x="52" y="82" width="106" height="8" fill="#92400e"/>
+          <rect x="52" y="98" width="106" height="8" fill="#92400e"/>
+          <rect x="52" y="114" width="106" height="8" fill="#92400e"/>
+          <rect x="24" y="24" width="162" height="116" rx="12" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="8,6"/>
+          <circle cx="168" cy="130" r="16" fill="#186438" stroke="#fff" stroke-width="2"/>
+          <text x="168" y="136" font-size="15" text-anchor="middle">📷</text>
+        </svg>`
+      },
+      {
+        title: 'Receba seu endereço na hora',
+        text: 'Se identificarmos a sua porteira automaticamente, você já recebe seu endereço na hora, após a assinatura de um termo.',
+        svg: `<svg width="210" height="165" viewBox="0 0 210 165">
+          <rect x="25" y="24" width="160" height="116" rx="14" fill="#ffffff"/>
+          <circle cx="105" cy="56" r="18" fill="#dcfce7"/>
+          <text x="105" y="63" fill="#166534" font-size="20" font-weight="800" text-anchor="middle">✓</text>
+          <text x="105" y="94" fill="#104928" font-size="13" font-weight="800" text-anchor="middle" font-family="monospace">HR64+G5M</text>
+          <text x="105" y="110" fill="#5c6b61" font-size="10" font-weight="600" text-anchor="middle">Domingos Martins</text>
+          <path d="M72 126 Q90 118 105 125 T138 122" fill="none" stroke="#186438" stroke-width="2" stroke-linecap="round"/>
+        </svg>`
+      },
+      {
+        title: 'Ou em até 2 dias úteis',
+        text: 'Caso seu endereço não esteja registrado em nossa base ou a foto não seja da porteira, será necessária uma validação da equipe técnica. Nesse caso, seu endereço chegará em até dois dias úteis — não se preocupe, você receberá uma notificação quando ele estiver disponível. Nesse período, podemos entrar em contato para tirar alguma dúvida sobre a localização da entrada.',
+        svg: `<svg width="210" height="165" viewBox="0 0 210 165">
+          <rect x="28" y="26" width="154" height="112" rx="14" fill="#fef3c7"/>
+          <text x="105" y="76" font-size="40" text-anchor="middle">🔔</text>
+          <rect x="48" y="96" width="114" height="24" rx="12" fill="#b45309"/>
+          <text x="105" y="112" fill="#fff" font-size="10.5" font-weight="800" text-anchor="middle">Até 2 dias úteis</text>
+        </svg>`
+      }
+    ];
+
+    function renderStorySlide() {
+      const idx = state.storyIndex;
+      const st = pickupStories[idx];
+      document.getElementById('storiesBars').innerHTML = pickupStories.map((_, i) =>
+        `<div class="story-bar ${i < idx ? 'done' : i === idx ? 'current' : ''}"></div>`
+      ).join('');
+      document.getElementById('storyStepCounter').textContent = `Passo ${idx + 1} de ${pickupStories.length}`;
+      document.getElementById('storyCardBody').innerHTML = `
+        <div class="story-visual">${st.svg}</div>
+        <div class="story-title">${st.title}</div>
+        <p class="story-text" style="${idx === 4 ? 'font-size:12px; line-height:1.48;' : ''}">${st.text}</p>
+      `;
+      const prevBtn = document.getElementById('btnStoryPrev');
+      const nextBtn = document.getElementById('btnStoryNext');
+      prevBtn.style.visibility = idx === 0 ? 'hidden' : 'visible';
+      nextBtn.textContent = idx === pickupStories.length - 1 ? 'Entendi, começar! →' : 'Próximo →';
+    }
+
+    function prevStory() {
+      if (state.storyIndex > 0) { state.storyIndex--; renderStorySlide(); }
+    }
+    function nextStory() {
+      if (state.storyIndex < pickupStories.length - 1) {
+        state.storyIndex++; renderStorySlide();
+      } else {
+        finishStoriesTutorial();
+      }
+    }
+    function finishStoriesTutorial() {
+      state.hasSeenPickupStories = true;
       appGoTo('es-wiz-1');
     }
 
@@ -2359,17 +2587,17 @@
       }
       if (state.openBuildingsHit) {
         rBox.className = 'alert-box warn';
-        rBox.innerHTML = '<strong>⏳ Irá para avaliação técnica</strong><br>A foto coincidiu com uma edificação. Nossos técnicos avaliarão em até <strong>2 dias úteis</strong> (sem termo agora).';
+        rBox.innerHTML = 'Seu endereço chegará em até <strong>2 dias úteis</strong>. Não se preocupe, assim que ele estiver disponível, você será notificado.';
         document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3632, -40.6591 • Alerta Open Buildings';
         return;
       }
       if (state.within50m) {
         rBox.className = 'alert-box success';
-        rBox.innerHTML = '<strong>✓ Porteira validada na hora!</strong><br>Avance para assinar o termo de recebimento e retirar seu endereço.';
+        rBox.innerHTML = '<strong>Porteira validada automaticamente!</strong> Informe o nome de sua propriedade e avance para assinar o termo de recebimento.';
         document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3632, -40.6591 • Visada 295° • 14m';
       } else {
         rBox.className = 'alert-box warn';
-        rBox.innerHTML = '<strong>⏳ Irá para avaliação técnica</strong><br>Foto fora do raio de 50 metros. Nossos técnicos avaliarão em até <strong>2 dias úteis</strong> (sem termo agora).';
+        rBox.innerHTML = 'Seu endereço chegará em até <strong>2 dias úteis</strong>. Não se preocupe, assim que ele estiver disponível, você será notificado.';
         document.getElementById('cPhotoCoordsText').textContent = 'GPS -20.3641, -40.6580 • Visada 295° • 68m';
       }
     }
@@ -2484,8 +2712,8 @@
       const mine = dbProperties.filter(p => p.ownerCpf === state.currentUser.cpf);
       document.getElementById('pendingSyncBanner').style.display = mine.some(p => p.status === 'pendente_sync') ? 'block' : 'none';
       const hasPack = isCurrentMuniDownloaded();
-      document.getElementById('offlinePackStatus').style.display = hasPack ? 'block' : 'none';
-      if (hasPack) document.getElementById('offlinePackMuniLabel').textContent = state.gpsCurrentMuni;
+      document.getElementById('offlineMissingAlert').style.display = hasPack ? 'none' : 'block';
+      document.getElementById('offlineMissingMuniLabel').textContent = state.gpsCurrentMuni;
 
       document.getElementById('cPropCount').textContent = mine.length + (mine.length === 1 ? ' imóvel' : ' imóveis');
       document.getElementById('cPropertiesList').innerHTML = !mine.length
