@@ -48,7 +48,7 @@
       flex-wrap: wrap;
       position: sticky;
       top: 0;
-      z-index: 200;
+      z-index: 600;
     }
     .studio-brand { display: flex; align-items: center; gap: 11px; }
     .studio-brand h1 { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
@@ -80,8 +80,9 @@
       transition: all 0.16s;
     }
     .profile-tab:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .profile-tab.active { background: var(--rr-green-mid); color: #fff; box-shadow: 0 0 12px rgba(74, 222, 128, 0.35); }
     .profile-tab.active.app { background: var(--rr-green-mid); color: #fff; }
-    .profile-tab.active.escritorio { background: #4338ca; color: #fff; }
+    .profile-tab.active.escritorio { background: #4338ca; color: #fff; box-shadow: 0 0 12px rgba(129, 140, 248, 0.4); }
     .tab-count { background: rgba(255,255,255,0.22); font-size: 10.5px; padding: 1px 6px; border-radius: 999px; }
 
     .mode-view { display: none; flex: 1; }
@@ -290,10 +291,37 @@
       display: inline-flex; align-items: center; font-size: 11px; font-weight: 800;
       padding: 3px 9px; border-radius: 99px; white-space: nowrap; line-height: 1.2;
     }
-    .ticket-tag.rep { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }        /* Amarelo: Com representante */
-    .ticket-tag.done { background: #dcfce7; color: #166534; border: 1px solid #86efac; }       /* Verde: Concluído */
-    .ticket-tag.err { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }        /* Vermelho: Inconsistente */
-    .ticket-tag.wait { background: #ffedd5; color: #c2410c; border: 1px solid #fdba74; }       /* Laranja: Aguardando validação */
+    .ticket-tag.rep { background: #fef9c3; color: #854d0e; border: 1px solid #fde047; }        /* Amarelo: Aguardando Validação do Representante */
+    .ticket-tag.done { background: #dcfce7; color: #166534; border: 1px solid #86efac; }       /* Verde: Endereço Entregue */
+    .ticket-tag.err { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }        /* Cinza: Endereço Não Entregue */
+    .ticket-tag.wait { background: #ffedd5; color: #c2410c; border: 1px solid #fdba74; }       /* Laranja: Aguardando Validação do Escritório */
+    /* FILTROS UNIFICADOS & DASHBOARD DO ESCRITÓRIO */
+    .office-filter-bar {
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end;
+      background: #fff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 12px 14px; margin-bottom: 14px;
+    }
+    .office-filter-group { display: flex; flex-direction: column; gap: 4px; min-width: 170px; flex: 1; }
+    .office-filter-group label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #64748b; letter-spacing: 0.04em; }
+    .office-filter-group select, .office-filter-group input {
+      padding: 8px 10px; border: 1.5px solid #cbd5e1; border-radius: 9px; font-size: 12.5px;
+      font-family: inherit; background: #f8fbf9; color: #0f172a;
+    }
+    .office-adv-link {
+      background: none; border: 1px dashed #94a3b8; color: #475569; border-radius: 9px;
+      padding: 8px 11px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; white-space: nowrap;
+    }
+    .office-adv-link:hover { border-color: var(--rr-green); color: var(--rr-green-dark); background: #f0fdf4; }
+    .office-adv-link.has-filters { border-color: var(--rr-green-dark); background: #dcfce7; color: #14532d; border-style: solid; }
+    .dash-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 16px; }
+    @media (max-width: 1020px) { .dash-kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+    .dash-charts-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 16px; margin-bottom: 16px; }
+    @media (max-width: 960px) { .dash-charts-grid { grid-template-columns: 1fr; } }
+    .dash-card { background: #fff; border: 1.5px solid #e2e8f0; border-radius: 16px; padding: 16px 18px; }
+    .dash-card h3 { font-size: 14px; font-weight: 800; color: var(--rr-green-dark); margin-bottom: 12px; }
+    .assign-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; margin-top: 12px; }
+    .assign-card { background: #fff; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 14px 16px; }
+    .assign-muni-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 13px; color: #1e293b; cursor: pointer; }
+    .readonly-banner { background: #fef9c3; border: 1.5px solid #fde047; color: #854d0e; border-radius: 10px; padding: 9px 13px; font-size: 12.5px; font-weight: 700; margin-bottom: 10px; }
     /* CHAT DO APP COM BOTÃO CLIPE E MENU PARA CIMA */
     .rep-chat-wrap { display: flex; flex-direction: column; flex: 1; min-height: 410px; }
     .rep-chat-scroll { flex: 1; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; max-height: 365px; padding: 4px 2px 10px; }
@@ -419,7 +447,7 @@
     /* WELCOME CHOICE OVERLAY & GUIDED TEST TRAIL */
     .welcome-overlay {
       position: fixed;
-      inset: 0;
+      top: 58px; left: 0; right: 0; bottom: 0;
       background: rgba(15, 38, 25, 0.82);
       backdrop-filter: blur(6px);
       z-index: 500;
@@ -954,12 +982,59 @@
     .office-topbar-center { text-align: center; font-size: 16px; font-weight: 800; letter-spacing: 0.04em; }
     .office-topbar-right { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
     .office-uf-pill {
-      display: inline-flex; align-items: center; gap: 6px;
+      display: inline-flex; align-items: center; gap: 7px;
       background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.28);
       color: #fff; padding: 6px 12px; border-radius: 99px; font-size: 12.5px; font-weight: 800;
-      cursor: pointer; font-family: inherit; transition: 0.15s;
+      cursor: pointer; font-family: inherit; transition: 0.15s; position: relative;
     }
     .office-uf-pill:hover { background: rgba(255,255,255,0.24); }
+    .office-uf-badge {
+      background: #facc15; color: #14532d; font-size: 11px; font-weight: 800;
+      padding: 1px 7px; border-radius: 99px; line-height: 1.3;
+    }
+    .office-uf-wrap { position: relative; }
+    .office-uf-menu {
+      position: absolute; top: calc(100% + 8px); left: 0; min-width: 220px;
+      background: #fff; border: 1.5px solid #cbd5e1; border-radius: 13px;
+      box-shadow: 0 14px 36px rgba(15, 23, 42, 0.2); padding: 6px; z-index: 250; display: none;
+    }
+    .office-uf-menu.open { display: block; }
+    .office-uf-opt {
+      display: flex; align-items: center; justify-content: space-between; width: 100%;
+      padding: 9px 11px; border: none; background: transparent; border-radius: 9px;
+      font-size: 13px; font-weight: 700; color: #1e293b; cursor: pointer; font-family: inherit;
+    }
+    .office-uf-opt:hover { background: #ecfdf5; color: var(--rr-green-dark); }
+    .office-uf-opt.active { background: #dcfce7; color: var(--rr-green-dark); }
+
+    /* CUSTOM SEARCHABLE DROPDOWN (MESMO LAYOUT DA PÁGINA!) */
+    .rr-dd { position: relative; width: 100%; }
+    .rr-dd-trigger {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      padding: 9px 12px; border: 1.5px solid #cbd5e1; border-radius: 10px;
+      background: #f8fbf9; color: #0f172a; font-size: 13px; font-weight: 600;
+      cursor: pointer; font-family: inherit; text-align: left; transition: 0.15s;
+    }
+    .rr-dd-trigger:hover, .rr-dd.open .rr-dd-trigger { border-color: var(--rr-green); background: #fff; box-shadow: 0 0 0 3px rgba(24, 100, 56, 0.1); }
+    .rr-dd-panel {
+      position: absolute; top: calc(100% + 6px); left: 0; right: 0; min-width: 220px;
+      background: #fff; border: 1.5px solid #cbd5e1; border-radius: 13px;
+      box-shadow: 0 16px 38px rgba(15, 23, 42, 0.16); padding: 8px; z-index: 220; display: none;
+    }
+    .rr-dd.open .rr-dd-panel { display: block; }
+    .rr-dd-search {
+      width: 100%; padding: 7px 10px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+      font-size: 12.5px; font-family: inherit; margin-bottom: 6px; outline: none; background: #f8fafc;
+    }
+    .rr-dd-search:focus { border-color: var(--rr-green); background: #fff; }
+    .rr-dd-list { max-height: 210px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
+    .rr-dd-item {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      width: 100%; padding: 8px 10px; border: none; background: transparent; border-radius: 8px;
+      font-size: 12.5px; font-weight: 600; color: #1e293b; cursor: pointer; text-align: left; font-family: inherit;
+    }
+    .rr-dd-item:hover { background: #ecfdf5; color: var(--rr-green-dark); }
+    .rr-dd-item.active { background: #dcfce7; color: var(--rr-green-dark); font-weight: 800; }
     .office-grid { display: grid; grid-template-columns: 230px 1fr; min-height: 640px; transition: grid-template-columns 0.2s; }
     .office-grid.sidebar-collapsed { grid-template-columns: 0px 1fr; }
     .office-grid.sidebar-collapsed .office-sidebar { padding: 0; border-right: none; overflow: hidden; }
@@ -1024,6 +1099,51 @@
       background: #fff; border-radius: 18px; max-width: 920px; width: 100%;
       box-shadow: 0 24px 64px rgba(0,0,0,0.4); overflow: hidden;
     }
+
+    /* PÁGINA DE FLUXO INTERATIVO E ANIMADO */
+    .fluxo-wrap { max-width: 1280px; margin: 18px auto 34px; padding: 0 20px; }
+    .fluxo-shell { background: #fff; border-radius: 18px; border: 1px solid var(--rr-border); box-shadow: 0 12px 32px rgba(16, 42, 27, 0.08); padding: 20px 24px; }
+    .fluxo-premises { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+    .fluxo-premise-pill {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700;
+      padding: 5px 12px; border-radius: 99px; background: #f0fdf4; color: #14532d; border: 1px solid #bbf7d0;
+    }
+    .fluxo-paths { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .fluxo-path-btn {
+      border: 1.5px solid #cbd5e1; background: #fff; color: #334155; border-radius: 10px;
+      padding: 8px 13px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; transition: 0.16s;
+    }
+    .fluxo-path-btn:hover { border-color: var(--rr-green); background: #f8fbf9; }
+    .fluxo-path-btn.active { background: var(--rr-green-dark); color: #fff; border-color: var(--rr-green-dark); box-shadow: 0 4px 12px rgba(15, 76, 42, 0.22); }
+    .fluxo-canvas-box {
+      position: relative;
+      background: #f8fbf9; border: 1.5px solid #e2e8f0; border-radius: 16px;
+      padding: 16px 14px; overflow: visible;
+    }
+    .fluxo-svg { width: 100%; height: auto; display: block; }
+    .f-edge { stroke: #cbd5e1; stroke-width: 2.4; fill: none; transition: stroke 0.25s, stroke-width 0.25s, opacity 0.25s; opacity: 0.45; }
+    .f-edge.all-mode { stroke: #94a3b8; opacity: 0.85; }
+    .f-edge.in-path { stroke: #94a3b8; opacity: 0.85; }
+    .f-edge.active-edge { stroke: #16a34a; stroke-width: 3.6; stroke-dasharray: 8 6; opacity: 1; animation: flowDash 0.85s linear infinite; }
+    .f-edge.active-edge.err-edge { stroke: #dc2626; }
+    .f-edge.active-edge.warn-edge { stroke: #d97706; }
+    @keyframes flowDash { from { stroke-dashoffset: 28; } to { stroke-dashoffset: 0; } }
+    .f-node { cursor: pointer; transition: opacity 0.25s; opacity: 0.35; }
+    .f-node.all-mode { opacity: 1; }
+    .f-node.in-path { opacity: 0.88; }
+    .f-node.visited { opacity: 1; }
+    .f-node.current { opacity: 1; }
+    .f-node-box { rx: 14; ry: 14; stroke-width: 2.2; transition: all 0.25s; }
+    .f-node.current .f-node-box { stroke-width: 3.5; filter: drop-shadow(0 0 10px rgba(22, 163, 74, 0.42)); }
+    .fluxo-popover {
+      position: absolute; z-index: 40; width: 320px; background: #fff;
+      border: 2px solid var(--rr-green-dark); border-radius: 14px; padding: 12px 14px;
+      box-shadow: 0 14px 36px rgba(15, 23, 42, 0.18); display: none;
+    }
+    .fluxo-popover.open { display: block; }
+    .fluxo-popover-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+    .fluxo-popover-desc { font-size: 13px; color: #334155; line-height: 1.48; margin-bottom: 10px; }
+    .fluxo-popover-nav { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .map-reposition-btn {
       position: absolute; bottom: 10px; right: 10px; z-index: 15;
       background: rgba(15, 23, 42, 0.88); color: #fff; border: 1.5px solid rgba(255,255,255,0.45);
@@ -1048,6 +1168,68 @@
     .chat-input-bar { padding: 12px; border-top: 1px solid #e2e8f0; background: #fff; display: flex; gap: 8px; }
     .val-action-btn { width: 100%; justify-content: flex-start; text-align: left; padding: 11px 14px; font-size: 13px; }
     .val-action-btn.selected-mode { box-shadow: 0 0 0 2.5px var(--rr-green); }
+
+    /* ATRIBUIÇÕES & MEMBROS ESCALÁVEIS (1000+ MUNICÍPIOS, 100+ MEMBROS) */
+    .role-filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .role-pill-btn {
+      padding: 7px 12px; border-radius: 99px; border: 1.5px solid #cbd5e1; background: #fff;
+      color: #475569; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; transition: 0.15s;
+    }
+    .role-pill-btn:hover { border-color: var(--rr-green); color: var(--rr-green-dark); }
+    .role-pill-btn.active { background: var(--rr-green-dark); color: #fff; border-color: var(--rr-green-dark); }
+    .assign-split { display: grid; grid-template-columns: 320px 1fr; gap: 16px; align-items: start; }
+    @media (max-width: 900px) { .assign-split { grid-template-columns: 1fr; } }
+    .assign-panel {
+      background: #fff; border: 1.5px solid var(--rr-border); border-radius: 16px;
+      overflow: hidden; box-shadow: 0 4px 12px rgba(16, 42, 27, 0.04);
+    }
+    .assign-panel-head { padding: 12px 14px; background: #f8fbf9; border-bottom: 1px solid #e2e8f0; }
+    .assign-scroll { max-height: 440px; overflow-y: auto; }
+    .assign-muni-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      padding: 11px 14px; border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: 0.14s;
+      font-size: 13px; font-weight: 700; color: #1e293b;
+    }
+    .assign-muni-row:hover { background: #f0fdf4; }
+    .assign-muni-row.active { background: var(--rr-green-light); color: var(--rr-green-dark); border-left: 3.5px solid var(--rr-green-dark); }
+    .assign-count-pills { display: flex; gap: 5px; flex-shrink: 0; }
+    .assign-mini-pill {
+      font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 99px;
+      background: #f1f5f9; color: #475569;
+    }
+    .assign-mini-pill.tec { background: #dcfce7; color: #166534; }
+    .assign-mini-pill.rep { background: #e0f2fe; color: #0369a1; }
+    .assign-section { padding: 16px 18px; border-bottom: 1px solid #f1f5f9; }
+    .assign-section:last-child { border-bottom: none; }
+    .assign-section-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+    .assign-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+    .assign-chip {
+      display: inline-flex; align-items: center; gap: 7px; padding: 6px 10px; border-radius: 99px;
+      background: #f0fdf4; border: 1px solid #bbf7d0; color: #14532d; font-size: 12.5px; font-weight: 700;
+    }
+    .assign-chip.rep { background: #f0f9ff; border-color: #bae6fd; color: #0c4a6e; }
+    .assign-chip button {
+      background: none; border: none; color: inherit; cursor: pointer; font-weight: 900;
+      font-size: 12px; padding: 0 2px; opacity: 0.7; line-height: 1;
+    }
+    .assign-chip button:hover { opacity: 1; color: #dc2626; }
+    .assign-picker-wrap { position: relative; }
+    .assign-picker-list {
+      max-height: 185px; overflow-y: auto; border: 1.5px solid #cbd5e1; border-radius: 10px; margin-top: 6px; background: #fff;
+    }
+    .assign-picker-list.dropdown {
+      display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 40;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+    }
+    .assign-picker-list.dropdown.open { display: block; }
+    .assign-panel { overflow: visible; }
+    .assign-panel-head { border-radius: 14px 14px 0 0; }
+    .assign-picker-item {
+      display: flex; align-items: center; justify-content: space-between; padding: 8px 12px;
+      font-size: 12.5px; cursor: pointer; border-bottom: 1px solid #f8fafc; transition: 0.12s;
+    }
+    .assign-picker-item:hover { background: #f0fdf4; }
+    .assign-picker-item.assigned { background: #ecfdf5; color: var(--rr-green-dark); font-weight: 700; }
   </style>
 </head>
 <body>
@@ -1066,32 +1248,32 @@
     </div>
   </div>
 
-  <!-- MODAL DE BOAS-VINDAS: TESTAR LIVREMENTE vs TRILHA DE TESTE -->
+  <!-- MODAL DE ESCOLHA DO ESTADO NO INÍCIO DA TRILHA (ES ATIVO / SP EM DESENVOLVIMENTO) -->
   <div class="welcome-overlay" id="welcomeOverlay">
-    <div class="welcome-card">
+    <div class="welcome-card" style="max-width:580px;">
       <div class="welcome-head">
-        <h2>Simulador Interativo — Novo App Rotas Rurais</h2>
-        <p>Escolha como deseja explorar e testar as funcionalidades do ecossistema (App Cidadão, Modo Representante e Painel do Escritório).</p>
+        <h2>Trilha Guiada — Rotas Rurais</h2>
+        <p>Selecione o estado para iniciar a trilha explicativa do aplicativo.</p>
       </div>
       <div class="welcome-choices">
-        <button class="welcome-opt" onclick="startFreeMode()">
-          <div class="welcome-opt-icon">🧭</div>
-          <h3>1. Testar livremente</h3>
-          <p>Navegue por todas as telas, troque de perfil e alterne cenários de GPS, Open Buildings e internet no seu próprio ritmo.</p>
-          <span class="welcome-opt-cta">Começar modo livre →</span>
+        <button class="welcome-opt featured" onclick="startGuidedTrail()">
+          <div class="welcome-opt-icon">🌿</div>
+          <h3>Espírito Santo (ES)</h3>
+          <p>Trilha completa do novo aplicativo: acesso, dados offline, retirada com internet, Open Buildings, autocadastramento e modo sem internet.</p>
+          <span class="welcome-opt-cta">Iniciar trilha ES →</span>
         </button>
 
-        <button class="welcome-opt featured" onclick="startGuidedTrail()">
-          <div class="welcome-opt-icon">🎯</div>
-          <h3>2. Seguir trilha de teste</h3>
-          <p>Roteiro guiado em 10 etapas passando por todas as possibilidades do app e do escritório para validar se tudo funciona corretamente.</p>
-          <span class="welcome-opt-cta">Iniciar trilha guiada →</span>
-        </button>
+        <div class="welcome-opt" style="opacity:0.48; cursor:not-allowed; pointer-events:none; filter:grayscale(0.35);">
+          <div class="welcome-opt-icon">🗺️</div>
+          <h3>São Paulo (SP)</h3>
+          <p>Trilha explicativa do módulo São Paulo.</p>
+          <span class="welcome-opt-cta" style="color:#64748b;">🚧 Em desenvolvimento</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- TOP STUDIO HEADER: APENAS 2 ABAS (APP UNIFICADO + PAINEL ESCRITÓRIO) -->
+  <!-- TOP STUDIO HEADER: 4 ABAS (TRILHA - APLICATIVO - ESCRITÓRIO - FLUXO) -->
   <header class="studio-header">
     <div class="studio-brand">
       <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
@@ -1101,16 +1283,15 @@
         <path d="M82 66C71 66 59 71 50 82C61 85 74 80 82 66Z" fill="#186438"/>
       </svg>
       <div>
-        <h1>Simulador Ecossistema Rotas Rurais — ES</h1>
-        <span>App único para Cidadão e Representante + Painel Web do Escritório</span>
+        <h1>Simulador Ecossistema Rotas Rurais</h1>
       </div>
     </div>
 
     <div class="profile-switcher">
-      <button class="profile-tab active app" id="tabViewApp" onclick="switchMainView('app')">📱 App Rotas Rurais</button>
-      <button class="profile-tab escritorio" id="tabViewEscritorio" onclick="switchMainView('escritorio')">💻 Painel Escritório <span class="tab-count" id="headerOfficeBadge">2</span></button>
-      <button class="profile-tab" id="tabTrailToggle" style="border-left:1px solid rgba(255,255,255,0.16); margin-left:4px; padding-left:12px;" onclick="toggleGuidedTrail()">🎯 Trilha de Teste</button>
-      <button class="profile-tab" onclick="location.reload()" title="Reiniciar Simulador">↺ Reiniciar</button>
+      <button class="profile-tab active" id="tabViewTrilha" onclick="switchMainView('trilha')">🎯 TRILHA</button>
+      <button class="profile-tab app" id="tabViewApp" onclick="switchMainView('app')">📱 APLICATIVO</button>
+      <button class="profile-tab escritorio" id="tabViewEscritorio" onclick="switchMainView('escritorio')">💻 ESCRITÓRIO <span class="tab-count" id="headerOfficeBadge">2</span></button>
+      <button class="profile-tab" id="tabViewFluxo" onclick="switchMainView('fluxo')">🔀 FLUXO</button>
     </div>
   </header>
 
@@ -1276,23 +1457,20 @@
                 </div>
               </div>
 
-              <!-- SP LEGADO & UNAVAILABLE -->
+              <!-- SP (EM DESENVOLVIMENTO) & UNAVAILABLE -->
               <div class="screen" id="screen-sp-legacy">
-                <div class="app-topbar" style="background:#00693e; justify-content:center;"><h3 style="text-align:center; flex:none;">Perfil</h3></div>
-                <div class="screen-pad" style="background:#fff; align-items:center;">
-                  <div class="alert-box info" style="width:100%; font-size:11.5px;"><strong>Módulo São Paulo:</strong> mantido exatamente como está hoje.</div>
-                  <div style="width:96px; height:96px; border-radius:50%; background:#bdbdbd; border:4px solid #f4c430; display:flex; align-items:center; justify-content:center; color:#fff; font-size:34px;">👤</div>
-                  <div class="sp-icon-grid" style="width:100%;">
-                    <div class="sp-icon-item"><span>🗺️</span><span>Mapa</span></div>
-                    <div class="sp-icon-item"><span>✏️</span><span>Editar</span></div>
-                    <div class="sp-icon-item"><span>💬</span><span>Contato</span></div>
-                    <div class="sp-icon-item"><span>🔔</span><span>Avisos</span></div>
-                    <div class="sp-icon-item" onclick="appGoTo('login')"><span>🚪</span><span>Sair</span></div>
+                <div class="app-topbar" style="background:#00693e;"><button class="icon-btn" onclick="appGoTo('login')">←</button><h3>São Paulo (SP)</h3></div>
+                <div class="screen-pad" style="text-align:center;">
+                  <div style="margin:auto 0; padding:16px 8px;">
+                    <div style="font-size:48px; margin-bottom:14px;">🚧</div>
+                    <h2 style="font-size:20px; font-weight:800; color:var(--rr-green-dark); text-transform:uppercase; margin-bottom:10px;">
+                      EM DESENVOLVIMENTO
+                    </h2>
+                    <p style="color:var(--rr-muted); margin-bottom:18px;">
+                      O módulo do estado de <strong>São Paulo</strong> está em desenvolvimento neste simulador.
+                    </p>
                   </div>
-                  <button class="btn btn-primary" style="background:#00693e;">Cadastrar Minha Propriedade</button>
-                  <div style="margin-top:auto; width:100%; padding-top:16px;">
-                    <button class="btn btn-outline" onclick="appGoTo('es-home')">Ver Módulo Espírito Santo →</button>
-                  </div>
+                  <button class="btn btn-outline" onclick="appGoTo('login')">← Voltar para o Login</button>
                 </div>
               </div>
 
@@ -2077,43 +2255,58 @@
   </div>
 
   <!-- ======================================================================
-       VIEW 2: PAINEL TÉCNICO — ROTAS RURAIS (LAYOUT ESPELHADO NO APP)
+       VIEW 2: PAINEL TÉCNICO — ROTAS RURAIS (CHAMADOS, DASHBOARD, ADMIN)
        ====================================================================== -->
   <div class="mode-view" id="view-escritorio">
     <div class="office-wrap">
       <div class="office-trail-bar" id="officeTrailBar"></div>
       <div id="officeLoginView" class="office-login-card">
-        <div style="background:var(--rr-green-dark); color:#fff; padding:24px; text-align:center;">
-          <div style="font-size:18px; font-weight:800;">PAINEL TÉCNICO - ROTAS RURAIS</div>
-          <div style="font-size:12px; color:#bbf7d0; margin-top:4px;">Acesso para técnicos cadastrados</div>
+        <div style="background:var(--rr-green-dark); color:#fff; padding:22px; text-align:center;">
+          <div style="font-size:18px; font-weight:800;">PAINEL TÉCNICO ROTAS RURAIS</div>
         </div>
         <div style="padding:24px;">
-          <div class="form-group"><label class="form-label">CPF do Técnico</label><input type="text" class="form-input" value="777.888.999-00" oninput="maskCpf(this)"></div>
+          <div class="form-group">
+            <label class="form-label">Perfil</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:6px;">
+              <button type="button" class="choice-btn active" id="btnOfficeRoleTec" onclick="officeSelectLoginRole('tecnico')">👤 Técnico</button>
+              <button type="button" class="choice-btn" id="btnOfficeRoleAdm" onclick="officeSelectLoginRole('admin')">🛡️ Administrador</button>
+            </div>
+          </div>
+          <div class="form-group"><label class="form-label">CPF</label><input type="text" class="form-input" id="officeLoginCpf" value="777.888.999-00" oninput="maskCpf(this)"></div>
           <div class="form-group"><label class="form-label">Senha</label><input type="password" class="form-input" value="••••••••"></div>
-          <button class="btn btn-primary" onclick="officeLogin()">ENTRAR NO PAINEL TÉCNICO</button>
+          <button class="btn btn-primary" onclick="officeLogin()">ENTRAR</button>
         </div>
       </div>
 
       <div id="officeAppView" class="office-shell" style="display:none;">
-        <!-- TOPBAR IGUAL AO APP -->
+        <!-- TOPBAR -->
         <div class="office-topbar">
           <div class="office-topbar-left">
             <button class="icon-btn" title="Menu lateral" onclick="officeToggleSidebar()">☰</button>
-            <button class="office-uf-pill" id="officeUfBtn" title="Clique para alternar entre ES e SP" onclick="officeToggleState()">
-              <span id="officeUfIcon">🗺️</span>
-              <span id="officeUfLabel">ES</span>
-            </button>
+            <div class="office-uf-wrap">
+              <button class="office-uf-pill" id="officeUfBtn" onclick="officeToggleUfMenu(event)">
+                <span>🗺️</span>
+                <span id="officeUfLabel">ES</span>
+                <span class="office-uf-badge" id="officeUfPendingCount">0</span>
+                <span style="font-size:10px; opacity:0.85;">▾</span>
+              </button>
+              <div class="office-uf-menu" id="officeUfMenu"></div>
+            </div>
           </div>
-          <div class="office-topbar-center">PAINEL TÉCNICO - ROTAS RURAIS</div>
+          <div class="office-topbar-center">PAINEL TÉCNICO ROTAS RURAIS</div>
           <div class="office-topbar-right">
+            <span id="officeRolePill" style="font-size:11.5px; font-weight:700; background:rgba(255,255,255,0.14); padding:5px 10px; border-radius:99px;">Técnico</span>
             <button class="icon-btn" title="Meu Perfil" onclick="officeNavigate('profile')">👤</button>
           </div>
         </div>
 
         <div class="office-grid sidebar-collapsed" id="officeGrid">
-          <!-- MENU LATERAL ESQUERDO (COMEÇA FECHADO): RESUMO E MEU PERFIL -->
+          <!-- MENU LATERAL ESQUERDO (COMEÇA FECHADO) -->
           <aside class="office-sidebar">
-            <button class="office-nav-btn active" id="officeNavResumo" onclick="officeNavigate('resumo')">📊 Resumo</button>
+            <button class="office-nav-btn active" id="officeNavTickets" onclick="officeNavigate('tickets')">🎫 Chamados</button>
+            <button class="office-nav-btn" id="officeNavDashboard" onclick="officeNavigate('dashboard')">📊 Dashboard</button>
+            <button class="office-nav-btn" id="officeNavMembers" style="display:none;" onclick="officeNavigate('members')">👥 Membros</button>
+            <button class="office-nav-btn" id="officeNavAssignments" style="display:none;" onclick="officeNavigate('assignments')">🗺️ Atribuições</button>
             <button class="office-nav-btn" id="officeNavProfile" onclick="officeNavigate('profile')">👤 Meu perfil</button>
             <div style="margin-top:auto; padding-top:16px; border-top:1px solid #e2e8f0;">
               <button class="office-nav-btn" style="color:#b91c1c;" onclick="officeLogout()">🚪 Sair</button>
@@ -2121,103 +2314,115 @@
           </aside>
 
           <div class="office-main">
-            <!-- SUBPÁGINA 1: RESUMO (APENAS ENDEREÇOS ENTREGUES E CHAMADOS) -->
-            <div id="officeViewResumo">
-              <div style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:14px;">
-                <div>
-                  <h2 style="font-size:20px; font-weight:800; color:var(--rr-green-dark);">Resumo</h2>
-                  <p style="font-size:13px; color:#64748b;" id="officeResumoSub">Visão geral do estado do Espírito Santo (ES)</p>
-                </div>
-                <div style="min-width:260px;">
-                  <label class="form-label" style="margin-bottom:4px;">Filtrar por município</label>
-                  <select class="form-input" id="officeMuniSelect" onchange="state.officeMuniFilter=this.value; renderOfficeResumo();"></select>
-                </div>
+            <!-- SUBPÁGINA 1 (PÁGINA INICIAL!): TABELA DE CHAMADOS COM DROPDOWNS ESTILIZADOS + BUSCA -->
+            <div id="officeViewTickets">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                <h2 style="font-size:20px; font-weight:800; color:var(--rr-green-dark);">Chamados</h2>
+                <span class="status-chip pending" id="officeTicketsCountBadge">0 chamados</span>
               </div>
 
-              <div class="office-kpi-grid">
-                <button class="office-kpi-card" onclick="officeNavigate('delivered')">
-                  <div class="office-kpi-icon" style="background:#dcfce7; color:#15803d;">✅</div>
-                  <div class="office-kpi-num" id="kpiDelivered">0</div>
-                  <div class="office-kpi-label">Endereços entregues</div>
-                  <div class="office-kpi-sub">Mapa interativo e busca por CPF, telefone, nome ou CAR →</div>
-                </button>
-
-                <button class="office-kpi-card" onclick="officeNavigate('tickets')">
-                  <div class="office-kpi-icon" style="background:#fef3c7; color:#b45309;">💬</div>
-                  <div class="office-kpi-num" id="kpiTickets">0</div>
-                  <div class="office-kpi-label">Chamados</div>
-                  <div class="office-kpi-sub">Validações pendentes e atendimento com representantes →</div>
-                </button>
-              </div>
-            </div>
-
-            <!-- SUBPÁGINA 2: ENDEREÇOS ENTREGUES (MAPA SEM NOMES + ZOOM AO CLICAR NA TABELA) -->
-            <div id="officeViewDelivered" style="display:none;">
-              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
-                <div style="display:flex; align-items:center; gap:10px;">
-                  <button class="btn btn-outline" style="width:auto; padding:7px 12px; font-size:12px;" onclick="officeNavigate('resumo')">← Resumo</button>
-                  <h2 style="font-size:18px; font-weight:800; color:var(--rr-green-dark);">Endereços Entregues</h2>
+              <div class="office-filter-bar">
+                <div class="office-filter-group">
+                  <label>Município</label>
+                  <div class="rr-dd" id="ddTicketsMuni"></div>
                 </div>
-                <div style="flex:1; max-width:440px;">
-                  <input type="text" class="form-input" id="officeDeliveredSearch" placeholder="Buscar por CPF, Telefone, Nome do proprietário ou CAR..." oninput="state.officeDeliveredFocusId=null; renderOfficeDelivered()">
+                <div class="office-filter-group">
+                  <label>Status</label>
+                  <div class="rr-dd" id="ddTicketsStatus"></div>
                 </div>
+                <div class="office-filter-group" style="flex:1.4;">
+                  <label>Pesquisar chamado</label>
+                  <input type="text" id="fTicketsSearch" placeholder="Código, propriedade, proprietário ou CAR..." oninput="state.officeFilters.search=this.value; renderOfficeTickets();">
+                </div>
+                <button type="button" class="office-adv-link" id="btnOpenAdvSearch" onclick="officeOpenAdvSearch()">⚙️ Busca avançada</button>
               </div>
 
-              <div class="office-map-box" style="height:300px; margin-bottom:14px;">
-                <svg width="100%" height="100%" viewBox="0 0 820 300" id="officeDeliveredMapSvg"></svg>
-                <div class="map-overlay-badge" id="officeDeliveredMapBadge">Mapa de Endereços Entregues</div>
-                <button class="map-reposition-btn" id="btnResetDeliveredZoom" style="display:none;" onclick="state.officeDeliveredFocusId=null; renderOfficeDelivered();">↻ Ver todos no mapa</button>
-              </div>
-
-              <table class="queue-table">
-                <thead><tr><th>Propriedade</th><th>Proprietário / CPF / Telefone</th><th>CAR</th><th>Município</th><th>Endereço</th></tr></thead>
-                <tbody id="officeDeliveredTbody"></tbody>
-              </table>
-            </div>
-
-            <!-- SUBPÁGINA 3: LISTA DE CHAMADOS (COM DATA, FILTROS E ORDEM MAIS ANTIGA -> MAIS RECENTE) -->
-            <div id="officeViewTickets" style="display:none;">
-              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px;">
-                <div style="display:flex; align-items:center; gap:10px;">
-                  <button class="btn btn-outline" style="width:auto; padding:7px 12px; font-size:12px;" onclick="officeNavigate('resumo')">← Resumo</button>
-                  <h2 style="font-size:18px; font-weight:800; color:var(--rr-green-dark);">Chamados</h2>
-                </div>
-                <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-                  <select class="form-input" id="officeTicketsStatusFilter" style="width:auto; min-width:210px; padding:8px 10px; font-size:12.5px;" onchange="renderOfficeTickets()">
-                    <option value="abertos">Em aberto (prioridade)</option>
-                    <option value="Aguardando validação">Aguardando validação</option>
-                    <option value="Com representante">Com representante</option>
-                    <option value="Encerrado">Resolvidos (Encerrados)</option>
-                    <option value="Inconsistente">Inconsistentes</option>
-                    <option value="Todos">Todos os chamados</option>
-                  </select>
-                  <input type="text" class="form-input" id="officeTicketsSearch" style="width:240px; padding:8px 10px; font-size:12.5px;" placeholder="Buscar chamado, imóvel, CAR..." oninput="renderOfficeTickets()">
-                </div>
-              </div>
-              <div style="font-size:12px; color:#64748b; margin-bottom:8px;">Ordem de prioridade: <strong>da solicitação mais antiga para a mais recente</strong>.</div>
               <table class="queue-table">
                 <thead><tr><th>Chamado</th><th>Data / Hora</th><th>Propriedade / Proprietário</th><th>Município</th><th>Status</th><th>Ação</th></tr></thead>
                 <tbody id="officeTicketsTbody"></tbody>
               </table>
             </div>
 
-            <!-- SUBPÁGINA 4: TELA UNIFICADA DE CHAMADO / VALIDAÇÃO (1 TELA SEM ROLAGEM + CHAT NA BASE) -->
+            <!-- SUBPÁGINA 2: DASHBOARD INTERATIVO (CARDS + GRÁFICOS + MAPA) -->
+            <div id="officeViewDashboard" style="display:none;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                <h2 style="font-size:20px; font-weight:800; color:var(--rr-green-dark);">Dashboard</h2>
+              </div>
+
+              <div class="office-filter-bar">
+                <div class="office-filter-group">
+                  <label>Município</label>
+                  <div class="rr-dd" id="ddDashMuni"></div>
+                </div>
+                <div class="office-filter-group">
+                  <label>Status</label>
+                  <div class="rr-dd" id="ddDashStatus"></div>
+                </div>
+              </div>
+
+              <div class="dash-kpi-grid">
+                <button class="office-kpi-card" onclick="officeJumpToStatus('Endereço Entregue')">
+                  <div class="office-kpi-icon" style="background:#dcfce7; color:#166534;">🟢</div>
+                  <div class="office-kpi-num" id="dashKpiDelivered">0</div>
+                  <div class="office-kpi-label">Endereço Entregue</div>
+                </button>
+                <button class="office-kpi-card" onclick="officeJumpToStatus('Endereço Não Entregue')">
+                  <div class="office-kpi-icon" style="background:#f1f5f9; color:#475569;">⚪</div>
+                  <div class="office-kpi-num" id="dashKpiNotDelivered">0</div>
+                  <div class="office-kpi-label">Endereço Não Entregue</div>
+                </button>
+                <button class="office-kpi-card" onclick="officeJumpToStatus('Aguardando Validação do Escritório')">
+                  <div class="office-kpi-icon" style="background:#ffedd5; color:#c2410c;">🟠</div>
+                  <div class="office-kpi-num" id="dashKpiWaitOffice">0</div>
+                  <div class="office-kpi-label">Aguardando Validação do Escritório</div>
+                </button>
+                <button class="office-kpi-card" onclick="officeJumpToStatus('Aguardando Validação do Representante')">
+                  <div class="office-kpi-icon" style="background:#fef9c3; color:#854d0e;">🟡</div>
+                  <div class="office-kpi-num" id="dashKpiWaitRep">0</div>
+                  <div class="office-kpi-label">Aguardando Validação do Representante</div>
+                </button>
+              </div>
+
+              <div class="dash-charts-grid">
+                <div class="dash-card">
+                  <h3>📊 Andamento por Município</h3>
+                  <div id="dashBarChart"></div>
+                </div>
+                <div class="dash-card">
+                  <h3>🍩 Distribuição por Status</h3>
+                  <div id="dashDonutChart" style="display:flex; align-items:center; gap:18px; flex-wrap:wrap;"></div>
+                </div>
+              </div>
+
+              <div class="dash-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                  <h3 style="margin-bottom:0;">🗺️ Mapa</h3>
+                  <span style="font-size:12px; color:#64748b;" id="dashMapSelectedInfo"></span>
+                </div>
+                <div class="office-map-box" style="height:290px;">
+                  <svg width="100%" height="100%" viewBox="0 0 820 290" id="dashMapSvg"></svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBPÁGINA 3: TELA UNIFICADA DE CHAMADO / VALIDAÇÃO -->
             <div id="officeViewTicketChat" style="display:none;">
               <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
                 <div style="display:flex; align-items:center; gap:10px;">
                   <button class="btn btn-outline" style="width:auto; padding:6px 12px; font-size:12px;" onclick="officeNavigate('tickets')">← Voltar aos Chamados</button>
-                  <h2 style="font-size:17px; font-weight:800; color:var(--rr-green-dark);" id="ticketTitleHeader">Chamado #CH-1001</h2>
+                  <h2 style="font-size:17px; font-weight:800; color:var(--rr-green-dark);" id="ticketTitleHeader">ES-01902-A0001</h2>
                 </div>
-                <span class="status-chip pending" id="ticketStatusChip">Aguardando validação</span>
+                <span id="ticketStatusChip"></span>
+              </div>
+
+              <div id="ticketReadonlyBanner" class="readonly-banner" style="display:none;">
+                🔒 Este município não está atribuído ao seu perfil técnico. Você pode visualizar os dados, mas não interagir com este chamado.
               </div>
 
               <div class="ticket-chat-layout">
-                <!-- ESQUERDA: DADOS (1 POR LINHA) + FOTO E MAPA LADO A LADO (EXPANSÍVEIS) + VALIDAR / INCONSISTENTE -->
                 <div class="card ticket-left-card">
                   <div style="font-size:16px; font-weight:800; color:#0f172a; margin-bottom:8px;" id="ticketPropName">Propriedade</div>
-
                   <div class="ticket-info-lines" id="ticketInfoLines"></div>
-
                   <div class="ticket-media-row">
                     <div id="ticketPhotoBox" class="ticket-photo-tile" onclick="officeOpenExpandModal('photo')"></div>
                     <div id="ticketMapBox" class="ticket-map-tile" onclick="officeHandleTicketMapClick(event)">
@@ -2227,24 +2432,19 @@
                       <button class="map-reposition-btn" id="btnTicketReposition" onclick="event.stopPropagation(); officeToggleTicketReposition();">📍 Reposicionar</button>
                     </div>
                   </div>
-
                   <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:auto;">
-                    <button class="btn btn-primary" style="padding:11px;" onclick="officeResolveTicketAndDeliver()">✓ Validar</button>
-                    <button class="btn btn-danger" style="padding:11px;" onclick="officeMarkTicketInconsistent()">🚫 Marcar como inconsistente</button>
+                    <button class="btn btn-primary" id="btnTicketValidate" style="padding:11px;" onclick="officeResolveTicketAndDeliver()">✓ Validar</button>
+                    <button class="btn btn-danger" id="btnTicketInconsistent" style="padding:11px;" onclick="officeMarkTicketInconsistent()">🚫 Marcar como inconsistente</button>
                   </div>
                 </div>
 
-                <!-- DIREITA: CHAT ALINHADO À BASE COM ANEXOS (ÁUDIO, FOTO, VÍDEO, DOCUMENTO) -->
                 <div class="chat-panel">
                   <div class="chat-header">
                     <span>💬 Chat do Chamado</span>
-                    <span style="font-size:11.5px; color:#64748b;" id="ticketRepName">Representante Local</span>
-                  </div>
-                  <div style="padding:7px 14px; background:#ecfdf5; border-bottom:1px solid #bbf7d0; font-size:11px; color:#14532d; flex-shrink:0;">
-                    💡 Para acionar o representante local, basta digitar abaixo. Se validar direto, uma mensagem automática de registro será adicionada.
+                    <span style="font-size:11.5px; color:#64748b;" id="ticketRepName">Representante</span>
                   </div>
                   <div class="chat-messages" id="ticketChatMessages"></div>
-                  <div class="chat-footer">
+                  <div class="chat-footer" id="ticketChatFooter">
                     <div class="chat-attach-bar">
                       <button type="button" class="chat-attach-btn" onclick="officeSendAttachment('audio')">🎙️ Áudio</button>
                       <button type="button" class="chat-attach-btn" onclick="officeSendAttachment('foto')">📷 Foto</button>
@@ -2253,9 +2453,62 @@
                     </div>
                     <div class="chat-input-bar">
                       <input type="text" class="form-input" id="ticketChatInput" placeholder="Digite para chamar o representante local..." onkeydown="if(event.key==='Enter') officeSendChatMessage()">
-                      <button class="btn btn-primary" style="width:auto; padding:10px 16px;" onclick="officeSendChatMessage()">Enviar</button>
+                      <button class="btn btn-primary" id="btnTicketSendChat" style="width:auto; padding:10px 16px;" onclick="officeSendChatMessage()">Enviar</button>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBPÁGINA 4 (ADMIN): MEMBROS -->
+            <div id="officeViewMembers" style="display:none;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                <h2 style="font-size:20px; font-weight:800; color:var(--rr-green-dark);">Membros</h2>
+                <button class="btn btn-primary" style="width:auto; padding:10px 16px;" onclick="officeOpenMemberModal()">＋ Novo Membro</button>
+              </div>
+              <div class="office-filter-bar" style="align-items:center;">
+                <div class="office-filter-group" style="flex:1.4;">
+                  <input type="text" id="fMembersSearch" placeholder="Buscar por nome, CPF ou e-mail..." oninput="state.officeMemberSearch=this.value; renderOfficeMembers();">
+                </div>
+                <div class="role-filter-pills" id="officeMemberRolePills"></div>
+              </div>
+              <table class="queue-table">
+                <thead><tr><th>Nome</th><th>CPF</th><th>Privilégio</th><th>Municípios</th><th>Ações</th></tr></thead>
+                <tbody id="officeMembersTbody"></tbody>
+              </table>
+            </div>
+
+            <!-- SUBPÁGINA 5 (ADMIN): ATRIBUIÇÕES POR MUNICÍPIO -->
+            <div id="officeViewAssignments" style="display:none;">
+              <h2 style="font-size:20px; font-weight:800; color:var(--rr-green-dark); margin-bottom:12px;">Atribuições</h2>
+              <div class="assign-split">
+                <div class="assign-panel">
+                  <div class="assign-panel-head">
+                    <input type="text" class="form-input" id="assignMuniSearch" placeholder="Buscar município..." oninput="state.officeAssignMuniSearch=this.value; renderOfficeAssignments();" style="padding:8px 11px; font-size:12.5px;">
+                  </div>
+                  <div class="assign-scroll" id="assignMuniList"></div>
+                </div>
+                <div class="assign-panel" id="assignMuniDetail"></div>
+              </div>
+            </div>
+
+            <!-- SUBPÁGINA 6: MEU PERFIL -->
+            <div id="officeViewProfile" style="display:none;">
+              <h2 style="font-size:20px; font-weight:800; color:var(--rr-green-dark); margin-bottom:14px;">Meu Perfil</h2>
+              <div class="card" style="max-width:560px; padding:20px; line-height:1.7; font-size:13.5px;">
+                <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+                  <div id="officeProfileAvatar" style="width:54px; height:54px; border-radius:50%; background:var(--rr-green-light); color:var(--rr-green-dark); display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800;">MF</div>
+                  <div>
+                    <div id="officeProfileName" style="font-size:16px; font-weight:800; color:#0f172a;">Matheus Fernandes</div>
+                    <div id="officeProfileRole" style="font-size:12.5px; color:#64748b;">Técnico</div>
+                  </div>
+                </div>
+                <div><strong>CPF:</strong> <span id="officeProfileCpf">777.888.999-00</span></div>
+                <div><strong>E-mail:</strong> <span id="officeProfileEmail">matheus.fernandes@rotasrurais.gov.br</span></div>
+                <div><strong>Estado:</strong> <span id="officeProfileUf">ES</span></div>
+                <div><strong>Municípios atribuídos:</strong> <span id="officeProfileMunis">Domingos Martins, Venda Nova do Imigrante</span></div>
+                <div style="margin-top:16px; padding-top:14px; border-top:1px solid #e2e8f0;">
+                  <button class="btn btn-secondary" onclick="officeSwitchRoleQuick()">🔄 Alternar Técnico / Administrador</button>
                 </div>
               </div>
             </div>
@@ -2271,23 +2524,96 @@
               </div>
             </div>
 
-            <!-- SUBPÁGINA 5: MEU PERFIL (TÉCNICO) -->
-            <div id="officeViewProfile" style="display:none;">
-              <h2 style="font-size:20px; font-weight:800; color:var(--rr-green-dark); margin-bottom:14px;">Meu Perfil</h2>
-              <div class="card" style="max-width:520px; padding:20px; line-height:1.7; font-size:13.5px;">
-                <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
-                  <div style="width:54px; height:54px; border-radius:50%; background:var(--rr-green-light); color:var(--rr-green-dark); display:flex; align-items:center; justify-content:center; font-size:24px; font-weight:800;">MF</div>
-                  <div>
-                    <div style="font-size:16px; font-weight:800; color:#0f172a;">Matheus Fernandes</div>
-                    <div style="font-size:12px; color:#64748b;">Técnico de Escritório • Rotas Rurais</div>
+            <!-- MODAL DE BUSCA AVANÇADA -->
+            <div class="office-expand-overlay" id="officeAdvModal" onclick="if(event.target===this) officeCloseAdvSearch()">
+              <div class="office-expand-card" style="max-width:560px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 18px; background:var(--rr-green-dark); color:#fff;">
+                  <strong style="font-size:15px;">⚙️ Busca Avançada</strong>
+                  <button class="btn btn-outline" style="width:auto; padding:5px 10px; font-size:12px; background:rgba(255,255,255,0.12); color:#fff; border-color:rgba(255,255,255,0.3);" onclick="officeCloseAdvSearch()">✕</button>
+                </div>
+                <div style="padding:18px; background:#fff;">
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <div class="form-group"><label class="form-label">Código do Chamado</label><input type="text" class="form-input" id="advCode" placeholder="Ex: ES-01902-A0001"></div>
+                    <div class="form-group"><label class="form-label">Código CAR</label><input type="text" class="form-input" id="advCar" placeholder="Ex: ES-3201902-..."></div>
+                    <div class="form-group"><label class="form-label">Nome do Proprietário</label><input type="text" class="form-input" id="advOwner" placeholder="Ex: Maria"></div>
+                    <div class="form-group"><label class="form-label">CPF do Proprietário</label><input type="text" class="form-input" id="advCpf" placeholder="000.000.000-00"></div>
+                    <div class="form-group"><label class="form-label">Telefone</label><input type="text" class="form-input" id="advPhone" placeholder="27 99..."></div>
+                    <div class="form-group"><label class="form-label">Nome da Propriedade</label><input type="text" class="form-input" id="advProp" placeholder="Ex: Sítio Esperança"></div>
+                  </div>
+                  <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:10px;">
+                    <button class="btn btn-outline" style="width:auto; padding:9px 14px;" onclick="officeClearAdvSearch()">Limpar</button>
+                    <button class="btn btn-primary" style="width:auto; padding:9px 18px;" onclick="officeApplyAdvSearch()">Aplicar busca</button>
                   </div>
                 </div>
-                <div><strong>CPF:</strong> 777.888.999-00</div>
-                <div><strong>E-mail:</strong> matheus.fernandes@rotasrurais.gov.br</div>
-                <div><strong>Estado selecionado:</strong> <span id="officeProfileUf">Espírito Santo (ES)</span></div>
+              </div>
+            </div>
+
+            <!-- MODAL DE CRIAR / EDITAR MEMBRO (ADMIN) -->
+            <div class="office-expand-overlay" id="officeMemberModal" onclick="if(event.target===this) officeCloseMemberModal()">
+              <div class="office-expand-card" style="max-width:480px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 18px; background:var(--rr-green-dark); color:#fff;">
+                  <strong style="font-size:15px;" id="memberModalTitle">Novo Membro</strong>
+                  <button class="btn btn-outline" style="width:auto; padding:5px 10px; font-size:12px; background:rgba(255,255,255,0.12); color:#fff; border-color:rgba(255,255,255,0.3);" onclick="officeCloseMemberModal()">✕</button>
+                </div>
+                <div style="padding:18px; background:#fff;">
+                  <input type="hidden" id="memberEditId">
+                  <div class="form-group"><label class="form-label">Nome completo *</label><input type="text" class="form-input" id="memberName"></div>
+                  <div class="form-group"><label class="form-label">CPF *</label><input type="text" class="form-input" id="memberCpf" oninput="maskCpf(this)"></div>
+                  <div class="form-group"><label class="form-label">E-mail *</label><input type="email" class="form-input" id="memberEmail"></div>
+                  <div class="form-group">
+                    <label class="form-label">Privilégio *</label>
+                    <select class="form-input" id="memberRole">
+                      <option value="representante">Representante</option>
+                      <option value="tecnico">Técnico</option>
+                      <option value="admin">Administrador</option>
+                    </select>
+                  </div>
+                  <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:12px;">
+                    <button class="btn btn-outline" style="width:auto; padding:9px 14px;" onclick="officeCloseMemberModal()">Cancelar</button>
+                    <button class="btn btn-primary" style="width:auto; padding:9px 18px;" onclick="officeSaveMember()">Salvar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- MODAL DE ATRIBUIR MUNICÍPIOS A UM MEMBRO (ADMIN) -->
+            <div class="office-expand-overlay" id="officeMemberMunisModal" onclick="if(event.target===this) officeCloseMemberMunisModal()">
+              <div class="office-expand-card" style="max-width:540px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:14px 18px; background:var(--rr-green-dark); color:#fff;">
+                  <div>
+                    <strong style="font-size:15px;" id="memberMunisModalTitle">Municípios</strong>
+                    <span id="memberMunisModalRole" style="font-size:11.5px; opacity:0.85; margin-left:8px;"></span>
+                  </div>
+                  <button class="btn btn-outline" style="width:auto; padding:5px 10px; font-size:12px; background:rgba(255,255,255,0.12); color:#fff; border-color:rgba(255,255,255,0.3);" onclick="officeCloseMemberMunisModal()">✕</button>
+                </div>
+                <div style="padding:18px; background:#fff;" id="memberMunisModalBody"></div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       VIEW 3: FLUXO (FLUXOGRAMA INTERATIVO E ANIMADO PASSO A PASSO)
+       ====================================================================== -->
+  <div class="mode-view" id="view-fluxo">
+    <div class="fluxo-wrap">
+      <div class="fluxo-shell">
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:14px;">
+          <strong style="font-size:13px; letter-spacing:0.06em; color:var(--rr-green-dark);">PREMISSAS</strong>
+          <div class="fluxo-premises" style="margin-bottom:0;">
+            <span class="fluxo-premise-pill">🎫 Toda solicitação gera um Chamado</span>
+            <span class="fluxo-premise-pill">✍️ Não existe data-limite para assinatura do Termo</span>
+          </div>
+        </div>
+
+        <div class="fluxo-paths" id="fluxoPathButtons"></div>
+
+        <div class="fluxo-canvas-box" id="fluxoCanvasBox">
+          <svg class="fluxo-svg" viewBox="0 0 1120 430" id="fluxoSvg"></svg>
+          <div class="fluxo-popover" id="fluxoPopover"></div>
         </div>
       </div>
     </div>
@@ -2298,7 +2624,7 @@
     // SHARED DATABASE (USERS + PROPERTIES)
     // =========================================================================
     const citiesByState = {
-      ES: ['Domingos Martins', 'Santa Teresa', 'Venda Nova do Imigrante', 'Afonso Cláudio', 'Linhares', 'Colatina', 'Cachoeiro de Itapemirim', 'Marechal Floriano', 'Santa Maria de Jetibá'],
+      ES: ['Alegre', 'Domingos Martins', 'Santa Teresa', 'Venda Nova do Imigrante', 'Afonso Cláudio', 'Linhares', 'Colatina', 'Cachoeiro de Itapemirim', 'Marechal Floriano', 'Santa Maria de Jetibá'],
       SP: ['Itu', 'Pardinho', 'Campinas', 'Ribeirão Preto'],
       MG: ['Manhuaçu', 'Caratinga', 'Governador Valadares']
     };
@@ -2382,11 +2708,39 @@
       }
     ];
 
-    // CHAMADOS UNIFICADOS: TODOS OS PONTOS AGUARDANDO VALIDAÇÃO SÃO AUTOMATICAMENTE CHAMADOS!
-    let nextTicketSeq = 1045;
+    // CÓDIGO IBGE (5 DÍGITOS SEM O ESTADO) + GERADOR ES-00201-A0001
+    const IBGE_MUNI_5 = {
+      'Alegre': '00201', 'Domingos Martins': '01902', 'Santa Teresa': '05002',
+      'Venda Nova do Imigrante': '05069', 'Afonso Cláudio': '00102', 'Linhares': '03205',
+      'Colatina': '01506', 'Cachoeiro de Itapemirim': '01209', 'Marechal Floriano': '03346',
+      'Santa Maria de Jetibá': '04559', 'Itu': '23909', 'Pardinho': '36109',
+      'Campinas': '09502', 'Ribeirão Preto': '43402'
+    };
+    const ticketCountersByMuni = { 'ES-01902': 3, 'ES-05002': 2, 'ES-05069': 1, 'ES-00201': 1, 'SP-23909': 1 };
+    function generateTicketCode(uf, city) {
+      const code5 = IBGE_MUNI_5[city] || '01902';
+      const key = `${uf}-${code5}`;
+      ticketCountersByMuni[key] = (ticketCountersByMuni[key] || 0) + 1;
+      const n = ticketCountersByMuni[key];
+      const letterIdx = Math.floor((n - 1) / 9999);
+      const num = ((n - 1) % 9999) + 1;
+      const letter = String.fromCharCode(65 + (letterIdx % 26));
+      return `${uf}-${code5}-${letter}${String(num).padStart(4, '0')}`;
+    }
+
+    // MEMBROS E PRIVILÉGIOS (GERENCIADOS PELO ADMINISTRADOR)
+    let nextMemberId = 5;
+    const dbOfficeMembers = [
+      { id: 1, name: 'Matheus Fernandes', cpf: '777.888.999-00', email: 'matheus.fernandes@rotasrurais.gov.br', role: 'tecnico', assignedMunis: ['Domingos Martins', 'Venda Nova do Imigrante'] },
+      { id: 2, name: 'Carla Mendes', cpf: '999.888.777-00', email: 'carla.mendes@rotasrurais.gov.br', role: 'admin', assignedMunis: ['Domingos Martins', 'Santa Teresa', 'Venda Nova do Imigrante', 'Alegre'] },
+      { id: 3, name: 'Lucas Andrade', cpf: '555.444.333-22', email: 'lucas.andrade@rotasrurais.gov.br', role: 'tecnico', assignedMunis: ['Santa Teresa', 'Alegre'] },
+      { id: 4, name: 'Ana Paula Costa', cpf: '444.555.666-77', email: 'ana.costa@domingosmartins.es.gov.br', role: 'representante', assignedMunis: ['Domingos Martins'] }
+    ];
+
+    // CHAMADOS UNIFICADOS — PADRÃO ES-00201-A0001 + 4 STATUS OFICIAIS
     const dbTickets = [
       {
-        id: 'CH-1040', propId: 5, uf: 'ES', status: 'Encerrado', assignedToRep: true, createdAt: 1732010000, createdLabel: '19/11/2026 às 10:42',
+        id: 'ES-01902-A0001', propId: 5, uf: 'ES', status: 'Endereço Entregue', assignedToRep: true, createdAt: 1732010000, createdLabel: '19/11/2026 às 10:42',
         repName: 'Ana Paula Costa (Rep. Domingos Martins)',
         messages: [
           { sender: 'system', author: 'Sistema', time: '19/11/2026 às 10:00', text: 'Usuário ANA PAULA COSTA solicitou o Endereço Rural Digital da propriedade CAR ES-3201902-2C3D4E5F6A7B, no dia 19/11/2026 às 10:00.' },
@@ -2394,21 +2748,28 @@
         ]
       },
       {
-        id: 'CH-1041', propId: 2, uf: 'ES', status: 'Aguardando validação', assignedToRep: false, createdAt: 1732180000, createdLabel: '21/11/2026 às 09:15',
+        id: 'ES-05002-A0001', propId: 6, uf: 'ES', status: 'Endereço Entregue', assignedToRep: false, createdAt: 1732100000, createdLabel: '20/11/2026 às 14:15',
+        repName: 'Pedro Henrique (Rep. Santa Teresa)',
+        messages: [
+          { sender: 'system', author: 'Sistema', time: '20/11/2026 às 14:15', text: 'Usuário CARLOS EDUARDO NUNES solicitou e retirou automaticamente o Endereço Rural Digital CAR ES-3205002-9A8B7C6D5E4F, no dia 20/11/2026 às 14:15.' }
+        ]
+      },
+      {
+        id: 'ES-01902-A0002', propId: 2, uf: 'ES', status: 'Aguardando Validação do Escritório', assignedToRep: false, createdAt: 1732180000, createdLabel: '21/11/2026 às 09:15',
         repName: 'Ana Paula Costa (Rep. Domingos Martins)',
         messages: [
           { sender: 'system', author: 'Sistema', time: '21/11/2026 às 09:15', text: 'Usuário MARIA APARECIDA SOUZA solicitou o Endereço Rural Digital da propriedade CAR ES-3201902-8B7C6D5E4F3A, no dia 21/11/2026 às 09:15.' }
         ]
       },
       {
-        id: 'CH-1042', propId: 3, uf: 'ES', status: 'Aguardando validação', assignedToRep: false, createdAt: 1732270000, createdLabel: '22/11/2026 às 10:05',
+        id: 'ES-05002-A0002', propId: 3, uf: 'ES', status: 'Aguardando Validação do Escritório', assignedToRep: false, createdAt: 1732270000, createdLabel: '22/11/2026 às 10:05',
         repName: 'Pedro Henrique (Rep. Santa Teresa)',
         messages: [
           { sender: 'system', author: 'Sistema', time: '22/11/2026 às 10:05', text: 'Usuário ANTÔNIO FERREIRA solicitou o Endereço Rural Digital da propriedade CAR ES-3205002-1F2E3D4C5B6A, no dia 22/11/2026 às 10:05.' }
         ]
       },
       {
-        id: 'CH-1043', propId: 4, uf: 'ES', status: 'Com representante', assignedToRep: true, createdAt: 1732290000, createdLabel: '22/11/2026 às 15:40',
+        id: 'ES-01902-A0003', propId: 4, uf: 'ES', status: 'Aguardando Validação do Representante', assignedToRep: true, createdAt: 1732290000, createdLabel: '22/11/2026 às 15:40',
         repName: 'Ana Paula Costa (Rep. Domingos Martins)',
         messages: [
           { sender: 'system', author: 'Sistema', time: '22/11/2026 às 15:40', text: 'Usuário JOSÉ ROBERTO LIMA solicitou o Endereço Rural Digital da propriedade CAR ES-3201902-5E4D3C2B1A0F, no dia 22/11/2026 às 15:40.' },
@@ -2417,7 +2778,7 @@
         ]
       },
       {
-        id: 'CH-1044', propId: 8, uf: 'ES', status: 'Aguardando validação', assignedToRep: false, createdAt: 1732350000, createdLabel: '23/11/2026 às 08:40',
+        id: 'ES-05069-A0001', propId: 8, uf: 'ES', status: 'Aguardando Validação do Escritório', assignedToRep: false, createdAt: 1732350000, createdLabel: '23/11/2026 às 08:40',
         repName: 'Marcos Silva (Rep. Venda Nova)',
         messages: [
           { sender: 'system', author: 'Sistema', time: '23/11/2026 às 08:40', text: 'Usuário LÚCIA HELENA BASTOS solicitou o Endereço Rural Digital da propriedade CAR ES-3205069-7C6B5A4D3E2F, no dia 23/11/2026 às 08:40.' }
@@ -2425,11 +2786,19 @@
       }
     ];
 
+    function normalizeTicketStatus(status) {
+      if (status === 'Encerrado' || status === 'Endereço Entregue') return 'Endereço Entregue';
+      if (status === 'Com representante' || status === 'Aguardando Validação do Representante') return 'Aguardando Validação do Representante';
+      if (status === 'Inconsistente' || status === 'Endereço Não Entregue') return 'Endereço Não Entregue';
+      return 'Aguardando Validação do Escritório';
+    }
+
     function renderTicketStatusTag(status) {
-      if (status === 'Com representante') return `<span class="ticket-tag rep">Com representante</span>`;
-      if (status === 'Encerrado') return `<span class="ticket-tag done">Concluído</span>`;
-      if (status === 'Inconsistente') return `<span class="ticket-tag err">Inconsistente</span>`;
-      return `<span class="ticket-tag wait">Aguardando validação</span>`;
+      const s = normalizeTicketStatus(status);
+      if (s === 'Aguardando Validação do Representante') return `<span class="ticket-tag rep">${s}</span>`;
+      if (s === 'Endereço Entregue') return `<span class="ticket-tag done">${s}</span>`;
+      if (s === 'Endereço Não Entregue') return `<span class="ticket-tag err">${s}</span>`;
+      return `<span class="ticket-tag wait">${s}</span>`;
     }
 
     const state = {
@@ -2477,15 +2846,38 @@
     };
 
     // =========================================================================
-    // MAIN VIEW SWITCHER (APP UNIFICADO vs PAINEL ESCRITÓRIO)
+    // MAIN VIEW SWITCHER (4 ABAS: TRILHA | APLICATIVO | ESCRITÓRIO | FLUXO)
     // =========================================================================
     function switchMainView(view) {
-      state.mainView = view;
-      document.querySelectorAll('.mode-view').forEach(v => v.classList.remove('active'));
-      document.getElementById('view-' + view).classList.add('active');
+      const overlay = document.getElementById('welcomeOverlay');
+      if (view === 'trilha') {
+        state.mainView = 'app';
+        document.querySelectorAll('.mode-view').forEach(v => v.classList.remove('active'));
+        document.getElementById('view-app').classList.add('active');
+        if (!state.guidedTrailActive) {
+          state.guidedTrailActive = true;
+          state.trailStep = 0;
+          if (overlay) overlay.classList.remove('hidden');
+        }
+      } else {
+        state.mainView = view;
+        state.guidedTrailActive = false;
+        if (overlay) overlay.classList.add('hidden');
+        document.querySelectorAll('.mode-view').forEach(v => v.classList.remove('active'));
+        const target = document.getElementById('view-' + view);
+        if (target) target.classList.add('active');
+      }
+
+      const isTrilhaTab = view === 'trilha';
+      document.getElementById('tabViewTrilha').classList.toggle('active', isTrilhaTab);
       document.getElementById('tabViewApp').classList.toggle('active', view === 'app');
       document.getElementById('tabViewEscritorio').classList.toggle('active', view === 'escritorio');
+      document.getElementById('tabViewFluxo').classList.toggle('active', view === 'fluxo');
+
+      renderTrailUI();
+      applyTrailSpotlight();
       syncAllViews();
+      if (view === 'fluxo' && typeof renderFluxoView === 'function') renderFluxoView();
     }
 
     function syncAllViews() {
@@ -3893,6 +4285,19 @@
       appToast(label + ' copiado!');
     }
 
+    function openAddressChangeDevModal() {
+      state.modalLocked = false;
+      document.getElementById('modalBg').classList.add('center');
+      document.getElementById('modalContent').innerHTML = `
+        <div style="text-align:center; padding:8px 0;">
+          <div style="font-size:36px; margin-bottom:10px;">🚧</div>
+          <h3 style="font-size:17px; font-weight:800; color:var(--rr-green-dark); margin-bottom:16px;">Em desenvolvimento</h3>
+          <button class="btn btn-primary" onclick="closeModal()">OK</button>
+        </div>
+      `;
+      document.getElementById('modalBg').classList.add('open');
+    }
+
     function cOpenDetail(id) {
       const p = dbProperties.find(x => x.id === id); if (!p) return;
       document.getElementById('cDetailTitle').textContent = p.name;
@@ -3913,7 +4318,8 @@
           <div><strong>Endereço completo:</strong> <span style="font-family:'JetBrains Mono', monospace; font-size:11.5px;">${p.erd}</span></div>
           <div><strong>Status:</strong> <span class="status-chip ok">Validado e Entregue</span></div>
         </div>
-        <button class="btn btn-outline" id="btnVerTermoAssinado" onclick="openSignedTermModal(${p.id})">📄 Visualizar Termo Assinado</button>
+        <button class="btn btn-outline" id="btnVerTermoAssinado" style="margin-bottom:8px;" onclick="openSignedTermModal(${p.id})">📄 Visualizar Termo Assinado</button>
+        <button class="btn btn-outline" id="btnSolicitarAlteracao" onclick="openAddressChangeDevModal()">✏️ Solicitar alteração de endereço</button>
       ` : p.status === 'inconsistente' ? `
         <div class="alert-box danger">
           <strong>🚫 Cadastro classificado como Inconsistente</strong><br>
@@ -3940,10 +4346,19 @@
     // REPRESENTANTE ACTIONS (MESMO APP)
     // =========================================================================
     const dbUndeliveredCars = [
-      { car: 'ES-3201902-4A9F2E1D8C7B', city: 'Domingos Martins', area: '14,2 ha' },
-      { car: 'ES-3201902-7B3C1A9E5F4D', city: 'Domingos Martins', area: '22,8 ha' },
-      { car: 'ES-3201902-1D6E8F2A3B9C', city: 'Domingos Martins', area: '9,5 ha' },
-      { car: 'ES-3201902-6F2A4C8D1E3B', city: 'Domingos Martins', area: '31,0 ha' }
+      { uf: 'ES', car: 'ES-3201902-4A9F2E1D8C7B', city: 'Domingos Martins', area: '14,2 ha', mapX: 165, mapY: 110 },
+      { uf: 'ES', car: 'ES-3201902-7B3C1A9E5F4D', city: 'Domingos Martins', area: '22,8 ha', mapX: 295, mapY: 220 },
+      { uf: 'ES', car: 'ES-3201902-1D6E8F2A3B9C', city: 'Domingos Martins', area: '9,5 ha', mapX: 215, mapY: 165 },
+      { uf: 'ES', car: 'ES-3201902-6F2A4C8D1E3B', city: 'Domingos Martins', area: '31,0 ha', mapX: 345, mapY: 95 },
+      { uf: 'ES', car: 'ES-3205002-3C8D9E1F2A4B', city: 'Santa Teresa', area: '18,6 ha', mapX: 590, mapY: 120 },
+      { uf: 'ES', car: 'ES-3205002-8E1A4B7C2D5F', city: 'Santa Teresa', area: '27,4 ha', mapX: 650, mapY: 185 },
+      { uf: 'ES', car: 'ES-3205069-5B2D9A1C7E3F', city: 'Venda Nova do Imigrante', area: '12,1 ha', mapX: 430, mapY: 155 },
+      { uf: 'ES', car: 'ES-3200201-9F4C2E7B1A8D', city: 'Alegre', area: '41,5 ha', mapX: 720, mapY: 230 },
+      { uf: 'ES', car: 'ES-3200102-3A5B7C9D1E2F', city: 'Afonso Cláudio', area: '19,3 ha', mapX: 140, mapY: 235 },
+      { uf: 'ES', car: 'ES-3203205-8C4D2E6F9A1B', city: 'Linhares', area: '52,0 ha', mapX: 745, mapY: 95 },
+      { uf: 'ES', car: 'ES-3201506-1E3F5A7B9C2D', city: 'Colatina', area: '28,7 ha', mapX: 495, mapY: 80 },
+      { uf: 'SP', car: 'SP-3523909-2A7C5E9D1B3F', city: 'Itu', area: '36,0 ha', mapX: 310, mapY: 145 },
+      { uf: 'SP', car: 'SP-3509502-6D1F8A3C4E2B', city: 'Campinas', area: '24,8 ha', mapX: 510, mapY: 160 }
     ];
     state.rDeliveryMode = 'escritorio'; // 'escritorio' | 'presencial'
     state.rOptPhotoAttached = false;
@@ -3961,8 +4376,8 @@
       const elTik = document.getElementById('rCountTickets');
       const elUnd = document.getElementById('rCountUndelivered');
       if (elDel) elDel.textContent = dbProperties.filter(p => p.status === 'entregue' && (p.uf || 'ES') === 'ES').length;
-      if (elTik) elTik.textContent = dbTickets.filter(t => t.uf === 'ES' && t.assignedToRep && t.status !== 'Encerrado').length;
-      if (elUnd) elUnd.textContent = dbUndeliveredCars.length;
+      if (elTik) elTik.textContent = dbTickets.filter(t => t.uf === 'ES' && t.assignedToRep && t.status !== 'Encerrado' && t.status !== 'Endereço Entregue').length;
+      if (elUnd) elUnd.textContent = dbUndeliveredCars.filter(u => (u.uf || 'ES') === 'ES' && u.city === 'Domingos Martins').length;
     }
 
     function rStartDelivery(prefillCar) {
@@ -4178,6 +4593,7 @@
               <span class="status-chip ok">Entregue</span>
             </div>
             <div style="font-family:'JetBrains Mono', monospace; font-size:14px; font-weight:800; color:var(--rr-green-dark); margin-top:8px;">📍 ${formatShortErd(p.erd, p.city)}</div>
+            <button class="btn btn-outline" style="margin-top:9px; padding:7px 10px; font-size:12px;" onclick="openAddressChangeDevModal()">✏️ Solicitar alteração de endereço</button>
           </div>
         `).join('');
       } else {
@@ -4201,13 +4617,14 @@
               <path d="M-10 155 Q130 135 230 160 T350 150" fill="none" stroke="#c8a878" stroke-width="9"/>
               ${pins}
             </svg>
-            <div class="map-overlay-badge">${items.length} endereço(s) no mapa • Toque em um ponto</div>
+            <div class="map-overlay-badge">${items.length} ${items.length === 1 ? 'endereço' : 'endereços'} no mapa</div>
           </div>
           ${selProp ? `
             <div class="card" style="background:#f0fdf4; border-color:#bbf7d0;">
               <div style="font-weight:800; color:var(--rr-green-dark);">${selProp.name}</div>
               <div style="font-size:12.5px; color:#334155;">${selProp.ownerName} • ${selProp.city}</div>
               <div style="font-family:'JetBrains Mono', monospace; font-size:13.5px; font-weight:800; color:var(--rr-green-dark); margin-top:4px;">📍 ${formatShortErd(selProp.erd, selProp.city)}</div>
+              <button class="btn btn-outline" style="margin-top:8px; padding:7px 10px; font-size:12px;" onclick="openAddressChangeDevModal()">✏️ Solicitar alteração de endereço</button>
             </div>
           ` : ''}
         `;
@@ -4226,7 +4643,10 @@
       const list = dbTickets
         .filter(t => {
           if (t.uf !== 'ES' || !t.assignedToRep) return false;
-          if (statusF !== 'Todos' && t.status !== statusF) return false;
+          const norm = normalizeTicketStatus(t.status);
+          if (statusF === 'Com representante' && norm !== 'Aguardando Validação do Representante') return false;
+          if (statusF === 'Encerrado' && norm !== 'Endereço Entregue') return false;
+          if (statusF === 'Inconsistente' && norm !== 'Endereço Não Entregue') return false;
           if (q) {
             const p = dbProperties.find(x => x.id === t.propId) || {};
             const hay = `${t.id} ${p.name || ''} ${p.ownerName || ''} ${p.car || ''} ${p.city || ''}`.toLowerCase();
@@ -4442,7 +4862,7 @@
     }
     function rRenderUndelivered() {
       const q = ((document.getElementById('rUndeliveredSearch') || {}).value || '').trim().toLowerCase();
-      const items = dbUndeliveredCars.filter(u => !q || u.car.toLowerCase().includes(q));
+      const items = dbUndeliveredCars.filter(u => (u.uf || 'ES') === 'ES' && u.city === 'Domingos Martins' && (!q || u.car.toLowerCase().includes(q)));
       document.getElementById('rUndeliveredBody').innerHTML = !items.length
         ? `<div class="card" style="text-align:center; color:var(--rr-muted);">🎉 Todos os CARs listados já foram entregues!</div>`
         : items.map(u => `
@@ -4553,10 +4973,175 @@
       `;
     }
 
+    state.officeLoginRole = 'tecnico';
+    state.officeUser = dbOfficeMembers[0]; // Matheus Fernandes (Técnico)
+    state.officeFilters = { muni: 'Todos', status: 'Aguardando Validação do Escritório', search: '' };
+    state.officeAdvFilters = { code: '', car: '', owner: '', cpf: '', phone: '', prop: '' };
+
+    function officeSelectLoginRole(role) {
+      state.officeLoginRole = role;
+      document.getElementById('btnOfficeRoleTec').classList.toggle('active', role === 'tecnico');
+      document.getElementById('btnOfficeRoleAdm').classList.toggle('active', role === 'admin');
+      document.getElementById('officeLoginCpf').value = role === 'admin' ? '999.888.777-00' : '777.888.999-00';
+    }
+
+    function countPendingTicketsByUf(uf) {
+      ensureTicketsForPendingProps();
+      return dbTickets.filter(t => {
+        if (t.uf !== uf) return false;
+        const s = normalizeTicketStatus(t.status);
+        return s === 'Aguardando Validação do Escritório' || s === 'Aguardando Validação do Representante';
+      }).length;
+    }
+
+    function renderOfficeUfSelector() {
+      const uf = state.officeUf;
+      const lbl = document.getElementById('officeUfLabel');
+      const cnt = document.getElementById('officeUfPendingCount');
+      const menu = document.getElementById('officeUfMenu');
+      const esCnt = countPendingTicketsByUf('ES');
+      const spCnt = countPendingTicketsByUf('SP');
+      if (lbl) lbl.textContent = uf;
+      if (cnt) cnt.textContent = uf === 'ES' ? esCnt : spCnt;
+      if (menu) {
+        menu.innerHTML = `
+          <button type="button" class="office-uf-opt ${uf==='ES'?'active':''}" onclick="officeSelectUf('ES')">
+            <span>ES • Espírito Santo</span>
+            <span class="status-chip ${esCnt?'pending':'ok'}">${esCnt}</span>
+          </button>
+          <button type="button" class="office-uf-opt ${uf==='SP'?'active':''}" onclick="officeSelectUf('SP')">
+            <span>SP • São Paulo</span>
+            <span class="status-chip ${spCnt?'pending':'ok'}">${spCnt}</span>
+          </button>
+        `;
+      }
+    }
+
+    function officeToggleUfMenu(e) {
+      if (e) e.stopPropagation();
+      renderOfficeUfSelector();
+      document.getElementById('officeUfMenu').classList.toggle('open');
+    }
+    function officeSelectUf(uf) {
+      document.getElementById('officeUfMenu').classList.remove('open');
+      state.officeUf = uf;
+      state.officeFilters.muni = 'Todos';
+      state.officeDashFilters.muni = 'Todos';
+      state.dashShowAllMunis = false;
+      document.getElementById('officeProfileUf').textContent = uf;
+      renderOfficeUfSelector();
+      renderOfficeQueue();
+      if (state.officePage === 'tickets') renderOfficeTickets();
+      if (state.officePage === 'dashboard') renderOfficeDashboard();
+      if (state.officePage === 'assignments') renderOfficeAssignments();
+    }
+
+    // CUSTOM SEARCHABLE DROPDOWN RENDERER (COM DIGITAÇÃO EM TODOS OS FILTROS!)
+    function renderCustomDropdown(containerId, options, currentVal, placeholder, onSelectFnName) {
+      const el = document.getElementById(containerId);
+      if (!el) return;
+      const curObj = options.find(o => o.value === currentVal) || options[0];
+      const curLabel = curObj ? curObj.label : 'Selecionar';
+      el.innerHTML = `
+        <button type="button" class="rr-dd-trigger" onclick="toggleCustomDropdown('${containerId}', event)">
+          <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${curLabel}</span>
+          <span style="font-size:11px; color:#64748b;">▾</span>
+        </button>
+        <div class="rr-dd-panel" onclick="event.stopPropagation()">
+          <input type="text" class="rr-dd-search" placeholder="${placeholder || 'Digitar para filtrar...'}" oninput="filterCustomDropdown('${containerId}', this.value)">
+          <div class="rr-dd-list">
+            ${options.map(o => `
+              <button type="button" class="rr-dd-item ${o.value === currentVal ? 'active' : ''}" data-label="${o.label.toLowerCase()}" onclick="${onSelectFnName}('${o.value.replace(/'/g, "\\'")}'); closeAllCustomDropdowns();">
+                <span>${o.label}</span>
+                ${o.value === currentVal ? '<span>✓</span>' : ''}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+    function toggleCustomDropdown(id, e) {
+      if (e) e.stopPropagation();
+      const target = document.getElementById(id);
+      const wasOpen = target.classList.contains('open');
+      closeAllCustomDropdowns();
+      if (!wasOpen) {
+        target.classList.add('open');
+        const inp = target.querySelector('.rr-dd-search');
+        if (inp) { inp.value = ''; filterCustomDropdown(id, ''); setTimeout(() => inp.focus(), 20); }
+      }
+    }
+    function filterCustomDropdown(id, query) {
+      const q = (query || '').trim().toLowerCase();
+      document.querySelectorAll(`#${id} .rr-dd-item`).forEach(btn => {
+        btn.style.display = (!q || (btn.dataset.label || '').includes(q)) ? 'flex' : 'none';
+      });
+    }
+    function closeAllCustomDropdowns() {
+      document.querySelectorAll('.rr-dd.open, .office-uf-menu.open, .assign-picker-list.dropdown.open').forEach(el => el.classList.remove('open'));
+    }
+    document.addEventListener('click', closeAllCustomDropdowns);
+
+    state.officeDashFilters = { muni: 'Todos', status: 'Todos' };
+    state.dashShowAllMunis = false;
+
+    function setOfficeMuniFilter(val) {
+      state.officeFilters.muni = val;
+      renderOfficeTickets();
+    }
+    function setOfficeStatusFilter(val) {
+      state.officeFilters.status = val;
+      renderOfficeTickets();
+    }
+    function setOfficeDashMuniFilter(val) {
+      state.officeDashFilters.muni = val;
+      renderOfficeDashboard();
+    }
+    function setOfficeDashStatusFilter(val) {
+      state.officeDashFilters.status = val;
+      renderOfficeDashboard();
+    }
+
+    function officeApplyUserUI() {
+      const u = state.officeUser || dbOfficeMembers[0];
+      const isAdmin = u.role === 'admin';
+      document.getElementById('officeRolePill').textContent = isAdmin ? '🛡️ Administrador' : '👤 Técnico';
+      document.getElementById('officeNavMembers').style.display = isAdmin ? 'flex' : 'none';
+      document.getElementById('officeNavAssignments').style.display = isAdmin ? 'flex' : 'none';
+      document.getElementById('officeProfileName').textContent = u.name;
+      document.getElementById('officeProfileRole').textContent = isAdmin ? 'Administrador' : 'Técnico';
+      document.getElementById('officeProfileCpf').textContent = u.cpf;
+      document.getElementById('officeProfileEmail').textContent = u.email;
+      document.getElementById('officeProfileAvatar').textContent = u.name.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
+      document.getElementById('officeProfileMunis').textContent = isAdmin ? 'Todos os municípios' : ((u.assignedMunis || []).join(', ') || 'Nenhum');
+      renderOfficeUfSelector();
+    }
+
+    function officeSwitchRoleQuick() {
+      const nextRole = state.officeUser.role === 'admin' ? 'tecnico' : 'admin';
+      state.officeUser = dbOfficeMembers.find(m => m.role === nextRole) || dbOfficeMembers[0];
+      state.officeFilters.muni = 'Todos';
+      officeApplyUserUI();
+      appToast(`Alternado para ${nextRole === 'admin' ? 'Administrador' : 'Técnico'}!`);
+      officeNavigate('tickets');
+    }
+
     function officeLogin() {
+      const cpf = (document.getElementById('officeLoginCpf') || {}).value || '';
+      state.officeUser = dbOfficeMembers.find(m => m.cpf === cpf)
+        || dbOfficeMembers.find(m => m.role === state.officeLoginRole)
+        || dbOfficeMembers[0];
+      state.officeFilters = {
+        muni: 'Todos',
+        status: 'Aguardando Validação do Escritório',
+        search: ''
+      };
+      state.officeDashFilters = { muni: 'Todos', status: 'Todos' };
+      state.dashShowAllMunis = false;
+      officeApplyUserUI();
       document.getElementById('officeLoginView').style.display = 'none';
       document.getElementById('officeAppView').style.display = 'block';
-      officeNavigate('resumo');
+      officeNavigate('tickets');
     }
     function officeLogout() {
       document.getElementById('officeLoginView').style.display = 'block';
@@ -4565,26 +5150,16 @@
     function officeToggleSidebar() {
       document.getElementById('officeGrid').classList.toggle('sidebar-collapsed');
     }
-    function officeToggleState() {
-      state.officeUf = state.officeUf === 'ES' ? 'SP' : 'ES';
-      state.officeMuniFilter = 'Todos';
-      state.officeDeliveredFocusId = null;
-      document.getElementById('officeUfLabel').textContent = state.officeUf;
-      document.getElementById('officeProfileUf').textContent = state.officeUf === 'ES' ? 'Espírito Santo (ES)' : 'São Paulo (SP)';
-      renderOfficeQueue();
-      if (state.officePage === 'delivered') renderOfficeDelivered();
-      if (state.officePage === 'tickets') renderOfficeTickets();
-    }
 
     function ensureTicketsForPendingProps() {
       dbProperties.forEach(p => {
         if (p.status === 'aguardando' && !dbTickets.some(t => t.propId === p.id)) {
-          const dtLabel = p.signedAt || '25/11/2026 às 16:00';
+          const dtLabel = p.signedAt || '26/11/2026 às 14:00';
           dbTickets.push({
-            id: 'CH-' + (nextTicketSeq++),
+            id: generateTicketCode(p.uf || 'ES', p.city || 'Domingos Martins'),
             propId: p.id,
             uf: p.uf || 'ES',
-            status: 'Aguardando validação',
+            status: 'Aguardando Validação do Escritório',
             assignedToRep: p.origin === 'Representante',
             createdAt: p.createdAt || p.id,
             createdLabel: dtLabel,
@@ -4599,168 +5174,643 @@
 
     function officeNavigate(page) {
       state.officePage = page;
-      ['Resumo', 'Delivered', 'Tickets', 'TicketChat', 'Profile'].forEach(v => {
+      ['Tickets', 'Dashboard', 'TicketChat', 'Members', 'Assignments', 'Profile'].forEach(v => {
         const el = document.getElementById('officeView' + v);
         if (el) el.style.display = 'none';
       });
-      document.getElementById('officeNavResumo').classList.toggle('active', page !== 'profile');
-      document.getElementById('officeNavProfile').classList.toggle('active', page === 'profile');
+      ['Tickets', 'Dashboard', 'Members', 'Assignments', 'Profile'].forEach(v => {
+        const btn = document.getElementById('officeNav' + v);
+        if (btn) btn.classList.toggle('active', page === v.toLowerCase() || (page === 'ticketChat' && v === 'Tickets'));
+      });
 
       const mapId = {
-        resumo: 'officeViewResumo',
-        delivered: 'officeViewDelivered',
         tickets: 'officeViewTickets',
+        dashboard: 'officeViewDashboard',
         ticketChat: 'officeViewTicketChat',
+        members: 'officeViewMembers',
+        assignments: 'officeViewAssignments',
         profile: 'officeViewProfile'
       };
       const target = document.getElementById(mapId[page]);
       if (target) target.style.display = 'block';
 
-      if (page === 'resumo') renderOfficeResumo();
-      if (page === 'delivered') renderOfficeDelivered();
       if (page === 'tickets') renderOfficeTickets();
+      if (page === 'dashboard') renderOfficeDashboard();
       if (page === 'ticketChat') renderOfficeTicketChat();
+      if (page === 'members') renderOfficeMembers();
+      if (page === 'assignments') renderOfficeAssignments();
     }
 
     function renderOfficeQueue() {
       ensureTicketsForPendingProps();
-      renderOfficeResumo();
+      renderOfficeUfSelector();
+      if (state.officePage === 'tickets') renderOfficeTickets();
+      if (state.officePage === 'dashboard') renderOfficeDashboard();
     }
 
-    function getPropsByOfficeUf() {
-      return dbProperties.filter(p => (p.uf || 'ES') === state.officeUf);
-    }
-
-    function renderOfficeResumo() {
-      ensureTicketsForPendingProps();
+    function populateOfficeFilterDropdowns(muniId, statusId, isDashboard = false) {
       const uf = state.officeUf;
-      const munis = ['Todos', ...(citiesByState[uf] || [])];
-      const sel = document.getElementById('officeMuniSelect');
-      if (sel) {
-        if (!munis.includes(state.officeMuniFilter)) state.officeMuniFilter = 'Todos';
-        sel.innerHTML = munis.map(m => `<option value="${m}" ${state.officeMuniFilter === m ? 'selected' : ''}>${m === 'Todos' ? 'Todos os municípios (' + uf + ')' : m}</option>`).join('');
+      const u = state.officeUser || dbOfficeMembers[0];
+      const allMunis = citiesByState[uf] || [];
+      const activeFilters = isDashboard ? state.officeDashFilters : state.officeFilters;
+
+      // Dashboard sempre mostra TODOS os municípios e TODOS os status por padrão (mesmo para Técnico)
+      const visibleMunis = (isDashboard || u.role === 'admin') ? allMunis : allMunis.filter(m => (u.assignedMunis || []).includes(m));
+      if (activeFilters.muni !== 'Todos' && !visibleMunis.includes(activeFilters.muni)) {
+        activeFilters.muni = 'Todos';
       }
-      const sub = document.getElementById('officeResumoSub');
-      if (sub) sub.textContent = `Visão geral do estado de ${uf === 'ES' ? 'Espírito Santo (ES)' : 'São Paulo (SP)'}`;
+      const muniOpts = [
+        { value: 'Todos', label: (isDashboard || u.role === 'admin') ? 'Todos os municípios' : 'Meus municípios atribuídos' },
+        ...visibleMunis.map(m => ({ value: m, label: m }))
+      ];
+      renderCustomDropdown(muniId, muniOpts, activeFilters.muni, 'Digitar município...', isDashboard ? 'setOfficeDashMuniFilter' : 'setOfficeMuniFilter');
 
-      const byMuni = p => state.officeMuniFilter === 'Todos' || p.city === state.officeMuniFilter;
-      const delivered = getPropsByOfficeUf().filter(p => p.status === 'entregue' && byMuni(p)).length;
-      const openTickets = dbTickets.filter(t => t.uf === uf && t.status !== 'Encerrado' && (() => {
-        const pr = dbProperties.find(x => x.id === t.propId);
-        return !pr || byMuni(pr);
-      })()).length;
-
-      const elDel = document.getElementById('kpiDelivered');
-      const elTik = document.getElementById('kpiTickets');
-      if (elDel) elDel.textContent = delivered;
-      if (elTik) elTik.textContent = openTickets;
-    }
-
-    function focusDeliveredOnMap(propId) {
-      state.officeDeliveredFocusId = propId;
-      renderOfficeDelivered();
-    }
-
-    function renderOfficeDelivered() {
-      const q = (document.getElementById('officeDeliveredSearch').value || '').trim().toLowerCase();
-      const list = getPropsByOfficeUf().filter(p => {
-        if (p.status !== 'entregue') return false;
-        if (!q) return true;
-        return (p.ownerName || '').toLowerCase().includes(q)
-          || (p.ownerCpf || '').toLowerCase().includes(q)
-          || (p.ownerPhone || '').toLowerCase().includes(q)
-          || (p.car || '').toLowerCase().includes(q)
-          || (p.name || '').toLowerCase().includes(q);
-      });
-
-      const focused = list.find(p => p.id === state.officeDeliveredFocusId);
-      const mapSvg = document.getElementById('officeDeliveredMapSvg');
-      const resetBtn = document.getElementById('btnResetDeliveredZoom');
-
-      if (focused) {
-        const fx = focused.mapX || 350;
-        const fy = focused.mapY || 150;
-        mapSvg.setAttribute('viewBox', `${Math.max(0, fx - 140)} ${Math.max(0, fy - 65)} 280 130`);
-        document.getElementById('officeDeliveredMapBadge').textContent = `Zoom: ${focused.name} (${formatShortErd(focused.erd, focused.city)})`;
-        if (resetBtn) resetBtn.style.display = 'inline-flex';
-      } else {
-        mapSvg.setAttribute('viewBox', '0 0 820 300');
-        document.getElementById('officeDeliveredMapBadge').textContent = `${list.length} endereço(s) entregue(s) em ${state.officeUf} • Clique na tabela para dar zoom`;
-        if (resetBtn) resetBtn.style.display = 'none';
+      // Status: nos Chamados NÃO existe "Endereço Não Entregue"!
+      const statusOpts = isDashboard
+        ? [
+            { value: 'Todos', label: 'Todos os status' },
+            { value: 'Aguardando Validação do Escritório', label: 'Aguardando Validação do Escritório' },
+            { value: 'Aguardando Validação do Representante', label: 'Aguardando Validação do Representante' },
+            { value: 'Endereço Entregue', label: 'Endereço Entregue' },
+            { value: 'Endereço Não Entregue', label: 'Endereço Não Entregue' }
+          ]
+        : [
+            { value: 'Aguardando Validação do Escritório', label: 'Aguardando Validação do Escritório' },
+            { value: 'Aguardando Validação do Representante', label: 'Aguardando Validação do Representante' },
+            { value: 'Endereço Entregue', label: 'Endereço Entregue' },
+            { value: 'Todos', label: 'Todos os status' }
+          ];
+      if (!isDashboard && activeFilters.status === 'Endereço Não Entregue') {
+        activeFilters.status = 'Aguardando Validação do Escritório';
       }
-
-      // Apenas os pontos no mapa (SEM nomes!)
-      const pinsSvg = list.map((p, i) => {
-        const cx = p.mapX || (160 + (i * 150) % 540);
-        const cy = p.mapY || (95 + (i * 55) % 130);
-        const isFoc = focused && focused.id === p.id;
-        return `
-          <g transform="translate(${cx}, ${cy})" style="cursor:pointer;" onclick="focusDeliveredOnMap(${p.id})">
-            <circle cx="0" cy="0" r="${isFoc ? 18 : 11}" fill="${isFoc ? 'rgba(250,204,21,0.38)' : 'rgba(34,197,94,0.28)'}"/>
-            <circle cx="0" cy="0" r="${isFoc ? 8 : 6}" fill="${isFoc ? '#eab308' : '#16a34a'}" stroke="#fff" stroke-width="2.2"/>
-          </g>
-        `;
-      }).join('');
-
-      mapSvg.innerHTML = `
-        <rect width="820" height="300" fill="#466842"/>
-        <path d="M0 0 L340 0 L280 190 L0 170 Z" fill="#3b5937"/>
-        <path d="M480 0 L820 0 L820 230 L520 200 Z" fill="#527549"/>
-        <path d="M-10 220 Q280 185 520 215 T830 200" fill="none" stroke="#c8a878" stroke-width="10"/>
-        ${pinsSvg}
-      `;
-
-      document.getElementById('officeDeliveredTbody').innerHTML = !list.length
-        ? `<tr><td colspan="5" style="text-align:center; padding:28px; color:#64748b;">Nenhum endereço entregue encontrado para este filtro.</td></tr>`
-        : list.map(p => {
-          const isFoc = focused && focused.id === p.id;
-          return `
-            <tr onclick="focusDeliveredOnMap(${p.id})" style="cursor:pointer; ${isFoc ? 'background:#ecfdf5;' : ''}">
-              <td><strong>${p.name}</strong></td>
-              <td><div>${p.ownerName}</div><div style="font-size:11.5px; color:#64748b;">CPF: ${p.ownerCpf} • Tel: ${p.ownerPhone || '27 99800-0000'}</div></td>
-              <td style="font-family:'JetBrains Mono', monospace; font-size:11.5px;">${p.car}</td>
-              <td>${p.city}</td>
-              <td><span class="status-chip ok">${formatShortErd(p.erd, p.city)}</span></td>
-            </tr>
-          `;
-        }).join('');
+      renderCustomDropdown(statusId, statusOpts, activeFilters.status, 'Digitar status...', isDashboard ? 'setOfficeDashStatusFilter' : 'setOfficeStatusFilter');
     }
 
-    function renderOfficeTickets() {
+    function canCurrentUserEditTicket(ticket) {
+      if (!state.officeUser) return true;
+      if (state.officeUser.role === 'admin') return true;
+      const p = dbProperties.find(x => x.id === ticket.propId);
+      if (!p) return true;
+      return (state.officeUser.assignedMunis || []).includes(p.city);
+    }
+
+    function getFilteredOfficeTickets(includeSearch = true, isDashboard = false) {
       ensureTicketsForPendingProps();
-      const statusF = (document.getElementById('officeTicketsStatusFilter') || {}).value || 'abertos';
-      const q = ((document.getElementById('officeTicketsSearch') || {}).value || '').trim().toLowerCase();
+      const f = isDashboard ? state.officeDashFilters : state.officeFilters;
+      const adv = state.officeAdvFilters;
+      const u = state.officeUser || dbOfficeMembers[0];
+      const q = includeSearch ? (state.officeFilters.search || '').trim().toLowerCase() : '';
+      const hasAdv = includeSearch && Object.values(adv).some(v => v && v.trim());
+      const isSearching = !!(q || hasAdv);
 
-      const list = dbTickets
+      return dbTickets
         .filter(t => {
           if (t.uf !== state.officeUf) return false;
-          if (statusF === 'abertos' && (t.status === 'Encerrado' || t.status === 'Inconsistente')) return false;
-          if (statusF !== 'abertos' && statusF !== 'Todos' && t.status !== statusF) return false;
-          if (q) {
-            const p = dbProperties.find(x => x.id === t.propId) || {};
-            const hay = `${t.id} ${p.name || ''} ${p.ownerName || ''} ${p.car || ''} ${p.city || ''}`.toLowerCase();
-            if (!hay.includes(q)) return false;
+          const p = dbProperties.find(x => x.id === t.propId) || {};
+          const normStatus = normalizeTicketStatus(t.status);
+
+          // Nos Chamados, não exibimos "Endereço Não Entregue" (a menos que seja busca específica)
+          if (!isDashboard && !isSearching && normStatus === 'Endereço Não Entregue') return false;
+
+          // Nos Chamados, Técnico só vê os municípios atribuídos a ele — exceto na busca (Dashboard sempre mostra todos)
+          if (!isDashboard && u.role !== 'admin' && !isSearching) {
+            if (!(u.assignedMunis || []).includes(p.city)) return false;
+          }
+
+          // Município
+          if (f.muni !== 'Todos' && p.city !== f.muni) return false;
+
+          // Status (quando está buscando código/nome, permite achar em qualquer status)
+          if (!isSearching && f.status !== 'Todos') {
+            if (normStatus !== f.status) return false;
+          }
+
+          if (includeSearch) {
+            if (q) {
+              const hay = `${t.id} ${p.name || ''} ${p.ownerName || ''} ${p.ownerCpf || ''} ${p.ownerPhone || ''} ${p.car || ''} ${p.city || ''}`.toLowerCase();
+              if (!hay.includes(q)) return false;
+            }
+            if (adv.code && !t.id.toLowerCase().includes(adv.code.toLowerCase())) return false;
+            if (adv.car && !(p.car || '').toLowerCase().includes(adv.car.toLowerCase())) return false;
+            if (adv.owner && !(p.ownerName || '').toLowerCase().includes(adv.owner.toLowerCase())) return false;
+            if (adv.cpf && !(p.ownerCpf || '').toLowerCase().includes(adv.cpf.toLowerCase())) return false;
+            if (adv.phone && !(p.ownerPhone || '').toLowerCase().includes(adv.phone.toLowerCase())) return false;
+            if (adv.prop && !(p.name || '').toLowerCase().includes(adv.prop.toLowerCase())) return false;
           }
           return true;
         })
         .sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+    }
+
+    function renderOfficeTickets() {
+      populateOfficeFilterDropdowns('ddTicketsMuni', 'ddTicketsStatus', false);
+      renderOfficeUfSelector();
+      const sInp = document.getElementById('fTicketsSearch');
+      if (sInp) sInp.value = state.officeFilters.search || '';
+      const hasAdv = Object.values(state.officeAdvFilters).some(v => v && v.trim());
+      const advBtn = document.getElementById('btnOpenAdvSearch');
+      if (advBtn) {
+        advBtn.classList.toggle('has-filters', hasAdv);
+        advBtn.textContent = hasAdv ? '⚙️ Busca avançada • ativa' : '⚙️ Busca avançada';
+      }
+
+      const list = getFilteredOfficeTickets(true, false);
+      const badge = document.getElementById('officeTicketsCountBadge');
+      if (badge) badge.textContent = `${list.length} ${list.length === 1 ? 'chamado' : 'chamados'}`;
 
       document.getElementById('officeTicketsTbody').innerHTML = !list.length
-        ? `<tr><td colspan="6" style="text-align:center; padding:28px; color:#64748b;">Nenhum chamado encontrado para este filtro.</td></tr>`
+        ? `<tr><td colspan="6" style="text-align:center; padding:32px; color:#64748b;">Nenhum chamado encontrado.</td></tr>`
         : list.map(t => {
           const p = dbProperties.find(x => x.id === t.propId) || { name: 'Propriedade', ownerName: '-', city: '-' };
-          const chipCls = t.status === 'Encerrado' ? 'ok' : (t.status === 'Inconsistente' ? 'err' : 'pending');
+          const editable = canCurrentUserEditTicket(t);
           return `
             <tr onclick="officeOpenTicket('${t.id}')" style="cursor:pointer;">
-              <td><strong>#${t.id}</strong></td>
-              <td style="font-size:12px; color:#475569; white-space:nowrap;">${t.createdLabel || '25/11/2026 às 16:00'}</td>
+              <td><strong style="font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--rr-green-dark);">${t.id}</strong></td>
+              <td style="font-size:12px; color:#475569; white-space:nowrap;">${t.createdLabel || '26/11/2026'}</td>
               <td><strong>${p.name}</strong><div style="font-size:11.5px; color:#64748b;">${p.ownerName}</div></td>
-              <td>${p.city}</td>
+              <td>${p.city}${!editable ? ' <span style="font-size:10.5px; color:#94a3b8;">🔒</span>' : ''}</td>
               <td>${renderTicketStatusTag(t.status)}</td>
-              <td><button class="btn btn-primary" style="width:auto; padding:7px 12px; font-size:12px;" onclick="event.stopPropagation(); officeOpenTicket('${t.id}')">Abrir →</button></td>
+              <td><button class="btn ${editable ? 'btn-primary' : 'btn-outline'}" style="width:auto; padding:7px 12px; font-size:12px;" onclick="event.stopPropagation(); officeOpenTicket('${t.id}')">${editable ? 'Abrir →' : 'Visualizar'}</button></td>
             </tr>
           `;
         }).join('');
+    }
+
+    function officeOpenAdvSearch() {
+      const a = state.officeAdvFilters;
+      document.getElementById('advCode').value = a.code;
+      document.getElementById('advCar').value = a.car;
+      document.getElementById('advOwner').value = a.owner;
+      document.getElementById('advCpf').value = a.cpf;
+      document.getElementById('advPhone').value = a.phone;
+      document.getElementById('advProp').value = a.prop;
+      document.getElementById('officeAdvModal').classList.add('open');
+    }
+    function officeCloseAdvSearch() { document.getElementById('officeAdvModal').classList.remove('open'); }
+    function officeApplyAdvSearch() {
+      state.officeAdvFilters = {
+        code: document.getElementById('advCode').value.trim(),
+        car: document.getElementById('advCar').value.trim(),
+        owner: document.getElementById('advOwner').value.trim(),
+        cpf: document.getElementById('advCpf').value.trim(),
+        phone: document.getElementById('advPhone').value.trim(),
+        prop: document.getElementById('advProp').value.trim()
+      };
+      officeCloseAdvSearch();
+      renderOfficeTickets();
+    }
+    function officeClearAdvSearch() {
+      state.officeAdvFilters = { code: '', car: '', owner: '', cpf: '', phone: '', prop: '' };
+      officeCloseAdvSearch();
+      renderOfficeTickets();
+    }
+
+    function officeJumpToStatus(status) {
+      if (status === 'Endereço Não Entregue') {
+        state.officeDashFilters.status = state.officeDashFilters.status === status ? 'Todos' : status;
+        renderOfficeDashboard();
+        return;
+      }
+      state.officeFilters.status = status;
+      officeNavigate('tickets');
+    }
+
+    function getFilteredUndeliveredCars() {
+      const f = state.officeDashFilters;
+      if (f.status !== 'Todos' && f.status !== 'Endereço Não Entregue') return [];
+      return dbUndeliveredCars.filter(c => {
+        if ((c.uf || 'ES') !== state.officeUf) return false;
+        if (f.muni !== 'Todos' && c.city !== f.muni) return false;
+        return true;
+      });
+    }
+
+    function officeSelectUndeliveredPin(car, city, area) {
+      const info = document.getElementById('dashMapSelectedInfo');
+      if (info) info.innerHTML = `<strong>Endereço Não Entregue</strong> • ${car} • ${city} • ${area}`;
+    }
+
+    // DASHBOARD INTERATIVO (CARDS + BARRAS + DONUT + MAPA)
+    function renderOfficeDashboard() {
+      populateOfficeFilterDropdowns('ddDashMuni', 'ddDashStatus', true);
+      const list = getFilteredOfficeTickets(false, true);
+      const undelivered = getFilteredUndeliveredCars();
+
+      const counts = {
+        'Endereço Entregue': 0,
+        'Endereço Não Entregue': undelivered.length,
+        'Aguardando Validação do Escritório': 0,
+        'Aguardando Validação do Representante': 0
+      };
+      const byMuni = {};
+      list.forEach(t => {
+        const s = normalizeTicketStatus(t.status);
+        counts[s] = (counts[s] || 0) + 1;
+        const p = dbProperties.find(x => x.id === t.propId) || { city: 'Outros' };
+        if (!byMuni[p.city]) byMuni[p.city] = { delivered: 0, waitOffice: 0, waitRep: 0, notDel: 0, total: 0 };
+        byMuni[p.city].total++;
+        if (s === 'Endereço Entregue') byMuni[p.city].delivered++;
+        else if (s === 'Aguardando Validação do Escritório') byMuni[p.city].waitOffice++;
+        else if (s === 'Aguardando Validação do Representante') byMuni[p.city].waitRep++;
+        else byMuni[p.city].notDel++;
+      });
+      undelivered.forEach(u => {
+        if (!byMuni[u.city]) byMuni[u.city] = { delivered: 0, waitOffice: 0, waitRep: 0, notDel: 0, total: 0 };
+        byMuni[u.city].notDel++;
+        byMuni[u.city].total++;
+      });
+
+      document.getElementById('dashKpiDelivered').textContent = counts['Endereço Entregue'];
+      document.getElementById('dashKpiNotDelivered').textContent = counts['Endereço Não Entregue'];
+      document.getElementById('dashKpiWaitOffice').textContent = counts['Aguardando Validação do Escritório'];
+      document.getElementById('dashKpiWaitRep').textContent = counts['Aguardando Validação do Representante'];
+
+      // Gráfico de Barras por Município (Top 5 + expandir)
+      const muniEntries = Object.entries(byMuni).sort((a, b) => b[1].total - a[1].total);
+      const visibleEntries = state.dashShowAllMunis ? muniEntries : muniEntries.slice(0, 5);
+      const maxM = Math.max(1, ...muniEntries.map(([, v]) => v.total));
+      document.getElementById('dashBarChart').innerHTML = !muniEntries.length
+        ? `<div style="color:#64748b; font-size:13px; padding:18px 0;">Nenhum dado encontrado.</div>`
+        : visibleEntries.map(([city, v]) => `
+          <div style="margin-bottom:10px; cursor:pointer;" onclick="state.officeDashFilters.muni=(state.officeDashFilters.muni==='${city}'?'Todos':'${city}'); renderOfficeDashboard();">
+            <div style="display:flex; justify-content:space-between; font-size:12.5px; font-weight:700; margin-bottom:4px;">
+              <span>${city}</span><span style="color:#64748b;">${v.total}</span>
+            </div>
+            <div style="height:14px; background:#f1f5f9; border-radius:99px; overflow:hidden; display:flex;">
+              <div style="width:${(v.delivered/maxM)*100}%; background:#16a34a;" title="Entregue: ${v.delivered}"></div>
+              <div style="width:${(v.waitOffice/maxM)*100}%; background:#ea580c;" title="Aguardando Escritório: ${v.waitOffice}"></div>
+              <div style="width:${(v.waitRep/maxM)*100}%; background:#eab308;" title="Aguardando Representante: ${v.waitRep}"></div>
+              <div style="width:${(v.notDel/maxM)*100}%; background:#94a3b8;" title="Não Entregue: ${v.notDel}"></div>
+            </div>
+          </div>
+        `).join('') + (muniEntries.length > 5 ? `
+          <button type="button" class="btn btn-outline" style="width:100%; margin-top:6px; padding:7px 12px; font-size:12px;" onclick="state.dashShowAllMunis=!state.dashShowAllMunis; renderOfficeDashboard();">
+            ${state.dashShowAllMunis ? 'Mostrar Top 5 ▲' : `Ver todos • ${muniEntries.length} ▼`}
+          </button>
+        ` : '');
+
+      // Gráfico Donut por Status
+      const grandTotal = list.length + undelivered.length;
+      const total = grandTotal || 1;
+      const segs = [
+        { label: 'Endereço Entregue', val: counts['Endereço Entregue'], color: '#16a34a' },
+        { label: 'Aguardando Escritório', val: counts['Aguardando Validação do Escritório'], color: '#ea580c' },
+        { label: 'Aguardando Representante', val: counts['Aguardando Validação do Representante'], color: '#eab308' },
+        { label: 'Não Entregue', val: counts['Endereço Não Entregue'], color: '#94a3b8' }
+      ];
+      let acc = 0;
+      const r = 46, circ = 2 * Math.PI * r;
+      const circles = segs.map(sg => {
+        const dash = (sg.val / total) * circ;
+        const offset = -acc;
+        acc += dash;
+        return `<circle cx="60" cy="60" r="${r}" fill="none" stroke="${sg.color}" stroke-width="18" stroke-dasharray="${dash} ${circ}" stroke-dashoffset="${offset}" transform="rotate(-90 60 60)"/>`;
+      }).join('');
+      document.getElementById('dashDonutChart').innerHTML = `
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="${r}" fill="none" stroke="#f1f5f9" stroke-width="18"/>
+          ${circles}
+          <text x="60" y="64" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a">${grandTotal}</text>
+        </svg>
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:12px;">
+          ${segs.map(sg => `<div style="display:flex; align-items:center; gap:7px;"><span style="width:10px; height:10px; border-radius:50%; background:${sg.color}; display:inline-block;"></span><strong>${sg.val}</strong> ${sg.label}</div>`).join('')}
+        </div>
+      `;
+
+      // Mapa colorido por status (chamados + endereços não entregues da base)
+      const ticketPins = list.map((t, i) => {
+        const p = dbProperties.find(x => x.id === t.propId) || {};
+        const s = normalizeTicketStatus(t.status);
+        const col = s === 'Endereço Entregue' ? '#16a34a' : (s === 'Aguardando Validação do Escritório' ? '#ea580c' : (s === 'Aguardando Validação do Representante' ? '#eab308' : '#94a3b8'));
+        const cx = p.mapX || (130 + (i * 125) % 580);
+        const cy = p.mapY || (85 + (i * 48) % 140);
+        return `
+          <g transform="translate(${cx}, ${cy})" style="cursor:pointer;" onclick="officeOpenTicket('${t.id}')">
+            <circle cx="0" cy="0" r="13" fill="${col}" opacity="0.28"/>
+            <circle cx="0" cy="0" r="6.5" fill="${col}" stroke="#fff" stroke-width="2.2"/>
+            <title>${t.id} • ${p.name || ''} • ${s}</title>
+          </g>
+        `;
+      }).join('');
+      const undPins = undelivered.map((u, i) => {
+        const cx = u.mapX || (110 + (i * 95) % 620);
+        const cy = u.mapY || (70 + (i * 52) % 175);
+        return `
+          <g transform="translate(${cx}, ${cy})" style="cursor:pointer;" onclick="officeSelectUndeliveredPin('${u.car}', '${u.city}', '${u.area}')">
+            <circle cx="0" cy="0" r="11" fill="#cbd5e1" opacity="0.32"/>
+            <circle cx="0" cy="0" r="5.5" fill="#94a3b8" stroke="#fff" stroke-width="2"/>
+            <title>${u.car} • ${u.city} • Endereço Não Entregue</title>
+          </g>
+        `;
+      }).join('');
+      const infoEl = document.getElementById('dashMapSelectedInfo');
+      if (infoEl) infoEl.textContent = '';
+      document.getElementById('dashMapSvg').innerHTML = `
+        <rect width="820" height="290" fill="#466842"/>
+        <path d="M0 0 L340 0 L280 185 L0 165 Z" fill="#3b5937"/>
+        <path d="M480 0 L820 0 L820 225 L520 195 Z" fill="#527549"/>
+        <path d="M-10 215 Q280 180 520 210 T830 195" fill="none" stroke="#c8a878" stroke-width="10"/>
+        ${undPins}
+        ${ticketPins}
+      `;
+    }
+
+    // ADMIN: MEMBROS (CRUD + ATRIBUIR MUNICÍPIOS POR PERFIL)
+    state.officeMemberSearch = '';
+    state.officeMemberRoleFilter = 'todos';
+    state.officeMemberMunisId = null;
+    state.officeMemberMunisSearch = '';
+    state.officeMemberMunisUf = 'ES';
+
+    function renderOfficeMembers() {
+      const roleLabels = { admin: '🛡️ Administrador', tecnico: '👤 Técnico', representante: '🏛️ Representante' };
+      const pills = [
+        { id: 'todos', label: 'Todos' },
+        { id: 'admin', label: 'Administradores' },
+        { id: 'tecnico', label: 'Técnicos' },
+        { id: 'representante', label: 'Representantes' }
+      ];
+      const pillsEl = document.getElementById('officeMemberRolePills');
+      if (pillsEl) {
+        pillsEl.innerHTML = pills.map(p => `
+          <button type="button" class="role-pill-btn ${state.officeMemberRoleFilter === p.id ? 'active' : ''}" onclick="state.officeMemberRoleFilter='${p.id}'; renderOfficeMembers();">${p.label}</button>
+        `).join('');
+      }
+
+      const q = (state.officeMemberSearch || '').trim().toLowerCase();
+      const filtered = dbOfficeMembers.filter(m => {
+        if (state.officeMemberRoleFilter !== 'todos' && m.role !== state.officeMemberRoleFilter) return false;
+        if (q) {
+          const hay = `${m.name} ${m.cpf} ${m.email} ${(m.assignedMunis || []).join(' ')}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      document.getElementById('officeMembersTbody').innerHTML = !filtered.length
+        ? `<tr><td colspan="5" style="text-align:center; padding:28px; color:#64748b;">Nenhum membro encontrado.</td></tr>`
+        : filtered.map(m => {
+          const cnt = (m.assignedMunis || []).length;
+          return `
+            <tr style="cursor:pointer;" onclick="officeOpenMemberMunisModal(${m.id})">
+              <td><strong>${m.name}</strong><div style="font-size:11.5px; color:#64748b;">${m.email}</div></td>
+              <td style="font-family:'JetBrains Mono', monospace; font-size:12px;">${m.cpf}</td>
+              <td><span class="status-chip ${m.role==='admin'?'ok':'pending'}">${roleLabels[m.role] || m.role}</span></td>
+              <td>
+                <button type="button" class="btn btn-outline" style="width:auto; padding:5px 10px; font-size:11.5px;" onclick="event.stopPropagation(); officeOpenMemberMunisModal(${m.id})">
+                  🗺️ ${cnt === 0 ? 'Atribuir' : cnt === 1 ? '1 município' : cnt + ' municípios'}
+                </button>
+              </td>
+              <td style="display:flex; gap:6px;" onclick="event.stopPropagation();">
+                <button class="btn btn-outline" style="width:auto; padding:5px 10px; font-size:11.5px;" onclick="officeOpenMemberModal(${m.id})">✏️ Editar</button>
+                <button class="btn btn-danger-outline" style="width:auto; padding:5px 10px; font-size:11.5px;" onclick="officeDeleteMember(${m.id})">🗑️</button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+    }
+
+    function officeOpenMemberMunisModal(memberId) {
+      state.officeMemberMunisId = memberId;
+      state.officeMemberMunisSearch = '';
+      state.officeMemberMunisUf = state.officeUf || 'ES';
+      renderMemberMunisModal();
+      document.getElementById('officeMemberMunisModal').classList.add('open');
+    }
+    function officeCloseMemberMunisModal() {
+      document.getElementById('officeMemberMunisModal').classList.remove('open');
+    }
+    function renderMemberMunisModal() {
+      const m = dbOfficeMembers.find(x => x.id === state.officeMemberMunisId);
+      if (!m) return;
+      const roleLabels = { admin: 'Administrador', tecnico: 'Técnico', representante: 'Representante' };
+      document.getElementById('memberMunisModalTitle').textContent = m.name;
+      document.getElementById('memberMunisModalRole').textContent = roleLabels[m.role] || m.role;
+
+      const assigned = m.assignedMunis || [];
+      const uf = state.officeMemberMunisUf;
+      const q = (state.officeMemberMunisSearch || '').trim().toLowerCase();
+      const allMunis = (citiesByState[uf] || []).filter(c => !q || c.toLowerCase().includes(q));
+
+      document.getElementById('memberMunisModalBody').innerHTML = `
+        <div class="assign-section-title" style="margin-bottom:8px;">
+          <span>Municípios atribuídos</span>
+          <span style="color:var(--rr-green-dark);">${assigned.length}</span>
+        </div>
+        <div class="assign-chips">
+          ${assigned.length
+            ? assigned.map(c => `<span class="assign-chip ${m.role==='representante'?'rep':''}">${c} <button type="button" onclick="officeToggleMuniAssign(${m.id}, '${c}', false)">✕</button></span>`).join('')
+            : `<span style="font-size:12.5px; color:#94a3b8;">Nenhum município atribuído</span>`}
+        </div>
+        <div style="display:flex; gap:8px; margin-bottom:8px; align-items:center;">
+          <input type="text" class="form-input" id="memberMunisSearchInput" placeholder="Buscar município..." value="${state.officeMemberMunisSearch}" oninput="state.officeMemberMunisSearch=this.value; renderMemberMunisPickerList();" style="flex:1; padding:8px 11px; font-size:12.5px;">
+          <div class="role-filter-pills">
+            ${['ES', 'SP'].map(u => `<button type="button" class="role-pill-btn ${uf===u?'active':''}" onclick="state.officeMemberMunisUf='${u}'; renderMemberMunisModal();">${u}</button>`).join('')}
+          </div>
+        </div>
+        <div class="assign-picker-list" id="memberMunisPickerList" style="max-height:220px;"></div>
+      `;
+      renderMemberMunisPickerList();
+    }
+    function renderMemberMunisPickerList() {
+      const m = dbOfficeMembers.find(x => x.id === state.officeMemberMunisId);
+      const box = document.getElementById('memberMunisPickerList');
+      if (!m || !box) return;
+      const assigned = m.assignedMunis || [];
+      const uf = state.officeMemberMunisUf;
+      const q = (state.officeMemberMunisSearch || '').trim().toLowerCase();
+      const allMunis = (citiesByState[uf] || []).filter(c => !q || c.toLowerCase().includes(q));
+      box.innerHTML = allMunis.map(c => {
+        const has = assigned.includes(c);
+        return `
+          <div class="assign-picker-item ${has ? 'assigned' : ''}" onclick="officeToggleMuniAssign(${m.id}, '${c}', ${!has})">
+            <span>${c}</span>
+            <span style="font-size:11.5px; font-weight:800;">${has ? '✓ Atribuído' : '＋ Adicionar'}</span>
+          </div>
+        `;
+      }).join('') || `<div style="padding:14px; text-align:center; color:#94a3b8; font-size:12.5px;">Nenhum município encontrado</div>`;
+    }
+
+    function officeOpenMemberModal(id) {
+      const m = id ? dbOfficeMembers.find(x => x.id === id) : null;
+      document.getElementById('memberModalTitle').textContent = m ? 'Editar Membro' : 'Novo Membro';
+      document.getElementById('memberEditId').value = m ? m.id : '';
+      document.getElementById('memberName').value = m ? m.name : '';
+      document.getElementById('memberCpf').value = m ? m.cpf : '';
+      document.getElementById('memberEmail').value = m ? m.email : '';
+      document.getElementById('memberRole').value = m ? m.role : 'tecnico';
+      document.getElementById('officeMemberModal').classList.add('open');
+    }
+    function officeCloseMemberModal() { document.getElementById('officeMemberModal').classList.remove('open'); }
+    function officeSaveMember() {
+      const idVal = document.getElementById('memberEditId').value;
+      const name = document.getElementById('memberName').value.trim();
+      const cpf = document.getElementById('memberCpf').value.trim();
+      const email = document.getElementById('memberEmail').value.trim();
+      const role = document.getElementById('memberRole').value;
+      if (!name || !cpf) { alert('Preencha nome e CPF'); return; }
+      if (idVal) {
+        const m = dbOfficeMembers.find(x => x.id === Number(idVal));
+        if (m) { m.name = name; m.cpf = cpf; m.email = email; m.role = role; }
+      } else {
+        dbOfficeMembers.push({ id: nextMemberId++, name, cpf, email, role, assignedMunis: [] });
+      }
+      officeCloseMemberModal();
+      renderOfficeMembers();
+      appToast('Membro salvo!');
+    }
+    function officeDeleteMember(id) {
+      if (!confirm('Deseja excluir este membro?')) return;
+      const idx = dbOfficeMembers.findIndex(x => x.id === id);
+      if (idx >= 0) dbOfficeMembers.splice(idx, 1);
+      renderOfficeMembers();
+      appToast('Membro removido!');
+    }
+
+    // ADMIN: ATRIBUIÇÕES POR MUNICÍPIO (ESCALÁVEL PARA 1000+ MUNICÍPIOS E 100+ TÉCNICOS/REPRESENTANTES)
+    state.officeAssignMuniSearch = '';
+    state.officeAssignSelectedMuni = null;
+    state.officeAssignTecSearch = '';
+    state.officeAssignRepSearch = '';
+
+    function renderOfficeAssignments() {
+      const munis = citiesByState[state.officeUf] || [];
+      if (!state.officeAssignSelectedMuni || !munis.includes(state.officeAssignSelectedMuni)) {
+        state.officeAssignSelectedMuni = munis[0] || null;
+      }
+      const q = (state.officeAssignMuniSearch || '').trim().toLowerCase();
+      const filteredMunis = munis.filter(m => !q || m.toLowerCase().includes(q));
+
+      const listEl = document.getElementById('assignMuniList');
+      if (listEl) {
+        listEl.innerHTML = !filteredMunis.length
+          ? `<div style="padding:20px; text-align:center; color:#94a3b8; font-size:12.5px;">Nenhum município encontrado</div>`
+          : filteredMunis.map(city => {
+            const tecs = dbOfficeMembers.filter(m => (m.role === 'tecnico' || m.role === 'admin') && (m.assignedMunis || []).includes(city));
+            const reps = dbOfficeMembers.filter(m => m.role === 'representante' && (m.assignedMunis || []).includes(city));
+            const active = city === state.officeAssignSelectedMuni;
+            return `
+              <div class="assign-muni-row ${active ? 'active' : ''}" onclick="state.officeAssignSelectedMuni='${city}'; renderOfficeAssignments();">
+                <span>${city}</span>
+                <div class="assign-count-pills">
+                  <span class="assign-mini-pill tec">${tecs.length} téc</span>
+                  <span class="assign-mini-pill rep">${reps.length} rep</span>
+                </div>
+              </div>
+            `;
+          }).join('');
+      }
+
+      const detailEl = document.getElementById('assignMuniDetail');
+      const city = state.officeAssignSelectedMuni;
+      if (!detailEl || !city) return;
+
+      const allTecs = dbOfficeMembers.filter(m => m.role === 'tecnico' || m.role === 'admin');
+      const allReps = dbOfficeMembers.filter(m => m.role === 'representante');
+      const assignedTecs = allTecs.filter(m => (m.assignedMunis || []).includes(city));
+      const assignedReps = allReps.filter(m => (m.assignedMunis || []).includes(city));
+
+      const qTec = (state.officeAssignTecSearch || '').trim().toLowerCase();
+      const qRep = (state.officeAssignRepSearch || '').trim().toLowerCase();
+      const pickTecs = allTecs.filter(m => !qTec || m.name.toLowerCase().includes(qTec) || m.cpf.includes(qTec));
+      const pickReps = allReps.filter(m => !qRep || m.name.toLowerCase().includes(qRep) || m.cpf.includes(qRep));
+
+      detailEl.innerHTML = `
+        <div class="assign-panel-head" style="display:flex; justify-content:space-between; align-items:center;">
+          <strong style="font-size:15.5px; color:var(--rr-green-dark);">${city}</strong>
+          <span class="status-chip ok">${state.officeUf}</span>
+        </div>
+
+        <div class="assign-section">
+          <div class="assign-section-title">
+            <span>👤 Técnicos</span>
+            <span>${assignedTecs.length}</span>
+          </div>
+          <div class="assign-chips">
+            ${assignedTecs.length
+              ? assignedTecs.map(t => `<span class="assign-chip">${t.name} <button type="button" onclick="officeToggleMuniAssign(${t.id}, '${city}', false)">✕</button></span>`).join('')
+              : `<span style="font-size:12.5px; color:#94a3b8;">Nenhum técnico atribuído</span>`}
+          </div>
+          <div class="assign-picker-wrap" onclick="event.stopPropagation()">
+            <input type="text" class="form-input" placeholder="Buscar técnico..." value="${state.officeAssignTecSearch}" onfocus="openAssignPicker('assignTecPickerList')" onclick="openAssignPicker('assignTecPickerList')" oninput="state.officeAssignTecSearch=this.value; openAssignPicker('assignTecPickerList'); renderAssignPickersOnly();" style="padding:8px 11px; font-size:12.5px;">
+            <div class="assign-picker-list dropdown" id="assignTecPickerList"></div>
+          </div>
+        </div>
+
+        <div class="assign-section">
+          <div class="assign-section-title">
+            <span>🏛️ Representantes</span>
+            <span>${assignedReps.length}</span>
+          </div>
+          <div class="assign-chips">
+            ${assignedReps.length
+              ? assignedReps.map(r => `<span class="assign-chip rep">${r.name} <button type="button" onclick="officeToggleMuniAssign(${r.id}, '${city}', false)">✕</button></span>`).join('')
+              : `<span style="font-size:12.5px; color:#94a3b8;">Nenhum representante atribuído</span>`}
+          </div>
+          <div class="assign-picker-wrap" onclick="event.stopPropagation()">
+            <input type="text" class="form-input" placeholder="Buscar representante..." value="${state.officeAssignRepSearch}" onfocus="openAssignPicker('assignRepPickerList')" onclick="openAssignPicker('assignRepPickerList')" oninput="state.officeAssignRepSearch=this.value; openAssignPicker('assignRepPickerList'); renderAssignPickersOnly();" style="padding:8px 11px; font-size:12.5px;">
+            <div class="assign-picker-list dropdown" id="assignRepPickerList"></div>
+          </div>
+        </div>
+      `;
+      renderAssignPickersOnly();
+    }
+
+    function openAssignPicker(listId) {
+      document.querySelectorAll('.assign-picker-list.dropdown.open').forEach(el => {
+        if (el.id !== listId) el.classList.remove('open');
+      });
+      const el = document.getElementById(listId);
+      if (el) el.classList.add('open');
+    }
+
+    function renderAssignPickersOnly() {
+      const city = state.officeAssignSelectedMuni;
+      if (!city) return;
+      const allTecs = dbOfficeMembers.filter(m => m.role === 'tecnico' || m.role === 'admin');
+      const allReps = dbOfficeMembers.filter(m => m.role === 'representante');
+      const qTec = (state.officeAssignTecSearch || '').trim().toLowerCase();
+      const qRep = (state.officeAssignRepSearch || '').trim().toLowerCase();
+      const pickTecs = allTecs.filter(m => !qTec || m.name.toLowerCase().includes(qTec) || m.cpf.includes(qTec));
+      const pickReps = allReps.filter(m => !qRep || m.name.toLowerCase().includes(qRep) || m.cpf.includes(qRep));
+
+      const tecBox = document.getElementById('assignTecPickerList');
+      if (tecBox) {
+        tecBox.innerHTML = pickTecs.map(t => {
+          const has = (t.assignedMunis || []).includes(city);
+          return `
+            <div class="assign-picker-item ${has ? 'assigned' : ''}" onclick="officeToggleMuniAssign(${t.id}, '${city}', ${!has})">
+              <span>${t.name} <span style="font-size:11px; color:#64748b;">• ${t.role === 'admin' ? 'Admin' : 'Técnico'}</span></span>
+              <span style="font-size:11.5px; font-weight:800;">${has ? '✓ Atribuído' : '＋ Adicionar'}</span>
+            </div>
+          `;
+        }).join('') || `<div style="padding:10px; text-align:center; color:#94a3b8; font-size:12px;">Nenhum técnico encontrado</div>`;
+      }
+      const repBox = document.getElementById('assignRepPickerList');
+      if (repBox) {
+        repBox.innerHTML = pickReps.map(r => {
+          const has = (r.assignedMunis || []).includes(city);
+          return `
+            <div class="assign-picker-item ${has ? 'assigned' : ''}" onclick="officeToggleMuniAssign(${r.id}, '${city}', ${!has})">
+              <span>${r.name}</span>
+              <span style="font-size:11.5px; font-weight:800;">${has ? '✓ Atribuído' : '＋ Adicionar'}</span>
+            </div>
+          `;
+        }).join('') || `<div style="padding:10px; text-align:center; color:#94a3b8; font-size:12px;">Nenhum representante encontrado</div>`;
+      }
+    }
+
+    function officeToggleMuniAssign(memberId, muni, checked) {
+      const t = dbOfficeMembers.find(m => m.id === memberId);
+      if (!t) return;
+      t.assignedMunis = t.assignedMunis || [];
+      if (checked && !t.assignedMunis.includes(muni)) t.assignedMunis.push(muni);
+      if (!checked) t.assignedMunis = t.assignedMunis.filter(x => x !== muni);
+      if (state.officePage === 'assignments') renderOfficeAssignments();
+      if (state.officePage === 'members') renderOfficeMembers();
+      if (document.getElementById('officeMemberMunisModal').classList.contains('open')) renderMemberMunisModal();
+      officeApplyUserUI();
+      appToast(`Atribuições de ${t.name} atualizadas!`);
     }
 
     function officeOpenTicket(ticketId) {
@@ -4775,11 +5825,11 @@
       if (!t) { officeNavigate('tickets'); return; }
       const p = dbProperties.find(x => x.id === t.propId) || dbProperties[0];
       const scene = VALIDATOR_SCENES[(p.photoVariant || 0) % VALIDATOR_SCENES.length];
+      const editable = canCurrentUserEditTicket(t);
 
-      document.getElementById('ticketTitleHeader').textContent = `Chamado #${t.id}`;
-      const chip = document.getElementById('ticketStatusChip');
-      chip.textContent = t.status;
-      chip.className = 'status-chip ' + (t.status === 'Encerrado' ? 'ok' : (t.status === 'Inconsistente' ? 'err' : 'pending'));
+      document.getElementById('ticketTitleHeader').textContent = t.id;
+      document.getElementById('ticketStatusChip').innerHTML = renderTicketStatusTag(t.status);
+      document.getElementById('ticketReadonlyBanner').style.display = editable ? 'none' : 'block';
       document.getElementById('ticketPropName').textContent = p.name;
       document.getElementById('ticketInfoLines').innerHTML = `
         <div><strong>CAR:</strong> <span style="font-family:'JetBrains Mono', monospace; font-size:12px;">${p.car}</span></div>
@@ -4791,9 +5841,19 @@
       document.getElementById('ticketRepName').textContent = t.repName;
 
       document.getElementById('ticketMapSvg').innerHTML = buildValidatorMapSvg(scene, state.officeTicketSuggestedCoord, 'ticketSuggestedPin');
-      document.getElementById('ticketMapBox').classList.toggle('suggesting', state.officeTicketRepositioning);
+      document.getElementById('ticketMapBox').classList.toggle('suggesting', editable && state.officeTicketRepositioning);
       const repoBtn = document.getElementById('btnTicketReposition');
-      if (repoBtn) repoBtn.classList.toggle('active', state.officeTicketRepositioning);
+      if (repoBtn) {
+        repoBtn.classList.toggle('active', editable && state.officeTicketRepositioning);
+        repoBtn.style.display = editable ? 'inline-flex' : 'none';
+      }
+      const btnVal = document.getElementById('btnTicketValidate');
+      const btnInc = document.getElementById('btnTicketInconsistent');
+      const chatFooter = document.getElementById('ticketChatFooter');
+      if (btnVal) { btnVal.disabled = !editable; btnVal.style.opacity = editable ? '1' : '0.45'; }
+      if (btnInc) { btnInc.disabled = !editable; btnInc.style.opacity = editable ? '1' : '0.45'; }
+      if (chatFooter) { chatFooter.style.opacity = editable ? '1' : '0.45'; chatFooter.style.pointerEvents = editable ? 'auto' : 'none'; }
+
       document.getElementById('ticketPhotoBox').innerHTML = `${scene.svg}<div class="media-expand-badge">🔍 Ampliar foto</div><div style="position:absolute; bottom:8px; left:8px; background:rgba(0,0,0,0.72); color:#fff; font-size:10.5px; padding:3px 7px; border-radius:6px;">${scene.label}</div>`;
 
       const chatBox = document.getElementById('ticketChatMessages');
@@ -4857,9 +5917,11 @@
         video: '🎥 Vídeo anexado (0:15) — Acesso pela estrada vicinal.mp4',
         doc: '📎 Documento anexado — Comprovante_CAR_Propriedade.pdf'
       };
-      t.messages.push({ sender: 'office', author: 'Matheus Fernandes (Escritório)', time: 'Agora', text: labels[type] || '📎 Anexo enviado' });
-      if (t.status === 'Aguardando validação') {
-        t.status = 'Com representante';
+      const authorName = (state.officeUser && state.officeUser.name) || 'Matheus Fernandes';
+      t.messages.push({ sender: 'office', author: `${authorName} (Escritório)`, time: 'Agora', text: labels[type] || '📎 Anexo enviado' });
+      if (normalizeTicketStatus(t.status) === 'Aguardando Validação do Escritório') {
+        t.status = 'Aguardando Validação do Representante';
+        t.assignedToRep = true;
         const p = dbProperties.find(x => x.id === t.propId);
         if (p) { p.status = 'nao_confirmada'; p.officeMessage = labels[type]; }
       }
@@ -4869,6 +5931,8 @@
     }
 
     function officeToggleTicketReposition() {
+      const t = dbTickets.find(x => x.id === state.officeActiveTicketId);
+      if (t && !canCurrentUserEditTicket(t)) return;
       state.officeTicketRepositioning = !state.officeTicketRepositioning;
       document.getElementById('ticketMapBox').classList.toggle('suggesting', state.officeTicketRepositioning);
       const repoBtn = document.getElementById('btnTicketReposition');
@@ -4897,10 +5961,11 @@
       const txt = inp.value.trim();
       if (!txt) return;
       const t = dbTickets.find(x => x.id === state.officeActiveTicketId);
-      if (!t) return;
-      t.messages.push({ sender: 'office', author: 'Matheus Fernandes (Escritório)', time: 'Agora', text: txt });
-      if (t.status === 'Aguardando validação') {
-        t.status = 'Com representante';
+      if (!t || !canCurrentUserEditTicket(t)) return;
+      const authorName = (state.officeUser && state.officeUser.name) || 'Matheus Fernandes';
+      t.messages.push({ sender: 'office', author: `${authorName} (Escritório)`, time: 'Agora', text: txt });
+      if (normalizeTicketStatus(t.status) === 'Aguardando Validação do Escritório') {
+        t.status = 'Aguardando Validação do Representante';
         t.assignedToRep = true;
         const p = dbProperties.find(x => x.id === t.propId);
         if (p) { p.status = 'nao_confirmada'; p.officeMessage = txt; }
@@ -4923,41 +5988,43 @@
 
     function officeResolveTicketAndDeliver() {
       const t = dbTickets.find(x => x.id === state.officeActiveTicketId);
-      if (!t) return;
-      if (!confirm(`Confirmar validação do endereço e encerramento do chamado #${t.id}?`)) return;
+      if (!t || !canCurrentUserEditTicket(t)) return;
+      if (!confirm(`Confirmar validação do endereço e encerramento do chamado ${t.id}?`)) return;
       const p = dbProperties.find(x => x.id === t.propId);
+      const authorName = (state.officeUser && state.officeUser.name) || 'Matheus Fernandes';
       if (p) {
-        deliverAddressToCitizen(p, state.officeTicketSuggestedCoord ? 'Porteira reposicionada e validada! Endereço entregue.' : 'Validado por Matheus Fernandes! Endereço entregue.');
+        deliverAddressToCitizen(p, state.officeTicketSuggestedCoord ? `Porteira reposicionada e validada por ${authorName}!` : `Validado por ${authorName}!`);
       }
-      t.status = 'Encerrado';
+      t.status = 'Endereço Entregue';
       const carTxt = p ? p.car : '';
       t.messages.push({
-        sender: 'system', author: 'Sistema', time: '25/11/2026 às 16:00',
-        text: `Técnico MATHEUS FERNANDES validou o Endereço Rural Digital da propriedade CAR ${carTxt}${state.officeTicketSuggestedCoord ? ' (com porteira reposicionada)' : ''}, no dia 25/11/2026 às 16:00.`
+        sender: 'system', author: 'Sistema', time: '26/11/2026 às 14:10',
+        text: `Técnico ${authorName.toUpperCase()} validou o Endereço Rural Digital da propriedade CAR ${carTxt}${state.officeTicketSuggestedCoord ? ' com porteira reposicionada' : ''}, no dia 26/11/2026 às 14:10.`
       });
       syncAllViews();
       renderOfficeTicketChat();
-      appToast(`✓ Chamado #${t.id} validado e resolvido!`);
+      appToast(`✓ Chamado ${t.id} validado!`);
     }
 
     function officeMarkTicketInconsistent() {
       const t = dbTickets.find(x => x.id === state.officeActiveTicketId);
-      if (!t) return;
+      if (!t || !canCurrentUserEditTicket(t)) return;
       const p = dbProperties.find(x => x.id === t.propId);
+      const authorName = (state.officeUser && state.officeUser.name) || 'Matheus Fernandes';
       if (p) {
         p.status = 'inconsistente';
-        p.officeMessage = 'Classificado como inconsistente. Encaminhado ao representante para contato com o usuário.';
-        p.note = 'Inconsistente — encaminhado ao representante';
+        p.officeMessage = 'Classificado como inconsistente pelo escritório.';
+        p.note = 'Inconsistente — encerrado pelo escritório';
       }
-      t.status = 'Inconsistente';
+      t.status = 'Endereço Não Entregue';
       t.assignedToRep = true;
       t.messages.push({
-        sender: 'system', author: 'Registro Automático', time: 'Agora',
-        text: '🚫 Marcado como inconsistente por Matheus Fernandes. Encaminhado automaticamente ao representante local para auxiliar o produtor.'
+        sender: 'system', author: 'Sistema', time: '26/11/2026 às 14:10',
+        text: `Técnico ${authorName.toUpperCase()} encerrou o chamado ${t.id} por inconsistência (Endereço Não Entregue), no dia 26/11/2026 às 14:10.`
       });
       syncAllViews();
       renderOfficeTicketChat();
-      appToast(`🚫 Chamado #${t.id} marcado como inconsistente e enviado ao representante.`);
+      appToast(`🚫 Chamado ${t.id} encerrado por inconsistência.`);
     }
 
     // =========================================================================
@@ -5012,7 +6079,7 @@
           { sel: '#screen-onboarding .tut-card', side: 'right', title: 'Como Funciona', text: 'Resume o fluxo em 3 passos visuais para dar segurança ao morador rural.' },
           { sel: '#screen-onboarding .btn-primary', side: 'right', action: true, title: 'Avançar para o Login', text: 'Clique em CONTINUAR para ir à tela de acesso.' }
         ],
-        onEnter: () => { switchMainView('app'); appGoTo('onboarding'); }
+        onEnter: () => { appGoTo('onboarding'); }
       },
       {
         event: 'opened_register',
@@ -5713,6 +6780,10 @@
     function closeScenarioIntroPopup() {
       const ov = document.getElementById('scenarioIntroOverlay');
       if (ov) ov.classList.remove('open');
+      if (!state.guidedTrailActive) {
+        switchMainView('app');
+        return;
+      }
       setTimeout(() => drawCallouts(true), 40);
     }
 
@@ -5766,29 +6837,21 @@
     }
 
     function startFreeMode() {
-      state.guidedTrailActive = false;
-      document.getElementById('welcomeOverlay').classList.add('hidden');
-      renderTrailUI();
-      renderContextualGuide();
-      applyTrailSpotlight();
+      switchMainView('app');
     }
 
     function startGuidedTrail() {
+      state.mainView = 'app';
       state.guidedTrailActive = true;
       state.trailStep = 0;
       document.getElementById('welcomeOverlay').classList.add('hidden');
+      document.getElementById('tabViewTrilha').classList.add('active');
+      document.getElementById('tabViewApp').classList.remove('active');
+      document.getElementById('tabViewEscritorio').classList.remove('active');
+      document.getElementById('tabViewFluxo').classList.remove('active');
+      document.querySelectorAll('.mode-view').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-app').classList.add('active');
       guidedTrailSteps[0].onEnter();
-      renderTrailUI();
-      renderContextualGuide();
-      setTimeout(applyTrailSpotlight, 100);
-    }
-
-    function toggleGuidedTrail() {
-      state.guidedTrailActive = !state.guidedTrailActive;
-      if (state.guidedTrailActive) {
-        state.trailStep = 0;
-        guidedTrailSteps[0].onEnter();
-      }
       renderTrailUI();
       renderContextualGuide();
       setTimeout(applyTrailSpotlight, 100);
@@ -5796,44 +6859,280 @@
 
     function renderTrailUI() {
       const topbar = document.getElementById('blueprintTopbar');
-      const tabBtn = document.getElementById('tabTrailToggle');
       const capEl = document.querySelector('.device-caption');
-      tabBtn.style.background = state.guidedTrailActive ? '#15803d' : '';
-      tabBtn.style.color = state.guidedTrailActive ? '#ffffff' : '';
 
       if (!state.guidedTrailActive) {
-        topbar.innerHTML = '';
+        if (topbar) topbar.innerHTML = '';
         if (capEl) capEl.innerHTML = `<span class="dot" id="statusDot"></span> <span id="deviceCaptionText">App Rotas Rurais • ${state.activeAppMode === 'representante' ? 'Modo Representante' : 'Modo Cidadão'}</span>`;
         return;
       }
 
       const st = guidedTrailSteps[state.trailStep];
-      const pct = Math.round(((state.trailStep + 1) / guidedTrailSteps.length) * 100);
-      topbar.innerHTML = `
-        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-          <span class="trail-pill">🎯 TRILHA • ${state.trailStep + 1} DE ${guidedTrailSteps.length}</span>
-          <strong style="font-size:14px;">${st.title}</strong>
-        </div>
-        <div style="display:flex; align-items:center; gap:14px;">
-          <div style="width:130px; height:6px; background:rgba(255,255,255,0.18); border-radius:99px; overflow:hidden;">
-            <div style="height:100%; width:${pct}%; background:#4ade80; transition:width 0.3s;"></div>
-          </div>
-          <button class="trail-exit-link" onclick="startFreeMode()">Sair p/ modo livre</button>
-        </div>
-      `;
+      if (topbar) topbar.innerHTML = '';
 
       if (capEl) {
         const label = st.scenarioLabel || 'Base do Aplicativo • Acesso e Dados Offline';
-        capEl.innerHTML = `<span class="scenario-chip-line ${st.offlineGroup ? 'offline' : ''}">${label}</span><button class="scenario-exit-mini" onclick="startFreeMode()">Sair p/ modo livre</button>`;
+        capEl.innerHTML = `<span class="scenario-chip-line ${st.offlineGroup ? 'offline' : ''}">${label}</span>`;
       }
     }
 
-    // BOOT
+    // =========================================================================
+    // FLUXOGRAMA INTERATIVO (ABA FLUXO — LIMPO, SEM PARÊNTESES E COM BALÃO JUNTO À CAIXA)
+    // =========================================================================
+    const FLUXO_NODES = {
+      start:  { x: 18,  y: 170, w: 175, h: 78, fill: '#f0fdf4', stroke: '#16a34a', icon: '📱', title: 'Solicitação', sub: 'Cidadão ou Representante', desc: 'O cidadão pede o endereço pelo aplicativo ou o representante inicia a entrega.' },
+      online: { x: 242, y: 74,  w: 162, h: 74, fill: '#ecfdf5', stroke: '#15803d', icon: '📶', title: 'Com sinal', sub: 'Envio imediato', desc: 'Com internet no aparelho, os dados e a foto chegam na hora ao servidor.' },
+      offline:{ x: 242, y: 270, w: 162, h: 74, fill: '#f1f5f9', stroke: '#475569', icon: '📡', title: 'Sem sinal', sub: 'Salva e sincroniza', desc: 'Sem internet na zona rural, o pedido fica salvo no celular e sincroniza automaticamente quando o sinal voltar.' },
+      ticket: { x: 454, y: 170, w: 174, h: 78, fill: '#eff6ff', stroke: '#2563eb', icon: '🎫', title: 'Solicitação Gerada', sub: 'Abre chamado', desc: 'Assim que o pedido chega ao servidor, um chamado é aberto automaticamente para acompanhar todo o processo.' },
+      auto:   { x: 678, y: 34,  w: 184, h: 76, fill: '#dcfce7', stroke: '#15803d', icon: '⚡', title: 'Validação Automática', sub: 'Na porteira ou Representante', desc: 'Quando a foto está na porteira dentro dos critérios, ou na entrega feita pelo Representante com internet, o endereço é validado na hora.' },
+      office: { x: 678, y: 170, w: 184, h: 78, fill: '#ffedd5', stroke: '#ea580c', icon: '🟠', title: 'Escritório', sub: 'Analisa a solicitação', desc: 'Pedidos que precisam de conferência, como foto dentro de casa, foto longe da porteira ou sem CAR, vão para a equipe do Escritório.' },
+      rep:    { x: 678, y: 308, w: 184, h: 78, fill: '#fef9c3', stroke: '#ca8a04', icon: '🟡', title: 'Representante', sub: 'Confirma em campo', desc: 'Se o Escritório tiver alguma dúvida, pode encaminhar o chamado para o Representante ajudar. O Representante conversa com o produtor, pode validar o ponto ou devolver ao Escritório.' },
+      sign:   { x: 916, y: 44,  w: 186, h: 78, fill: '#e0f2fe', stroke: '#0284c7', icon: '✍️', title: 'Assinar Termo', sub: 'Aguardando assinatura', desc: 'Depois de validado, o produtor recebe a notificação para assinar o termo de recebimento e liberar o endereço.' },
+      done:   { x: 916, y: 174, w: 186, h: 78, fill: '#dcfce7', stroke: '#166534', icon: '🟢', title: 'Endereço Entregue', sub: 'Fim do chamado', desc: 'Com o termo assinado, o endereço rural digital é liberado ao produtor e o chamado é concluído.' },
+      incons: { x: 916, y: 308, w: 186, h: 78, fill: '#fee2e2', stroke: '#dc2626', icon: '🔴', title: 'Inconsistente', sub: 'Fim pelo Escritório', desc: 'Somente o Escritório pode encerrar um chamado como inconsistente, direto na análise ou após retorno do Representante.' }
+    };
+
+    // Linhas ortogonais com chegada estritamente horizontal/vertical para setas 100% alinhadas!
+    const FLUXO_EDGES = [
+      { id: 'start-online',   d: 'M 193 196 L 216 196 L 216 111 L 234 111' },
+      { id: 'start-offline',  d: 'M 193 222 L 216 222 L 216 307 L 234 307' },
+      { id: 'online-ticket',  d: 'M 404 111 L 428 111 L 428 196 L 446 196' },
+      { id: 'offline-ticket', d: 'M 404 307 L 428 307 L 428 222 L 446 222' },
+      { id: 'ticket-auto',    d: 'M 628 196 L 652 196 L 652 72 L 670 72' },
+      { id: 'ticket-office',  d: 'M 628 209 L 670 209' },
+      { id: 'auto-sign',      d: 'M 862 72 L 908 72' },
+      { id: 'office-sign',    d: 'M 862 194 L 888 194 L 888 92 L 908 92' },
+      { id: 'office-rep',     d: 'M 752 248 L 752 300', kind: 'warn' },
+      { id: 'rep-office',     d: 'M 788 308 L 788 256', kind: 'warn' },
+      { id: 'rep-sign',       d: 'M 862 332 L 896 332 L 896 106 L 908 106' },
+      { id: 'office-incons',  d: 'M 862 224 L 880 224 L 880 347 L 908 347', kind: 'err' },
+      { id: 'sign-done',      d: 'M 1009 122 L 1009 166' }
+    ];
+
+    const FLUXO_PATHS = [
+      { id: 'all', label: '🗺️ Fluxo Completo', steps: [], edges: [], fullNodes: [], fullEdges: [] },
+      {
+        id: 'auto',
+        label: '⚡ Entrega na hora',
+        steps: ['start', 'online', 'ticket', 'auto', 'sign', 'done'],
+        edges: ['start-online', 'online-ticket', 'ticket-auto', 'auto-sign', 'sign-done'],
+        fullNodes: ['start', 'online', 'ticket', 'auto', 'sign', 'done'],
+        fullEdges: ['start-online', 'online-ticket', 'ticket-auto', 'auto-sign', 'sign-done']
+      },
+      {
+        id: 'offline',
+        label: '📡 Pedido sem internet',
+        // Já começa em Sem sinal (sem repetir Solicitação!)
+        steps: ['offline', 'ticket'],
+        edges: ['start-offline', 'offline-ticket'],
+        fullNodes: ['start', 'offline', 'ticket'],
+        fullEdges: ['start-offline', 'offline-ticket']
+      },
+      {
+        id: 'office',
+        label: '🟠 Análise pelo Escritório',
+        // Já começa no Escritório validando direto para Assinar Termo
+        steps: ['office', 'sign'],
+        edges: ['ticket-office', 'office-sign'],
+        fullNodes: ['start', 'online', 'ticket', 'office', 'sign', 'done'],
+        fullEdges: ['start-online', 'online-ticket', 'ticket-office', 'office-sign', 'sign-done']
+      },
+      {
+        id: 'rep',
+        label: '🟡 Ajuda do Representante',
+        // Já continua do Escritório para o Representante validando para Assinar Termo
+        steps: ['rep', 'sign'],
+        edges: ['office-rep', 'rep-sign'],
+        fullNodes: ['start', 'online', 'ticket', 'office', 'rep', 'sign', 'done'],
+        fullEdges: ['start-online', 'online-ticket', 'ticket-office', 'office-rep', 'rep-sign', 'sign-done']
+      },
+      {
+        id: 'incons',
+        label: '🔴 Pedido Inconsistente',
+        // Continua mostrando retorno do Representante ao Escritório e encerramento como Inconsistente
+        steps: ['office', 'incons'],
+        edges: ['rep-office', 'office-incons'],
+        fullNodes: ['start', 'online', 'ticket', 'office', 'rep', 'incons'],
+        fullEdges: ['start-online', 'online-ticket', 'ticket-office', 'office-rep', 'rep-office', 'office-incons']
+      }
+    ];
+
+    let fluxoPathIdx = 0; // Inicia em Fluxo Completo!
+    let fluxoStepIdx = 0;
+    let fluxoInspectedNode = null;
+
+    function fluxoSelectPath(idx) {
+      fluxoPathIdx = idx;
+      fluxoStepIdx = 0;
+      fluxoInspectedNode = null;
+      renderFluxoView();
+    }
+    function fluxoNextStep() {
+      const p = FLUXO_PATHS[fluxoPathIdx];
+      if (!p.steps.length) return;
+      fluxoInspectedNode = null;
+      if (fluxoStepIdx < p.steps.length - 1) {
+        fluxoStepIdx++;
+      } else if (fluxoPathIdx < FLUXO_PATHS.length - 1) {
+        // Avança automaticamente para a próxima situação sem repetir o início!
+        fluxoPathIdx++;
+        fluxoStepIdx = 0;
+      } else {
+        // Concluiu todas as situações -> volta ao Fluxo Completo
+        fluxoPathIdx = 0;
+        fluxoStepIdx = 0;
+      }
+      renderFluxoView();
+    }
+    function fluxoPrevStep() {
+      const p = FLUXO_PATHS[fluxoPathIdx];
+      if (!p.steps.length) return;
+      fluxoInspectedNode = null;
+      if (fluxoStepIdx > 0) {
+        fluxoStepIdx--;
+      } else if (fluxoPathIdx > 1) {
+        fluxoPathIdx--;
+        fluxoStepIdx = FLUXO_PATHS[fluxoPathIdx].steps.length - 1;
+      }
+      renderFluxoView();
+    }
+    function fluxoInspectNode(nodeId) {
+      const p = FLUXO_PATHS[fluxoPathIdx];
+      if (p.id === 'all') {
+        fluxoInspectedNode = (fluxoInspectedNode === nodeId) ? null : nodeId;
+      } else {
+        const idx = p.steps.indexOf(nodeId);
+        if (idx >= 0) { fluxoStepIdx = idx; fluxoInspectedNode = null; }
+        else fluxoInspectedNode = nodeId;
+      }
+      renderFluxoView();
+    }
+    function fluxoClosePopover() {
+      fluxoInspectedNode = null;
+      const pop = document.getElementById('fluxoPopover');
+      if (pop) pop.classList.remove('open');
+    }
+
+    function renderFluxoView() {
+      const btnsEl = document.getElementById('fluxoPathButtons');
+      const svgEl = document.getElementById('fluxoSvg');
+      const popEl = document.getElementById('fluxoPopover');
+      if (!btnsEl || !svgEl) return;
+
+      btnsEl.innerHTML = FLUXO_PATHS.map((p, i) => `
+        <button class="fluxo-path-btn ${i === fluxoPathIdx ? 'active' : ''}" onclick="fluxoSelectPath(${i})">${p.label}</button>
+      `).join('');
+
+      const path = FLUXO_PATHS[fluxoPathIdx];
+      const isAll = path.id === 'all';
+      const visitedNodes = isAll ? new Set() : new Set(path.steps.slice(0, fluxoStepIdx + 1));
+      const currentNodeId = isAll ? fluxoInspectedNode : (fluxoInspectedNode || path.steps[fluxoStepIdx]);
+      const activeEdges = isAll ? new Set() : new Set(path.edges.slice(0, fluxoStepIdx + 1));
+
+      const edgesSvg = FLUXO_EDGES.map(e => {
+        if (isAll) {
+          return `<path class="f-edge all-mode" d="${e.d}" marker-end="url(#fArr)"/>`;
+        }
+        const inPath = (path.fullEdges || path.edges).includes(e.id);
+        const isActive = activeEdges.has(e.id);
+        const kindCls = e.kind === 'err' ? ' err-edge' : (e.kind === 'warn' ? ' warn-edge' : '');
+        const marker = isActive ? (e.kind === 'err' ? 'url(#fArrErr)' : (e.kind === 'warn' ? 'url(#fArrWarn)' : 'url(#fArrAct)')) : 'url(#fArr)';
+        return `<path class="f-edge ${inPath ? 'in-path' : ''} ${isActive ? 'active-edge' + kindCls : ''}" d="${e.d}" marker-end="${marker}"/>`;
+      }).join('');
+
+      const nodesSvg = Object.entries(FLUXO_NODES).map(([id, n]) => {
+        const inPath = (path.fullNodes || path.steps).includes(id);
+        const isVisited = visitedNodes.has(id);
+        const isCurrent = id === currentNodeId;
+        const cls = isAll
+          ? `f-node all-mode ${isCurrent ? 'current' : ''}`
+          : `f-node ${inPath ? 'in-path' : ''} ${isVisited ? 'visited' : ''} ${isCurrent ? 'current' : ''}`;
+        return `
+          <g class="${cls}" onclick="fluxoInspectNode('${id}')">
+            <rect class="f-node-box" x="${n.x}" y="${n.y}" width="${n.w}" height="${n.h}" fill="${n.fill}" stroke="${n.stroke}"/>
+            <text x="${n.x + n.w/2}" y="${n.y + 33}" font-size="14" font-weight="800" fill="#0f172a" text-anchor="middle">${n.icon} ${n.title}</text>
+            <text x="${n.x + n.w/2}" y="${n.y + 54}" font-size="11.5" font-weight="600" fill="#475569" text-anchor="middle">${n.sub}</text>
+          </g>
+        `;
+      }).join('');
+
+      svgEl.innerHTML = `
+        <defs>
+          <marker id="fArr" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 8 5 L 0 9 z" fill="#94a3b8"/></marker>
+          <marker id="fArrAct" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 8 5 L 0 9 z" fill="#16a34a"/></marker>
+          <marker id="fArrWarn" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 8 5 L 0 9 z" fill="#d97706"/></marker>
+          <marker id="fArrErr" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 8 5 L 0 9 z" fill="#dc2626"/></marker>
+        </defs>
+        ${edgesSvg}
+        ${nodesSvg}
+      `;
+
+      // Posiciona o balão explicativo PRÓXIMO à caixa ativa!
+      if (!popEl) return;
+      if (!currentNodeId || !FLUXO_NODES[currentNodeId]) {
+        popEl.classList.remove('open');
+        return;
+      }
+      const n = FLUXO_NODES[currentNodeId];
+      let customDesc = n.desc;
+      if (path.id === 'office' && currentNodeId === 'sign') {
+        customDesc = 'Se o Escritório validar direto, o produtor já recebe a notificação para assinar o termo de recebimento e liberar o endereço.';
+      } else if (path.id === 'rep' && currentNodeId === 'sign') {
+        customDesc = 'Se o Representante conseguir corrigir o endereço, ele mesmo pode validar e o produtor recebe a notificação para assinar o termo e receber o endereço.';
+      } else if (path.id === 'incons' && currentNodeId === 'office') {
+        customDesc = 'Quando o Representante devolve o chamado ao Escritório, a equipe pode validar o endereço ou optar pelo encerramento por inconsistência.';
+      }
+      const isLastOfAll = (fluxoPathIdx === FLUXO_PATHS.length - 1 && fluxoStepIdx === path.steps.length - 1);
+      const isLastOfPath = (fluxoStepIdx === path.steps.length - 1 && fluxoPathIdx < FLUXO_PATHS.length - 1);
+      const nextBtnText = isLastOfAll ? 'Concluir ✓' : (isLastOfPath ? 'Próxima situação ▶' : 'Próximo ▶');
+
+      const navHtml = isAll
+        ? `<div class="fluxo-popover-nav"><span style="font-size:11px; color:#64748b;">Clique em outra etapa para ver</span><button class="btn btn-outline" style="width:auto; padding:5px 10px; font-size:11.5px;" onclick="fluxoClosePopover()">Fechar</button></div>`
+        : `<div class="fluxo-popover-nav">
+            <span style="font-size:11.5px; font-weight:800; color:var(--rr-green-dark);">${path.label}</span>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-outline" style="width:auto; padding:5px 10px; font-size:11.5px;" onclick="fluxoPrevStep()">◀</button>
+              <button class="btn btn-primary" style="width:auto; padding:5px 12px; font-size:11.5px;" onclick="fluxoNextStep()">${nextBtnText}</button>
+            </div>
+          </div>`;
+
+      popEl.innerHTML = `
+        <div class="fluxo-popover-head">
+          <strong style="font-size:14px; color:#0f172a;">${n.icon} ${n.title}</strong>
+        </div>
+        <div class="fluxo-popover-desc">${customDesc}</div>
+        ${navHtml}
+      `;
+      popEl.classList.add('open');
+
+      const boxRect = document.getElementById('fluxoCanvasBox').getBoundingClientRect();
+      const svgRect = svgEl.getBoundingClientRect();
+      const scaleX = svgRect.width / 1120;
+      const scaleY = svgRect.height / 430;
+      const offsetX = svgRect.left - boxRect.left;
+      const offsetY = svgRect.top - boxRect.top;
+
+      let left = offsetX + (n.x + n.w / 2) * scaleX - 160;
+      left = Math.max(12, Math.min(boxRect.width - 332, left));
+      const popH = popEl.offsetHeight || 135;
+      const nodeBottom = offsetY + (n.y + n.h) * scaleY;
+      const nodeTop = offsetY + n.y * scaleY;
+      let top = (n.y > 220) ? (nodeTop - popH - 12) : (nodeBottom + 12);
+      top = Math.max(10, top);
+
+      popEl.style.left = left + 'px';
+      popEl.style.top = top + 'px';
+    }
+
+    // BOOT: INICIA NA ABA TRILHA COM O POP-UP DE ESCOLHA DE ESTADO (ES / SP)
     populateCities('regState', 'regCity');
     initSigCanvas('cSigCanvas', 'cSigPh', 'c');
     initSigCanvas('rSigCanvas', 'rSigPh', 'r');
+    state.guidedTrailActive = true;
+    state.trailStep = 0;
     syncAllViews();
     renderTrailUI();
+    applyTrailSpotlight();
   </script>
 </body>
 </html>
