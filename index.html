@@ -3632,7 +3632,7 @@
     function finishDownloadOk(goToWizardAfter) {
       closeModal();
       trailEvent('download_ok');
-      if (goToWizardAfter) openReceberEnderecoWizard();
+      if (goToWizardAfter && !(state.guidedTrailActive && state.trailStep <= 15)) openReceberEnderecoWizard();
     }
 
     function skipMuniDownload(goToWizardAfter) {
@@ -3793,7 +3793,7 @@
     }
     function openRegMapPicker() {
       const uf = state.simLoginUf;
-      const city = (citiesByState[uf] && citiesByState[uf][0]) || 'Domingos Martins';
+      const city = uf === 'ES' ? 'Domingos Martins' : ((citiesByState[uf] && citiesByState[uf][0]) || 'Domingos Martins');
       state.modalLocked = false;
       document.getElementById('modalBg').classList.remove('center');
       document.getElementById('modalContent').innerHTML = `
@@ -6152,7 +6152,13 @@
         callouts: [
           { sel: '#loginMainGroup', side: 'left', action: true, title: 'Entrar no Aplicativo', text: 'Com a conta cadastrada, o app lê o estado do cadastro (ES) e inicia a verificação em segundo plano. Clique em ENTRAR.' }
         ],
-        onEnter: () => { state.simLoginUf = 'ES'; state.downloadedMunis = {}; state.gpsCurrentMuni = 'Domingos Martins'; }
+        onEnter: () => {
+          state.simLoginUf = 'ES';
+          state.downloadedMunis = {};
+          const cpfVal = (document.getElementById('loginCpfInput') || {}).value || '';
+          const regU = registeredUsers[cpfVal.trim()];
+          state.gpsCurrentMuni = (regU && regU.city) ? regU.city : 'Domingos Martins';
+        }
       },
       {
         event: 'download_ok',
